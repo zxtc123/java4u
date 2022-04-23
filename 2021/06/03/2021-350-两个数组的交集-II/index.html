@@ -18,17 +18,17 @@
   <link 
     rel="icon" 
     href="/java4u/img/snail.png">
-  <title>189. 轮转数组</title>
+  <title>350. 两个数组的交集 II</title>
   
     
       <meta 
         property="og:title" 
-        content="189. 轮转数组">
+        content="350. 两个数组的交集 II">
     
     
       <meta 
         property="og:url" 
-        content="https://zxtc123.github.io/java4u/2021/06/08/189-%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/index.html">
+        content="https://zxtc123.github.io/java4u/2021/06/03/2021-350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II/index.html">
     
     
       <meta 
@@ -42,7 +42,7 @@
         content="article">
       <meta 
         property="og:article:published_time" 
-        content="2021-06-08">
+        content="2021-06-03">
       <meta 
         property="og:article:modified_time" 
         content="2022-04-22">
@@ -268,16 +268,16 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      189. 轮转数组
+      350. 两个数组的交集 II
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2021-06-07T16:00:00.000Z">
+    <time datetime="2021-06-02T16:00:00.000Z">
       <i 
         class="iconfont icon-calendar" 
         style="margin-right: 2px;">
       </i>
-      <span>2021-06-08</span>
+      <span>2021-06-03</span>
     </time>
     
       <span class="dot"></span>
@@ -291,7 +291,7 @@
     
     
       <span class="dot"></span>
-      <span>1.1k 字</span>
+      <span>851 字</span>
     
   </div>
   
@@ -327,17 +327,16 @@
   <div 
     id="section" 
     class="post-content">
-    <ol start="189">
-<li>轮转数组<br>给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。</li>
-</ol>
-<p>示例 1:</p>
-<p>输入: nums &#x3D; [1,2,3,4,5,6,7], k &#x3D; 3<br>输出: [5,6,7,1,2,3,4]<br>解释:<br>向右轮转 1 步: [7,1,2,3,4,5,6]<br>向右轮转 2 步: [6,7,1,2,3,4,5]<br>向右轮转 3 步: [5,6,7,1,2,3,4]<br>示例 2:</p>
-<p>输入：nums &#x3D; [-1,-100,3,99], k &#x3D; 2<br>输出：[3,99,-1,-100]<br>解释:<br>向右轮转 1 步: [99,-1,-100,3]<br>向右轮转 2 步: [3,99,-1,-100]</p>
+    <h1 id="350-两个数组的交集-II"><a href="#350-两个数组的交集-II" class="headerlink" title="350. 两个数组的交集 II"></a>350. 两个数组的交集 II</h1><p>给你两个整数数组 nums1 和 nums2 ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。</p>
+<p>示例 1：</p>
+<p>输入：nums1 &#x3D; [1,2,2,1], nums2 &#x3D; [2,2]<br>输出：[2,2]<br>示例 2:</p>
+<p>输入：nums1 &#x3D; [4,9,5], nums2 &#x3D; [9,4,9,8,4]<br>输出：[4,9]</p>
 <p>提示：</p>
-<p>1 &lt;&#x3D; nums.length &lt;&#x3D; 105<br>-231 &lt;&#x3D; nums[i] &lt;&#x3D; 231 - 1<br>0 &lt;&#x3D; k &lt;&#x3D; 105</p>
+<p>1 &lt;&#x3D; nums1.length, nums2.length &lt;&#x3D; 1000<br>0 &lt;&#x3D; nums1[i], nums2[i] &lt;&#x3D; 1000</p>
 <p>进阶：</p>
-<p>尽可能想出更多的解决方案，至少有 三种 不同的方法可以解决这个问题。<br>你可以使用空间复杂度为 O(1) 的 原地 算法解决这个问题吗？</p>
-<pre class="highlight"><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用额外的数组</span></span><br><span class="line"><span class="comment">     * 我们可以使用额外的数组来将每个元素放至正确的位置。用 n 表示数组的长度，我们遍历原数组，</span></span><br><span class="line"><span class="comment">     * 将原数组下标为 i 的元素放至新数组下标为 n(i+k)modn 的位置，最后将新数组拷贝至原数组即可。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate2</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span>[] newArr = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            newArr[(i + k) % n] = nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        System.arraycopy(newArr, <span class="number">0</span>, nums, <span class="number">0</span>, n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="comment">//反转数组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span>[] roNums = <span class="keyword">new</span> <span class="title class_">int</span>[len];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            roNums[i] = nums[len -i -<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//反转前k个数</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; k; j++) &#123;</span><br><span class="line">            nums[j] = roNums[k - j - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//反转k位后面的几个数</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> k; l &lt; len; l++) &#123;</span><br><span class="line">            nums[l] = roNums[len - l + k -<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate3</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        k %= nums.length;</span><br><span class="line">        reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            nums[start] = nums[end];</span><br><span class="line">            nums[end] = temp;</span><br><span class="line">            start += <span class="number">1</span>;</span><br><span class="line">            end -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 环状替换</span></span><br><span class="line"><span class="comment">     * 方法一中使用额外数组的原因在于如果我们直接将每个数字放至它最后的位置，这样被放置位置的元素会被覆盖从而丢失。</span></span><br><span class="line"><span class="comment">     * 因此，从另一个角度，我们可以将被替换的元素保存在变量 temp 中，从而避免了额外数组的开销。</span></span><br><span class="line"><span class="comment">     * 我们从位置 0 开始，最初令temp=nums[0]。根据规则，位置 0 的元素会放至 (0+k)modn 的位置，</span></span><br><span class="line"><span class="comment">     * 令 x=(0+k)modn，此时交换 temp 和 nums[x]，完成位置 x 的更新。然后，我们考察位置 x，并交换 temp 和 nums[(x+k)modn]，</span></span><br><span class="line"><span class="comment">     * 从而完成下一个位置的更新。不断进行上述过程，直至回到初始位置 0。</span></span><br><span class="line"><span class="comment">     * 容易发现，当回到初始位置 0 时，有些数字可能还没有遍历到，此时我们应该从下一个数字开始重复的过程，可是这个时候怎么才算遍历结束呢？</span></span><br><span class="line"><span class="comment">     * 我们不妨先考虑这样一个问题：从 0 开始不断遍历，最终回到起点 0 的过程中，我们遍历了多少个元素？</span></span><br><span class="line"><span class="comment">     * 由于最终回到了起点，故该过程恰好走了整数数量的圈，不妨设为 a 圈；再设该过程总共遍历了 b 个元素。因此，我们有 an=bk，即 an 一定为 n,k 的公倍数。</span></span><br><span class="line"><span class="comment">     * 又因为我们在第一次回到起点时就结束，因此 a 要尽可能小，故 an 就是 n,k 的最小公倍数 lcm(n,k)，因此 b 就为 lcm(n,k)/k。</span></span><br><span class="line"><span class="comment">     * 这说明单次遍历会访问到 lcm(n,k)/k 个元素。为了访问到所有的元素，我们需要进行遍历的次数为 gcd(n,k)</span></span><br><span class="line"><span class="comment">     * 其中gcd 指的是最大公约数。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate4</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        k = k % n;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> gcd(k, n);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> <span class="number">0</span>; start &lt; count; ++start) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">current</span> <span class="operator">=</span> start;</span><br><span class="line">            <span class="type">int</span> <span class="variable">prev</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">next</span> <span class="operator">=</span> (current + k) % n;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[next];</span><br><span class="line">                nums[next] = prev;</span><br><span class="line">                prev = temp;</span><br><span class="line">                current = next;</span><br><span class="line">            &#125; <span class="keyword">while</span> (start != current);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取xy的最大公约数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> x   3</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> y   7</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">gcd</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y &gt; <span class="number">0</span> ? gcd(y, x % y) : x;</span><br><span class="line">    &#125;</span><br></pre>
+<p>如果给定的数组已经排好序呢？你将如何优化你的算法？<br>如果 nums1 的大小比 nums2 小，哪种方法更优？<br>如果 nums2 的元素存储在磁盘上，内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</p>
+<pre class="highlight"><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * map映射</span></span><br><span class="line"><span class="comment"> * 由于同一个数字在两个数组中都可能出现多次，因此需要用哈希表存储每个数字出现的次数。</span></span><br><span class="line"><span class="comment"> * 对于一个数字，其在交集中出现的次数等于该数字在两个数组中出现次数的最小值。</span></span><br><span class="line"><span class="comment"> * 首先遍历第一个数组，并在哈希表中记录第一个数组中的每个数字以及对应出现的次数，</span></span><br><span class="line"><span class="comment"> * 然后遍历第二个数组，对于第二个数组中的每个数字，如果在哈希表中存在这个数字，则将该数字添加到答案，</span></span><br><span class="line"><span class="comment"> * 并减少哈希表中该数字出现的次数。</span></span><br><span class="line"><span class="comment"> * 为了降低空间复杂度，首先遍历较短的数组并在哈希表中记录每个数字以及对应出现的次数，然后遍历较长的数组得到交集。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] intersect(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i : nums1) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!map.containsKey(i)) &#123;</span><br><span class="line">            map.put(i, <span class="number">1</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            map.put(i, map.get(i)+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j : nums2) &#123;</span><br><span class="line">        <span class="keyword">if</span>(map.containsKey(j))&#123;</span><br><span class="line">            <span class="type">Integer</span> <span class="variable">integer</span> <span class="operator">=</span> map.get(j);</span><br><span class="line">            <span class="keyword">if</span>(integer == <span class="number">0</span>)&#123;</span><br><span class="line">                map.remove(j);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            list.add(j);</span><br><span class="line">            map.put(j, map.get(j) - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> list.stream().mapToInt(Integer::intValue).toArray();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 优化</span></span><br><span class="line"><span class="comment"> * 1.先遍历短的数组求出现次数，在遍历长的数组求交集</span></span><br><span class="line"><span class="comment"> * 2.map.getOrDefault() 根据key从map取值，没有得到默认值</span></span><br><span class="line"><span class="comment"> * 3.Arrays.copyOfRange  使用System.arraycopy拷贝数组</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] intersect2(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums1.length &gt; nums2.length) &#123;</span><br><span class="line">        <span class="keyword">return</span> intersect(nums2, nums1);</span><br><span class="line">    &#125;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;Integer, Integer&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums1) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> map.getOrDefault(num, <span class="number">0</span>) + <span class="number">1</span>;</span><br><span class="line">        map.put(num, count);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>[] intersection = <span class="keyword">new</span> <span class="title class_">int</span>[nums1.length];</span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums2) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> map.getOrDefault(num, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            intersection[index++] = num;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                map.put(num, count);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.remove(num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(intersection, <span class="number">0</span>, index);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 优化 排序好的数组</span></span><br><span class="line"><span class="comment"> * 使用2个指针判断2个数组中的值，相等同时向后移</span></span><br><span class="line"><span class="comment"> * 不相等，小的指针向后移</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] intersect3(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">    Arrays.sort(nums1);</span><br><span class="line">    Arrays.sort(nums2);</span><br><span class="line">    <span class="type">int</span> <span class="variable">len1</span> <span class="operator">=</span> nums1.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len2</span> <span class="operator">=</span> nums2.length;</span><br><span class="line">    <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="title class_">int</span>[len1];</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&lt;len1 &amp;&amp; j&lt;len2)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums1[i]==nums2[j])&#123;</span><br><span class="line">            res[index++]=nums1[i];</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums1[i] &lt; nums2[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(res, <span class="number">0</span>, index);</span><br><span class="line">&#125;</span><br></pre>
+
   </div>
   <div>
     
@@ -356,8 +355,8 @@
           <span style="font-weight: bold;">文章链接：</span><a 
             target="_blank" 
             rel="nofollow noopener noreferrer" 
-            href="https://zxtc123.github.io/java4u/2021/06/08/189-%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/">
-            https://zxtc123.github.io/java4u/2021/06/08/189-%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/
+            href="https://zxtc123.github.io/java4u/2021/06/03/2021-350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II/">
+            https://zxtc123.github.io/java4u/2021/06/03/2021-350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II/
           </a>
         </p>
         <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
@@ -369,13 +368,13 @@
   
     <div class="nav-item-prev">
       <a 
-        href="/java4u/2021/06/09/27-%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" 
+        href="/java4u/2021/06/07/2021-122-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA-II/" 
         class="nav-link">
         <i class="iconfont icon-left nav-prev-icon"></i>
         <div>
           <div class="nav-label">上一篇</div>
           
-            <div class="nav-title">27. 移除元素 </div>
+            <div class="nav-title">122. 买卖股票的最佳时机 II </div>
           
         </div>
       </a>
@@ -384,12 +383,12 @@
   
     <div class="nav-item-next">
       <a 
-        href="/java4u/2021/06/07/122-%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA-II/" 
+        href="/java4u/2021/05/15/2021-dubbo/" 
         class="nav-link">
         <div>
           <div class="nav-label">下一篇</div>
           
-            <div class="nav-title">122. 买卖股票的最佳时机 II </div>
+            <div class="nav-title">Dubbo </div>
           
         </div>
         <i class="iconfont icon-right nav-next-icon"></i>
@@ -407,7 +406,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II"><span class="toc-text">350. 两个数组的交集 II</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -455,7 +454,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II"><span class="toc-text">350. 两个数组的交集 II</span></a></li></ol>
       </div>
     </article>
   
@@ -520,15 +519,15 @@
   <div class="tags-list">
     
       <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
         title="数组">
         <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
       </a>
     
       <a 
@@ -538,15 +537,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
         title="业务">
         <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
       </a>
     
   </div>
@@ -567,7 +566,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#350-%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86-II"><span class="toc-text">350. 两个数组的交集 II</span></a></li></ol>
     </article>
   
   
@@ -583,12 +582,12 @@
     
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-04-21</div>
-        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
+        <a href="/java4u/2022/04/21/2022-SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
       </div>
     
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
+        <a href="/java4u/2022/04/20/2022-REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
       </div>
     
       <div class="recent-posts-item">
@@ -598,7 +597,7 @@
     
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/"><div class="recent-posts-item-content">账管业务流程</div></a>
+        <a href="/java4u/2022/04/20/2022-%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/"><div class="recent-posts-item-content">账管业务流程</div></a>
       </div>
     
   </div>
