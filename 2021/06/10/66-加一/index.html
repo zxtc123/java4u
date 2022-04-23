@@ -18,17 +18,17 @@
   <link 
     rel="icon" 
     href="/java4u/img/snail.png">
-  <title>Z 字形变换</title>
+  <title>66. 加一</title>
   
     
       <meta 
         property="og:title" 
-        content="Z 字形变换">
+        content="66. 加一">
     
     
       <meta 
         property="og:url" 
-        content="https://zxtc123.github.io/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/index.html">
+        content="https://zxtc123.github.io/java4u/2021/06/10/66-%E5%8A%A0%E4%B8%80/index.html">
     
     
       <meta 
@@ -42,7 +42,7 @@
         content="article">
       <meta 
         property="og:article:published_time" 
-        content="2021-02-01">
+        content="2021-06-10">
       <meta 
         property="og:article:modified_time" 
         content="2022-04-22">
@@ -268,16 +268,16 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      Z 字形变换
+      66. 加一
     </h1>
   </header>
   <div class="post-meta post-show-meta">
-    <time datetime="2021-01-31T16:00:00.000Z">
+    <time datetime="2021-06-09T16:00:00.000Z">
       <i 
         class="iconfont icon-calendar" 
         style="margin-right: 2px;">
       </i>
-      <span>2021-02-01</span>
+      <span>2021-06-10</span>
     </time>
     
       <span class="dot"></span>
@@ -291,7 +291,7 @@
     
     
       <span class="dot"></span>
-      <span>366 字</span>
+      <span>351 字</span>
     
   </div>
   
@@ -327,19 +327,18 @@
   <div 
     id="section" 
     class="post-content">
-    <ol start="6">
-<li>Z 字形变换<br>将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。</li>
+    <ol start="66">
+<li>加一<br>给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。</li>
 </ol>
-<p>比如输入字符串为 “PAYPALISHIRING” 行数为 3 时，排列如下：</p>
-<p>P   A   H   N<br>A P L S I I G<br>Y   I   R<br>之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如：”PAHNAPLSIIGYIR”。</p>
-<p>请你实现这个将字符串进行指定行数变换的函数：</p>
-<p>string convert(string s, int numRows);</p>
+<p>最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</p>
+<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
 <p>示例 1：</p>
-<p>输入：s &#x3D; “PAYPALISHIRING”, numRows &#x3D; 3<br>输出：”PAHNAPLSIIGYIR”<br>示例 2：<br>输入：s &#x3D; “PAYPALISHIRING”, numRows &#x3D; 4<br>输出：”PINALSIGYAHRPI”<br>解释：<br>P     I    N<br>A   L S  I G<br>Y A   H R<br>P     I<br>示例 3：</p>
-<p>输入：s &#x3D; “A”, numRows &#x3D; 1<br>输出：”A”</p>
+<p>输入：digits &#x3D; [1,2,3]<br>输出：[1,2,4]<br>解释：输入数组表示数字 123。<br>示例 2：</p>
+<p>输入：digits &#x3D; [4,3,2,1]<br>输出：[4,3,2,2]<br>解释：输入数组表示数字 4321。<br>示例 3：</p>
+<p>输入：digits &#x3D; [0]<br>输出：[1]</p>
 <p>提示：</p>
-<p>1 &lt;&#x3D; s.length &lt;&#x3D; 1000<br>s 由英文字母（小写和大写）、’,’ 和 ‘.’ 组成<br>1 &lt;&#x3D; numRows &lt;&#x3D; 1000</p>
-<pre class="highlight"><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从左到右迭代字符，将Z型字符添加到它所在的行，在从上到下，合并各个行</span></span><br><span class="line"><span class="comment"> * 行号上下限为 0~numRows-1</span></span><br><span class="line"><span class="comment"> * 到达上下限，反向递增或递减</span></span><br><span class="line"><span class="comment"> * L   C   I   R      list[0]</span></span><br><span class="line"><span class="comment"> * E T O E S I I G    list[1]</span></span><br><span class="line"><span class="comment"> * E   D   H   N      list[2]</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> s</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> numRows</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">convert2</span><span class="params">(String s, <span class="type">int</span> numRows)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (numRows &lt; <span class="number">2</span>) <span class="keyword">return</span> s;</span><br><span class="line">    List&lt;StringBuilder&gt; rows = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;StringBuilder&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numRows; i++) rows.add(<span class="keyword">new</span> <span class="title class_">StringBuilder</span>());</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, flag = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">char</span> c : s.toCharArray()) &#123;</span><br><span class="line">        rows.get(i).append(c);</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span> || i == numRows - <span class="number">1</span>) flag = -flag;</span><br><span class="line">        i += flag;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">res</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="keyword">for</span> (StringBuilder row : rows) res.append(row);</span><br><span class="line">    <span class="keyword">return</span> res.toString();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre>
+<p>1 &lt;&#x3D; digits.length &lt;&#x3D; 100<br>0 &lt;&#x3D; digits[i] &lt;&#x3D; 9</p>
+<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">    <span class="comment">//溢出值</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> digits.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> len -<span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">cur</span> <span class="operator">=</span> digits[i] + y;</span><br><span class="line">        <span class="keyword">if</span>(y&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            y--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(cur &gt;= <span class="number">10</span>)&#123;</span><br><span class="line">            digits[i] = <span class="number">0</span>;</span><br><span class="line">            y++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            digits[i] = cur;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(y&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="type">int</span>[] ret = <span class="keyword">new</span> <span class="title class_">int</span>[len+<span class="number">1</span>];</span><br><span class="line">        System.arraycopy(ret,<span class="number">0</span>,ret,<span class="number">1</span>,len);</span><br><span class="line">        ret[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 除 9 之外的数字加一；</span></span><br><span class="line"><span class="comment"> * 数字 9。</span></span><br><span class="line"><span class="comment"> * 只有9、99等特殊数字需要进位</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> digits</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] plusOne2(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        digits[i]++;</span><br><span class="line">        digits[i] = digits[i] % <span class="number">10</span>;</span><br><span class="line">        <span class="comment">//没有发生进位的情况，直接返回数组   如 9+1=10    99+1=100</span></span><br><span class="line">        <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//进位则直接新建数组</span></span><br><span class="line">    digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">    digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br></pre>
   </div>
   <div>
     
@@ -358,8 +357,8 @@
           <span style="font-weight: bold;">文章链接：</span><a 
             target="_blank" 
             rel="nofollow noopener noreferrer" 
-            href="https://zxtc123.github.io/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/">
-            https://zxtc123.github.io/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/
+            href="https://zxtc123.github.io/java4u/2021/06/10/66-%E5%8A%A0%E4%B8%80/">
+            https://zxtc123.github.io/java4u/2021/06/10/66-%E5%8A%A0%E4%B8%80/
           </a>
         </p>
         <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
@@ -371,13 +370,13 @@
   
     <div class="nav-item-prev">
       <a 
-        href="/java4u/2021/05/15/dubbo/" 
+        href="/java4u/2021/06/18/0-%E9%AB%98%E9%A2%91%E9%A2%98/" 
         class="nav-link">
         <i class="iconfont icon-left nav-prev-icon"></i>
         <div>
           <div class="nav-label">上一篇</div>
           
-            <div class="nav-title">Dubbo </div>
+            <div class="nav-title">高频题 </div>
           
         </div>
       </a>
@@ -386,12 +385,12 @@
   
     <div class="nav-item-next">
       <a 
-        href="/java4u/2020/10/12/14.%20%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80/" 
+        href="/java4u/2021/06/09/27-%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" 
         class="nav-link">
         <div>
           <div class="nav-label">下一篇</div>
           
-            <div class="nav-title">14. 最长公共前缀 </div>
+            <div class="nav-title">27. 移除元素 </div>
           
         </div>
         <i class="iconfont icon-right nav-next-icon"></i>
@@ -595,7 +594,7 @@
     
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/"><div class="recent-posts-item-content">国网发票业务规则整理</div></a>
+        <a href="/java4u/2022/04/20/2022-%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/"><div class="recent-posts-item-content">国网发票业务规则整理</div></a>
       </div>
     
       <div class="recent-posts-item">
