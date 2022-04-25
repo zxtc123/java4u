@@ -1,914 +1,1624 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
   <title>Snail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Snail">
-<meta property="og:url" content="https://zxtc123.github.io/java4u/page/3/index.html">
-<meta property="og:site_name" content="Snail">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="Zhao Xin">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/java4u/atom.xml" title="Snail" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/java4u/favicon.png">
-  
   
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
+      <meta 
+        property="og:title" 
+        content="Snail">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/page/3/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
   
-  
-<link rel="stylesheet" href="/java4u/css/style.css">
-
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
   
     
-<link rel="stylesheet" href="/java4u/fancybox/jquery.fancybox.min.css">
-
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
   
 <meta name="generator" content="Hexo 6.1.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/java4u/" id="logo">Snail</a>
-      </h1>
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
         
-          <a class="main-nav-link" href="/java4u/">Home</a>
+          首页
         
-          <a class="main-nav-link" href="/java4u/archives">Archives</a>
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
         
-      </nav>
-      <nav id="sub-nav">
+          归档
         
-          <a id="nav-rss-link" class="nav-icon" href="/java4u/atom.xml" title="RSS 订阅"></a>
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
         
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zxtc123.github.io/java4u"></form>
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
       </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-181.超过经理收入的员工" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2022/02/03/181.%E8%B6%85%E8%BF%87%E7%BB%8F%E7%90%86%E6%94%B6%E5%85%A5%E7%9A%84%E5%91%98%E5%B7%A5/" class="article-date">
-  <time class="dt-published" datetime="2022-02-02T16:00:00.000Z" itemprop="datePublished">2022-02-03</time>
-</a>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+  <div class="card">
     
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/SQL/">SQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <article class="card card-content">
+      <a href="/java4u/2022/02/03/180.%20%E8%BF%9E%E7%BB%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%95%B0%E5%AD%97/">
+        <h1 class="post-title">
+          180.连续出现的数字
+        </h1>
+      </a>
+      <div class="card-excerpt">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2022/02/03/181.%E8%B6%85%E8%BF%87%E7%BB%8F%E7%90%86%E6%94%B6%E5%85%A5%E7%9A%84%E5%91%98%E5%B7%A5/">181.超过经理收入的员工</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+----+-------+--------+-----------+</span><br><span class="line">| Id | Name  | Salary | ManagerId |</span><br><span class="line">+----+-------+--------+-----------+</span><br><span class="line">| 1  | Joe   | 70000  | 3         |</span><br><span class="line">| 2  | Henry | 80000  | 4         |</span><br><span class="line">| 3  | Sam   | 60000  | NULL      |</span><br><span class="line">| 4  | Max   | 90000  | NULL      |</span><br><span class="line">+----+-------+--------+-----------+</span><br></pre></td></tr></table></figure>
-<p>给定 Employee 表，编写一个 SQL 查询，该查询可以获取收入超过他们经理的员工的姓名。<br>在上面的表格中，Joe 是唯一一个收入超过他的经理的员工。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----------+</span><br><span class="line">| Employee |</span><br><span class="line">+----------+</span><br><span class="line">| Joe      |</span><br><span class="line">+----------+</span><br></pre></td></tr></table></figure>
-
-<p>练习：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select Name from(</span><br><span class="line">	select * from(</span><br><span class="line">	select y.Salary ys, m.Salary ms,Name,ManagerId from  Employee e left join Employee m on e.ManagerId=m.Id</span><br><span class="line">	where  ManagerId is not null</span><br><span class="line">	) where ys &gt; ms</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<p>解答：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    a.Name AS &#x27;Employee&#x27;</span><br><span class="line">FROM</span><br><span class="line">    Employee AS a,</span><br><span class="line">    Employee AS b</span><br><span class="line">WHERE</span><br><span class="line">    a.ManagerId = b.Id</span><br><span class="line">    AND a.Salary &gt; b.Salary</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">     a.NAME AS Employee</span><br><span class="line">FROM Employee AS a JOIN Employee AS b</span><br><span class="line">     ON a.ManagerId = b.Id</span><br><span class="line">     AND a.Salary &gt; b.Salary</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-
-<p>解释：<br>需要从表中获取2次信息<br>SELECT *<br>FROM Employee AS a, Employee AS b<br>;<br>获得2个表的笛卡尔积16条记录<br>添加过滤条件</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    *</span><br><span class="line">FROM</span><br><span class="line">    Employee AS a,</span><br><span class="line">    Employee AS b</span><br><span class="line">WHERE</span><br><span class="line">    a.ManagerId = b.Id</span><br><span class="line">    AND a.Salary &gt; b.Salary</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2022/02/03/181.%E8%B6%85%E8%BF%87%E7%BB%8F%E7%90%86%E6%94%B6%E5%85%A5%E7%9A%84%E5%91%98%E5%B7%A5/" data-id="cl2ehn9kb002qjguc1s171796" data-title="181.超过经理收入的员工" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-180. 连续出现的数字" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2022/02/03/180.%20%E8%BF%9E%E7%BB%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%95%B0%E5%AD%97/" class="article-date">
-  <time class="dt-published" datetime="2022-02-02T16:00:00.000Z" itemprop="datePublished">2022-02-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/SQL/">SQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2022/02/03/180.%20%E8%BF%9E%E7%BB%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%95%B0%E5%AD%97/">180.连续出现的数字</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>表：Logs</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+-------------+---------+</span><br><span class="line">| Column Name | Type    |</span><br><span class="line">+-------------+---------+</span><br><span class="line">| id          | int     |</span><br><span class="line">| num         | varchar |</span><br><span class="line">+-------------+---------+</span><br></pre></td></tr></table></figure>
-<p>id 是这个表的主键。
- </p>
-<p>编写一个 SQL 查询，查找所有至少连续出现三次的数字。</p>
-<p>返回的结果表中的数据可以按 任意顺序 排列。</p>
-<p> </p>
-<p>查询结果格式如下面的例子所示：</p>
-<p> </p>
-<p>Logs 表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+----+-----+</span><br><span class="line">| Id | Num |</span><br><span class="line">+----+-----+</span><br><span class="line">| 1  | 1   |</span><br><span class="line">| 2  | 1   |</span><br><span class="line">| 3  | 1   |</span><br><span class="line">| 4  | 2   |</span><br><span class="line">| 5  | 1   |</span><br><span class="line">| 6  | 2   |</span><br><span class="line">| 7  | 2   |</span><br><span class="line">+----+-----+</span><br></pre></td></tr></table></figure>
-<p>Result 表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+-----------------+</span><br><span class="line">| ConsecutiveNums |</span><br><span class="line">+-----------------+</span><br><span class="line">| 1               |</span><br><span class="line">+-----------------+</span><br></pre></td></tr></table></figure>
-<p>1 是唯一连续出现至少三次的数字。</p>
-<p>答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT</span><br><span class="line">    l1.Num AS ConsecutiveNums</span><br><span class="line">FROM</span><br><span class="line">    Logs l1,</span><br><span class="line">    Logs l2,</span><br><span class="line">    Logs l3</span><br><span class="line">WHERE</span><br><span class="line">    l1.Id = l2.Id - 1</span><br><span class="line">    AND l2.Id = l3.Id - 1</span><br><span class="line">    AND l1.Num = l2.Num</span><br><span class="line">    AND l2.Num = l3.Num</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-
-<p>答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT</span><br><span class="line">    l1.Num AS ConsecutiveNums</span><br><span class="line">FROM</span><br><span class="line">    Logs l1,</span><br><span class="line">    Logs l2,</span><br><span class="line">    Logs l3</span><br><span class="line">WHERE</span><br><span class="line">    l1.Id = l2.Id - 1</span><br><span class="line">    AND l2.Id = l3.Id - 1</span><br><span class="line">    AND l1.Num = l2.Num</span><br><span class="line">    AND l2.Num = l3.Num</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-<p>上表中选择任意的 Num 获得想要的答案。同时我们需要添加关键字 DISTINCT ，<br>因为如果一个数字连续出现超过 3 次，会返回重复元素。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2022/02/03/180.%20%E8%BF%9E%E7%BB%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%95%B0%E5%AD%97/" data-id="cl2ehn9ke002xjguc5g7l4ywi" data-title="180.连续出现的数字" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-177. 第N高的薪水" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2022/02/02/177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" class="article-date">
-  <time class="dt-published" datetime="2022-02-01T16:00:00.000Z" itemprop="datePublished">2022-02-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/SQL/">SQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2022/02/02/177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">177.第N高的薪水</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>编写一个 SQL 查询，获取 Employee 表中第 n 高的薪水（Salary）。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+----+--------+</span><br><span class="line">| Id | Salary |</span><br><span class="line">+----+--------+</span><br><span class="line">| 1  | 100    |</span><br><span class="line">| 2  | 200    |</span><br><span class="line">| 3  | 300    |</span><br><span class="line">+----+--------+</span><br></pre></td></tr></table></figure>
-<p>例如上述 Employee 表，n &#x3D; 2 时，应返回第二高的薪水 200。如果不存在第 n 高的薪水，那么查询应返回 null。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+------------------------+</span><br><span class="line">| getNthHighestSalary(2) |</span><br><span class="line">+------------------------+</span><br><span class="line">| 200                    |</span><br><span class="line">+------------------------+</span><br></pre></td></tr></table></figure>
-
-<p>答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT</span><br><span class="line">BEGIN</span><br><span class="line">    SET N := N-1;</span><br><span class="line">  RETURN (</span><br><span class="line">      # Write your MySQL query statement below.</span><br><span class="line">      SELECT </span><br><span class="line">            salary</span><br><span class="line">      FROM </span><br><span class="line">            employee</span><br><span class="line">      GROUP BY </span><br><span class="line">            salary</span><br><span class="line">      ORDER BY </span><br><span class="line">            salary DESC</span><br><span class="line">      LIMIT N, 1</span><br><span class="line">  );</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-<p>同薪同名且不跳级的问题，解决办法是用group by按薪水分组后再order by<br>排名第N高意味着要跳过N-1个薪水，由于无法直接用limit N-1，所以需先在函数开头处理N为N&#x3D;N-1。<br>注：这里不能直接用limit N-1是因为limit和offset字段后面只接受正整数（意味着0、负数、小数都不行）<br>或者单一变量（意味着不能用表达式），也就是说想取一条，limit 2-1、limit 1.1这类的写法都是报错的。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">CREATE FUNCTION getNthHighestSalary(N INT) RETURNS INT</span><br><span class="line">BEGIN</span><br><span class="line">  RETURN (</span><br><span class="line">      # Write your MySQL query statement below.</span><br><span class="line">        SELECT </span><br><span class="line">            DISTINCT salary</span><br><span class="line">        FROM </span><br><span class="line">            (SELECT </span><br><span class="line">                salary, dense_rank() over(ORDER BY salary DESC) AS rnk</span><br><span class="line">             FROM </span><br><span class="line">                employee) tmp</span><br><span class="line">        WHERE rnk = N</span><br><span class="line">  );</span><br><span class="line">END</span><br></pre></td></tr></table></figure>
-
-<p>row_number(): 同薪不同名，相当于行号，例如3000、2000、2000、1000排名后为1、2、3、4<br>rank(): 同薪同名，有跳级，例如3000、2000、2000、1000排名后为1、2、2、4<br>dense_rank(): 同薪同名，无跳级，例如3000、2000、2000、1000排名后为1、2、2、3<br>ntile(): 分桶排名，即首先按桶的个数分出第一二三桶，然后各桶内从1排名，实际不是很常用<br>显然，本题是要用第三个函数。<br>另外这三个函数必须要要与其搭档over()配套使用，over()中的参数常见的有两个，分别是<br>partition by，按某字段切分<br>order by，与常规order by用法一致，也区分ASC(默认)和DESC，因为排名总得有个依据</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2022/02/02/177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" data-id="cl2ehn9k9002ijgucetbc51aq" data-title="177.第N高的薪水" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-178. 分数排名" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2022/02/02/178.%20%E5%88%86%E6%95%B0%E6%8E%92%E5%90%8D/" class="article-date">
-  <time class="dt-published" datetime="2022-02-01T16:00:00.000Z" itemprop="datePublished">2022-02-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/SQL/">SQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2022/02/02/178.%20%E5%88%86%E6%95%B0%E6%8E%92%E5%90%8D/">178.分数排名</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>编写一个 SQL 查询来实现分数排名。</p>
-<p>如果两个分数相同，则两个分数排名（Rank）相同。请注意，平分后的下一个名次应该是下一个连续的整数值。<br>换句话说，名次之间不应该有“间隔”。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+----+-------+</span><br><span class="line">| Id | Score |</span><br><span class="line">+----+-------+</span><br><span class="line">| 1  | 3.50  |</span><br><span class="line">| 2  | 3.65  |</span><br><span class="line">| 3  | 4.00  |</span><br><span class="line">| 4  | 3.85  |</span><br><span class="line">| 5  | 4.00  |</span><br><span class="line">| 6  | 3.65  |</span><br><span class="line">+----+-------+</span><br></pre></td></tr></table></figure>
-<p>例如，根据上述给定的 Scores 表，你的查询应该返回（按分数从高到低排列）：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-------+------+</span><br><span class="line">| Score | Rank |</span><br><span class="line">+-------+------+</span><br><span class="line">| 4.00  | 1    |</span><br><span class="line">| 4.00  | 1    |</span><br><span class="line">| 3.85  | 2    |</span><br><span class="line">| 3.65  | 3    |</span><br><span class="line">| 3.65  | 3    |</span><br><span class="line">| 3.50  | 4    |</span><br><span class="line">+-------+------+</span><br></pre></td></tr></table></figure>
-<p>重要提示：对于 MySQL 解决方案，如果要转义用作列名的保留字，可以在关键字之前和之后使用撇号。例如 <code>Rank</code></p>
-<p>答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">    Score, dense_rank() over(order by Score desc) &#x27;RANK&#x27; </span><br><span class="line">from Scores</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2022/02/02/178.%20%E5%88%86%E6%95%B0%E6%8E%92%E5%90%8D/" data-id="cl2ehn9kd002vjgucduyp80lh" data-title="178.分数排名" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-175.组合两个表" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2022/02/01/175.%E7%BB%84%E5%90%88%E4%B8%A4%E4%B8%AA%E8%A1%A8/" class="article-date">
-  <time class="dt-published" datetime="2022-01-31T16:00:00.000Z" itemprop="datePublished">2022-02-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/SQL/">SQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2022/02/01/175.%E7%BB%84%E5%90%88%E4%B8%A4%E4%B8%AA%E8%A1%A8/">175.组合两个表</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>表1: Person</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+-------------+---------+</span><br><span class="line">| 列名         | 类型     |</span><br><span class="line">+-------------+---------+</span><br><span class="line">| PersonId    | int     |</span><br><span class="line">| FirstName   | varchar |</span><br><span class="line">| LastName    | varchar |</span><br><span class="line">+-------------+---------+</span><br></pre></td></tr></table></figure>
-<p>PersonId 是上表主键<br>表2: Address</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">+-------------+---------+</span><br><span class="line">| 列名         | 类型    |</span><br><span class="line">+-------------+---------+</span><br><span class="line">| AddressId   | int     |</span><br><span class="line">| PersonId    | int     |</span><br><span class="line">| City        | varchar |</span><br><span class="line">| State       | varchar |</span><br><span class="line">+-------------+---------+</span><br></pre></td></tr></table></figure>
-<p>AddressId 是上表主键
- </p>
-<p>编写一个 SQL 查询，满足条件：无论 person 是否有地址信息，都需要基于上述两表提供 person 的以下信息： <br>FirstName, LastName, City, State</p>
-<p>练习：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select FirstName,LastName,City,State from (</span><br><span class="line">	select * from Person a left join Address b on a.PersonId=b.PersonId </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
-
-<p>答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select FirstName, LastName, City, State</span><br><span class="line">from Person left join Address</span><br><span class="line">on Person.PersonId = Address.PersonId;</span><br></pre></td></tr></table></figure>
-<p>解释：<br>join可以看成将2张表合为1张表</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2022/02/01/175.%E7%BB%84%E5%90%88%E4%B8%A4%E4%B8%AA%E8%A1%A8/" data-id="cl2ehn9k7002fjgucfg7nbtm5" data-title="175.组合两个表" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-176. 第二高的薪水" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2022/02/01/176.%20%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" class="article-date">
-  <time class="dt-published" datetime="2022-01-31T16:00:00.000Z" itemprop="datePublished">2022-02-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/SQL/">SQL</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2022/02/01/176.%20%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">176.第二高的薪水</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Employee 表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">+-------------+------+</span><br><span class="line">| Column Name | Type |</span><br><span class="line">+-------------+------+</span><br><span class="line">| id          | int  |</span><br><span class="line">| salary      | int  |</span><br><span class="line">+-------------+------+</span><br></pre></td></tr></table></figure>
-<p>id 是这个表的主键。<br>表的每一行包含员工的工资信息。
- </p>
-<p>编写一个 SQL 查询，获取并返回 Employee 表中第二高的薪水 。如果不存在第二高的薪水，查询应该返回 null 。</p>
-<p>查询结果如下例所示。</p>
-<p> </p>
-<p>示例 1：</p>
-<p>输入：<br>Employee 表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+----+--------+</span><br><span class="line">| id | salary |</span><br><span class="line">+----+--------+</span><br><span class="line">| 1  | 100    |</span><br><span class="line">| 2  | 200    |</span><br><span class="line">| 3  | 300    |</span><br><span class="line">+----+--------+</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---------------------+</span><br><span class="line">| SecondHighestSalary |</span><br><span class="line">+---------------------+</span><br><span class="line">| 200                 |</span><br><span class="line">+---------------------+</span><br></pre></td></tr></table></figure>
-<p>示例 2：</p>
-<p>输入：<br>Employee 表：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+----+--------+</span><br><span class="line">| id | salary |</span><br><span class="line">+----+--------+</span><br><span class="line">| 1  | 100    |</span><br><span class="line">+----+--------+</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+---------------------+</span><br><span class="line">| SecondHighestSalary |</span><br><span class="line">+---------------------+</span><br><span class="line">| null                |</span><br><span class="line">+---------------------+</span><br></pre></td></tr></table></figure>
-
-<p>答案：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    (SELECT DISTINCT</span><br><span class="line">            Salary</span><br><span class="line">        FROM</span><br><span class="line">            Employee</span><br><span class="line">        ORDER BY Salary DESC</span><br><span class="line">        LIMIT 1 OFFSET 1) AS SecondHighestSalary</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
-<p>让薪水去重排序，去除重复的薪水<br>没有第二高的薪水时不会返回结果，我们需要使用临时表，去返回答案</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2022/02/01/176.%20%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" data-id="cl2ehn9kb002njgucetoxf6py" data-title="176.第二高的薪水" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-6.2其他框架" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/10/06/6.2%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/" class="article-date">
-  <time class="dt-published" datetime="2021-10-06T13:57:37.858Z" itemprop="datePublished">2021-10-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/10/06/6.2%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/">其他框架</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="其他框架"><a href="#其他框架" class="headerlink" title="其他框架"></a>其他框架</h1><h2 id="1-描述⼀下Hibernate的三个状态？"><a href="#1-描述⼀下Hibernate的三个状态？" class="headerlink" title="1. 描述⼀下Hibernate的三个状态？"></a><strong>1.</strong> 描述⼀下Hibernate的三个状态？</h2><p>a. transient(瞬时状态)：new出来⼀个对象，还没被保存到数据库中</p>
-<p>b. persistent(持久化状态)：对象已经保存到数据库中并且在hibernate session也存在该对象</p>
-<p>c. detached(离线状态)：对象在数据库中存在，hibernate session不存在</p>
-<h2 id="2-Hibernate对⼀⼆级缓存的使⽤，-Lazy-Load的理解"><a href="#2-Hibernate对⼀⼆级缓存的使⽤，-Lazy-Load的理解" class="headerlink" title="2. Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;"></a><strong>2.</strong> Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;</h2><p>a. ⼀级缓存：hibernate的⼀级缓存是由session提供的，因此它只存在session的⽣命周期中。也就是说session关闭的时候该session所管理的⼀级缓存也随之被清除。hibernate的⼀级缓存是session所内置的，默认开启，不能被卸载，也不能进⾏任何配置。在缓存中的对象,具有持久性,session对象负责管理.⼀级缓存的优点是使⽤同⼀个session对象多次查询同⼀个数据对象,仅对数据库查询⼀次。⼀级缓存采⽤的是Key-Value的MAP⽅式来实现的。在缓存实体对象时，对象的主关键字ID是MAP的Key，实体对象就是对象的值。所以说⼀级缓存是以实体对象为单位进⾏存储的。访问的时候使⽤的是主键关键字ID。⼀级缓存使⽤的是⾃动维护的功能。但可以通过session提供的⼿动⽅法对⼀级缓存的管理进⾏⼿动⼲预。evict()⽅法⽤于将某个对象从session的⼀级缓存中清除。clear()⽅法⽤于将session缓存中的⽅法全部清除。</p>
-<p>b. ⼆级缓存：⼆级缓存的实现原理与⼀级缓存是⼀样的。也是通过Key-Value的Map来实现对对象的缓存。⼆级缓存是作⽤在SessionFactory范围内的。因此它可被所有的Session对象所共享。需要注意的是放⼊缓存中的数据不能有第三⽅的应⽤对数据进⾏修改。⼆级缓存默认关闭，需要程序员⼿动开启，默认为ehcache实现.</p>
-<p>c. 懒加载：当⽤到数据的时候才向数据库查询，这就是hibernate的懒加载特性。延迟加载策略能避免加载应⽤程序不需要访问的关联对象，以提⾼应⽤程序的性能。</p>
-<h2 id="3-zookeeper有什么功能，选举算法如何进⾏："><a href="#3-zookeeper有什么功能，选举算法如何进⾏：" class="headerlink" title="3. zookeeper有什么功能，选举算法如何进⾏："></a><strong>3.</strong> zookeeper有什么功能，选举算法如何进⾏：</h2><h3 id="1、选举算法："><a href="#1、选举算法：" class="headerlink" title="1、选举算法："></a>1、选举算法：</h3><h4 id="1、Fast-Leader-领导者选举-选举算法："><a href="#1、Fast-Leader-领导者选举-选举算法：" class="headerlink" title="1、Fast Leader(领导者选举)选举算法："></a>1、Fast Leader(领导者选举)选举算法：</h4><p> 1.server启动时默认选举⾃⼰，并向整个集群⼴播</p>
-<p> 2.收到消息时，通过3层判断：选举轮数，zxid，server id⼤⼩判断是否同意对⽅，如果同意，则修改⾃⼰的选</p>
-<p>票，并向集群⼴播</p>
-<p> 3.QuorumCnxManager负责IO处理，每2个server建⽴⼀个连接，只允许id⼤的server连id⼩的server，每个</p>
-<p>server启动单独的读写线程处理，使⽤阻塞IO</p>
-<p> 4.默认超过半数机器同意时，则选举成功，修改⾃身状态为LEADING或FOLLOWING</p>
-<p> 5.Obserer机器不参与选举</p>
-<h4 id="2、原理：选举结果的影响权重关系是-⾸先看数据id-数据id⼤者胜出-其次再判断leader-id-leader-id⼤者胜出。"><a href="#2、原理：选举结果的影响权重关系是-⾸先看数据id-数据id⼤者胜出-其次再判断leader-id-leader-id⼤者胜出。" class="headerlink" title="2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。"></a>2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。</h4><h4 id="3、举例："><a href="#3、举例：" class="headerlink" title="3、举例："></a>3、举例：</h4><p> 假设有五台服务器组成的zookeeper集群,它们的id从1-5,同时它们都是最新启动的,也就是没有历史数据,在存放数</p>
-<p>据量这⼀点上,都是⼀样的.假设这些服务器依序启动,来看看会发⽣什么.</p>
-<p> \1) 服务器1启动,此时只有它⼀台服务器启动了,它发出去的报没有任何响应,所以它的选举状态⼀直是LOOKING</p>
-<p>状态；</p>
-<p> \2) 服务器2启动,它与最开始启动的服务器1进⾏通信,互相交换⾃⼰的选举结果,由于两者都没有历史数据,所以id</p>
-<p>值较⼤的服务器2胜出,但是由于没有达到超过半数以上的服务器都同意选举它(这个例⼦中的半数以上是3),所以服务器1,2还是继续保持LOOKING状态.</p>
-<p> \3) 服务器3启动,根据前⾯的理论分析,服务器3成为服务器1,2,3中的⽼⼤,⽽与上⾯不同的是,此时有三台服务器</p>
-<p>选举了它,所以它成为了这次选举的leader.</p>
-<p> \4) 服务器4启动,根据前⾯的分析,理论上服务器4应该是服务器1,2,3,4中最⼤的,但是由于前⾯已经有半数以上的</p>
-<p>服务器选举了服务器3,所以它只能接收当⼩弟的命了.</p>
-<p> \5) 服务器5启动,同4⼀样,当⼩弟. </p>
-<h4 id="4、zookeeper管理员指南："><a href="#4、zookeeper管理员指南：" class="headerlink" title="4、zookeeper管理员指南："></a>4、zookeeper管理员指南：</h4><p> 1、集群中过半存活即可⽤，故集群选择奇数台机器；</p>
-<h2 id="4-Netty⾼性能："><a href="#4-Netty⾼性能：" class="headerlink" title="4. Netty⾼性能："></a><em>4. Netty</em>⾼性能：</h2><p> 1、NIO异步⾮阻塞通信</p>
-<p> 2、“零拷⻉”</p>
-<p> 3、内存池ByteBuf</p>
-<p> 4、Netty提供了多种内存管理策略，通过在启动辅助类中配置相关参数，可以实现差异化的定制。</p>
-<p> 5、⾼效的Reactor线程模型：Reactor单线程(多线程、主从)模型，指的是所有的IO操作都在同⼀个NIO线程上⾯完成</p>
-<p> 6、为了尽可能提升性能，Netty采⽤了串⾏⽆锁化设计，在IO线程内部进⾏串⾏操作，避免多线程竞争导致的性能下降。表⾯上看，串⾏化设计似乎CPU利⽤率不⾼，并发程度不够。但是，通过调整NIO线程池的线程参数，可以同时启动多个串⾏化的线程并⾏运⾏，这种局部⽆锁化的串⾏线程设计相⽐⼀个队列-多个⼯作线程模型性能更优。</p>
-<p> 7、⾼效的并发编程：Netty的⾼效并发编程主要体现在如下⼏点：</p>
-<p> \1) volatile的⼤量、正确使⽤;</p>
-<p> \2) CAS和原⼦类的⼴泛使⽤；</p>
-<p> \3) 线程安全容器的使⽤； 4) 通过读写锁提升并发性能。</p>
-<p> 8、⾼效的序列化框架：</p>
-<p> 9、灵活的TCP参数配置能⼒：合理设置TCP参数在某些场景下对于性能的提升可以起到显著的效果，例如SO_RCVBUF和SO_SNDBUF。如果设置不当，对性能的影响是⾮常⼤的。</p>
-<h2 id="5-如何保证服务的幂等性？"><a href="#5-如何保证服务的幂等性？" class="headerlink" title="5. 如何保证服务的幂等性？"></a><strong>5.</strong> <strong>如何保证服务的幂等性？</strong></h2><h3 id="1、概念："><a href="#1、概念：" class="headerlink" title="1、概念："></a>1、概念：</h3><p>接⼝的幂等性实际上就是接⼝可重复调⽤，在调⽤⽅多次调⽤的情况下，接⼝最终得到的结果是⼀致的。有些</p>
-<p>接⼝可以天然的实现幂等性，⽐如查询接⼝，对于查询来说，你查询⼀次和两次，对于系统来说，没有任何影响，查出的结果也是⼀样。</p>
-<h3 id="2、GET幂等："><a href="#2、GET幂等：" class="headerlink" title="2、GET幂等："></a>2、GET幂等：</h3><p>值得注意，幂等性指的是作⽤于结果⽽⾮资源本身。怎么理解呢？例如，这个HTTP GET⽅法可能会每次</p>
-<p>得到不同的返回内容，但并不影响资源。</p>
-<h3 id="3、POST⾮幂等："><a href="#3、POST⾮幂等：" class="headerlink" title="3、POST⾮幂等："></a>3、POST⾮幂等：</h3><p>因为它会对资源本身产⽣影响，每次调⽤都会有新的资源产⽣，因此不满⾜幂等性。</p>
-<h3 id="4、如何保证幂等性："><a href="#4、如何保证幂等性：" class="headerlink" title="4、如何保证幂等性："></a>4、如何保证幂等性：</h3><p> 1、全局唯⼀id：如果使⽤全局唯⼀ID，就是根据业务的操作和内容⽣成⼀个全局ID，在执⾏操作前先根据这个全局唯⼀ID是否存在，来判断这个操作是否已经执⾏。如果不存在则把全局ID，存储到存储系统中，⽐如数据库、redis等。如果存在则表示该⽅法已经执⾏。从⼯程的⻆度来说，使⽤全局ID做幂等可以作为⼀个业务的基础的微服务存在，在很多的微服务中都会⽤到这样的服务，在每个微服务中都完成这样的功能，会存在⼯作量重复。另外打造⼀个⾼可靠的幂等服务还需要考虑很多问题，⽐如⼀台机器虽然把全局ID先写⼊了存储，但是在写⼊之后挂了，这就需要引⼊全局ID的超时机制。 使⽤全局唯⼀ID是⼀个通⽤⽅案，可以⽀持插⼊、更新、删除业务操作。但是这个⽅案看起来很美但是实现起来⽐较麻烦，下⾯的⽅案适⽤于特定的场景，但是实现起来⽐较简单。</p>
-<p> 2、去重表：这种⽅法适⽤于在业务中有唯⼀标的插⼊场景中，⽐如在以上的⽀付场景中，如果⼀个订单只会⽀付⼀次，所以订单ID可以作为唯⼀标识。这时，我们就可以建⼀张去重表，并且把唯⼀标识作为唯⼀索引，在我们实现时，把创建⽀付单据和写⼊去去重表，放在⼀个事务中，如果重复创建，数据库会抛出唯⼀约束异常，操作就会回滚。</p>
-<p> 3、插⼊或更新：这种⽅法插⼊并且有唯⼀索引的情况，⽐如我们要关联商品品类，其中商品的ID和品类的ID可以构成唯⼀索引，并且在数据表中也增加了唯⼀索引。这时就可以使⽤InsertOrUpdate操作。在mysql数据库中如下：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> goods_category (goods_id,category_id,create_time,update_time) </span><br><span class="line"><span class="keyword">values</span>(#&#123;goodsId&#125;,#&#123;categoryId&#125;,now(),now())</span><br><span class="line"><span class="keyword">on</span> DUPLICATE KEY <span class="keyword">UPDATE</span></span><br><span class="line">update_time<span class="operator">=</span>now()</span><br></pre></td></tr></table></figure>
-
-<p> 4、多版本控制：这种⽅法适合在更新的场景中，⽐如我们要更新商品的名字，这时我们就可以在更新的接⼝中增加⼀个版本号，来做幂等</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> goods <span class="keyword">set</span> name<span class="operator">=</span>#&#123;newName&#125;,version<span class="operator">=</span>#&#123;version&#125; <span class="keyword">where</span> id<span class="operator">=</span>#&#123;id&#125; <span class="keyword">and</span> version<span class="operator">&lt;</span>$&#123;version&#125;</span><br></pre></td></tr></table></figure>
-
-<p>5、状态机控制：这种⽅法适合在有状态机流转的情况下，⽐如就会订单的创建和付款，订单的付款肯定是在之前，这时我们可以通过在设计状态字段时，使⽤int类型，并且通过值类型的⼤⼩来做幂等，⽐如订单的创建为0，付款成功为100。付款失败为99,在做状态机更新时，我们就这可以这样控制</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> `<span class="keyword">order</span>` <span class="keyword">set</span> status<span class="operator">=</span>#&#123;status&#125; <span class="keyword">where</span> id<span class="operator">=</span>#&#123;id&#125; <span class="keyword">and</span> status<span class="operator">&lt;</span>#&#123;status&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/10/06/6.2%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/" data-id="cl2ehn9jw001jjguc41m411c6" data-title="其他框架" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-6.1框架—Spring" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/09/23/6.1%E6%A1%86%E6%9E%B6%E2%80%94Spring/" class="article-date">
-  <time class="dt-published" datetime="2021-09-23T13:40:51.615Z" itemprop="datePublished">2021-09-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/09/23/6.1%E6%A1%86%E6%9E%B6%E2%80%94Spring/">spring</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="框架–Spring"><a href="#框架–Spring" class="headerlink" title="框架–Spring"></a>框架–Spring</h1><h2 id="1-Spring框架中IOC的原理是什么？"><a href="#1-Spring框架中IOC的原理是什么？" class="headerlink" title="1. Spring框架中IOC的原理是什么？"></a><strong>1.</strong> Spring框架中IOC的原理是什么？</h2><p>(1). IoC（Inversion of Control）是指容器控制程序对象之间的关系，⽽不是传统实现中，由程序代码直接操控。控制权由应⽤代码中转到了外部容器，控制权的转移是所谓反转。 对于Spring⽽⾔，就是由Spring来控制对象的⽣命周期和对象之间的关系；IoC还有另外⼀个名字——“依赖注⼊（Dependency Injection）”。从名字上理解，所谓依赖注⼊，即组件之间的依赖关系由容器在运⾏期决定，即由容器动态地将某种依赖关系注⼊到组件之中。 </p>
-<p>(2). 在Spring的⼯作⽅式中，所有的类都会在spring容器中登记，告诉spring这是个什么东⻄，你需要什么东⻄，然后spring会在系统运⾏到适当的时候，把你要的东⻄主动给你，同时也把你交给其他需要你的东⻄。所有的类的创建、销毁都由spring来控制，也就是说控制对象⽣存周期的不再是引⽤它的对象，⽽是spring。对于某个具体的对象⽽⾔，以前是它控制其他对象，现在是所有对象都被spring控制，所以这叫控制反转。</p>
-<p>(3). 在系统运⾏中，动态的向某个对象提供它所需要的其他对象。 </p>
-<p>(4). 依赖注⼊的思想是通过反射机制实现的，在实例化⼀个类时，它通过反射调⽤类中set⽅法将事先保存在HashMap中的类属性注⼊到类中。 总⽽⾔之，在传统的对象创建⽅式中，通常由调⽤者来创建被调⽤者的实例，⽽在Spring中创建被调⽤者的⼯作由Spring来完成，然后注⼊调⽤者，即所谓的依赖注⼊or控制反转。 注⼊⽅式有两种：依赖注⼊和设置注⼊； IoC的优点：降低了组件之间的耦合，降低了业务对象之间替换的复杂性，使之能够灵活的管理对象。</p>
-<p>CSF创建组件方式：</p>
-<p>使用BCFactory工厂方式创建，先创建一个SERVICES_CACHE，先根据类名从里面取组件，如果没取到，就创建之后放入缓存中</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/09/23/6.1%E6%A1%86%E6%9E%B6%E2%80%94Spring/" data-id="cl2ehn9jx001njguc15ho8j1w" data-title="spring" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-4.2微服务--springcloud" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/09/21/4.2%E5%BE%AE%E6%9C%8D%E5%8A%A1--springcloud/" class="article-date">
-  <time class="dt-published" datetime="2021-09-21T11:29:18.322Z" itemprop="datePublished">2021-09-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/09/21/4.2%E5%BE%AE%E6%9C%8D%E5%8A%A1--springcloud/">springcloud</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="微服务–springcloud"><a href="#微服务–springcloud" class="headerlink" title="微服务–springcloud"></a>微服务–springcloud</h1><h2 id="1-springcloud和dubbo有哪些区别"><a href="#1-springcloud和dubbo有哪些区别" class="headerlink" title="1.springcloud和dubbo有哪些区别"></a>1.springcloud和dubbo有哪些区别</h2><p>a. Dubbo具有调度、发现、监控、治理等功能，⽀持相当丰富的服务治理能⼒。Dubbo架构下，注册中⼼对等集群，并会缓存服务列表已被数据库失效时继续提供发现功能，本身的服务发现结构有很强的可⽤性与健壮性，⾜够⽀持⾼访问量的⽹站。</p>
-<p>b. 虽然Dubbo ⽀持短连接⼤数据量的服务提供模式，但绝⼤多数情况下都是使⽤⻓连接⼩数据量的模式提供服务使⽤的。所以，对于类似于电商等同步调⽤场景多并且能⽀撑搭建Dubbo 这套⽐较复杂环境的成本的产品⽽⾔，Dubbo 确实是⼀个可以考虑的选择。但如果产品业务中由于后台业务逻辑复杂、时间⻓⽽导致异步逻辑⽐较多的话，可能Dubbo 并不合适。同时，对于⼈⼿不⾜的初创产品⽽⾔，这么重的架构维护起来也不是很⽅便。</p>
-<p>c. Spring Cloud由众多⼦项⽬组成，如Spring Cloud Config、Spring Cloud Netflix、Spring Cloud Consul 等，提供了搭建分布式系统及微服务常⽤的⼯具，如配置管理、服务发现、断路器、智能路由、微代理、控制总线、⼀次性token、全局锁、选主、分布式会话和集群状态等，满⾜了构建微服务所需的所有解决⽅案。⽐如使⽤Spring Cloud Config 可以实现统⼀配置中⼼，对配置进⾏统⼀管理；使⽤Spring Cloud Netflix 可以实现Netflix 组件的功能 - 服务发现（Eureka）、智能路由（Zuul）、客户端负载均衡（Ribbon）。</p>
-<p>d. dubbo的开发难度较⼤，原因是dubbo的jar包依赖问题很多⼤型⼯程⽆法解决。</p>
-<p>e. Dubbo 提供了各种 Filter，对于上述中“⽆”的要素，可以通过扩展 Filter 来完善。</p>
-<h2 id="2-什么是服务熔断，什么是服务降级"><a href="#2-什么是服务熔断，什么是服务降级" class="headerlink" title="2. 什么是服务熔断，什么是服务降级"></a><strong>2.</strong> 什么是服务熔断，什么是服务降级</h2><p>a. 服务熔断：（为防止系统出现雪崩情况，暂停对服务的调用）</p>
-<p>i. 如果检查出来频繁超时，就把consumer调⽤provider的请求，直接短路掉，不实际调⽤，⽽是直接返回⼀个mock的值。</p>
-<p>b. 服务降级：（返回一个处理好的错误信息）</p>
-<p>i. consumer 端：consumer 如果发现某个provider出现异常情况，⽐如，经常超时(可能是熔断引起的降级)，数据错误，这时，consumer可以采取⼀定的策略，降级provider的逻辑，基本的有直接返回固定的数据。</p>
-<p>\2. provider 端：当provider 发现流量激增的时候，为了保护⾃身的稳定性，也可能考虑降级服务。</p>
-<p>⽐如，1，直接给consumer返回固定数据，2，需要实时写⼊数据库的，先缓存到队列⾥，异步写⼊数据库。</p>
-<h2 id="3-微服务的优缺点"><a href="#3-微服务的优缺点" class="headerlink" title="3. 微服务的优缺点"></a><strong>3.</strong> 微服务的优缺点</h2><p>a. 优点：</p>
-<p>i. 单⼀职责：每个微服务仅负责⾃⼰业务领域的功能；</p>
-<p>ii. ⾃治：⼀个微服务就是⼀个独⽴的实体，它可以独⽴部署、升级，服务与服务之间通过REST等形式的标准接⼝进⾏通信，并且⼀个微服务实例可以被替换成另⼀种实现，⽽对其它的微服务不产⽣影响。</p>
-<p>iii. 逻辑清晰：微服务单⼀职责特性使微服务看起来逻辑清晰，易于维护。</p>
-<p>iv. 简化部署：单系统中修改⼀处需要部署整个系统，⽽微服务中修改⼀处可单独部署⼀个服务。</p>
-<p>v. 可扩展：应对系统业务增⻓的⽅法通常采⽤横向（Scale out）或纵向（Scale up）的⽅向进⾏扩展。分布式系统中通常要采⽤Scale out的⽅式进⾏扩展。</p>
-<p>vi. 灵活组合：</p>
-<p>vii. 技术异构：不同的服务之间，可以根据⾃⼰的业务特点选择不通的技术架构，如数据库等。</p>
-<p>b. 缺点：</p>
-<p>i. 复杂度⾼：</p>
-<p>\1. 服务调⽤要考虑被调⽤⽅故障、过载、消息丢失等各种异常情况，代码逻辑更加复杂；</p>
-<p>\2. 对于微服务间的事务性操作，因为不同的微服务采⽤了不同的数据库，将⽆法利⽤数据库本身的事务机制保证⼀致性，需要引⼊⼆阶段提交等技术。</p>
-<p>ii. 运维复杂：系统由多个独⽴运⾏的微服务构成，需要⼀个设计良好的监控系统对各个微服务的运⾏状态进⾏监控。运维⼈员需要对系统有细致的了解才对够更好的运维系统。</p>
-<p>iii. 通信延迟：微服务之间调⽤会有时间损耗，造成通信延迟。</p>
-<h2 id="4-列举微服务技术栈"><a href="#4-列举微服务技术栈" class="headerlink" title="4. 列举微服务技术栈"></a><strong>4.</strong> 列举微服务技术栈</h2><p>a. 服务⽹关Zuul</p>
-<p>b. 服务注册发现Eureka+Ribbon</p>
-<p>a. 服务配置中⼼Apollo</p>
-<p>b. 认证授权中⼼Spring Security OAuth2</p>
-<p>c. 服务框架Spring Boot</p>
-<p>d. 数据总线Kafka</p>
-<p>e. ⽇志监控ELK</p>
-<p>f. 调⽤链监控CAT</p>
-<p>g. Metrics监控KairosDB</p>
-<p>h. 健康检查和告警ZMon</p>
-<p>i. 限流熔断和流聚合Hystrix&#x2F;Turbine</p>
-<h2 id="5-eureka和zookeeper都可以提供服务的注册与发现功能，他们的区别"><a href="#5-eureka和zookeeper都可以提供服务的注册与发现功能，他们的区别" class="headerlink" title="5. eureka和zookeeper都可以提供服务的注册与发现功能，他们的区别"></a><strong>5.</strong> eureka和zookeeper都可以提供服务的注册与发现功能，他们的区别</h2><p>a. Zookeeper保证CP（一致性、分区容错）</p>
-<p> 当向注册中⼼查询服务列表时，我们可以容忍注册中⼼返回的是⼏分钟以前的注册信息，但不能接受服务直接down掉不可⽤。也就是说，服务注册功能对可⽤性的要求要⾼于⼀致性。但是zk会出现这样⼀种情况，当master节点因为⽹络故障与其他节点失去联系时，剩余节点会重新进⾏leader选举。问题在于，选举leader的时间太⻓，30 ~ 120s, 且选举期间整个zk集群都是不可⽤的，这就导致在选举期间注册服务瘫痪。在云部署的环境下，因⽹络问题使得zk集群失去master节点是较⼤概率会发⽣的事，虽然服务能够最终恢复，但是漫⻓的选举时间导致的注册⻓期不可⽤是不能容忍的。</p>
-<p>b. Eureka保证AP（高可用、分区容错）</p>
-<p> Eureka看明⽩了这⼀点，因此在设计时就优先保证可⽤性。Eureka各个节点都是平等的，⼏个节点挂掉不会影响正常节点的⼯作，剩余的节点依然可以提供注册和查询服务。⽽Eureka的客户端在向某个Eureka注册或如果发现连接失败，则会⾃动切换⾄其它节点，只要有⼀台Eureka还在，就能保证注册服务可⽤(保证可⽤性)，只不过查到的信息可能不是最新的(不保证强⼀致性)。除此之外，Eureka还有⼀种⾃我保护机制，如果在15分钟内超过85%的节点都没有正常的⼼跳，那么Eureka就认为客户端与注册中⼼出现了⽹络故障，此时会出现以下⼏种情况：</p>
-<p> \1. Eureka不再从注册列表中移除因为⻓时间没收到⼼跳⽽应该过期的服务</p>
-<p> \2. Eureka仍然能够接受新服务的注册和查询请求，但是不会被同步到其它节点上(即保证当前节点依然可⽤)</p>
-<p> \3. 当⽹络稳定时，当前实例新的注册信息会被同步到其它节点中</p>
-<p> 因此， Eureka可以很好的应对因⽹络故障导致部分节点失去联系的情况，⽽不会像zookeeper那样使整个注册服务瘫痪。</p>
-<h2 id="6-eureka服务注册与发现原理："><a href="#6-eureka服务注册与发现原理：" class="headerlink" title="6. eureka服务注册与发现原理："></a><strong>6.</strong> eureka服务注册与发现原理：</h2><p>a. 每30s发送⼼跳检测重新进⾏租约，如果客户端不能多次更新租约，它将在90s内从服务器注册中⼼移除。</p>
-<p>b. 注册信息和更新会被复制到其他Eureka 节点，来⾃任何区域的客户端可以查找到注册中⼼信息，每30s发⽣⼀次复制来定位他们的服务，并进⾏远程调⽤。</p>
-<p>c. 客户端还可以缓存⼀些服务实例信息，所以即使Eureka全挂掉，客户端也是可以定位到服务地址的。</p>
-<h2 id="7-限流"><a href="#7-限流" class="headerlink" title="7.限流"></a>7.限流</h2><h3 id="1、http限流：我们使⽤nginx的limitzone来完成："><a href="#1、http限流：我们使⽤nginx的limitzone来完成：" class="headerlink" title="1、http限流：我们使⽤nginx的limitzone来完成："></a>1、http限流：我们使⽤nginx的limitzone来完成：</h3><p> &#x2F;&#x2F;这个表示使⽤ip进⾏限流 zone名称为req_one 分配了10m 空间使⽤漏桶算法 每秒钟允许1个请求</p>
-<p>limit_req_zone $binary_remote_addr zone&#x3D;req_one:10m rate&#x3D;1r&#x2F;s; </p>
-<p>这边burst表示可以瞬间超过20个请求 由于没有noDelay参数因此需要排队 如果超过这20个那么直接返回503</p>
-<p>limit_req zone&#x3D;req_three burst&#x3D;20; </p>
-<h3 id="2、dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter-ExecuteLimitFilter-TPSLimiterFilter"><a href="#2、dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter-ExecuteLimitFilter-TPSLimiterFilter" class="headerlink" title="2、dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter"></a>2、dubbo限流：dubbo提供了多个和请求相关的filter：ActiveLimitFilter ExecuteLimitFilter TPSLimiterFilter</h3><p>\1. ActiveLimitFilter： </p>
-<p>@Activate(group &#x3D; Constants.CONSUMER, value &#x3D; Constants.ACTIVES_KEY)</p>
-<p>作⽤于客户端，主要作⽤是控制客户端⽅法的并发度；</p>
-<p>当超过了指定的active值之后该请求将等待前⾯的请求完成【何时结束呢？依赖于该⽅法的timeout 如果没有设置timeout的话可能就是多个请求⼀直被阻塞然后等待随机唤醒。</p>
-<p>\2. ExecuteLimitFilter： </p>
-<p>@Activate(group &#x3D; Constants.PROVIDER, value &#x3D; Constants.EXECUTES_KEY)</p>
-<p>作⽤于服务端，⼀旦超出指定的数⽬直接报错 其实是指在服务端的并⾏度【需要注意这些都是指的是在单台服务上⽽不是整个服务集群】</p>
-<p>\3. TPSLimiterFilter： </p>
-<p>@Activate(group &#x3D; Constants.PROVIDER, value &#x3D; Constants.TPS_LIMIT_RATE_KEY)</p>
-<p>作⽤于服务端，控制⼀段时间内的请求数；默认情况下取得tps.interval字段表示请求间隔 如果⽆法找到则使⽤60s 根据tps字段表示允许调⽤次数。使⽤AtomicInteger表示允许调⽤的次数 每次调⽤减少1次当结果⼩于0之后返回不允许调⽤</p>
-<h3 id="3、springcloud限流："><a href="#3、springcloud限流：" class="headerlink" title="3、springcloud限流："></a>3、springcloud限流：</h3><p>1、我们可以通过semaphore.maxConcurrentRequests,coreSize,maxQueueSize和queueSizeRejectionThreshold设置信号量模式下的最⼤并发量、线程池⼤⼩、缓冲区⼤⼩和缓冲区降级阈值。 </p>
-<p>#不设置缓冲区，当请求数超过coreSize时直接降级</p>
-<p>hystrix.threadpool.userThreadPool.maxQueueSize&#x3D;-1 </p>
-<p>#超时时间⼤于我们的timeout接⼝返回时间</p>
-<p>hystrix.command.userCommandKey.execution.isolation.thread.timeoutInMilliseconds&#x3D;15000</p>
-<p>这个时候我们连续多次请求&#x2F;user&#x2F;command&#x2F;timeout接⼝，在第⼀个请求还没有成功返回时，查看输出⽇志可以发现只有第⼀个请求正常的进⼊到user-service的接⼝中，其它请求会直接返回降级信息。这样我们就实现了对服务请求的限流。</p>
-<p>2、漏桶算法：⽔（请求）先进⼊到漏桶⾥，漏桶以⼀定的速度出⽔，当⽔流⼊速度过⼤会直接溢出，可以看出漏桶算法能强⾏限制数据的传输速率。</p>
-<p><img src="C:\Users\dave_cc\Downloads\4.2、微服务—SpringCloud(20题)\4.png" alt="4"></p>
-<p>3、令牌桶算法：除了要求能够限制数据的平均传输速率外，还要求允许某种程度的突发传输。这时候漏桶算法可能就不合适了，令牌桶算法更为适合。如图2所示，令牌桶算法的原理是系统会以⼀个恒定的速度往桶⾥放⼊令牌，⽽如果请求需要被处理，则需要先从桶⾥获取⼀个令牌，当桶⾥没有令牌可取时，则拒绝服务。</p>
-<p><img src="C:\Users\dave_cc\Downloads\4.2、微服务—SpringCloud(20题)\6.png" alt="6"></p>
-<p>4、redis计数器限流；</p>
-<h2 id="8-springcloud核⼼组件及其作⽤，以及springcloud⼯作原理："><a href="#8-springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：" class="headerlink" title="8.springcloud核⼼组件及其作⽤，以及springcloud⼯作原理："></a>8.springcloud核⼼组件及其作⽤，以及springcloud⼯作原理：</h2><p><img src="C:\Users\dave_cc\Downloads\4.2、微服务—SpringCloud(20题)\5.jpg" alt="5"></p>
-<p>springcloud由以下⼏个核⼼组件构成：</p>
-<p>Eureka：各个服务启动时，Eureka Client都会将服务注册到Eureka Server，并且Eureka Client还可以反过来从EurekaServer拉取注册表，从⽽知道其他服务在哪⾥</p>
-<p>Ribbon：服务间发起请求的时候，基于Ribbon做负载均衡，从⼀个服务的多台机器中选择⼀台</p>
-<p>Feign：基于Feign的动态代理机制，根据注解和选择的机器，拼接请求URL地址，发起请求</p>
-<p>Hystrix：发起请求是通过Hystrix的线程池来⾛的，不同的服务⾛不同的线程池，实现了不同服务调⽤的隔离，避免了服务雪崩的问题（CSF也会通过Hystrix线程池发起请求）</p>
-<p>Zuul：如果前端、移动端要调⽤后端系统，统⼀从Zuul⽹关进⼊，由Zuul⽹关转发请求给对应的服务</p>
-<h2 id="9-eureka缓存机制："><a href="#9-eureka缓存机制：" class="headerlink" title="9. eureka缓存机制："></a><strong>9.</strong> eureka缓存机制：</h2><p><img src="C:\Users\dave_cc\Downloads\4.2、微服务—SpringCloud(20题)\8.png" alt="8"></p>
-<p>a. 第⼀层缓存：readOnlyCacheMap，本质上是ConcurrentHashMap：这是⼀个JVM的CurrentHashMap只读缓存，这个主要是为了供客户端获取注册信息时使⽤，其缓存更新，依赖于定时器的更新，通过和readWriteCacheMap 的值做对⽐，如果数据不⼀致，则以readWriteCacheMap 的数据为准。readOnlyCacheMap 缓存更新的定时器时间间隔，默认为30秒（AICACHE的readOnlyCache基于相同的机制）</p>
-<p>b. 第⼆层缓存：readWriteCacheMap，本质上是Guava缓存：此处存放的是最终的缓存， 当服务下线，过期，注册，状态变更，都会来清除这个缓存⾥⾯的数据。 然后通过CacheLoader进⾏缓存加载，在进readWriteCacheMap.get(key)的时候，⾸先看这个缓存⾥⾯有没有该数据，如果没有则通过CacheLoader的load⽅法去加载，加载成功之后将数据放⼊缓存，同时返回数据。 readWriteCacheMap 缓存过期时间，默认为 180 秒 。</p>
-<p>c. 缓存机制：设置了⼀个每30秒执⾏⼀次的定时任务，定时去服务端获取注册信息。获取之后，存⼊本地内存。</p>
-<h2 id="10-熔断的原理，以及如何恢复？"><a href="#10-熔断的原理，以及如何恢复？" class="headerlink" title="10. 熔断的原理，以及如何恢复？"></a><strong>10.</strong> 熔断的原理，以及如何恢复？</h2><p><img src="C:\Users\dave_cc\Downloads\4.2、微服务—SpringCloud(20题)\7.png" alt="7"></p>
-<p>a. 服务的健康状况 &#x3D; 请求失败数 &#x2F; 请求总数.</p>
-<p>熔断器开关由关闭到打开的状态转换是通过当前服务健康状况和设定阈值⽐较决定的.</p>
-<p>i. 当熔断器开关关闭时, 请求被允许通过熔断器. 如果当前健康状况⾼于设定阈值, 开关继续保持关闭. 如果当前健康状况低于设定阈值, 开关则切换为打开状态.</p>
-<p>ii. 当熔断器开关打开时, 请求被禁⽌通过.</p>
-<p>iii. 当熔断器开关处于打开状态, 经过⼀段时间后, 熔断器会⾃动进⼊半开状态, 这时熔断器只允许⼀个请求通过. 当该请求调⽤成功时, 熔断器恢复到关闭状态. 若该请求失败, 熔断器继续保持打开状态, 接下来的请求被禁⽌通过.熔断器的开关能保证服务调⽤者在调⽤异常服务时, 快速返回结果, 避免⼤量的同步等待. 并且熔断器能在⼀段时间后继续侦测请求执⾏结果, 提供恢复服务调⽤的可能.</p>
-<p>（CSF会监控请求过来的请求，请求会被放入请求队列处理，当队列的请求大于设定的阈值时，拒绝请求）</p>
-<h2 id="11-服务雪崩？"><a href="#11-服务雪崩？" class="headerlink" title="11. 服务雪崩？"></a><strong>11.</strong> 服务雪崩？</h2><p>遇到过的雪崩：服务重启时，某台机不可用，影响到集群中所有服务，导致大部分请求都不可用（请求队列满，请求被拒绝）</p>
-<p>可能原因：大量慢SQL的查询堆积，占用了CSF服务导致线程无法释放，最后影响到所有服务</p>
-<p><img src="C:\Users\dave_cc\Downloads\4.2、微服务—SpringCloud(20题)\10.png" alt="10"></p>
-<p><strong>a.</strong> 简介：服务雪崩效应是⼀种因 服务提供者 的不可⽤导致 服务调⽤者 的不可⽤,并将不可⽤ 逐渐放⼤ 的过程.</p>
-<p><strong>b.</strong> 形成原因：</p>
-<p>i. 服务提供者不可⽤</p>
-<p>ii. 重试加⼤流量</p>
-<p>iii. 服务调⽤者不可⽤</p>
-<p><strong>c.</strong> 采⽤策略：</p>
-<p>i. 流量控制</p>
-<p>ii. 改进缓存模式</p>
-<p>iii. 服务⾃动扩容</p>
-<p>iv. 服务调⽤者降级服务</p>
-<h2 id="12-接⼝限流⽅法？"><a href="#12-接⼝限流⽅法？" class="headerlink" title="12. 接⼝限流⽅法？"></a><strong>12.</strong> 接⼝限流⽅法？</h2><p>a. 限制 总并发数（⽐如 数据库连接池、线程池）</p>
-<p>b. 限制 瞬时并发数（如 nginx 的 limit_conn 模块，⽤来限制 瞬时并发连接数）</p>
-<p>c. 限制 时间窗⼝内的平均速率（如 Guava 的 RateLimiter、nginx 的 limit_req模块，限制每秒的平均速率）</p>
-<p>d. 限制 远程接⼝ 调⽤速率</p>
-<p>e. 限制 MQ 的消费速率</p>
-<p>f. 可以根据 ⽹络连接数、⽹络流量、CPU 或 内存负载 等来限流</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/09/21/4.2%E5%BE%AE%E6%9C%8D%E5%8A%A1--springcloud/" data-id="cl2ehn9jr001bjguc373sb549" data-title="springcloud" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-4.1微服务--dubbo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/09/20/4.1%E5%BE%AE%E6%9C%8D%E5%8A%A1--dubbo/" class="article-date">
-  <time class="dt-published" datetime="2021-09-20T12:21:21.207Z" itemprop="datePublished">2021-09-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/09/20/4.1%E5%BE%AE%E6%9C%8D%E5%8A%A1--dubbo/">dubbo</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="微服务–dubbo"><a href="#微服务–dubbo" class="headerlink" title="微服务–dubbo"></a>微服务–dubbo</h1><p><img src="C:\Users\dave_cc\Downloads\4.1、微服务--dubbo(41题)\0.jpg" alt="0"></p>
-<h1 id="1-Dubbo-和-Spring-Cloud-有什么区别？"><a href="#1-Dubbo-和-Spring-Cloud-有什么区别？" class="headerlink" title="1.Dubbo 和 Spring Cloud 有什么区别？"></a>1.Dubbo 和 Spring Cloud 有什么区别？</h1><p>1）通信⽅式不同</p>
-<p>1、Dubbo 使⽤的是 RPC 通信，⽽ Spring Cloud 使⽤的是 HTTP RESTFul ⽅式。 </p>
-<p>2、dubbo由于是⼆进制的传输，占⽤带宽会更少（基于netty等）；springCloud是http协议传输，带宽会⽐较多，同时使⽤http协议（http+restful api）⼀般会使⽤JSON报⽂，消耗会更⼤。</p>
-<p>3、dubbo的开发难度较⼤，原因是dubbo的jar包依赖（存在代码级别的强依赖）问题很多⼤型⼯程⽆法解决；</p>
-<p>springcloud的接⼝协议约定⽐较⾃由且松散，需要有强有⼒的⾏政措施来限制接⼝⽆序升级。</p>
-<p>4、dubbo的改进是通过dubbofilter，很多东⻄没有，需要⾃⼰继承，如监控，如⽇志，如限流，如追踪。springcloud具有配置管理、服务发现、断路器、智能路由、微代理、控制总线、⼀次性token、全局锁、选主、分布式会话和集群状态等，满⾜了构建微服务所需的所有解决⽅案。</p>
-<p>2）组成不同</p>
-<h1 id="2-Dubbo⾥⾯有哪⼏种节点⻆⾊？"><a href="#2-Dubbo⾥⾯有哪⼏种节点⻆⾊？" class="headerlink" title="2.Dubbo⾥⾯有哪⼏种节点⻆⾊？"></a>2.Dubbo⾥⾯有哪⼏种节点⻆⾊？</h1><p><img src="C:\Users\dave_cc\Downloads\4.1、微服务--dubbo(41题)\2.png" alt="2"></p>
-<h1 id="3-Dubbo服务注册与发现流程"><a href="#3-Dubbo服务注册与发现流程" class="headerlink" title="3.Dubbo服务注册与发现流程"></a>3.Dubbo服务注册与发现流程</h1><p><img src="C:\Users\dave_cc\Downloads\4.1、微服务--dubbo(41题)\4.jpg" alt="4"></p>
-<h1 id="4-Dubbo有哪⼏种集群容错⽅案，默认是哪种？"><a href="#4-Dubbo有哪⼏种集群容错⽅案，默认是哪种？" class="headerlink" title="4.Dubbo有哪⼏种集群容错⽅案，默认是哪种？"></a>4.Dubbo有哪⼏种集群容错⽅案，默认是哪种？</h1><p><img src="C:\Users\dave_cc\Downloads\4.1、微服务--dubbo(41题)\6.png" alt="6"></p>
-<h1 id="5-Dubbo有哪⼏种负载均衡策略，默认是哪种？"><a href="#5-Dubbo有哪⼏种负载均衡策略，默认是哪种？" class="headerlink" title="5.Dubbo有哪⼏种负载均衡策略，默认是哪种？"></a>5.Dubbo有哪⼏种负载均衡策略，默认是哪种？</h1><p><img src="C:\Users\dave_cc\Downloads\4.1、微服务--dubbo(41题)\8.png" alt="8"></p>
-<h1 id="6-Dubbo服务之间的调⽤是阻塞的吗？"><a href="#6-Dubbo服务之间的调⽤是阻塞的吗？" class="headerlink" title="6.Dubbo服务之间的调⽤是阻塞的吗？"></a>6.Dubbo服务之间的调⽤是阻塞的吗？</h1><p>默认是同步等待结果阻塞的，⽀持异步调⽤。Dubbo 是基于 NIO 的⾮阻塞实现并⾏调⽤，客户端不需要启动多线程即可完成并⾏调⽤多个远程服务，相对多线程开销较⼩，异步调⽤会返回⼀个 Future 对象。</p>
-<p>异步调⽤流程图如下。</p>
-<p><img src="C:\Users\dave_cc\Downloads\4.1、微服务--dubbo(41题)\9.jpg" alt="9"></p>
-<h1 id="7-说说-Dubbo-服务暴露的过程"><a href="#7-说说-Dubbo-服务暴露的过程" class="headerlink" title="7.说说 Dubbo 服务暴露的过程"></a>7.说说 Dubbo 服务暴露的过程</h1><p>Dubbo 会在 Spring 实例化完 bean 之后，在刷新容器最后⼀步发布 ContextRefreshEvent 事件的时候，通知实现了ApplicationListener 的 ServiceBean 类进⾏回调 onApplicationEvent 事件⽅法，Dubbo 会在这个⽅法中调⽤ ServiceBean ⽗类ServiceConfig 的 export ⽅法，⽽该⽅法真正实现了服务的（异步或者⾮异步）发布。</p>
-<h1 id="8-注册中⼼挂了，消费者还能调⽤服务者吗？"><a href="#8-注册中⼼挂了，消费者还能调⽤服务者吗？" class="headerlink" title="8.注册中⼼挂了，消费者还能调⽤服务者吗？"></a>8.注册中⼼挂了，消费者还能调⽤服务者吗？</h1><p>\1. 注册中⼼对等集群，任意⼀台宕掉后，会⾃动切换到另⼀台</p>
-<p>\2. 注册中⼼全部宕掉，服务提供者和消费者仍可以通过本地缓存通讯</p>
-<p>\3. 服务提供者⽆状态，任⼀台 宕机后，不影响使⽤</p>
-<p>\4. 服务提供者全部宕机，服务消费者会⽆法使⽤，并⽆限次重连等待服务者恢复</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/09/20/4.1%E5%BE%AE%E6%9C%8D%E5%8A%A1--dubbo/" data-id="cl2ehn9jq0018jgucetxr92bm" data-title="dubbo" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/java4u/page/2/">&laquo; 上一页</a><a class="page-number" href="/java4u/">1</a><a class="page-number" href="/java4u/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/java4u/page/4/">4</a><a class="page-number" href="/java4u/page/5/">5</a><a class="page-number" href="/java4u/page/6/">6</a><a class="extend next" rel="next" href="/java4u/page/4/">下一页 &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/security/">security</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/webservice/">webservice</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">项目流程</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" rel="tag">业务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/java4u/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/java4u/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/java4u/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/java4u/tags/TPC-IP/" style="font-size: 10px;">TPC/IP</a> <a href="/java4u/tags/WSDL/" style="font-size: 10px;">WSDL</a> <a href="/java4u/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" style="font-size: 12.5px;">业务</a> <a href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/java4u/tags/%E6%95%B0%E7%BB%84/" style="font-size: 15px;">数组</a> <a href="/java4u/tags/%E6%BA%90%E7%A0%81/" style="font-size: 12.5px;">源码</a> <a href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" style="font-size: 10px;">进程优化</a> <a href="/java4u/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 12.5px;">链表</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/10/">十月 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/java4u/2022/04/24/MQ/">MQ</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/21/SpringCloud/">SpringCloud</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">REDIS深入了解</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/">国网发票业务规则整理</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/">账管业务流程</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
+          表：Logs
++-------------+---------+| Colu...
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 Zhao Xin<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2022-02-02T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2022-02-03</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/SQL/" 
+                class="post-meta-link">
+                SQL
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2022/02/03/180.%20%E8%BF%9E%E7%BB%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%95%B0%E5%AD%97/">继续阅读 </a>
+      </div>
+    </article>
   </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2022/02/03/181.%E8%B6%85%E8%BF%87%E7%BB%8F%E7%90%86%E6%94%B6%E5%85%A5%E7%9A%84%E5%91%98%E5%B7%A5/">
+        <h1 class="post-title">
+          181.超过经理收入的员工
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          Employee 表包含所有员工，他们的经理也属于员工。每个员工都有一个 Id，此外还有一列对应员工的经理的 Id。
++----+---...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2022-02-02T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2022-02-03</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/SQL/" 
+                class="post-meta-link">
+                SQL
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2022/02/03/181.%E8%B6%85%E8%BF%87%E7%BB%8F%E7%90%86%E6%94%B6%E5%85%A5%E7%9A%84%E5%91%98%E5%B7%A5/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2022/02/02/177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">
+        <h1 class="post-title">
+          177.第N高的薪水
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          编写一个 SQL 查询，获取 Employee 表中第 n 高的薪水（Salary）。
++----+--------+
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2022-02-01T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2022-02-02</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/SQL/" 
+                class="post-meta-link">
+                SQL
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2022/02/02/177.%20%E7%AC%ACN%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2022/02/02/178.%20%E5%88%86%E6%95%B0%E6%8E%92%E5%90%8D/">
+        <h1 class="post-title">
+          178.分数排名
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          编写一个 SQL 查询来实现分数排名。
+如果两个分数相同，则两个分数排名（Rank）相同。请注意，平分后的下一个名次应该是下一个连续的整数值。换句话说，名次之间不应该有“间隔”。
+
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2022-02-01T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2022-02-02</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/SQL/" 
+                class="post-meta-link">
+                SQL
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2022/02/02/178.%20%E5%88%86%E6%95%B0%E6%8E%92%E5%90%8D/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2022/02/01/175.%E7%BB%84%E5%90%88%E4%B8%A4%E4%B8%AA%E8%A1%A8/">
+        <h1 class="post-title">
+          175.组合两个表
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          表1: Person
++-------------+---------+| ...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2022-01-31T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2022-02-01</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/SQL/" 
+                class="post-meta-link">
+                SQL
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2022/02/01/175.%E7%BB%84%E5%90%88%E4%B8%A4%E4%B8%AA%E8%A1%A8/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2022/02/01/176.%20%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">
+        <h1 class="post-title">
+          176.第二高的薪水
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          Employee 表：
++-------------+------+| Co...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2022-01-31T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2022-02-01</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/SQL/" 
+                class="post-meta-link">
+                SQL
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2022/02/01/176.%20%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/10/06/6.2%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/">
+        <h1 class="post-title">
+          其他框架
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          其他框架
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-10-06T13:57:37.858Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-10-06</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/10/06/6.2%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/09/23/6.1%E6%A1%86%E6%9E%B6%E2%80%94Spring/">
+        <h1 class="post-title">
+          spring
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          框架–Spring
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-09-23T13:40:51.615Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-09-23</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/09/23/6.1%E6%A1%86%E6%9E%B6%E2%80%94Spring/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/09/21/4.2%E5%BE%AE%E6%9C%8D%E5%8A%A1--springcloud/">
+        <h1 class="post-title">
+          springcloud
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          微服务–springcloud
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-09-21T11:29:18.322Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-09-21</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/09/21/4.2%E5%BE%AE%E6%9C%8D%E5%8A%A1--springcloud/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/09/20/4.1%E5%BE%AE%E6%9C%8D%E5%8A%A1--dubbo/">
+        <h1 class="post-title">
+          dubbo
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          微服务–dubbo
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-09-20T12:21:21.207Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-09-20</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/09/20/4.1%E5%BE%AE%E6%9C%8D%E5%8A%A1--dubbo/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+
+  <div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/page/2/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一页</div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/page/4/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一页</div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+</main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>53</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>13</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>12</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">11</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
+        title="进程优化">
+        <div class="tags-list-item">进程优化</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+    <article class="card card-content widescreen-archive archive-widget">
+      <div class="archive-card">
+  <div class="archive-card-header">
+    <i 
+      class="iconfont icon-wodebaobiao" 
+      style="padding-right: 2px;">
+    </i>归档
+  </div>
+  <div class="archive-card-list">
+    
+    
+    
+      
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2022" 
+            class="archive-card-list-item">
+            2022
+            <span class="archive-card-list-item-badge">26</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2021" 
+            class="archive-card-list-item">
+            2021
+            <span class="archive-card-list-item-badge">20</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+    
+      <a 
+        href="/java4u/archives/2020" 
+        class="archive-card-list-item">
+        2020
+        <span class="archive-card-list-item-badge">7</span>
+      </a>
+    
+  </div>
+</div>
+    </article>
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-24</div>
+        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-21</div>
+        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-20</div>
+        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-20</div>
+        <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/"><div class="recent-posts-item-content">国网发票业务规则整理</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+    <article class="card card-content">
+      <div class="archive-card">
+  <div class="archive-card-header">
+    <i 
+      class="iconfont icon-wodebaobiao" 
+      style="padding-right: 2px;">
+    </i>归档
+  </div>
+  <div class="archive-card-list">
+    
+    
+    
+      
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2022" 
+            class="archive-card-list-item">
+            2022
+            <span class="archive-card-list-item-badge">26</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2021" 
+            class="archive-card-list-item">
+            2021
+            <span class="archive-card-list-item-badge">20</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+    
+      <a 
+        href="/java4u/archives/2020" 
+        class="archive-card-list-item">
+        2020
+        <span class="archive-card-list-item-badge">7</span>
+      </a>
+    
+  </div>
+</div>
+    </article>
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2022
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
 </footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/java4u/" class="mobile-nav-link">Home</a>
-  
-    <a href="/java4u/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+ 
     
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
 
-
-<script src="/java4u/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/java4u/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/java4u/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
 </html>

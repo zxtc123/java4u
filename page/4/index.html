@@ -1,1064 +1,1619 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
   <title>Snail</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Snail">
-<meta property="og:url" content="https://zxtc123.github.io/java4u/page/4/index.html">
-<meta property="og:site_name" content="Snail">
-<meta property="og:locale" content="zh_CN">
-<meta property="article:author" content="Zhao Xin">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/java4u/atom.xml" title="Snail" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/java4u/favicon.png">
-  
   
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
+      <meta 
+        property="og:title" 
+        content="Snail">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/page/4/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
   
-  
-<link rel="stylesheet" href="/java4u/css/style.css">
-
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
   
     
-<link rel="stylesheet" href="/java4u/fancybox/jquery.fancybox.min.css">
-
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
   
 <meta name="generator" content="Hexo 6.1.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/java4u/" id="logo">Snail</a>
-      </h1>
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
         
-          <a class="main-nav-link" href="/java4u/">Home</a>
+          首页
         
-          <a class="main-nav-link" href="/java4u/archives">Archives</a>
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
         
-      </nav>
-      <nav id="sub-nav">
+          归档
         
-          <a id="nav-rss-link" class="nav-icon" href="/java4u/atom.xml" title="RSS 订阅"></a>
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
         
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zxtc123.github.io/java4u"></form>
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
       </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-进程优化" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" class="article-date">
-  <time class="dt-published" datetime="2021-09-15T16:00:00.000Z" itemprop="datePublished">2021-09-16</time>
-</a>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+  <div class="card">
     
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <article class="card card-content">
+      <a href="/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/">
+        <h1 class="post-title">
+          托收算费优化
+        </h1>
+      </a>
+      <div class="card-excerpt">
         
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/">托收算费优化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>场景：新上线常州分公司的托收任务（20W数据） 算费过慢    目标（每分钟处理 5000条数据）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">分析：</span><br><span class="line">	一条数据共耗时：2719ms  查询托收关系表</span><br><span class="line">	1.  92ms  select * from AM_ENTRUST_RELATION where 1 = 1  and state = ? and ACCT_ID = ? </span><br><span class="line">	--加索引，gj2环境已经加了</span><br><span class="line">	2.  824ms   EntrustFunc.qryAcctAllStopServ ,判断是否为主动停机用户</span><br><span class="line">	--建议查询计费用户状态表</span><br><span class="line">	3. 214ms 从注册中心获取远程服务地址:OC.BC.person.IQryCustIdSV.checkCustExistsByType-&gt;http://10.97.114.108:10001/service</span><br><span class="line">	--建议查询计费用户状态表</span><br><span class="line">	4. 542ms 从注册中心获取远程服务地址:OC.person.IQueryScaInfoSV.queryUserCustAcctInfoByAccId-&gt;http://10.97.114.108:10001/service</span><br><span class="line">	--建议查询计费用户状态表</span><br><span class="line">	5. 412ms select b.service_id,a.object_id,min(a.PRODUCT_STATUS) status_min,max(a.PRODUCT_STATUS) status_max,min(a.VALID_DATE) valid_date,max(a.EXPIRE_DATE) expire_date from CD.CO_PROD_STS_0523_1 a left join CD.CO_PROD_0523_1 b on a.PRODUCT_ID=b.PRODUCT_ID and b.service_id is not null where a.OBJECT_TYPE= 0 and a.PRODUCT_STATUS !=0 and a.EXPIRE_DATE&gt;=sysdate and a.OBJECT_ID in (108727164,108727147,102349814) group by a.object_id,b.SERVICE_ID </span><br><span class="line">	--优化索引，gj2环境已经加了--50ms左右</span><br><span class="line">	6. 606ms 本次调用服务asset_IPaymentCSV_queryOweFee总耗时:606ms</span><br><span class="line">	</span><br><span class="line">	30分钟大概处理4000条数据</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">第一次优化：</span><br><span class="line">	1.优化表，表加索引</span><br><span class="line">	2.减少去三户信息的调用  查表替代</span><br><span class="line">	3.优化查欠      查欠不查询三户信息，托收不需要获取客户的三户信息</span><br><span class="line">	</span><br><span class="line">结果：</span><br><span class="line">	目前效率 1分钟500条     500 * 60 = 3W条</span><br><span class="line">	大部分使用CPU（5-6）  服务器：32核</span><br><span class="line">	提升线程数也不能提供CPU的使用</span><br><span class="line"></span><br><span class="line">分析：</span><br><span class="line">	CPU占用上不去，进程太少</span><br><span class="line">	多的分公司有20W数据，优化拆分逻辑，对账户进行取模分发</span><br><span class="line">	（分发数据前修改查询方式）</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	第二次优化：</span><br><span class="line">		添加通道，对MOD(A.CUST_CODE,10000) 0-1999 2000-3999 4000-5999 6000-7999 8000-9999 在分5个进程处理</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	结果：</span><br><span class="line">		每分钟大概3500条</span><br><span class="line">		</span><br><span class="line">	</span><br><span class="line">	分析：</span><br><span class="line">[2021-09-21 14:55:33,715] [processor-6] (ClientStub.java:119)  INFO  - 本次调用服务asset_ICycleCSV_querySysPreCycle总耗时:394ms</span><br><span class="line">[2021-09-21 14:55:34,124] [processor-6] (ClientStub.java:119)  INFO  - 本次调用服务asset_ICycleCSV_querySysCurCycle总耗时:342ms</span><br><span class="line">[2021-09-21 14:55:34,377] [processor-6] (ClientStub.java:119)  INFO  - 本次调用服务asset_ICycleCSV_querySysMaxCycle总耗时:250ms</span><br><span class="line">[2021-09-21 14:55:34,966] [processor-6] (ClientStub.java:119)  INFO  - 本次调用服务acomp_ICommParamCSV_getList总耗时:570ms</span><br><span class="line">[2021-09-21 14:55:35,406] [processor-6] (ClientStub.java:119)  INFO  - 本次调用服务acomp_ICommParamCSV_getList总耗时:435ms</span><br><span class="line">[2021-09-21 14:55:36,051] [processor-6] (ClientStub.java:119)  INFO  - 本次调用服务asset_IEntrustDoCSV_doEntrustErr总耗时:618ms</span><br><span class="line">		</span><br><span class="line">		发现多次去调用服务查询账期（查询虚销时需要查询账期）</span><br><span class="line">		实际获取的都是系统账期（当前没有分库），只需要查询一次就可以了</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">第三次优化：</span><br><span class="line">	进程启动时查询账期数据放入缓存，</span><br><span class="line">	查欠修改支持外部传入账期，</span><br><span class="line">	账期只有第一次需要查询，之后直接获取即可</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">结果：</span><br><span class="line">	2台主机，30个进程，10个线程，5000条/分钟--7000条/分钟</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" data-id="cl2ehn9k30027jgucbf1kciyu" data-title="托收算费优化" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-4.多线程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="article-date">
-  <time class="dt-published" datetime="2021-09-03T03:30:29.312Z" itemprop="datePublished">2021-09-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/">多线程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-什么是线程？"><a href="#1-什么是线程？" class="headerlink" title="1. 什么是线程？"></a><strong>1.</strong> 什么是线程？</h1><p>1、线程是操作系统能够进⾏运算调度的最⼩单位，它被包含在进程之中，是进程中的实际运作单位，可以使⽤多线程对进⾏运算提速。</p>
-<h1 id="2-什么是⾃旋锁？"><a href="#2-什么是⾃旋锁？" class="headerlink" title="2.什么是⾃旋锁？"></a>2.什么是⾃旋锁？</h1><p>⾃旋锁是SMP架构中的⼀种low-level的同步机制。</p>
-<p>1、当线程A想要获取⼀把⾃旋锁⽽该锁⼜被其它线程锁持有时，线程A会在⼀个循环中⾃旋以检测锁是不是已经可⽤了。 </p>
-<p>2、⾃选锁需要注意：</p>
-<p>由于⾃旋时不释放CPU，因⽽持有⾃旋锁的线程应该尽快释放⾃旋锁，否则等待该⾃旋锁的线程会⼀直在那⾥⾃旋，这就会浪费CPU时间。持有⾃旋锁的线程在sleep之前应该释放⾃旋锁以便其它线程可以获得⾃旋锁。</p>
-<p>3、⽬前的JVM实现⾃旋会消耗CPU，如果⻓时间不调⽤doNotify⽅法，doWait⽅法会⼀直⾃旋，CPU会消耗太⼤</p>
-<p>4、⾃旋锁⽐较适⽤于锁使⽤者保持锁时间⽐较短的情况，这种情况⾃旋锁的效率⽐较⾼。</p>
-<p>5、⾃旋锁是⼀种对多处理器相当有效的机制，⽽在单处理器⾮抢占式的系统中基本上没有作⽤。</p>
-<h1 id="3-什么是CAS？"><a href="#3-什么是CAS？" class="headerlink" title="3. 什么是CAS？"></a><strong>3.</strong> 什么是CAS？</h1><p>1、CAS（compare and swap）的缩写，中⽂翻译成⽐较并交换。</p>
-<p>2、CAS 不通过JVM,直接利⽤java本地⽅ JNI（Java Native Interface为JAVA本地调⽤）,直接调⽤CPU 的cmpxchg（是汇编指令）指令。</p>
-<p>3、利⽤CPU的CAS指令，同时借助JNI来完成Java的⾮阻塞算法,实现原⼦操作。其它原⼦操作都是利⽤类似的特性完成的。</p>
-<p>4、整个java.util.concurrent都是建⽴在CAS之上的，因此对于synchronized阻塞算法，J.U.C在性能上有了很⼤的提升。</p>
-<p>5、CAS是项乐观锁技术，当多个线程尝试使⽤CAS同时更新同⼀个变量时，只有其中⼀个线程能更新变量的值，⽽其它线程都失败，失败的线程并不会被挂起，⽽是被告知这次竞争中失败，并可以再次尝试。</p>
-<blockquote>
-<p>1、使⽤CAS在线程冲突严重时，会⼤幅降低程序性能；CAS只适合于线程冲突较少的情况使⽤。</p>
-<p>2、synchronized在jdk1.6之后，已经改进优化。synchronized的底层实现主要依靠Lock-Free的队列，基本思路是⾃旋后阻塞，竞<strong>争切换后继续竞争锁，稍微牺牲了公平性，但获得了⾼吞吐量。在线程冲突较少的情况下，可以获得和CAS类似的性能；⽽线</strong>程冲突严重的情况下，性能远⾼于CAS。</p>
-</blockquote>
-<h1 id="4-什么是AQS？"><a href="#4-什么是AQS？" class="headerlink" title="4. 什么是AQS？"></a><strong>4.</strong> 什么是AQS？</h1><p>1、AbstractQueuedSynchronizer简称AQS，是⼀个⽤于构建锁和同步容器的框架。事实上concurrent包内许多类都是基于AQS构建，例如ReentrantLock，Semaphore，CountDownLatch，ReentrantReadWriteLock，FutureTask等。AQS解决了在实现同步容器时设计的⼤量细节问题。2、AQS使⽤⼀个FIFO的队列表示排队等待锁的线程，队列头节点称作“哨兵节点”或者“哑节点”，它不与任何线程关联。其他的节点与等待线程关联，每个节点维护⼀个等待状态waitStatus。</p>
-<h1 id="5-什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？"><a href="#5-什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？" class="headerlink" title="5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？"></a><strong>5.</strong> 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</h1><p>1、JDK7提供了7个阻塞队列。（也属于并发容器）</p>
-<p>i. ArrayBlockingQueue ：⼀个由数组结构组成的有界阻塞队列。</p>
-<p>ii. LinkedBlockingQueue ：⼀个由链表结构组成的有界阻塞队列。</p>
-<p>iii. PriorityBlockingQueue ：⼀个⽀持优先级排序的⽆界阻塞队列。</p>
-<p>iv. DelayQueue：⼀个使⽤优先级队列实现的⽆界阻塞队列。</p>
-<p>v. SynchronousQueue：⼀个不存储元素的阻塞队列。</p>
-<p>vi. LinkedTransferQueue：⼀个由链表结构组成的⽆界阻塞队列。</p>
-<p>vii. LinkedBlockingDeque：⼀个由链表结构组成的双向阻塞队列。</p>
-<p>2、概念：阻塞队列是⼀个在队列基础上⼜⽀持了两个附加操作的队列。 </p>
-<p>3、2个附加操作：</p>
-<p>⽀持阻塞的插⼊⽅法：队列满时，队列会阻塞插⼊元素的线程，直到队列不满。</p>
-<p>⽀持阻塞的移除⽅法：队列空时，获取元素的线程会等待队列变为⾮空。</p>
-<h1 id="6-什么是Callable和Future"><a href="#6-什么是Callable和Future" class="headerlink" title="6. 什么是Callable和Future?"></a><strong>6.</strong> 什么是Callable和Future?</h1><p>1、Callable 和 Future 是⽐较有趣的⼀对组合。当我们需要获取线程的执⾏结果时，就需要⽤到它们。Callable⽤于产⽣结果，Future⽤于获取结果。</p>
-<p>2、Callable接⼝使⽤泛型去定义它的返回类型。Executors类提供了⼀些有⽤的⽅法去在线程池中执⾏Callable内的任务。由于Callable任务是并⾏的，必须等待它返回的结果。java.util.concurrent.Future对象解决了这个问题。</p>
-<p>3、在线程池提交Callable任务后返回了⼀个Future对象，使⽤它可以知道Callable任务的状态和得到Callable返回的执⾏结果。Future提供了get()⽅法，等待Callable结束并获取它的执⾏结果。</p>
-<h1 id="7-什么是FutureTask"><a href="#7-什么是FutureTask" class="headerlink" title="7. 什么是FutureTask?"></a><strong>7.</strong> 什么是FutureTask?</h1><p>1、FutureTask可⽤于异步获取执⾏结果或取消执⾏任务的场景。通过传⼊Runnable或者Callable的任务给FutureTask，直接调⽤其run⽅法或者放⼊线程池执⾏，之后可以在外部通过FutureTask的get⽅法异步获取执⾏结果，因此，FutureTask⾮常适合⽤于耗时的计算，主线程可以在完成⾃⼰的任务后，再去获取结果。另外，FutureTask还可以确保即使调⽤了多次run⽅法，它都只会执⾏⼀次Runnable或者Callable任务，或者通过cancel取消FutureTask的执⾏等。</p>
-<p>2、futuretask可⽤于执⾏多任务、以及避免⾼并发情况下多次创建数据机锁的出现。</p>
-<h1 id="8-ThreadLocal的设计理念与作⽤？"><a href="#8-ThreadLocal的设计理念与作⽤？" class="headerlink" title="8. ThreadLocal的设计理念与作⽤？"></a><strong>8.</strong> ThreadLocal的设计理念与作⽤？</h1><p>Java中的ThreadLocal类允许我们创建只能被同⼀个线程读写的变量。因此，如果⼀段代码含有⼀个ThreadLocal变量的引⽤，即使两个线程同时执⾏这段代码，它们也⽆法访问到对⽅的ThreadLocal变量。</p>
-<p> 1、概念：线程局部变量。在并发编程的时候，成员变量如果不做任何处理其实是线程不安全的，各个线程都在操作同⼀个变量，显然是不⾏的，并且我们也知道volatile这个关键字也是不能保证线程安全的。那么在有⼀种情况之下，我们需要满⾜这样⼀个条件：变量是同⼀个，但是每个线程都使⽤同⼀个初始值，也就是使⽤同⼀个变量的⼀个新的副本。这种情况之下ThreadLocal就⾮常适⽤，⽐如说DAO的数据库连接，我们知道DAO是单例的，那么他的属性Connection就不是⼀个线程安全的变量。⽽我们每个线程都需要使⽤他，并且各⾃使⽤各⾃的。这种情况，ThreadLocal就⽐较好的解决了这个问题。</p>
-<p> 2、原理：从本质来讲，就是每个线程都维护了⼀个map，⽽这个map的key就是threadLocal，⽽值就是我们set的那个值，每次线程在get的时候，都从⾃⼰的变量中取值，既然从⾃⼰的变量中取值，那肯定就不存在线程安全问题，总体来讲，ThreadLocal这个变量的状态根本没有发⽣变化，他仅仅是充当⼀个key的⻆⾊，另外提供给每⼀个线程⼀个初始值。</p>
-<p> 3、实现机制：每个Thread对象内部都维护了⼀个ThreadLocalMap这样⼀个ThreadLocal的Map，可以存放若⼲个ThreadLocal。 </p>
-<p> 4、应⽤场景：当很多线程需要多次使⽤同⼀个对象，并且需要该对象具有相同初始化值的时候最适合使⽤ThreadLocal。</p>
-<h1 id="9-synchronized和ReentrantLock的区别？"><a href="#9-synchronized和ReentrantLock的区别？" class="headerlink" title="9. synchronized和ReentrantLock的区别？"></a><strong>9.</strong> synchronized和ReentrantLock的区别？</h1><p>1、基础知识</p>
-<p>可重⼊锁。可重⼊锁是指同⼀个线程可以多次获取同⼀把锁。ReentrantLock和synchronized都是可重⼊锁。</p>
-<p>可中断锁。可中断锁是指线程尝试获取锁的过程中，是否可以响应中断。synchronized是不可中断锁，⽽ReentrantLock则提供了中断功能。</p>
-<p>公平锁与⾮公平锁。公平锁是指多个线程同时尝试获取同⼀把锁时，获取锁的顺序按照线程达到的顺序，⽽⾮公平锁则允许线程“插队”。synchronized是⾮公平锁，⽽ReentrantLock的默认实现是⾮公平锁，但是也可以设置为公平锁。</p>
-<p>CAS操作(CompareAndSwap)。CAS操作简单的说就是⽐较并交换。CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会⾃动将该位置值更新为新值。否则，处理器不做任何操作。⽆论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可。” </p>
-<p>2、Synchronized</p>
-<p>i. synchronized是java内置的关键字，它提供了⼀种独占的加锁⽅式。synchronized的获取和释放锁由JVM实现，⽤户不需要显示的释放锁，⾮常⽅便。然⽽synchronized也有⼀定的局限性：</p>
-<p>\1. 当线程尝试获取锁的时候，如果获取不到锁会⼀直阻塞。</p>
-<p>\2. 如果获取锁的线程进⼊休眠或者阻塞，除⾮当前线程异常，否则其他线程尝试获取锁必须⼀直等待。</p>
-<p>3、ReentrantLock</p>
-<p>i. ReentrantLock它是JDK 1.5之后提供的API层⾯的互斥锁，需要lock()和unlock()⽅法配合try&#x2F;finally语句块来完成。</p>
-<p>ii. 等待可中断避免，出现死锁的情况（如果别的线程正持有锁，会等待参数给定的时间，在等待的过程中，如果获取了锁定，就返回true，如果等待超时，返回false）</p>
-<p>iii. 公平锁与⾮公平锁多个线程等待同⼀个锁时，必须按照申请锁的时间顺序获得锁，Synchronized锁⾮公平锁，ReentrantLock默认的构造函数是创建的⾮公平锁，可以通过参数true设为公平锁，但公平锁表现的性能不是很好。</p>
-<h1 id="10-⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？"><a href="#10-⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？" class="headerlink" title="10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？"></a><strong>10.</strong> ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</h1><p>\1. ⾼并发、任务执⾏时间短的业务：线程池线程数可以设置为CPU核数+1，减少线程上下⽂的切换。</p>
-<p>\2. 并发不⾼、任务执⾏时间⻓的业务要区分开看：</p>
-<p>a. 假如是业务时间⻓集中在IO操作上，也就是IO密集型的任务，因为IO操作并不占⽤CPU，所以不要让所有的CPU</p>
-<p>闲下来，可以加⼤线程池中的线程数⽬，让CPU处理更多的业务</p>
-<p>b. 假如是业务时间⻓集中在计算操作上，也就是计算密集型任务，这个就没办法了，和（1）⼀样吧，线程池中的线程数设置得少⼀些，减少线程上下⽂的切换</p>
-<p>\3. 并发⾼、业务执⾏时间⻓，解决这种类型任务的关键不在于线程池⽽在于整体架构的设计，看看这些业务⾥⾯某些数据是否能做缓存是第⼀步，增加服务器是第⼆步，⾄于线程池的设置，设置参考（2）。最后，业务执⾏时间⻓的问题，也可能需要分析⼀下，看看能不能使⽤中间件对任务进⾏拆分和解耦。</p>
-<h1 id="11-如何检测死锁？怎么预防死锁？"><a href="#11-如何检测死锁？怎么预防死锁？" class="headerlink" title="11. 如何检测死锁？怎么预防死锁？"></a><strong>11.</strong> 如何检测死锁？怎么预防死锁？</h1><h2 id="1-概念："><a href="#1-概念：" class="headerlink" title="1. 概念："></a>1. 概念：</h2><p>是指两个或两个以上的进程在执⾏过程中，因争夺资源⽽造成的⼀种互相等待的现象，若⽆外⼒作⽤，它们都将⽆法推进下去。此时称系统处于死锁；</p>
-<h2 id="2-死锁的四个必要条件："><a href="#2-死锁的四个必要条件：" class="headerlink" title="2. 死锁的四个必要条件："></a>2. 死锁的四个必要条件：</h2><p>i. 互斥条件：进程对所分配到的资源不允许其他进程进⾏访问，若其他进程访问该资源，只能等待，直⾄占有该资源的进程使⽤完成后释放该资源</p>
-<p>ii. 请求和保持条件：进程获得⼀定的资源之后，⼜对其他资源发出请求，但是该资源可能被其他进程占有，此时请求阻塞，但⼜对⾃⼰获得的资源保持不放</p>
-<p>iii. 不可剥夺条件：是指进程已获得的资源，在未完成使⽤之前，不可被剥夺，只能在使⽤完后⾃⼰释放</p>
-<p>iv. 环路等待条件：是指进程发⽣死锁后，若⼲进程之间形成⼀种头尾相接的循环等待资源关系</p>
-<h2 id="3-死锁产⽣的原因："><a href="#3-死锁产⽣的原因：" class="headerlink" title="3. 死锁产⽣的原因："></a>3. 死锁产⽣的原因：</h2><p>1.因竞争资源发⽣死锁 现象：系统中供多个进程共享的资源的数⽬不⾜以满⾜全部进程的需要时，就会引起对诸资源的竞争⽽发⽣死锁现象</p>
-<p>2.进程推进顺序不当发⽣死锁</p>
-<h2 id="4-检查死锁"><a href="#4-检查死锁" class="headerlink" title="4. 检查死锁"></a>4. 检查死锁</h2><p>i. 有两个容器，⼀个⽤于保存线程正在请求的锁，⼀个⽤于保存线程已经持有的锁。每次加锁之前都会做如下检测:</p>
-<p>ii. 检测当前正在请求的锁是否已经被其它线程持有,如果有，则把那些线程找出来</p>
-<p>iii. 遍历第⼀步中返回的线程，检查⾃⼰持有的锁是否正被其中任何⼀个线程请求，如果第⼆步返回真,表示出现了死锁</p>
-<h2 id="5-死锁的解除与预防：控制不要让四个必要条件成⽴。"><a href="#5-死锁的解除与预防：控制不要让四个必要条件成⽴。" class="headerlink" title="5. 死锁的解除与预防：控制不要让四个必要条件成⽴。"></a>5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</h2><h1 id="12-线程池原理："><a href="#12-线程池原理：" class="headerlink" title="12. 线程池原理："></a><strong>12.</strong> 线程池原理：</h1><p> 1、使⽤场景：假设⼀个服务器完成⼀项任务所需时间为：T1-创建线程时间，T2-在线程中执⾏任务的时间，T3-销毁线程时间。如果T1+T3远⼤于T2，则可以使⽤线程池，以提⾼服务器性能；</p>
-<p> 2、组成：</p>
-<p> 1、线程池管理器（ThreadPool）：⽤于创建并管理线程池，包括 创建线程池，销毁线程池，添加新任务；</p>
-<p> 2、⼯作线程（PoolWorker）：线程池中线程，在没有任务时处于等待状态，可以循环的执⾏任务；</p>
-<p> 3、任务接⼝（Task）：每个任务必须实现的接⼝，以供⼯作线程调度任务的执⾏，它主要规定了任务的⼊⼝，任务执⾏完后的收尾⼯作，任务的执⾏状态等；</p>
-<p> 4、任务队列（taskQueue）：⽤于存放没有处理的任务。提供⼀种缓冲机制。</p>
-<p> 2、原理：线程池技术正是关注如何缩短或调整T1,T3时间的技术，从⽽提⾼服务器程序性能的。它把T1，T3分别安排在服务器程序的启动和结束的时间段或者⼀些空闲的时间段，这样在服务器程序处理客户请求时，不会有T1，T3的开销了。 </p>
-<p> 3、⼯作流程：</p>
-<p> 1、线程池刚创建时，⾥⾯没有⼀个线程(也可以设置参数prestartAllCoreThreads启动预期数量主线程)。任务队列是作</p>
-<p>为参数传进来的。不过，就算队列⾥⾯有任务，线程池也不会⻢上执⾏它们。</p>
-<p> 2、当调⽤ execute() ⽅法添加⼀个任务时，线程池会做如下判断：</p>
-<p>\1. 如果正在运⾏的线程数量⼩于 corePoolSize，那么⻢上创建线程运⾏这个任务；</p>
-<p>\2. 如果正在运⾏的线程数量⼤于或等于 corePoolSize，那么将这个任务放⼊队列；</p>
-<p>\3. 如果这时候队列满了，⽽且正在运⾏的线程数量⼩于 maximumPoolSize，那么还是要创建⾮核⼼线程⽴刻运⾏这个任务；</p>
-<p>\4. 如果队列满了，⽽且正在运⾏的线程数量⼤于或等于 maximumPoolSize，那么线程池会抛出异常RejectExecutionException。</p>
-<p> 3、当⼀个线程完成任务时，它会从队列中取下⼀个任务来执⾏。</p>
-<p> 4、当⼀个线程⽆事可做，超过⼀定的时间（keepAliveTime）时，线程池会判断，如果当前运⾏的线程数⼤于corePoolSize，那么这个线程就被停掉。所以线程池的所有任务完成后，它最终会收缩到 corePoolSize 的⼤⼩。</p>
-<h1 id="13、ThreadLocal为什么会发⽣内存泄漏？"><a href="#13、ThreadLocal为什么会发⽣内存泄漏？" class="headerlink" title="13、ThreadLocal为什么会发⽣内存泄漏？"></a>13、ThreadLocal为什么会发⽣内存泄漏？</h1><p>1、threadlocal原理图：</p>
-<p><img src="C:\Users\dave_cc\Downloads\4、多线程(68题)\5.png" alt="5"></p>
-<p>2、OOM实现：</p>
-<p>1、ThreadLocal的实现是这样的：每个Thread 维护⼀个 ThreadLocalMap 映射表，这个映射表的 key 是 ThreadLocal实例本身，value 是真正需要存储的 Object。 </p>
-<p>2、也就是说 ThreadLocal 本身并不存储值，它只是作为⼀个 key 来让线程从 ThreadLocalMap 获取 value。值得注意的是图中的虚线，表示 ThreadLocalMap 是使⽤ ThreadLocal 的弱引⽤作为 Key 的，弱引⽤的对象在 GC 时会被回收。</p>
-<p>3、ThreadLocalMap使⽤ThreadLocal的弱引⽤作为key，如果⼀个ThreadLocal没有外部强引⽤来引⽤它，那么系统 GC的时候，这个ThreadLocal势必会被回收，这样⼀来，ThreadLocalMap中就会出现key为null的Entry，就没有办法访问这些key为null的Entry的value，如果当前线程再迟迟不结束的话，这些key为null的Entry的value就会⼀直存在⼀条强引⽤链：Thread Ref -&gt; Thread -&gt; ThreaLocalMap -&gt; Entry -&gt; value永远⽆法回收，造成内存泄漏。</p>
-<p>3、预防办法：在ThreadLocal的get(),set(),remove()的时候都会清除线程ThreadLocalMap⾥所有key为null的value。但是这些被动的预防措施并不能保证不会内存泄漏：</p>
-<p>（1）使⽤static的ThreadLocal，延⻓了ThreadLocal的⽣命周期，可能导致内存泄漏。</p>
-<p>（2）分配使⽤了ThreadLocal⼜不再调⽤get(),set(),remove()⽅法，那么就会导致内存泄漏，因为这块内存⼀直存在。</p>
-<h1 id="14、⾼并发系统如何做性能优化？如何防⽌库存超卖？"><a href="#14、⾼并发系统如何做性能优化？如何防⽌库存超卖？" class="headerlink" title="14、⾼并发系统如何做性能优化？如何防⽌库存超卖？"></a>14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</h1><h2 id="1、⾼并发系统性能优化："><a href="#1、⾼并发系统性能优化：" class="headerlink" title="1、⾼并发系统性能优化："></a>1、⾼并发系统性能优化：</h2><p> 优化程序，优化服务配置，优化系统配置</p>
-<p> 1.尽量使⽤缓存，包括⽤户缓存，信息缓存等，多花点内存来做缓存，可以⼤量减少与数据库的交互，提⾼性能。</p>
-<p> 2.⽤jprofiler等⼯具找出性能瓶颈，减少额外的开销。</p>
-<p> 3.优化数据库查询语句，减少直接使⽤hibernate等⼯具的直接⽣成语句（仅耗时较⻓的查询做优化）。</p>
-<p> 4.优化数据库结构，多做索引，提⾼查询效率。</p>
-<p> 5.统计的功能尽量做缓存，或按每天⼀统计或定时统计相关报表，避免需要时进⾏统计的功能。</p>
-<p> 6.能使⽤静态⻚⾯的地⽅尽量使⽤，减少容器的解析（尽量将动态内容⽣成静态html来显示）。</p>
-<p> 7.解决以上问题后，使⽤服务器集群来解决单台的瓶颈问题。</p>
-<h2 id="2、防⽌库存超卖："><a href="#2、防⽌库存超卖：" class="headerlink" title="2、防⽌库存超卖："></a>2、防⽌库存超卖：</h2><h3 id="1、悲观锁：在更新库存期间加锁，不允许其它线程修改；"><a href="#1、悲观锁：在更新库存期间加锁，不允许其它线程修改；" class="headerlink" title="1、悲观锁：在更新库存期间加锁，不允许其它线程修改；"></a>1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</h3><p> 1、数据库锁：select xxx for update；</p>
-<p> 2、分布式锁；</p>
-<h3 id="2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。"><a href="#2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。" class="headerlink" title="2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。"></a>2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</h3><p> 1、redis watch：监视键值对，作⽤时如果事务提交exec时发现监视的监视对发⽣变化，事务将被取消。</p>
-<h3 id="3、消息队列：通过-FIFO-队列，使修改库存的操作串⾏化。"><a href="#3、消息队列：通过-FIFO-队列，使修改库存的操作串⾏化。" class="headerlink" title="3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。"></a>3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</h3><p> 4、总结：总的来说，不能把压⼒放在数据库上，所以使⽤ “select xxx for update” 的⽅式在⾼并发的场景下是不可⾏的。FIFO 同步队列的⽅式，可以结合库存限制队列⻓，但是在库存较多的场景下，⼜不太适⽤。所以相对来说，我会倾向于选择：乐观锁 &#x2F; 缓存锁 &#x2F; 分布式锁的⽅式。</p>
-<h1 id="15、说说java同步机制，java有哪些锁，每个锁的特性？"><a href="#15、说说java同步机制，java有哪些锁，每个锁的特性？" class="headerlink" title="15、说说java同步机制，java有哪些锁，每个锁的特性？"></a>15、说说java同步机制，java有哪些锁，每个锁的特性？</h1><p>synchronized  lock</p>
-<h1 id="16、说说volatile如何保证可⻅性，从cpu层⾯分析？"><a href="#16、说说volatile如何保证可⻅性，从cpu层⾯分析？" class="headerlink" title="16、说说volatile如何保证可⻅性，从cpu层⾯分析？"></a>16、说说volatile如何保证可⻅性，从cpu层⾯分析？</h1><p>加入volatile关键字时，会多出一个lock前缀指令，lock前缀指令实际上相当于一个内存屏障，它有三个功能：</p>
-<p>1.确保指令重排序时不会把其后面的指令重排到内存屏障之前的位置，也不会把前面的指令排到内存屏障后面，即在执行到内存屏障这句指令时，前面的操作已经全部完成；<br>2.将当前处理器缓存行的数据立即写回系统内存（由volatile先行发生原则保证）；<br>3.这个写回内存的操作会引起在其他CPU里缓存了该内存地址的数据无效。写回操作时要经过总线传播数据，而每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置为无效状态，当处理器要对这个值进行修改的时候，会强制重新从系统内存里把数据读到处理器缓存(也是由volatile先行发生原则保证)；</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/" data-id="cl2ehn9l7005vjguc7mj12wia" data-title="多线程" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-3.设计模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="article-date">
-  <time class="dt-published" datetime="2021-08-20T09:27:01.996Z" itemprop="datePublished">2021-08-20</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-工厂方法模式"><a href="#1-工厂方法模式" class="headerlink" title="1.工厂方法模式"></a>1.工厂方法模式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SendFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Sender <span class="title function_">produceMail</span><span class="params">()</span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MailSender</span>();&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Sender <span class="title function_">produceSms</span><span class="params">()</span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SmsSender</span>();&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>静态⼯⼚⽅法模式：将上⾯的多个⼯⼚⽅法置为静态的，不需要创建⼯⼚实例，直接调⽤即可；</p>
-<p>适⽤场景：凡是出现了⼤量不同种类的产品需要创建，并且具有共同的接⼝时，可以通过⼯⼚⽅法模式进⾏创建。⼤多数情况下，我们会选⽤——静态⼯⼚⽅法模式。</p>
-<h1 id="2-抽象工厂模式"><a href="#2-抽象工厂模式" class="headerlink" title="2.抽象工厂模式"></a>2.抽象工厂模式</h1><p>创建多个⼯⼚类，（生产一个系列商品）提⾼⼯⼚的扩展性，不⽤像上⾯⼀样如果增加产品则要去修改唯⼀的⼯⼚类；</p>
-<h1 id="3-单例模式"><a href="#3-单例模式" class="headerlink" title="3.单例模式"></a>3.单例模式</h1><p>保证在⼀个JVM中，该对象只有⼀个实例存在；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">/* 持有私有静态实例，防⽌被引⽤，此处赋值为null，⽬的是实现延迟加载 */</span></span><br><span class="line">    <span class="keyword">private</span> state <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">/* 私有构造⽅法，防⽌被实例化 */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">/* 静态⼯程⽅法，创建实例 */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>1、饿汉式：类初始化时创建单例，线程安全，适⽤于单例占内存⼩的场景，否则推荐使⽤懒汉式延迟加载；</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;<span class="keyword">return</span> instance;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>2、懒汉式：需要创建单例实例的时候再创建，需要考虑线程安全(性能不太好)：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">null</span> == instance)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>3、双重检验锁：效率⾼；(解决问题：假如两个线程A、B，A执⾏了if (instance &#x3D;&#x3D; null)语句，它会认为单例对象没有创建，此时线程切到B也执⾏了同样的语句，B也认为单例对象没有创建，然后两个线程依次执⾏同步代码块，并分别创建了⼀个单例对象。)</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;<span class="comment">//volatile的⼀个语义是禁⽌指令重排序优化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton.class)&#123;</span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>4、静态内部类⽅式：可以同时保证延迟加载和线程安全。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>5、枚举：使⽤枚举除了线程安全和防⽌反射调⽤构造器之外，还提供了⾃动序列化机制，防⽌反序列化的时候创建新的对象。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    instance;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">mothod</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="4-原型模式"><a href="#4-原型模式" class="headerlink" title="4.原型模式"></a>4.原型模式</h1><p>(对⼀个原型对象进⾏复制、克隆产⽣类似新对象)：将⼀个对象作为原型，对其进⾏复制、克隆，产⽣⼀个和元对象类似的新对象；</p>
-<p> 1、核⼼：它的核⼼是原型类Prototype，需要实现Cloneable接⼝，和重写Object类中的clone⽅法；</p>
-<p> 2、作⽤：使⽤原型模式创建对象⽐直接new⼀个对象在性能上要好的多，因为Object类的clone⽅法是⼀个本地⽅法，它直接操作内存中的⼆进制流，特别是复制⼤对象时，性能的差别⾮常明显。</p>
-<h1 id="5-适配器模式"><a href="#5-适配器模式" class="headerlink" title="5.适配器模式"></a>5.适配器模式</h1><p>将某个类的接⼝转换成客户端期望的另⼀个接⼝表示，⽬的是消除由于接⼝不匹配所造成的类的兼容性问题</p>
-<p>1、类的适配器模式：</p>
-<p>Source拥有一个方法，目标接口Targetable,通过Adapter类，将Source功能扩展到Targetable</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Source</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is original method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="comment">//与原类中方法相同</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>;</span><br><span class="line">    <span class="comment">//新类的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adapter</span> <span class="keyword">extends</span> <span class="title class_">Source</span> <span class="keyword">implements</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is the targetable method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>2、对象的适配器模式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Wrapper</span> <span class="keyword">implements</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Source source;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Wrapper</span><span class="params">(Source source)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.source = source;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is the targetable method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>3、接⼝的适配器模式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Sourceable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method3</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Wrapper2</span> <span class="keyword">implements</span> <span class="title class_">Sourceable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method3</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SourceSub1</span> <span class="keyword">extends</span> <span class="title class_">Wrapper2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;the sourceable interface&#x27;s first Sub1!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SourceSub2</span> <span class="keyword">extends</span> <span class="title class_">Wrapper2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;the sourceable interface&#x27;s second Sub2!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> 4、使⽤场景：</p>
-<p> 1、类的适配器模式：当希望将⼀个类转换成满⾜另⼀个新接⼝的类时，可以使⽤类的适配器模式，创建⼀个新类，继承原有的类，实现新的接⼝即可。</p>
-<p> 2、对象的适配器模式：当希望将⼀个对象转换成满⾜另⼀个新接⼝的对象时，可以创建⼀个Wrapper类，持有原类的⼀个实例，在Wrapper类的⽅法中，调⽤实例的⽅法就⾏。</p>
-<p> 3、接⼝的适配器模式：当不希望实现⼀个接⼝中所有的⽅法时，可以创建⼀个抽象类Wrapper，实现所有⽅法，我们写别的类的时候，继承抽象类即可。 </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-id="cl2ehn9jn0010jguc4e9rfppf" data-title="设计模式" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-2.jvm" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/08/16/2.jvm/" class="article-date">
-  <time class="dt-published" datetime="2021-08-16T06:21:43.912Z" itemprop="datePublished">2021-08-16</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/08/16/2.jvm/">JVM</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1、jvm调优："><a href="#1、jvm调优：" class="headerlink" title="1、jvm调优："></a>1、jvm调优：</h1><p>\1. 调优时机：</p>
-<p>a. heap 内存（⽼年代）持续上涨达到设置的最⼤内存值；</p>
-<p>b. Full GC 次数频繁；</p>
-<p>c. GC 停顿时间过⻓（超过1秒）；</p>
-<p>d. 应⽤出现OutOfMemory 等内存异常；</p>
-<p>e. 应⽤中有使⽤本地缓存且占⽤⼤量内存空间；</p>
-<p>f. 系统吞吐量与响应性能不⾼或下降。</p>
-<p>\2. 调优原则：</p>
-<p>a. 多数的Java应⽤不需要在服务器上进⾏JVM优化；</p>
-<p>b. 多数导致GC问题的Java应⽤，都不是因为我们参数设置错误，⽽是代码问题；</p>
-<p>c. 在应⽤上线之前，先考虑将机器的JVM参数设置到最优（最适合）；</p>
-<p>d. 减少创建对象的数量；</p>
-<p>e. 减少使⽤全局变量和⼤对象；</p>
-<p>f. JVM优化是到最后不得已才采⽤的⼿段；</p>
-<p>g. 在实际使⽤中，分析GC情况优化代码⽐优化JVM参数更好；</p>
-<p>\3. 调优⽬标：</p>
-<p>a. GC低停顿；</p>
-<p>b. GC低频率；</p>
-<p>c. 低内存占⽤；</p>
-<p>d. ⾼吞吐量；</p>
-<p>\4. 调优步骤：</p>
-<p>a. 分析GC⽇志及dump⽂件，判断是否需要优化，确定瓶颈问题点；</p>
-<p>b. 确定jvm调优量化⽬标；</p>
-<p>c. 确定jvm调优参数（根据历史jvm参数来调整）；</p>
-<p>d. 调优⼀台服务器，对⽐观察调优前后的差异；</p>
-<p>e. 不断的分析和调整，知道找到合适的jvm参数配置；</p>
-<p>f. 找到最合适的参数，将这些参数应⽤到所有服务器，并进⾏后续跟踪。</p>
-<h1 id="2、jvm调优参数："><a href="#2、jvm调优参数：" class="headerlink" title="2、jvm调优参数："></a>2、jvm调优参数：</h1><p>\1. 设定堆内存⼤⼩，这是最基本的。</p>
-<p>\2. -Xms：启动JVM时的堆内存空间。</p>
-<p>\3. -Xmx：堆内存最⼤限制。</p>
-<p>\4. 设定新⽣代⼤⼩。</p>
-<p>\5. 新⽣代不宜太⼩，否则会有⼤量对象涌⼊⽼年代。</p>
-<p>\6. -XX:NewRatio：新⽣代和⽼年代的占⽐。</p>
-<p>\7. -XX:NewSize：新⽣代空间。</p>
-<p>\8. -XX:SurvivorRatio：伊甸园空间和幸存者空间的占⽐。</p>
-<p>\9. -XX:MaxTenuringThreshold：对象进⼊⽼年代的年龄阈值。</p>
-<p>\10. 设定垃圾回收器</p>
-<p>年轻代：-XX:+UseParNewGC。</p>
-<p>⽼年代：-XX:+UseConcMarkSweepGC。</p>
-<p>CMS可以将STW时间降到最低，但是不对内存进⾏压缩，有可能出现“并⾏模式失败”。⽐如⽼年代空间还有300MB空间，但是⼀些10MB的对象⽆法被顺序的存储。这时候会触发压缩处理，但是CMS GC模式下的压缩处理时间要⽐Parallel GC⻓很多。G1采⽤”标记-整理“算法，解决了内存碎⽚问题，建⽴了可预测的停顿时间类型，能让使⽤者指定在⼀个⻓度为M毫秒的时间段内，消耗在垃圾收集上的时间不得超过N毫秒。</p>
-<h1 id="3、触发full-gc的场景及应对策略："><a href="#3、触发full-gc的场景及应对策略：" class="headerlink" title="3、触发full gc的场景及应对策略："></a>3、触发full gc的场景及应对策略：</h1><p>\1. System.gc()⽅法的调⽤，应对策略：通过-XX:+DisableExplicitGC来禁⽌调⽤System.gc ;</p>
-<p>\2. ⽼年代代空间不⾜，应对策略：让对象在Minor GC阶段被回收，让对象在新⽣代多存活⼀段时间，不要创建过⼤的对象及数组;</p>
-<p>\3. 永⽣区空间不⾜，应对策略：增⼤PermGen空间；</p>
-<p>\4. GC时出现promotionfailed和concurrent mode failure，应对策略：增⼤survivor space；</p>
-<p>\5. Minor GC后晋升到旧⽣代的对象⼤⼩⼤于⽼年代的剩余空间，应对策略：增⼤Tenured space 或下调CMSInitiatingOccupancyFraction&#x3D;60；</p>
-<p>\6. 内存持续增涨达到上限导致Full GC，应对策略：通过dumpheap 分析是否存在内存泄漏。</p>
-<h1 id="4、如何查看jvm内存使⽤情况："><a href="#4、如何查看jvm内存使⽤情况：" class="headerlink" title="4、如何查看jvm内存使⽤情况："></a>4、如何查看jvm内存使⽤情况：</h1><p>可以使⽤JDK⾃带的JConsole、JVisualVM、JMap、JHat等⼯具，或者使⽤第三⽅⼯具，⽐如 Eclipse Memory Analyzer</p>
-<h1 id="5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？"><a href="#5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？" class="headerlink" title="5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？"></a>5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？</h1><h2 id="1-java堆溢出（heap）："><a href="#1-java堆溢出（heap）：" class="headerlink" title="1. java堆溢出（heap）："></a><strong>1.</strong> java堆溢出（heap）：</h2><p>a. Java堆内存主要⽤来存放运⾏过程中所以的对象，该区域OOM异常⼀般会有如下错误信息：</p>
-<p>java.lang.OutofMemoryError:Java heap space</p>
-<p>b. 此类错误⼀般通过Eclipse Memory Analyzer分析OOM时dump的内存快照就能分析出来，到底是由于程序原因导致的内存泄露，还是由于没有估计好JVM内存的⼤⼩⽽导致的内存溢出。</p>
-<p>c. 另外，Java堆常⽤的JVM参数：</p>
-<p>1 -Xms：初始堆⼤⼩，默认值为物理内存的1&#x2F;64(&lt;1GB)，默认(MinHeapFreeRatio参数可以调整)空余堆内存⼩于40%时，JVM就会增⼤堆直到</p>
-<p>2 -Xmx：最⼤堆⼤⼩，默认值为物理内存的1&#x2F;4(&lt;1GB)，默认(MaxHeapFreeRatio参数可以调整)空余堆内存⼤于70%时，JVM会减少堆直到</p>
-<p>3 -Xmn：年轻代⼤⼩(1.4or lator)，此处的⼤⼩是（eden + 2 survivor space)，与jmap -heap中显示的New gen是不同的。</p>
-<h2 id="2-栈溢出（stack）："><a href="#2-栈溢出（stack）：" class="headerlink" title="2. 栈溢出（stack）："></a><strong>2.</strong> 栈溢出（stack）：</h2><p>a. 栈⽤来存储线程的局部变量表、操作数栈、动态链接、⽅法出⼝等信息。如果请求栈的深度不⾜时抛出的错误会包含类似下⾯的信息：</p>
-<p>1 java.lang.StackOverflowError。</p>
-<p>b. 另外，由于每个线程占的内存⼤概为1M，因此线程的创建也需要内存空间。操作系统可⽤内存-Xmx-MaxPermSize即是栈可⽤的内存，如果申请创建的线程⽐较多超过剩余内存的时候，也会抛出如下类似错误：java.lang.OutofMemoryError: unable to create new native thread</p>
-<p>c. 相关的JVM参数有：</p>
-<p>1 -Xss: 每个线程的堆栈⼤⼩,JDK5.0以后每个线程堆栈⼤⼩为1M,以前每个线程堆栈⼤⼩为256K. </p>
-<p>2 在相同物理内存下,减⼩这个值能⽣成更多的线程.但是操作系统对⼀个进程内的线程数还是有限制的,不能⽆限⽣成,经验值在3000~5000</p>
-<p>d. 可能原因：</p>
-<p>i. 递归：递归⾥⽤到的局部变量存储在堆栈中，堆栈的访问效率⾼，速度快，但空间有限，递归太多变量需要⼀直⼊栈⽽不出栈，导致需要的内存空间⼤于堆栈的空间，栈空间是2M，堆空间内存空间。</p>
-<h2 id="3-运⾏时常量溢出（constant）："><a href="#3-运⾏时常量溢出（constant）：" class="headerlink" title="3. 运⾏时常量溢出（constant）："></a><strong>3.</strong> 运⾏时常量溢出（constant）：</h2><p>a. 运⾏时常量保存在⽅法区，存放的主要是编译器⽣成的各种字⾯量和符号引⽤，但是运⾏期间也可能将新的常量放⼊池中，⽐如String类的intern⽅法。如果该区域OOM，错误结果会包含类似下⾯的信息：</p>
-<p>1 java.lang.OutofMemoryError: PermGen space</p>
-<p>b. 相关的JVM参数有：</p>
-<p>1 -XX:PermSize：设置持久代(perm gen)初始值，默认值为物理内存的1&#x2F;64</p>
-<p>2 -XX:MaxPermSize：设置持久代最⼤值，默认为物理内存的1&#x2F;4</p>
-<h2 id="4-⽅法区溢出："><a href="#4-⽅法区溢出：" class="headerlink" title="4. ⽅法区溢出："></a><strong>4.</strong> ⽅法区溢出：</h2><p>a. ⽅法区主要存储被虚拟机加载的类信息，如类名、访问修饰符、常量池、字段描述、⽅法描述等。理论上在JVM启动后该区域⼤⼩应该⽐较稳定，但是⽬前很多框架，⽐如Spring和Hibernate等在运⾏过程中都会动态⽣成类，因此也存在OOM的⻛险。如果该区域OOM，错误结果会包含类似下⾯的信息：1 java.lang.OutofMemoryError: PermGen space</p>
-<p>b. 相关的JVM参数有：</p>
-<p>1 -XX:PermSize：设置持久代(perm gen)初始值，默认值为物理内存的1&#x2F;64</p>
-<p>2 -XX:MaxPermSize：设置持久代最⼤值，默认为物理内存的1&#x2F;4</p>
-<h1 id="6、synchronized和ReentrantLock的实现机制？"><a href="#6、synchronized和ReentrantLock的实现机制？" class="headerlink" title="6、synchronized和ReentrantLock的实现机制？"></a>6、synchronized和ReentrantLock的实现机制？</h1><p>synchronized⽤的锁是存在Java对象头⾥的</p>
-<p>一。synchronized属于独占式悲观锁通过JVM隐式实现，只允许同一时刻只有一个线程操作资源。</p>
-<p>Java中每个对象都隐式包含一个monitor（监视器）对象<br>加锁的过程其实就是竞争monitor的过程，当线程进入字节码monitiorenter指令后<br>线程将持有monitor对象，执行monitorexit时释放monitor对象<br>当其他线程没有拿到monitor对象时，则需要阻塞等待获取该对象。</p>
-<p>二。ReentrantLock是Lock的默认实现方式之一</p>
-<p>是基于AQS(Abstrack Queued Synchronizer,队列同步器) 实现的默认是通过非公平锁实现的，它的内部有一个state的状态字段用于表示锁是否被占用，如果0则表示锁未被占用，此时线程就可以吧state改为1，并成功获得锁而其他未获得锁的线程只能去排队等待获取资源</p>
-<p>锁升级：锁升级就是从偏向锁到轻量级锁再到重量级锁升级的过程 ，这是JDK1.6提供的优化功能，也称之为锁膨胀。<br>偏向锁：指在无竞争的情况下设置的一种锁状态，意思是他会偏向于第一个获取它的线程，当锁对象第一次被获取到之后，会在此对象头中设置标示为“01”,标示偏向锁模式，并且在对象头中记录此线程的ID<br>偏向锁可以提高带有同步，但无竞争的程序性能，但如果在多数锁总会被不同的线程访问时，偏向锁模式就比较多余了</p>
-<p>在jdk1.6之前，synchronized是通过操作系统的互斥量（mutex lock）来实现的，这种实现方式需要再用户态和核心态之间做转换，有很大的性能消耗，这种传统实现锁的方式被称之为重量锁。<br>轻量锁是通过比较并交换（CAS，Compare and Swap） 来实现的 它对比的是线程和对象的MarkWord(对象头中的一个区域)，如果更新成功则表示当前线程成功拥有此锁，如果失败，虚拟机会先检查对象的MarkWord是否指向当前线程栈帧。如果是，则说明当前线程已经拥有此锁，否则，则说明此锁已经被其他线程占用。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/08/16/2.jvm/" data-id="cl2ehn9jj000njgucc6iv0xtc" data-title="JVM" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-0.高频题" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/06/18/0.%E9%AB%98%E9%A2%91%E9%A2%98/" class="article-date">
-  <time class="dt-published" datetime="2021-06-18T02:35:47.193Z" itemprop="datePublished">2021-06-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/06/18/0.%E9%AB%98%E9%A2%91%E9%A2%98/">高频题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="1-必须深入了解的知识点"><a href="#1-必须深入了解的知识点" class="headerlink" title="1.必须深入了解的知识点"></a>1.必须深入了解的知识点</h1><h2 id="a-java集合数据结构"><a href="#a-java集合数据结构" class="headerlink" title="a. java集合数据结构"></a>a. java集合数据结构</h2><h2 id="b-jvm：gc、内存模型、堆分代"><a href="#b-jvm：gc、内存模型、堆分代" class="headerlink" title="b.jvm：gc、内存模型、堆分代"></a>b.jvm：gc、内存模型、堆分代</h2><p>1）jstat查看 gc实时执行情况<br>  jstat -gc 12538 5000<br>每5 秒一次显示进程号为 12538的 java进成的 GC情况<br> S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT<br>32256.0 2560.0  0.0   2463.4 106496.0 101729.1  175104.0   53176.1   53808.0 52602.9 6192.0 5861.0     11    0.260   2      0.114    0.374<br>32256.0 2560.0  0.0   2463.4 106496.0 102152.2  175104.0   53176.1   53808.0 52602.9 6192.0 5861.0     11    0.260   2      0.114    0.374<br>32256.0 2560.0  0.0   2463.4 106496.0 102152.2  175104.0   53176.1   53808.0 52602.9 6192.0 5861.0     11    0.260   2      0.114    0.374<br>32256.0 2560.0  0.0   2463.4 106496.0 102217.7  175104.0   53176.1   53808.0 52602.9 6192.0 5861.0     11    0.260   2      0.114    0.374<br>32256.0 2560.0  0.0   2463.4 106496.0 102217.7  175104.0   53176.1   53808.0 52602.9 6192.0 5861.0     11    0.260   2      0.114    0.374</p>
-<p>S0C<br>年轻代中第一个survivor区的容量 (字节)<br>S1C<br>年轻代中第二个survivor区的容量 (字节)<br>S0U<br>年轻代中第一个survivor区目前已使用空间 (字节)<br>S1U<br>年轻代中第二个survivor区目前已使用空间 (字节)<br>EC<br>年轻代中Eden的容量 (字节)<br>EU<br>年轻代中Eden目前已使用空间 (字节)<br>OC<br>Old代的容量 (字节)<br>OU<br>Old代目前已使用空间 (字节)<br>YGC<br>从应用程序启动到采样时年轻代中gc次数<br>YGCT<br>从应用程序启动到采样时年轻代中gc所用时间(s)<br>FGC<br>从应用程序启动到采样时old代(全gc)gc次数<br>FGCT<br>从应用程序启动到采样时old代(全gc)gc所用时间(s)<br>GCT<br>从应用程序启动到采样时gc用的总时间(s)</p>
-<pre><code>    jstat -gccapacity 2060    堆内存统计
-
-    2）使用  jmap -heap pid ，可以查看各个代的内存使用情况
-</code></pre>
-<h2 id="c-多线程：volatile、java-util-concurrent包"><a href="#c-多线程：volatile、java-util-concurrent包" class="headerlink" title="c. 多线程：volatile、java.util.concurrent包"></a>c. 多线程：volatile、java.util.concurrent包</h2><h2 id="d-spring：启动、时间"><a href="#d-spring：启动、时间" class="headerlink" title="d. spring：启动、时间"></a>d. spring：启动、时间</h2><h2 id="e-redis：分布式锁、lua保证原⼦性、集群"><a href="#e-redis：分布式锁、lua保证原⼦性、集群" class="headerlink" title="e. redis：分布式锁、lua保证原⼦性、集群"></a>e. redis：分布式锁、lua保证原⼦性、集群</h2><p>redis支持的数据结构：</p>
-<ul>
-<li><p>Binary-safe strings.</p>
-</li>
-<li><p>Lists: collections of string elements sorted according to the order of insertion. They are basically <em>linked lists</em>.</p>
-</li>
-<li><p>Sets: collections of unique, unsorted string elements.</p>
-</li>
-<li><p>Sorted sets, similar to Sets but where every string element is associated to a floating number value, called <em>score</em>. The elements are always taken sorted by their score, so unlike Sets it is possible to retrieve a range of elements (for example you may ask: give me the top 10, or the bottom 10).</p>
-</li>
-<li><p>Hashes, which are maps composed of fields associated with values. Both the field and the value are strings. This is very similar to Ruby or Python hashes.</p>
-</li>
-<li><h3 id="Redis实现分布式锁"><a href="#Redis实现分布式锁" class="headerlink" title="Redis实现分布式锁"></a>Redis实现分布式锁</h3><p>Redis为单进程单线程模式，采用队列模式将并发访问变成串行访问，且多客户端对Redis的连接并不存在竞争关系Redis中可以使用SETNX命令实现分布式锁。</p>
-<p>当且仅当 key 不存在，将 key 的值设为 value。若给定的 key 已经存在，则 SETNX 不做任何动作</p>
-<p>SETNX 是『SET if Not eXists』(如果不存在，则 SET)的简写。</p>
-<p>返回值：设置成功，返回 1 。设置失败，返回 0 。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5BRedis%20%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98%EF%BC%882020%E6%9C%80%E6%96%B0%E7%89%88%EF%BC%89%5D(httpswww.javazhiyin.comwp-contentuploads202010java10-1602932968.png).png" alt="![Redis 常见面试题（2020最新版）](httpswww.javazhiyin.comwp-contentuploads202010java10-1602932968.png)"></p>
-<p>使用SETNX完成同步锁的流程及事项如下：</p>
-<p>使用SETNX命令获取锁，若返回0（key已存在，锁已存在）则获取失败，反之获取成功</p>
-<p>为了防止获取锁后程序出现异常，导致其他线程&#x2F;进程调用SETNX命令总是返回0而进入死锁状态，需要为该key设置一个“合理”的过期时间</p>
-<p>释放锁，使用DEL命令将锁数据删除</p>
-</li>
-</ul>
-<h2 id="f-消息队列：kafka"><a href="#f-消息队列：kafka" class="headerlink" title="f. 消息队列：kafka"></a>f. 消息队列：kafka</h2><h2 id="g-Springcloud"><a href="#g-Springcloud" class="headerlink" title="g. Springcloud"></a>g. Springcloud</h2><h2 id="h-mysql搜索引擎，索引B-tree"><a href="#h-mysql搜索引擎，索引B-tree" class="headerlink" title="h. mysql搜索引擎，索引B+tree"></a>h. mysql搜索引擎，索引B+tree</h2><h1 id="2-java基础："><a href="#2-java基础：" class="headerlink" title="2. java基础："></a>2. java基础：</h1><h2 id="a-nio模型"><a href="#a-nio模型" class="headerlink" title="a. nio模型"></a>a. nio模型</h2><h2 id="b-java反射"><a href="#b-java反射" class="headerlink" title="b. java反射"></a>b. java反射</h2><h2 id="c-java8特性"><a href="#c-java8特性" class="headerlink" title="c. java8特性"></a>c. java8特性</h2><h2 id="d-java中有哪些集合？各⾃的数据结构？"><a href="#d-java中有哪些集合？各⾃的数据结构？" class="headerlink" title="d. java中有哪些集合？各⾃的数据结构？"></a>d. java中有哪些集合？各⾃的数据结构？</h2><h2 id="e-说说你⽤过的设计模式"><a href="#e-说说你⽤过的设计模式" class="headerlink" title="e. 说说你⽤过的设计模式"></a>e. 说说你⽤过的设计模式</h2><p>​	单例模式</p>
-<p>​	模板模式</p>
-<h2 id="f-jdk以及spring中看过哪些设计模式"><a href="#f-jdk以及spring中看过哪些设计模式" class="headerlink" title="f. jdk以及spring中看过哪些设计模式"></a>f. jdk以及spring中看过哪些设计模式</h2><p>工厂模式：</p>
-<p>​	JDK构造线程池</p>
-<p>​	spring创建BEAN</p>
-<h1 id="3-jvm："><a href="#3-jvm：" class="headerlink" title="3. jvm："></a><strong>3.</strong> jvm：</h1><h2 id="a-jvm结构，以及每⼀部分的作⽤"><a href="#a-jvm结构，以及每⼀部分的作⽤" class="headerlink" title="a. jvm结构，以及每⼀部分的作⽤"></a>a. jvm结构，以及每⼀部分的作⽤</h2><h2 id="b-jvm中哪些部分会出现oom，出现的可能原因"><a href="#b-jvm中哪些部分会出现oom，出现的可能原因" class="headerlink" title="b. jvm中哪些部分会出现oom，出现的可能原因"></a>b. jvm中哪些部分会出现oom，出现的可能原因</h2><ul>
-<li>java.lang.OutOfMemoryError: Java heap space ——&gt;java堆内存溢出，此种情况最常见，一般由于内存泄露或者堆的大小设置不当引起。对于内存泄露，需要通过内存监控软件查找程序中的泄露代码，而堆大小可以通过虚拟机参数-Xms,-Xmx等修改。</li>
-<li>java.lang.OutOfMemoryError: PermGen space 或 java.lang.OutOfMemoryError：MetaSpace ——&gt;java方法区，（java8 元空间）溢出了，一般出现于大量Class或者jsp页面，或者采用cglib等反射机制的情况，因为上述情况会产生大量的Class信息存储于方法区。此种情况可以通过更改方法区的大小来解决，使用类似-XX:PermSize&#x3D;64m -XX:MaxPermSize&#x3D;256m的形式修改。另外，过多的常量尤其是字符串也会导致方法区溢出。</li>
-<li>java.lang.StackOverflowError ——&gt; 不会抛OOM error，但也是比较常见的Java内存溢出。JAVA虚拟机栈溢出，一般是由于程序中存在死循环或者深度递归调用造成的，栈大小设置太小也会出现此种溢出。可以通过虚拟机参数-Xss来设置栈的大小。</li>
-</ul>
-<h2 id="c-哪些对象会被存放到⽼年代？"><a href="#c-哪些对象会被存放到⽼年代？" class="headerlink" title="c. 哪些对象会被存放到⽼年代？"></a>c. 哪些对象会被存放到⽼年代？</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/excellencesy/p/14322264.html">JVM - song.yan - 博客园 (cnblogs.com)</a></p>
-<h2 id="d-什么时候触发full-gc？"><a href="#d-什么时候触发full-gc？" class="headerlink" title="d. 什么时候触发full gc？"></a>d. 什么时候触发full gc？</h2><h2 id="e-GC算法分类"><a href="#e-GC算法分类" class="headerlink" title="e. GC算法分类"></a>e. GC算法分类</h2><h2 id="f-类加载机制以及类加载器，双亲委派机制。"><a href="#f-类加载机制以及类加载器，双亲委派机制。" class="headerlink" title="f. 类加载机制以及类加载器，双亲委派机制。"></a>f. 类加载机制以及类加载器，双亲委派机制。</h2><h2 id="g-⼀个对象被实例化后，在堆中的流转流程（堆结构以及GC流程）"><a href="#g-⼀个对象被实例化后，在堆中的流转流程（堆结构以及GC流程）" class="headerlink" title="g. ⼀个对象被实例化后，在堆中的流转流程（堆结构以及GC流程）"></a>g. ⼀个对象被实例化后，在堆中的流转流程（堆结构以及GC流程）</h2><h2 id="h-jvm调优，写调优参数。"><a href="#h-jvm调优，写调优参数。" class="headerlink" title="h. jvm调优，写调优参数。"></a>h. jvm调优，写调优参数。</h2><h1 id="4-spring："><a href="#4-spring：" class="headerlink" title="4. spring："></a><strong>4.</strong> spring：</h1><h2 id="a-spring-bean的⽣命周期"><a href="#a-spring-bean的⽣命周期" class="headerlink" title="a. spring bean的⽣命周期"></a>a. spring bean的⽣命周期</h2><h2 id="b-如何实现spring-aop？"><a href="#b-如何实现spring-aop？" class="headerlink" title="b. 如何实现spring aop？"></a>b. 如何实现spring aop？</h2><h2 id="c-springboot启动流程？"><a href="#c-springboot启动流程？" class="headerlink" title="c. springboot启动流程？"></a>c. springboot启动流程？</h2><h2 id="d-Spring中BeanFactory和FactoryBean有什么区别，factorybean原理？"><a href="#d-Spring中BeanFactory和FactoryBean有什么区别，factorybean原理？" class="headerlink" title="d. Spring中BeanFactory和FactoryBean有什么区别，factorybean原理？"></a>d. Spring中BeanFactory和FactoryBean有什么区别，factorybean原理？</h2><h2 id="e-spring事件"><a href="#e-spring事件" class="headerlink" title="e. spring事件"></a>e. spring事件</h2><h2 id="f-作⽤域spring，如果是request⽅式，a依赖b，a是单例⽅式，b是request，回怎么样"><a href="#f-作⽤域spring，如果是request⽅式，a依赖b，a是单例⽅式，b是request，回怎么样" class="headerlink" title="f. 作⽤域spring，如果是request⽅式，a依赖b，a是单例⽅式，b是request，回怎么样"></a>f. 作⽤域spring，如果是request⽅式，a依赖b，a是单例⽅式，b是request，回怎么样</h2><h1 id="5-多线程："><a href="#5-多线程：" class="headerlink" title="5. 多线程："></a><strong>5.</strong> 多线程：</h1><h2 id="a-乐观锁、悲观锁"><a href="#a-乐观锁、悲观锁" class="headerlink" title="a. 乐观锁、悲观锁"></a>a. 乐观锁、悲观锁</h2><h2 id="b-三种分布式锁原理"><a href="#b-三种分布式锁原理" class="headerlink" title="b. 三种分布式锁原理"></a>b. 三种分布式锁原理</h2><p>1）基于数据库实现分布式锁：</p>
-<p>要实现分布式锁，最简单的方式可能就是直接创建一张锁表，然后通过操作该表中的数据来实现了。</p>
-<p>2）基于缓存（redis，memcached，tair）实现分布式锁<br>3）基于Zookeeper实现分布式锁</p>
-<h2 id="c-线程池原理，java有哪⼏种线程池？如何创建？"><a href="#c-线程池原理，java有哪⼏种线程池？如何创建？" class="headerlink" title="c. 线程池原理，java有哪⼏种线程池？如何创建？"></a>c. 线程池原理，java有哪⼏种线程池？如何创建？</h2><h2 id="d-synchronized特性"><a href="#d-synchronized特性" class="headerlink" title="d. synchronized特性"></a>d. synchronized特性</h2><p>1）一个线程可以多次执行 synchronized ，重复获取同一把锁</p>
-<p>synchronized 是可重入锁，每部锁对象中会有一个计数器记录线程获取几次锁啦，在执行完同步代码块时，计数器的数量会 -1，直到计数器的数量为0，就释放这个锁；</p>
-<p>2）不可中断是指，当一个线程获得锁后，另一个线程一直处于等待或阻塞状态，前一个线程不释放锁，后一个线程会一直阻塞或等待，不可被中断；</p>
-<h2 id="e-volatile原理"><a href="#e-volatile原理" class="headerlink" title="e. volatile原理"></a>e. volatile原理</h2><h2 id="f-Threadlocal"><a href="#f-Threadlocal" class="headerlink" title="f. Threadlocal"></a>f. Threadlocal</h2><p><strong>ThreadLocal的静态内部类ThreadLocalMap为每个Thread都维护了一个数组table，ThreadLocal确定了一个数组下标，而这个下标就是value存储的对应位置</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//set 方法</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">set</span><span class="params">(T value)</span> &#123;</span><br><span class="line">      <span class="comment">//获取当前线程</span></span><br><span class="line">      <span class="type">Thread</span> <span class="variable">t</span> <span class="operator">=</span> Thread.currentThread();</span><br><span class="line">      <span class="comment">//实际存储的数据结构类型</span></span><br><span class="line">      <span class="type">ThreadLocalMap</span> <span class="variable">map</span> <span class="operator">=</span> getMap(t);</span><br><span class="line">      <span class="comment">//如果存在map就直接set，没有则创建map并set</span></span><br><span class="line">      <span class="keyword">if</span> (map != <span class="literal">null</span>)</span><br><span class="line">          map.set(<span class="built_in">this</span>, value);</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">          createMap(t, value);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line"><span class="comment">//getMap方法</span></span><br><span class="line">ThreadLocalMap <span class="title function_">getMap</span><span class="params">(Thread t)</span> &#123;</span><br><span class="line">      <span class="comment">//thred中维护了一个ThreadLocalMap</span></span><br><span class="line">      <span class="keyword">return</span> t.threadLocals;</span><br><span class="line"> &#125;</span><br><span class="line"> </span><br><span class="line"><span class="comment">//createMap</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">createMap</span><span class="params">(Thread t, T firstValue)</span> &#123;</span><br><span class="line">      <span class="comment">//实例化一个新的ThreadLocalMap，并赋值给线程的成员变量threadLocals</span></span><br><span class="line">      t.threadLocals = <span class="keyword">new</span> <span class="title class_">ThreadLocalMap</span>(<span class="built_in">this</span>, firstValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Entry为ThreadLocalMap静态内部类，对ThreadLocal的若引用</span></span><br><span class="line"><span class="comment">//同时让ThreadLocal和储值形成key-value的关系</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">Entry</span> <span class="keyword">extends</span> <span class="title class_">WeakReference</span>&lt;ThreadLocal&lt;?&gt;&gt; &#123;</span><br><span class="line">    <span class="comment">/** The value associated with this ThreadLocal. */</span></span><br><span class="line">    Object value;</span><br><span class="line"></span><br><span class="line">    Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">           <span class="built_in">super</span>(k);</span><br><span class="line">            value = v;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ThreadLocalMap构造方法</span></span><br><span class="line">ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) &#123;</span><br><span class="line">        <span class="comment">//内部成员数组，INITIAL_CAPACITY值为16的常量</span></span><br><span class="line">        table = <span class="keyword">new</span> <span class="title class_">Entry</span>[INITIAL_CAPACITY];</span><br><span class="line">        <span class="comment">//位运算，结果与取模相同，计算出需要存放的位置</span></span><br><span class="line">        <span class="comment">//threadLocalHashCode比较有趣</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - <span class="number">1</span>);</span><br><span class="line">        table[i] = <span class="keyword">new</span> <span class="title class_">Entry</span>(firstKey, firstValue);</span><br><span class="line">        size = <span class="number">1</span>;</span><br><span class="line">        setThreshold(INITIAL_CAPACITY);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>ThreadLocalMap时创建了一个长度为16的Entry数组。通过hashCode与length位运算确定出一个索引值i，这个i就是被存储在table数组中的位置</p>
-<h2 id="g-ConcurrentHashMap"><a href="#g-ConcurrentHashMap" class="headerlink" title="g. ConcurrentHashMap"></a>g. ConcurrentHashMap</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44460333/article/details/86770169">(3条消息) HashMap？ConcurrentHashMap？相信看完这篇没人能难住你！_Java团长的博客-CSDN博客</a></p>
-<h2 id="h-HashMap为何线程不安全"><a href="#h-HashMap为何线程不安全" class="headerlink" title="h. HashMap为何线程不安全"></a>h. HashMap为何线程不安全</h2><h2 id="i-java-util-concurrent包下有哪些类？"><a href="#i-java-util-concurrent包下有哪些类？" class="headerlink" title="i. java.util.concurrent包下有哪些类？"></a>i. java.util.concurrent包下有哪些类？</h2><h1 id="6-数据结构："><a href="#6-数据结构：" class="headerlink" title="6. 数据结构："></a><strong>6.</strong> 数据结构：</h1><h2 id="a-HashMap数据结构？"><a href="#a-HashMap数据结构？" class="headerlink" title="a. HashMap数据结构？"></a>a. HashMap数据结构？</h2><h2 id="b-ConcurrentHashMap数据结构（jdk1-7-amp-1-8）？"><a href="#b-ConcurrentHashMap数据结构（jdk1-7-amp-1-8）？" class="headerlink" title="b. ConcurrentHashMap数据结构（jdk1.7 &amp;1.8）？"></a>b. ConcurrentHashMap数据结构（jdk1.7 &amp;1.8）？</h2><h2 id="c-⼆叉树、平衡树、红⿊树"><a href="#c-⼆叉树、平衡树、红⿊树" class="headerlink" title="c. ⼆叉树、平衡树、红⿊树"></a>c. ⼆叉树、平衡树、红⿊树</h2><h2 id="d-B-tree、B-tree"><a href="#d-B-tree、B-tree" class="headerlink" title="d. B-tree、B+tree"></a>d. B-tree、B+tree</h2><h2 id="e-TreeMap-红黑树"><a href="#e-TreeMap-红黑树" class="headerlink" title="e. TreeMap(红黑树)"></a>e. TreeMap(红黑树)</h2><h1 id="7-微服务："><a href="#7-微服务：" class="headerlink" title="7. 微服务："></a><strong>7.</strong> 微服务：</h1><h2 id="a-画springcloud⼯作原理图"><a href="#a-画springcloud⼯作原理图" class="headerlink" title="a. 画springcloud⼯作原理图"></a>a. 画springcloud⼯作原理图</h2><h2 id="b-描述各个组件的作⽤及原理"><a href="#b-描述各个组件的作⽤及原理" class="headerlink" title="b. 描述各个组件的作⽤及原理"></a>b. 描述各个组件的作⽤及原理</h2><h2 id="c-⼼跳机制"><a href="#c-⼼跳机制" class="headerlink" title="c. ⼼跳机制"></a>c. ⼼跳机制</h2><p>在应用启动后，节点们将会向Eureka Server发送心跳,默认周期为30秒，如果Eureka Server在多个心跳周期内没有接收到某个节点的心跳，Eureka Server将会从服务注册表中把这个服务节点移除(默认90秒)。</p>
-<h2 id="d-限流⽅法："><a href="#d-限流⽅法：" class="headerlink" title="d. 限流⽅法："></a>d. 限流⽅法：</h2><p><strong>记术器</strong>：计算单元到时间内访问接口的次数，如果达到次数，则限制访问。</p>
-<p><strong>令牌桶</strong>：令牌桶算法是一个存放固定容量令牌的桶，按照固定速率往桶里添加令牌。可控制流量也可以控制并发量。</p>
-<p><strong>漏桶</strong>：<br>漏桶是一个固定容量的桶，按照固定的速率流出，可以以任意的速率流入到漏桶中，超出了漏桶的容量就被丢弃，总容量是不变的，但是输出的速率是固定的，无论你上面的流入的多快，下面的出口只有这么大，就像水坝开闸放水一样</p>
-<h2 id="e-服务熔断、降级与隔离的实现原理f-eureka优缺点"><a href="#e-服务熔断、降级与隔离的实现原理f-eureka优缺点" class="headerlink" title="e. 服务熔断、降级与隔离的实现原理f. eureka优缺点"></a>e. 服务熔断、降级与隔离的实现原理f. eureka优缺点</h2><h2 id="g-dubbo的负载均衡⽅式"><a href="#g-dubbo的负载均衡⽅式" class="headerlink" title="g. dubbo的负载均衡⽅式"></a>g. dubbo的负载均衡⽅式</h2><h1 id="8-数据库："><a href="#8-数据库：" class="headerlink" title="8. 数据库："></a><strong>8.</strong> 数据库：</h1><h2 id="a-mysql存储引擎有哪些？他们的区别？"><a href="#a-mysql存储引擎有哪些？他们的区别？" class="headerlink" title="a. mysql存储引擎有哪些？他们的区别？"></a>a. mysql存储引擎有哪些？他们的区别？</h2><h2 id="b-数据库隔离级别有哪些，并说下什么是脏读、不可重复读、幻读？"><a href="#b-数据库隔离级别有哪些，并说下什么是脏读、不可重复读、幻读？" class="headerlink" title="b. 数据库隔离级别有哪些，并说下什么是脏读、不可重复读、幻读？"></a>b. 数据库隔离级别有哪些，并说下什么是脏读、不可重复读、幻读？</h2><h2 id="c-数据库事务的四⼤特性ACID？"><a href="#c-数据库事务的四⼤特性ACID？" class="headerlink" title="c. 数据库事务的四⼤特性ACID？"></a>c. 数据库事务的四⼤特性ACID？</h2><h2 id="d-mysql调优⽅案？"><a href="#d-mysql调优⽅案？" class="headerlink" title="d. mysql调优⽅案？"></a>d. mysql调优⽅案？</h2><h2 id="e-在代码中，我们如何实现事务？"><a href="#e-在代码中，我们如何实现事务？" class="headerlink" title="e. 在代码中，我们如何实现事务？"></a>e. 在代码中，我们如何实现事务？</h2><h2 id="f-如果在⼀个事务中，代码业务流程很⻓，会有什么问题吗？为什么会出现这种问题？"><a href="#f-如果在⼀个事务中，代码业务流程很⻓，会有什么问题吗？为什么会出现这种问题？" class="headerlink" title="f. 如果在⼀个事务中，代码业务流程很⻓，会有什么问题吗？为什么会出现这种问题？"></a>f. 如果在⼀个事务中，代码业务流程很⻓，会有什么问题吗？为什么会出现这种问题？</h2><h1 id="9-zookeeper："><a href="#9-zookeeper：" class="headerlink" title="9. zookeeper："></a><strong>9.</strong> zookeeper：</h1><h2 id="a-选举算法"><a href="#a-选举算法" class="headerlink" title="a. 选举算法"></a>a. 选举算法</h2><h2 id="b-分布式锁实现原理、优缺点"><a href="#b-分布式锁实现原理、优缺点" class="headerlink" title="b. 分布式锁实现原理、优缺点"></a>b. 分布式锁实现原理、优缺点</h2><ol>
-<li>利用节点名称的唯一性来实现互斥锁</li>
-</ol>
-<p>ZooKeeper抽象出来的节点结构是一个和unix文件系统类似的小型的树状的目录结构。ZooKeeper机制规定：同一个目录下只能有一个唯一的文件名。例如：我们在Zookeeper目录&#x2F;test目录下创建，两个客户端创建一个名为Lock节点，只有一个能够成功。</p>
-<p>算法思路: 利用名称唯一性，加锁操作时，只需要所有客户端一起创建&#x2F;test&#x2F;Lock节点，只有一个创建成功，成功者获得锁。解锁时，只需删除&#x2F;test&#x2F;Lock节点，其余客户端再次进入竞争创建节点，直到所有客户端都获得锁。<br>由上述算法容易看出，由于客户端会同时收到&#x2F;test&#x2F;Lock被删除的通知，重新进入竞争创建节点，故存在”惊群现象”。</p>
-<ol start="2">
-<li>利用临时顺序节点实现分布式锁的一般做法</li>
-</ol>
-<p>首先介绍一下，Zookeeper中有一种节点叫做顺序节点，故名思议，假如我们在&#x2F;lock&#x2F;目录下创建节3个点，ZooKeeper集群会按照提起创建的顺序来创建节点，节点分别为&#x2F;lock&#x2F;0000000001、&#x2F;lock&#x2F;0000000002、&#x2F;lock&#x2F;0000000003<br>释放锁时，判断当前自己创建的节点是否是最小的节点，直至下次通知</p>
-<p>缺点：客户端无端的接受到过多的和自己不相关的事件通知</p>
-<ol start="3">
-<li>利用临时顺序节点实现互斥锁的改进实现</li>
-</ol>
-<p>下面是改进后的分布式锁实现，和之前的实现方式唯一不同之处在于，这里设计成每个锁竞争者，只需要关注”locknode”节点下序号比自己小的那个节点是否存在即可。</p>
-<p>算法思路：对于加锁操作，可以让所有客户端都去&#x2F;lock目录下创建临时顺序节点，如果创建的客户端发现自身创建节点序列号是&#x2F;lock&#x2F;目录下最小的节点，则获得锁。否则，监视比自己创建节点的序列号小的节点（比自己创建的节点小的最大节点），进入等待</p>
-<h2 id="c-服务发现与移除原理"><a href="#c-服务发现与移除原理" class="headerlink" title="c. 服务发现与移除原理"></a>c. 服务发现与移除原理</h2><p><strong>Zookeeper的Watch机制</strong></p>
-<p>客户端调用getData方法向服务器获取某个Znode节点的数据时，设置watch为true。服务端接到请求后，返回节点的数据，并在维护的WatchTable中插入被Watch的Znode路径以及Watcher（watch该Znode的客户端）；<br><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20191001154206458.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p5aGx3enk%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" alt="![在这里插入图片描述](httpsimg-blog.csdnimg.cn20191001154206458.pngx-oss-process=imagewatermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p5aGx3enk=,size_16,color_FFFFFF,t_70)"></p>
-<p>当被Watch的Znode被删除或者更新之后，Zookeeper服务器会查找Watch Table，找到在Znode上对应的所有Watcher，异步通知对应的客户端，并且删除Watch Table中对应的Key：Value</p>
-<p><strong>Zookeeper服务注册与发现流程浅析</strong><br>Zookeeper的服务注册与发现，主要应用的是Zookeeper的Znode数据模型和Watcher机制，主要分为如下几个步骤：</p>
-<p>服务注册：服务提供者（Provider）启动时，会向Zookeeper服务端注册服务信息，即会在Zookeeper服务器上创建一个服务节点，并在节点上存储服务的相关数据（如服务提供者的ip地址、端口等），比如注册一个用户注册服务（user&#x2F;register）:</p>
-<p>服务发现：服务消费者（Consumer）启动时，会根据本身依赖的服务信息，向Zookeeper服务端获取注册的服务信息并设置Watch，获取到注册的服务信息之后将服务提供者信息缓存在本地，调用服务时直接根据从Zookeeper注册中心获取到的服务注册信息调用服务，比如发现用户注册服务（user&#x2F;register）并调用。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20191001154432690.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p5aGx3enk%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" alt="![在这里插入图片描述](httpsimg-blog.csdnimg.cn20191001154432690.pngx-oss-process=imagewatermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3p5aGx3enk=,size_16,color_FFFFFF,t_70)"></p>
-<p>服务通知：当服务提供者因为某种原因宕机或不提供服务之后，Zookeeper服务注册中心的对应服务节点会被删除，因为服务消费者在获取服务信息的时候在对应节点上设置了Watch，因此节点删除之后会触发对应的Watcher，Zookeeper注册中心会异步向服务所关联的所有服务消费者发出节点删除的通知，服务消费者根据收到的通知更新缓存的服务列表。</p>
-<h1 id="10-redis："><a href="#10-redis：" class="headerlink" title="10. redis："></a><strong>10.</strong> redis：</h1><h2 id="a-实现机制"><a href="#a-实现机制" class="headerlink" title="a. 实现机制"></a>a. 实现机制</h2><h2 id="b-分布式锁，以及要考虑的问题"><a href="#b-分布式锁，以及要考虑的问题" class="headerlink" title="b. 分布式锁，以及要考虑的问题"></a>b. 分布式锁，以及要考虑的问题</h2><h2 id="c-除了加锁，如何使多个redis命令具有原⼦性（lua脚本）"><a href="#c-除了加锁，如何使多个redis命令具有原⼦性（lua脚本）" class="headerlink" title="c. 除了加锁，如何使多个redis命令具有原⼦性（lua脚本）"></a>c. 除了加锁，如何使多个redis命令具有原⼦性（lua脚本）</h2><h2 id="d-redis持久化的原理"><a href="#d-redis持久化的原理" class="headerlink" title="d. redis持久化的原理"></a>d. redis持久化的原理</h2><h2 id="e-分布式锁，使⽤redis的⽅式，但是redis是集群的，会有不同步的问题，官⽅⽂档是怎么解决的"><a href="#e-分布式锁，使⽤redis的⽅式，但是redis是集群的，会有不同步的问题，官⽅⽂档是怎么解决的" class="headerlink" title="e. 分布式锁，使⽤redis的⽅式，但是redis是集群的，会有不同步的问题，官⽅⽂档是怎么解决的"></a>e. 分布式锁，使⽤redis的⽅式，但是redis是集群的，会有不同步的问题，官⽅⽂档是怎么解决的</h2><h1 id="11-消息中间件："><a href="#11-消息中间件：" class="headerlink" title="11. 消息中间件："></a><strong>11.</strong> 消息中间件：</h1><h2 id="a-常⻅消息中间件的区别"><a href="#a-常⻅消息中间件的区别" class="headerlink" title="a. 常⻅消息中间件的区别"></a>a. 常⻅消息中间件的区别</h2><h2 id="b-kafka的实现原理"><a href="#b-kafka的实现原理" class="headerlink" title="b. kafka的实现原理"></a>b. kafka的实现原理</h2><p>一个典型的kafka集群包含若干Producer（可以是应用节点产生的消息，也可以是通过Flume收集日志产生的事件），若干个Broker（kafka支持水平扩展）、若干个Consumer Group，以及一个zookeeper集群。kafka通过zookeeper管理集群配置及服务协同。Producer使用push模式将消息发布到broker，consumer通过监听使用pull模式从broker订阅并消费消息。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsupload-images.jianshu.ioupload_images16701032-5ed72cb965fbe4f7.pngimageMogr2auto-orientstrip%7CimageView22w1200formatwebp).png" alt="![img](httpsupload-images.jianshu.ioupload_images16701032-5ed72cb965fbe4f7.pngimageMogr2auto-orientstrip|imageView22w1200formatwebp)"></p>
-<p>1）Broker<br> Kafka集群包含一个或多个服务器，这种服务器被称为broker。broker端不维护数据的消费状态，提升了性能。直接使用磁盘进行存储，线性读写，速度快：避免了数据在JVM内存和系统内存之间的复制，减少耗性能的创建对象和垃圾回收。<br> 2）Producer<br> 负责发布消息到Kafka broker<br> 3）Consumer<br> 消息消费者，向Kafka broker读取消息的客户端，consumer从broker拉取(pull)数据并进行处理。<br> 4）Topic<br> 每条发布到Kafka集群的消息都有一个类别，这个类别被称为Topic。（物理上不同Topic的消息分开存储，逻辑上一个Topic的消息虽然保存于一个或多个broker上但用户只需指定消息的Topic即可生产或消费数据而不必关心数据存于何处）<br> 5）Partition<br> Parition是物理上的概念，每个Topic包含一个或多个Partition.<br> 6）Consumer Group<br> 每个Consumer属于一个特定的Consumer Group（可为每个Consumer指定group name，若不指定group name则属于默认的group）<br> 7）Topic &amp; Partition<br> Topic在逻辑上可以被认为是一个queue，每条消费都必须指定它的Topic，可以简单理解为必须指明把这条消息放进哪个queue里。为了使得Kafka的吞吐率可以线性提高，物理上把Topic分成一个或多个Partition，每个Partition在物理上对应一个文件夹，该文件夹下存储这个Partition的所有消息和索引文件。若创建topic1和topic2两个topic，且分别有13个和19个分区，则整个集群上会相应会生成共32个文件夹（本文所用集群共8个节点，此处topic1和topic2 replication-factor均为1）。</p>
-<h2 id="c-RabbitMQ消息模型"><a href="#c-RabbitMQ消息模型" class="headerlink" title="c. RabbitMQ消息模型"></a>c. RabbitMQ消息模型</h2><h3 id="1-基本消息模型-simple"><a href="#1-基本消息模型-simple" class="headerlink" title="1.基本消息模型 simple"></a>1.基本消息模型 simple</h3><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421182100.png" alt="20220421182100"></p>
-<h3 id="2-work消息模型-工作队列或者竞争消费者模式"><a href="#2-work消息模型-工作队列或者竞争消费者模式" class="headerlink" title="2.work消息模型 工作队列或者竞争消费者模式"></a>2.work消息模型 工作队列或者竞争消费者模式</h3><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421182119.png" alt="20220421182119"></p>
-<h3 id="3-订阅模型"><a href="#3-订阅模型" class="headerlink" title="3.订阅模型"></a>3.订阅模型</h3><h4 id="（1）订阅模型-Fanout-广播"><a href="#（1）订阅模型-Fanout-广播" class="headerlink" title="（1）订阅模型-Fanout   广播"></a>（1）订阅模型-Fanout   广播</h4><h4 id="（2）订阅模型-Direct"><a href="#（2）订阅模型-Direct" class="headerlink" title="（2）订阅模型-Direct:"></a>（2）订阅模型-Direct:</h4><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421182137.png" alt="20220421182137"></p>
-<h4 id="（3）订阅模型-Topic"><a href="#（3）订阅模型-Topic" class="headerlink" title="（3）订阅模型-Topic"></a>（3）订阅模型-Topic</h4><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421182153.png" alt="20220421182153"></p>
-<h2 id="d-RabbitMQ如何保证消息可靠性"><a href="#d-RabbitMQ如何保证消息可靠性" class="headerlink" title="d. RabbitMQ如何保证消息可靠性"></a>d. RabbitMQ如何保证消息可靠性</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimgconvert.csdnimg.cnaHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2pwZy93YmlheDR4RUFsNXplaHdnYlJvZ2t4QjhsQVhid2FBcmxjcXZYd2RtQ2wwb1F5MjY5VjNmZk5sU2V2Z0NLQjl6c1poaHVpYzdWbm9BSm1vR296TnZzb1dRLzY0MAx-oss-process%3Dimageformat%2Cpng).png" alt="![img](httpsimgconvert.csdnimg.cnaHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2pwZy93YmlheDR4RUFsNXplaHdnYlJvZ2t4QjhsQVhid2FBcmxjcXZYd2RtQ2wwb1F5MjY5VjNmZk5sU2V2Z0NLQjl6c1poaHVpYzdWbm9BSm1vR296TnZzb1dRLzY0MAx-oss-process=imageformat,png)"></p>
-<p>从图上我们大概可以看出来一个消息会经历四个节点，只有保证这四个节点的可靠性才能保证整个系统的可靠性。</p>
-<p>1.生产者发出后保证到达了MQ。</p>
-<p>2.MQ收到消息保证分发到了消息对应的Exchange。</p>
-<p>3.Exchange分发消息入队之后保证消息的持久性。</p>
-<p>4.消费者收到消息之后保证消息的正确消费。</p>
-<h2 id="🔍生产者发送消息到MQ失败"><a href="#🔍生产者发送消息到MQ失败" class="headerlink" title="🔍生产者发送消息到MQ失败"></a>🔍生产者发送消息到MQ失败</h2><p><code>RabbitMQ</code>引入了<strong>事务机制</strong>和<strong>发送方确认机制（publisher confirm）</strong>，由于事务机制过于耗费性能所以一般不用，这里我着重讲述<strong>发送方确认机制</strong></p>
-<h2 id="📔MQ接收失败或者路由失败"><a href="#📔MQ接收失败或者路由失败" class="headerlink" title="📔MQ接收失败或者路由失败"></a>📔MQ接收失败或者路由失败</h2><ol>
-<li>消息找不到对应的Exchange。</li>
-<li>找到了Exchange但是找不到对应的Queue。</li>
-</ol>
-<p>这两种情况都可以用<code>RabbitMQ</code>提供的<code>mandatory</code>参数来解决，它会设置消息投递失败的策略，有两种策略：自动删除或返回到客户端。</p>
-<p>我们既然要做可靠性，当然是设置为返回到客户端(<strong>true</strong>是返回客户端，<strong>false</strong>是自动删除)。</p>
-<h2 id="📑消息入队之后MQ宕机"><a href="#📑消息入队之后MQ宕机" class="headerlink" title="📑消息入队之后MQ宕机"></a>📑消息入队之后MQ宕机</h2><p>消息的持久化要做，但是不能只做消息的持久化，还要做队列的持久化和Exchange的持久化。</p>
-<h2 id="📌消费者无法正常消费"><a href="#📌消费者无法正常消费" class="headerlink" title="📌消费者无法正常消费"></a>📌消费者无法正常消费</h2><p>打开手动消息确认之后，只要我们这条消息没有成功消费，无论中间是出现消费者宕机还是代码异常，只要连接断开之后这条信息还没有被消费那么这条消息就会被重新放入队列再次被消费</p>
-<h2 id="💡消息可靠性案例"><a href="#💡消息可靠性案例" class="headerlink" title="💡消息可靠性案例"></a>💡消息可靠性案例</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimgconvert.csdnimg.cnaHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2pwZy93YmlheDR4RUFsNXplaHdnYlJvZ2t4QjhsQVhid2FBcmxYV29IdThPSUR5T0M0b0l2dzRoNEt3U2VDZ2dxb3JJbVJYb1NhZDcyUWpLZ3FTR0Y5NjVjQkEvNjQwx-oss-process%3Dimageformat%2Cpng).png" alt="![img](httpsimgconvert.csdnimg.cnaHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X2pwZy93YmlheDR4RUFsNXplaHdnYlJvZ2t4QjhsQVhid2FBcmxYV29IdThPSUR5T0M0b0l2dzRoNEt3U2VDZ2dxb3JJbVJYb1NhZDcyUWpLZ3FTR0Y5NjVjQkEvNjQwx-oss-process=imageformat,png)"></p>
-<h1 id="12-分布式："><a href="#12-分布式：" class="headerlink" title="12. 分布式："></a><strong>12.</strong> 分布式：</h1><h2 id="a-介绍⼏种分布式事务，以及优缺点。"><a href="#a-介绍⼏种分布式事务，以及优缺点。" class="headerlink" title="a. 介绍⼏种分布式事务，以及优缺点。"></a>a. 介绍⼏种分布式事务，以及优缺点。</h2><h2 id="2PC"><a href="#2PC" class="headerlink" title="2PC"></a><strong>2PC</strong></h2><p>2PC（Two-phase commit protocol），中文叫二阶段提交。 <strong>二阶段提交是一种强一致性设计</strong>，2PC 引入一个事务协调者的角色来协调管理各参与者（也可称之为各本地资源）的提交和回滚，二阶段分别指的是准备（投票）和提交两个阶段。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpspic1.zhimg.com80v2-880b5e0866906160b663827f961d8360_1440w.jpg).png" alt="![img](httpspic1.zhimg.com80v2-880b5e0866906160b663827f961d8360_1440w.jpg)"></p>
-<p>2PC 是一种<strong>尽量保证强一致性</strong>的分布式事务，因此它是<strong>同步阻塞</strong>的，而同步阻塞就导致长久的资源锁定问题，<strong>总体而言效率低</strong>，并且存在<strong>单点故障</strong>问题，在极端条件下存在<strong>数据不一致</strong>的风险。</p>
-<h2 id="3PC"><a href="#3PC" class="headerlink" title="3PC"></a><strong>3PC</strong></h2><p> 3PC 相对于 2PC 做了一定的改进：引入了参与者超时机制，并且增加了预提交阶段使得故障恢复之后协调者的决策复杂度降低，但整体的交互过程更长了，性能有所下降，并且还是会存在数据不一致问题。</p>
-<h2 id="TCC"><a href="#TCC" class="headerlink" title="TCC"></a><strong>TCC</strong></h2><p>TCC 指的是<code>Try - Confirm - Cancel</code>。</p>
-<ul>
-<li>Try 指的是预留，即资源的预留和锁定，<strong>注意是预留</strong>。</li>
-<li>Confirm 指的是确认操作，这一步其实就是真正的执行了。</li>
-<li>Cancel 指的是撤销操作，可以理解为把预留阶段的动作撤销了。<br><img src="https://raw.githubusercontent.com/zxtc123/image/main/-%20!%5Bimg%5D(httpspic4.zhimg.com80v2-90179fa933c0a389ffa6ac04e244a58f_1440w.jpg).png" alt="- ![img](httpspic4.zhimg.com80v2-90179fa933c0a389ffa6ac04e244a58f_1440w.jpg)"></li>
-</ul>
-<h2 id="本地消息表"><a href="#本地消息表" class="headerlink" title="本地消息表"></a><strong>本地消息表</strong></h2><h2 id="消息事务"><a href="#消息事务" class="headerlink" title="消息事务"></a><strong>消息事务</strong></h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpspic2.zhimg.com80v2-72ba7bed684e855606c44ddda185987d_1440w.jpg).png" alt="![img](httpspic2.zhimg.com80v2-72ba7bed684e855606c44ddda185987d_1440w.jpg)"></p>
-<h2 id="b-分布式服务的原则，什么情况下要使⽤分布式开发。"><a href="#b-分布式服务的原则，什么情况下要使⽤分布式开发。" class="headerlink" title="b. 分布式服务的原则，什么情况下要使⽤分布式开发。"></a>b. 分布式服务的原则，什么情况下要使⽤分布式开发。</h2><h2 id="c-使⽤⾃增ID和UUID作为主键有什么不同"><a href="#c-使⽤⾃增ID和UUID作为主键有什么不同" class="headerlink" title="c. 使⽤⾃增ID和UUID作为主键有什么不同"></a>c. 使⽤⾃增ID和UUID作为主键有什么不同</h2><h1 id="13-源码：说说你看过的源码，其中有⽤到什么思想，以及设计模式？"><a href="#13-源码：说说你看过的源码，其中有⽤到什么思想，以及设计模式？" class="headerlink" title="13. 源码：说说你看过的源码，其中有⽤到什么思想，以及设计模式？"></a><strong>13.</strong> 源码：说说你看过的源码，其中有⽤到什么思想，以及设计模式？</h1><p>CSF调用：</p>
-<p>1.判断是否有本地配置配置文件中的服务返回结果，有直接返回结果</p>
-<p>2.校验操作员信息</p>
-<p>3.获取远程调用类Caller</p>
-<p>4.创建请求（存入入参，操作员信息，分页信息）</p>
-<p>5.由StubAdapter获取Client</p>
-<p>6.开始远程调用</p>
-<p>7.通过HystrixCommand开始调用</p>
-<p>熔断器相关配置</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;CircuitBreaker&gt;</span><br><span class="line">   &lt;!-- 熔断器开关 --&gt;</span><br><span class="line">   &lt;Item name=<span class="string">&quot;enable&quot;</span> value=<span class="string">&quot;false&quot;</span> /&gt;</span><br><span class="line">   &lt;!-- 主机熔断时间窗口内请求失败率 --&gt;</span><br><span class="line">   &lt;Item name=<span class="string">&quot;host.error.threshold.percentage&quot;</span> value=<span class="string">&quot;80&quot;</span> /&gt;</span><br><span class="line">   &lt;!-- 服务熔断时间窗口请求失败率 --&gt;</span><br><span class="line">   &lt;Item name=<span class="string">&quot;service.error.threshold.percentage&quot;</span> value=<span class="string">&quot;80&quot;</span> /&gt;</span><br><span class="line">   &lt;!-- 熔断器统计时间窗口 --&gt;</span><br><span class="line">   &lt;Item name=<span class="string">&quot;statistics.window&quot;</span> value=<span class="string">&quot;10000&quot;</span> /&gt;</span><br><span class="line">   &lt;!-- 时间窗口内触发熔断请求次数开关 --&gt;</span><br><span class="line">   &lt;Item name=<span class="string">&quot;request.volume.threshold&quot;</span> value=<span class="string">&quot;30&quot;</span> /&gt;</span><br><span class="line">   &lt;!-- 是否开启线程池隔离模式 --&gt;</span><br><span class="line">   &lt;Item name=<span class="string">&quot;thread.isolation.enable&quot;</span> value=<span class="string">&quot;true&quot;</span> /&gt;</span><br><span class="line">&lt;/CircuitBreaker&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="14-⽹络相关："><a href="#14-⽹络相关：" class="headerlink" title="14.⽹络相关："></a>14.⽹络相关：</h1><h2 id="a-tcp三次握⼿、四次挥⼿"><a href="#a-tcp三次握⼿、四次挥⼿" class="headerlink" title="a. tcp三次握⼿、四次挥⼿"></a>a. tcp三次握⼿、四次挥⼿</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net20180717202520531watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2font5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" alt="![img](httpsimg-blog.csdn.net20180717202520531watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2font5a6L5L2Tfontsize400fillI0JBQkFCMA==dissolve70)"></p>
-<p>第一次握手：建立连接时，客户端发送syn包（syn&#x3D;j）到服务器，并进入SYN_SENT状态，等待服务器确认；SYN：同步序列编号（Synchronize Sequence Numbers）。</p>
-<p>第二次握手：服务器收到syn包，必须确认客户的SYN（ack&#x3D;j+1），同时自己也发送一个SYN包（syn&#x3D;k），即SYN+ACK包，此时服务器进入SYN_RECV状态；</p>
-<p>第三次握手：客户端收到服务器的SYN+ACK包，向服务器发送确认包ACK(ack&#x3D;k+1），此包发送完毕，客户端和服务器进入ESTABLISHED（TCP连接成功）状态，完成三次握手。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net20180717204202563watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2font5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" alt="![img](httpsimg-blog.csdn.net20180717204202563watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4OTUwMzE2font5a6L5L2Tfontsize400fillI0JBQkFCMA==dissolve70)"></p>
-<p>1）客户端进程发出连接释放报文，并且停止发送数据。释放数据报文首部，FIN&#x3D;1，其序列号为seq&#x3D;u（等于前面已经传送过来的数据的最后一个字节的序号加1），此时，客户端进入FIN-WAIT-1（终止等待1）状态。 TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。<br>2）服务器收到连接释放报文，发出确认报文，ACK&#x3D;1，ack&#x3D;u+1，并且带上自己的序列号seq&#x3D;v，此时，服务端就进入了CLOSE-WAIT（关闭等待）状态。TCP服务器通知高层的应用进程，客户端向服务器的方向就释放了，这时候处于半关闭状态，即客户端已经没有数据要发送了，但是服务器若发送数据，客户端依然要接受。这个状态还要持续一段时间，也就是整个CLOSE-WAIT状态持续的时间。<br>3）客户端收到服务器的确认请求后，此时，客户端就进入FIN-WAIT-2（终止等待2）状态，等待服务器发送连接释放报文（在这之前还需要接受服务器发送的最后的数据）。<br>4）服务器将最后的数据发送完毕后，就向客户端发送连接释放报文，FIN&#x3D;1，ack&#x3D;u+1，由于在半关闭状态，服务器很可能又发送了一些数据，假定此时的序列号为seq&#x3D;w，此时，服务器就进入了LAST-ACK（最后确认）状态，等待客户端的确认。<br>5）客户端收到服务器的连接释放报文后，必须发出确认，ACK&#x3D;1，ack&#x3D;w+1，而自己的序列号是seq&#x3D;u+1，此时，客户端就进入了TIME-WAIT（时间等待）状态。注意此时TCP连接还没有释放，必须经过2∗∗MSL（最长报文段寿命）的时间后，当客户端撤销相应的TCB后，才进入CLOSED状态。<br>6）服务器只要收到了客户端发出的确认，立即进入CLOSED状态。同样，撤销TCB后，就结束了这次的TCP连接。可以看到，服务器结束TCP连接的时间要比客户端早一些。</p>
-<h2 id="b-http机制"><a href="#b-http机制" class="headerlink" title="b. http机制"></a>b. http机制</h2><h2 id="c-https机制"><a href="#c-https机制" class="headerlink" title="c. https机制"></a>c. https机制</h2><h1 id="15-项⽬亮点："><a href="#15-项⽬亮点：" class="headerlink" title="15.项⽬亮点："></a>15.项⽬亮点：</h1><h1 id="16-画架构图："><a href="#16-画架构图：" class="headerlink" title="16.画架构图："></a>16.画架构图：</h1><h1 id="17-平时看过什么书？"><a href="#17-平时看过什么书？" class="headerlink" title="17.平时看过什么书？"></a>17.平时看过什么书？</h1>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/06/18/0.%E9%AB%98%E9%A2%91%E9%A2%98/" data-id="cl2ehn9l7005tjgucf9ad080g" data-title="高频题" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-19. 删除链表的倒数第 N 个结点" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/06/17/19.%20%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%AC%20N%20%E4%B8%AA%E7%BB%93%E7%82%B9/" class="article-date">
-  <time class="dt-published" datetime="2021-06-16T16:00:00.000Z" itemprop="datePublished">2021-06-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/06/17/19.%20%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%AC%20N%20%E4%B8%AA%E7%BB%93%E7%82%B9/">19.删除链表的倒数第 N 个结点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="19-删除链表的倒数第-N-个结点"><a href="#19-删除链表的倒数第-N-个结点" class="headerlink" title="19. 删除链表的倒数第 N 个结点"></a>19. 删除链表的倒数第 N 个结点</h1><p>给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。</p>
-<p>示例 1：</p>
-<p>输入：head &#x3D; [1,2,3,4,5], n &#x3D; 2<br>输出：[1,2,3,5]</p>
-<p>示例 2：</p>
-<p>输入：head &#x3D; [1], n &#x3D; 1<br>输出：[]</p>
-<p>示例 3：</p>
-<p>输入：head &#x3D; [1,2], n &#x3D; 1<br>输出：[1]</p>
-<p>提示：</p>
-<p>链表中结点的数目为 sz<br>1 &lt;&#x3D; sz &lt;&#x3D; 30<br>0 &lt;&#x3D; Node.val &lt;&#x3D; 100<br>1 &lt;&#x3D; n &lt;&#x3D; sz</p>
-<p>进阶：你能尝试使用一趟扫描实现吗？</p>
-<h2 id="哨兵节点"><a href="#哨兵节点" class="headerlink" title="哨兵节点"></a>哨兵节点</h2><p>哨兵节点，其实就是一个附加在原链表最前面用来简化边界条件的附加节点，它的值域不存储任何东西，只是为了操作方便而引入。</p>
-<p>比如原链表为a-&gt;b-&gt;c，则加了哨兵节点的链表即为x-&gt;a-&gt;b&gt;c，</p>
-<p>那我们为什么需要引入哨兵节点呢?举个例子，比如我们要删除某链表的第一个元素，常见的删除链表的操作是找到要删元素的前一个元素，假如我们记为 pre。我们通过：</p>
-<p>pre.Next &#x3D; pre.Next.Next<br>来进行删除链表的操作。但是此时若是删除第一个元素的话，你就很难进行了，因为按道理来讲，此时第一个元素的前一个元素就是nil（空的），如果使用pre就会报错。那如果此时你设置了哨兵节点的话，此时的pre就是哨兵节点了。这样对于链表中的任何一个元素，你要删除都可以通过pre.Next&#x3D;pre.Next.Next的方式来进行，这就是哨兵节点的作用。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/202204241635125.jpg" alt="202204241635125"></p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 首先我们定义好哨兵节点result，指向哨兵节点的目标元素指针cur，以及目标指针cur的前一个指针pre，此时pre指向nil。</span></span><br><span class="line"><span class="comment"> * 接下来我们开始遍历整个链表。</span></span><br><span class="line"><span class="comment"> * 当head移动到距离目标元素cur的距离为N-1时，同时开始移动cur。</span></span><br><span class="line"><span class="comment"> * 当链表遍历完之后，此时head指向nil，这时的cur就是我们要找的待删除的目标元素。</span></span><br><span class="line"><span class="comment"> * 最后我们通过pre.Next = pre.Next.Next完成删除操作，就完成了整个解题过程。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> head</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> n</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">removeNthFromEnd</span><span class="params">(ListNode head, <span class="type">int</span> n)</span> &#123;</span><br><span class="line">    <span class="comment">//哨兵节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(<span class="number">0</span>);</span><br><span class="line">    result.next = head;</span><br><span class="line">    <span class="comment">//要被删除的节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> result;</span><br><span class="line">    <span class="comment">//被删除节点前一个节点</span></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">pre</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">//先将head移动到距离cur为n-1的位置</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span><span class="number">0</span>;i&lt;n-<span class="number">1</span>;i++)&#123;</span><br><span class="line">        head = head.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//将cur和head节点同时后移，直到head指向链表节尾</span></span><br><span class="line">    <span class="keyword">while</span> (head != <span class="literal">null</span>)&#123;</span><br><span class="line">        head = head.next;</span><br><span class="line">        pre = cur;</span><br><span class="line">        cur = cur.next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//此时cur就是要被删除的节点</span></span><br><span class="line">    pre.next = pre.next.next;</span><br><span class="line">    <span class="keyword">return</span> result.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/06/17/19.%20%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%AC%20N%20%E4%B8%AA%E7%BB%93%E7%82%B9/" data-id="cl2ehn9ji000ljguc5xin4438" data-title="19.删除链表的倒数第 N 个结点" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-21. 合并两个有序链表" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/06/17/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" class="article-date">
-  <time class="dt-published" datetime="2021-06-16T16:00:00.000Z" itemprop="datePublished">2021-06-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/06/17/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/">21. 合并两个有序链表</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="21-合并两个有序链表"><a href="#21-合并两个有序链表" class="headerlink" title="21. 合并两个有序链表"></a>21. 合并两个有序链表</h1><p>将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。 </p>
-<p>示例 1：</p>
-<p>输入：l1 &#x3D; [1,2,4], l2 &#x3D; [1,3,4]<br>输出：[1,1,2,3,4,4]</p>
-<p>示例 2：</p>
-<p>输入：l1 &#x3D; [], l2 &#x3D; []<br>输出：[]</p>
-<p>示例 3：</p>
-<p>输入：l1 &#x3D; [], l2 &#x3D; [0]<br>输出：[0]</p>
-<p>提示：</p>
-<p>两个链表的节点数目范围是 [0, 50]<br>-100 &lt;&#x3D; Node.val &lt;&#x3D; 100<br>l1 和 l2 均按 非递减顺序 排列</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 取一个哨兵节点为初始节点，比较后面节点的大小，那个小，将小的节点放在哨兵节点后面</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> l1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> l2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">preHead</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(<span class="number">0</span>);</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">cur</span> <span class="operator">=</span> preHead;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n1</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n2</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (l1 != <span class="literal">null</span> || l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(l1 == <span class="literal">null</span>)&#123;</span><br><span class="line">            preHead.next = l2;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (l2 == <span class="literal">null</span>)&#123;</span><br><span class="line">            preHead.next = l1;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        n1 = l1.val;</span><br><span class="line">        n2 = l2.val;</span><br><span class="line">        <span class="keyword">if</span>(n1 &lt; n2)&#123;</span><br><span class="line">            preHead.next = <span class="keyword">new</span> <span class="title class_">ListNode</span>(n1);</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            preHead.next = <span class="keyword">new</span> <span class="title class_">ListNode</span>(n2);</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        preHead = preHead.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> cur.next;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//不需要取出要拼接的节点数据去新建节点</span></span><br><span class="line"><span class="comment">//直接将值大的节点拼接到当前节点</span></span><br><span class="line"><span class="comment">//最后合并未合并完的节点即可</span></span><br><span class="line"><span class="keyword">public</span> ListNode <span class="title function_">mergeTwoLists2</span><span class="params">(ListNode l1, ListNode l2)</span> &#123;</span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">prehead</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ListNode</span>(-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="type">ListNode</span> <span class="variable">prev</span> <span class="operator">=</span> prehead;</span><br><span class="line">    <span class="keyword">while</span> (l1 != <span class="literal">null</span> &amp;&amp; l2 != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (l1.val &lt;= l2.val) &#123;</span><br><span class="line">            prev.next = l1;</span><br><span class="line">            l1 = l1.next;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            prev.next = l2;</span><br><span class="line">            l2 = l2.next;</span><br><span class="line">        &#125;</span><br><span class="line">        prev = prev.next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 合并后 l1 和 l2 最多只有一个还未被合并完，我们直接将链表末尾指向未合并完的链表即可</span></span><br><span class="line">    prev.next = l1 == <span class="literal">null</span> ? l2 : l1;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> prehead.next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/06/17/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" data-id="cl2ehn9jk000sjguc9ox51i9n" data-title="21. 合并两个有序链表" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-66. 加一" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/06/10/66.%20%E5%8A%A0%E4%B8%80/" class="article-date">
-  <time class="dt-published" datetime="2021-06-09T16:00:00.000Z" itemprop="datePublished">2021-06-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/06/10/66.%20%E5%8A%A0%E4%B8%80/">66. 加一</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="66-加一"><a href="#66-加一" class="headerlink" title="66. 加一"></a>66. 加一</h1><p>给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础上加一。</p>
-<p>最高位数字存放在数组的首位， 数组中每个元素只存储单个数字。</p>
-<p>你可以假设除了整数 0 之外，这个整数不会以零开头。</p>
-<p>示例 1：</p>
-<p>输入：digits &#x3D; [1,2,3]<br>输出：[1,2,4]<br>解释：输入数组表示数字 123。</p>
-<p>示例 2：</p>
-<p>输入：digits &#x3D; [4,3,2,1]<br>输出：[4,3,2,2]<br>解释：输入数组表示数字 4321。</p>
-<p>示例 3：</p>
-<p>输入：digits &#x3D; [0]<br>输出：[1]</p>
-<p>提示：</p>
-<p>1 &lt;&#x3D; digits.length &lt;&#x3D; 100<br>0 &lt;&#x3D; digits[i] &lt;&#x3D; 9</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] plusOne(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">    <span class="comment">//溢出值</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">y</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> digits.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> len -<span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">cur</span> <span class="operator">=</span> digits[i] + y;</span><br><span class="line">        <span class="keyword">if</span>(y&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            y--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(cur &gt;= <span class="number">10</span>)&#123;</span><br><span class="line">            digits[i] = <span class="number">0</span>;</span><br><span class="line">            y++;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            digits[i] = cur;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(y&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="type">int</span>[] ret = <span class="keyword">new</span> <span class="title class_">int</span>[len+<span class="number">1</span>];</span><br><span class="line">        System.arraycopy(ret,<span class="number">0</span>,ret,<span class="number">1</span>,len);</span><br><span class="line">        ret[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 除 9 之外的数字加一；</span></span><br><span class="line"><span class="comment"> * 数字 9。</span></span><br><span class="line"><span class="comment"> * 只有9、99等特殊数字需要进位</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> digits</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] plusOne2(<span class="type">int</span>[] digits) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> digits.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">        digits[i]++;</span><br><span class="line">        digits[i] = digits[i] % <span class="number">10</span>;</span><br><span class="line">        <span class="comment">//没有发生进位的情况，直接返回数组   如 9+1=10    99+1=100</span></span><br><span class="line">        <span class="keyword">if</span> (digits[i] != <span class="number">0</span>) <span class="keyword">return</span> digits;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//进位则直接新建数组</span></span><br><span class="line">    digits = <span class="keyword">new</span> <span class="title class_">int</span>[digits.length + <span class="number">1</span>];</span><br><span class="line">    digits[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> digits;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/06/10/66.%20%E5%8A%A0%E4%B8%80/" data-id="cl2ehn9jy001rjguc3dtyhut3" data-title="66. 加一" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-27. 移除元素" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/06/09/27.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" class="article-date">
-  <time class="dt-published" datetime="2021-06-08T16:00:00.000Z" itemprop="datePublished">2021-06-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/06/09/27.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/">27. 移除元素</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="27-移除元素"><a href="#27-移除元素" class="headerlink" title="27. 移除元素"></a>27. 移除元素</h1><p>给你一个数组 nums 和一个值 val，你需要 原地 移除所有数值等于 val 的元素，并返回移除后数组的新长度。</p>
-<p>不要使用额外的数组空间，你必须仅使用 O(1) 额外空间并 原地 修改输入数组。</p>
-<p>元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
-<p>说明:</p>
-<p>为什么返回数值是整数，但输出的答案是数组呢?</p>
-<p>请注意，输入数组是以「引用」方式传递的，这意味着在函数里修改输入数组对于调用者是可见的。</p>
-<p>你可以想象内部操作如下:</p>
-<p>&#x2F;&#x2F; nums 是以“引用”方式传递的。也就是说，不对实参作任何拷贝<br>int len &#x3D; removeElement(nums, val);</p>
-<p>&#x2F;&#x2F; 在函数里修改输入数组对于调用者是可见的。<br>&#x2F;&#x2F; 根据你的函数返回的长度, 它会打印出数组中 该长度范围内 的所有元素。<br>for (int i &#x3D; 0; i &lt; len; i++) {<br>    print(nums[i]);<br>}</p>
-<p>示例 1：</p>
-<p>输入：nums &#x3D; [3,2,2,3], val &#x3D; 3<br>输出：2, nums &#x3D; [2,2]<br>解释：函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。你不需要考虑数组中超出新长度后面的元素。例如，函数返回的新长度为 2 ，而 nums &#x3D; [2,2,3,3] 或 nums &#x3D; [2,2,0,0]，也会被视作正确答案。</p>
-<p>示例 2：</p>
-<p>输入：nums &#x3D; [0,1,2,2,3,0,4,2], val &#x3D; 2<br>输出：5, nums &#x3D; [0,1,4,0,3]<br>解释：函数应该返回新的长度 5, 并且 nums 中的前五个元素为 0, 1, 3, 0, 4。注意这五个元素可为任意顺序。你不需要考虑数组中超出新长度后面的元素。</p>
-<p>提示：</p>
-<p>0 &lt;&#x3D; nums.length &lt;&#x3D; 100<br>0 &lt;&#x3D; nums[i] &lt;&#x3D; 50<br>0 &lt;&#x3D; val &lt;&#x3D; 100</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 双指针</span></span><br><span class="line"><span class="comment">     * 思路及算法</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 由于题目要求删除数组中等于 val 的元素，因此输出数组的长度一定小于等于输入数组的长度，</span></span><br><span class="line"><span class="comment">     * 我们可以把输出的数组直接写在输入数组上。可以使用双指针：</span></span><br><span class="line"><span class="comment">     * 右指针 right 指向当前将要处理的元素，左指针 left 指向下一个将要赋值的位置。</span></span><br><span class="line"><span class="comment">     * 如果右指针指向的元素不等于 val，它一定是输出数组的一个元素，我们就将右指针指向的元素复制到左指针位置，</span></span><br><span class="line"><span class="comment">     * 然后将左右指针同时右移；</span></span><br><span class="line"><span class="comment">     * 如果右指针指向的元素等于 val，它不能在输出数组里，此时左指针不动，右指针右移一位。</span></span><br><span class="line"><span class="comment">     * 整个过程保持不变的性质是：区间 [0,left) 中的元素都不等于 val。当左右指针遍历完输入数组以后，</span></span><br><span class="line"><span class="comment">     * left 的值就是输出数组的长度。</span></span><br><span class="line"><span class="comment">     * 这样的算法在最坏情况下（输入数组中没有元素等于 val），左右指针各遍历了数组一次。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> val</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeElement2</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> <span class="number">0</span>; right &lt; n; right++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[right] != val) &#123;</span><br><span class="line">                nums[left] = nums[right];</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 双指针优化</span></span><br><span class="line"><span class="comment">     * 思路</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 如果要移除的元素恰好在数组的开头，例如序列 [1,2,3,4,5]，当 val 为 1 时，</span></span><br><span class="line"><span class="comment">     * 我们需要把每一个元素都左移一位。注意到题目中说：「元素的顺序可以改变」。</span></span><br><span class="line"><span class="comment">     * 实际上我们可以直接将最后一个元素 5 移动到序列开头，取代元素 1，得到序列 [5,2,3,4]，</span></span><br><span class="line"><span class="comment">     * 同样满足题目要求。这个优化在序列中 val 元素的数量较少时非常有效。</span></span><br><span class="line"><span class="comment">     * 实现方面，我们依然使用双指针，两个指针初始时分别位于数组的首尾，向中间移动遍历该序列。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 算法</span></span><br><span class="line"><span class="comment">     * 如果左指针 left 指向的元素等于 val，此时将右指针 right 指向的元素复制到左指针 left 的位置，</span></span><br><span class="line"><span class="comment">     * 然后右指针 right 左移一位。如果赋值过来的元素恰好也等于 val，可以继续把右指针 right 指向的元素的</span></span><br><span class="line"><span class="comment">     * 值赋值过来（左指针 left 指向的等于 val 的元素的位置继续被覆盖），直到左指针指向的元素的值</span></span><br><span class="line"><span class="comment">     * 不等于 val 为止。</span></span><br><span class="line"><span class="comment">     * 当左指针 left 和右指针 right 重合的时候，左右指针遍历完数组中所有的元素。</span></span><br><span class="line"><span class="comment">     * 这样的方法两个指针在最坏的情况下合起来只遍历了数组一次。与方法一不同的是，</span></span><br><span class="line"><span class="comment">     * 方法二避免了需要保留的元素的重复赋值操作。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> val</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeElement3</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">left</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> <span class="variable">right</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="keyword">if</span> (nums[left] == val) &#123;</span><br><span class="line">                nums[left] = nums[right - <span class="number">1</span>];</span><br><span class="line">                right--;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 不通过</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> val</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">removeElement</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> val)</span> &#123;</span><br><span class="line">        <span class="comment">//结束位置</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">e</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; e; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == val)&#123;</span><br><span class="line">                System.arraycopy(nums,i+<span class="number">1</span>,nums,i,nums.length-i-<span class="number">1</span>);</span><br><span class="line">                e--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> e;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/06/09/27.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/" data-id="cl2ehn9jm000vjguc2mgxfcv2" data-title="27. 移除元素" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-189. 轮转数组" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/java4u/2021/06/08/189.%20%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/" class="article-date">
-  <time class="dt-published" datetime="2021-06-07T16:00:00.000Z" itemprop="datePublished">2021-06-08</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/java4u/2021/06/08/189.%20%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/">189. 轮转数组</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="189-轮转数组"><a href="#189-轮转数组" class="headerlink" title="189. 轮转数组"></a>189. 轮转数组</h1><p>给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。</p>
-<p>示例 1:</p>
-<p>输入: nums &#x3D; [1,2,3,4,5,6,7], k &#x3D; 3<br>输出: [5,6,7,1,2,3,4]<br>解释:<br>向右轮转 1 步: [7,1,2,3,4,5,6]<br>向右轮转 2 步: [6,7,1,2,3,4,5]<br>向右轮转 3 步: [5,6,7,1,2,3,4]</p>
-<p>示例 2:</p>
-<p>输入：nums &#x3D; [-1,-100,3,99], k &#x3D; 2<br>输出：[3,99,-1,-100]<br>解释:<br>向右轮转 1 步: [99,-1,-100,3]<br>向右轮转 2 步: [3,99,-1,-100]</p>
-<p>提示：</p>
-<p>1 &lt;&#x3D; nums.length &lt;&#x3D; 10^5<br>-2^31 &lt;&#x3D; nums[i] &lt;&#x3D; 2^31 - 1<br>0 &lt;&#x3D; k &lt;&#x3D; 10^5</p>
-<p>进阶：</p>
-<p>尽可能想出更多的解决方案，至少有 三种 不同的方法可以解决这个问题。<br>你可以使用空间复杂度为 O(1) 的 原地 算法解决这个问题吗？</p>
-<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用额外的数组</span></span><br><span class="line"><span class="comment">     * 我们可以使用额外的数组来将每个元素放至正确的位置。用 n 表示数组的长度，我们遍历原数组，</span></span><br><span class="line"><span class="comment">     * 将原数组下标为 i 的元素放至新数组下标为 n(i+k)modn 的位置，最后将新数组拷贝至原数组即可。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate2</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span>[] newArr = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">            newArr[(i + k) % n] = nums[i];</span><br><span class="line">        &#125;</span><br><span class="line">        System.arraycopy(newArr, <span class="number">0</span>, nums, <span class="number">0</span>, n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="comment">//反转数组</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">len</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        <span class="type">int</span>[] roNums = <span class="keyword">new</span> <span class="title class_">int</span>[len];</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">            roNums[i] = nums[len -i -<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//反转前k个数</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>; j &lt; k; j++) &#123;</span><br><span class="line">            nums[j] = roNums[k - j - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//反转k位后面的几个数</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">l</span> <span class="operator">=</span> k; l &lt; len; l++) &#123;</span><br><span class="line">            nums[l] = roNums[len - l + k -<span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate3</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        k %= nums.length;</span><br><span class="line">        reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);</span><br><span class="line">        reverse(nums, k, nums.length - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> start, <span class="type">int</span> end)</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (start &lt; end) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            nums[start] = nums[end];</span><br><span class="line">            nums[end] = temp;</span><br><span class="line">            start += <span class="number">1</span>;</span><br><span class="line">            end -= <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 环状替换</span></span><br><span class="line"><span class="comment">     * 方法一中使用额外数组的原因在于如果我们直接将每个数字放至它最后的位置，这样被放置位置的元素会被覆盖从而丢失。</span></span><br><span class="line"><span class="comment">     * 因此，从另一个角度，我们可以将被替换的元素保存在变量 temp 中，从而避免了额外数组的开销。</span></span><br><span class="line"><span class="comment">     * 我们从位置 0 开始，最初令temp=nums[0]。根据规则，位置 0 的元素会放至 (0+k)modn 的位置，</span></span><br><span class="line"><span class="comment">     * 令 x=(0+k)modn，此时交换 temp 和 nums[x]，完成位置 x 的更新。然后，我们考察位置 x，并交换 temp 和 nums[(x+k)modn]，</span></span><br><span class="line"><span class="comment">     * 从而完成下一个位置的更新。不断进行上述过程，直至回到初始位置 0。</span></span><br><span class="line"><span class="comment">     * 容易发现，当回到初始位置 0 时，有些数字可能还没有遍历到，此时我们应该从下一个数字开始重复的过程，可是这个时候怎么才算遍历结束呢？</span></span><br><span class="line"><span class="comment">     * 我们不妨先考虑这样一个问题：从 0 开始不断遍历，最终回到起点 0 的过程中，我们遍历了多少个元素？</span></span><br><span class="line"><span class="comment">     * 由于最终回到了起点，故该过程恰好走了整数数量的圈，不妨设为 a 圈；再设该过程总共遍历了 b 个元素。因此，我们有 an=bk，即 an 一定为 n,k 的公倍数。</span></span><br><span class="line"><span class="comment">     * 又因为我们在第一次回到起点时就结束，因此 a 要尽可能小，故 an 就是 n,k 的最小公倍数 lcm(n,k)，因此 b 就为 lcm(n,k)/k。</span></span><br><span class="line"><span class="comment">     * 这说明单次遍历会访问到 lcm(n,k)/k 个元素。为了访问到所有的元素，我们需要进行遍历的次数为 gcd(n,k)</span></span><br><span class="line"><span class="comment">     * 其中gcd 指的是最大公约数。</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> nums</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> k</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">rotate4</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">        k = k % n;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> gcd(k, n);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> <span class="number">0</span>; start &lt; count; ++start) &#123;</span><br><span class="line">            <span class="type">int</span> <span class="variable">current</span> <span class="operator">=</span> start;</span><br><span class="line">            <span class="type">int</span> <span class="variable">prev</span> <span class="operator">=</span> nums[start];</span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                <span class="type">int</span> <span class="variable">next</span> <span class="operator">=</span> (current + k) % n;</span><br><span class="line">                <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> nums[next];</span><br><span class="line">                nums[next] = prev;</span><br><span class="line">                prev = temp;</span><br><span class="line">                current = next;</span><br><span class="line">            &#125; <span class="keyword">while</span> (start != current);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取xy的最大公约数</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> x   3</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> y   7</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">gcd</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> y &gt; <span class="number">0</span> ? gcd(y, x % y) : x;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://zxtc123.github.io/java4u/2021/06/08/189.%20%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/" data-id="cl2ehn9jg000gjguc7ny45mt2" data-title="189. 轮转数组" class="article-share-link">分享</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-
-
-  <nav id="page-nav">
-    
-    <a class="extend prev" rel="prev" href="/java4u/page/3/">&laquo; 上一页</a><a class="page-number" href="/java4u/">1</a><a class="page-number" href="/java4u/page/2/">2</a><a class="page-number" href="/java4u/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/java4u/page/5/">5</a><a class="page-number" href="/java4u/page/6/">6</a><a class="extend next" rel="next" href="/java4u/page/5/">下一页 &raquo;</a>
-  </nav>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/security/">security</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/webservice/">webservice</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">项目流程</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" rel="tag">业务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">标签云</h3>
-    <div class="widget tagcloud">
-      <a href="/java4u/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/java4u/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/java4u/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/java4u/tags/TPC-IP/" style="font-size: 10px;">TPC/IP</a> <a href="/java4u/tags/WSDL/" style="font-size: 10px;">WSDL</a> <a href="/java4u/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" style="font-size: 12.5px;">业务</a> <a href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/java4u/tags/%E6%95%B0%E7%BB%84/" style="font-size: 15px;">数组</a> <a href="/java4u/tags/%E6%BA%90%E7%A0%81/" style="font-size: 12.5px;">源码</a> <a href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" style="font-size: 10px;">进程优化</a> <a href="/java4u/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 12.5px;">链表</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/10/">十月 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/java4u/2022/04/24/MQ/">MQ</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/21/SpringCloud/">SpringCloud</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">REDIS深入了解</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/">国网发票业务规则整理</a>
-          </li>
-        
-          <li>
-            <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/">账管业务流程</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
+          场景：新上线常州分公司的托收任务（20W数据） 算费过慢    目标（每分钟处理 5000条数据）
+分析：
         
       </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 Zhao Xin<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-09-15T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-09-16</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E8%B0%83%E4%BC%98/" 
+                class="post-meta-link">
+                调优
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/">继续阅读 </a>
+      </div>
+    </article>
   </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
+        <h1 class="post-title">
+          多线程
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          1. 什么是线程？1、线程...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-09-03T03:30:29.312Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-09-03</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
+        <h1 class="post-title">
+          设计模式
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          1.工厂方法模式
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-08-20T09:27:01.996Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-08-20</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/08/16/2.jvm/">
+        <h1 class="post-title">
+          JVM
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          1、jvm调优：\1. 调优时机：
+a. hea...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-08-16T06:21:43.912Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-08-16</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/08/16/2.jvm/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/06/18/0.%E9%AB%98%E9%A2%91%E9%A2%98/">
+        <h1 class="post-title">
+          高频题
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          1.必须深入了解的知识点
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-06-18T02:35:47.193Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-06-18</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+                class="post-meta-link">
+                面试
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/06/18/0.%E9%AB%98%E9%A2%91%E9%A2%98/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/06/17/19.%20%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%AC%20N%20%E4%B8%AA%E7%BB%93%E7%82%B9/">
+        <h1 class="post-title">
+          19.删除链表的倒数第 N 个结点
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          19. 删除链表的倒数...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-06-16T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-06-17</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
+                class="post-meta-link">
+                数据结构与算法
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/06/17/19.%20%E5%88%A0%E9%99%A4%E9%93%BE%E8%A1%A8%E7%9A%84%E5%80%92%E6%95%B0%E7%AC%AC%20N%20%E4%B8%AA%E7%BB%93%E7%82%B9/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/06/17/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/">
+        <h1 class="post-title">
+          21. 合并两个有序链表
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          21. 合并两个有序链表将两个升序链表合并...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-06-16T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-06-17</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
+                class="post-meta-link">
+                数据结构与算法
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/06/17/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/06/10/66.%20%E5%8A%A0%E4%B8%80/">
+        <h1 class="post-title">
+          66. 加一
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          66. 加一给定一个由 整数 组成的 非空 数组所表示的非负整数，在该数的基础...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-06-09T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-06-10</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
+                class="post-meta-link">
+                数据结构与算法
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/06/10/66.%20%E5%8A%A0%E4%B8%80/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/06/09/27.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/">
+        <h1 class="post-title">
+          27. 移除元素
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          27. 移除元素给你一个数组 nums 和一个值 val，你需要 ...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-06-08T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-06-09</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
+                class="post-meta-link">
+                数据结构与算法
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/06/09/27.%20%E7%A7%BB%E9%99%A4%E5%85%83%E7%B4%A0/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+  <div class="card">
+    
+    <article class="card card-content">
+      <a href="/java4u/2021/06/08/189.%20%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/">
+        <h1 class="post-title">
+          189. 轮转数组
+        </h1>
+      </a>
+      <div class="card-excerpt">
+        
+          189. 轮转数组给你一个数组，将数组中的元素向右轮转 k ...
+        
+      </div>
+      <div class="card-post-footer">
+        <div class="post-meta">
+          <time datetime="2021-06-07T16:00:00.000Z">
+            <i 
+              class="iconfont icon-calendar" 
+              style="margin-right: 2px;">
+            </i>
+            <span>2021-06-08</span>
+          </time>
+          
+            
+            
+              
+            
+            <span class="dot"></span>
+            
+              
+              <a 
+                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
+                class="post-meta-link">
+                数据结构与算法
+              </a>
+            
+          
+        </div>
+        <a href="/java4u/2021/06/08/189.%20%E8%BD%AE%E8%BD%AC%E6%95%B0%E7%BB%84/">继续阅读 </a>
+      </div>
+    </article>
+  </div>
+
+
+  <div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/page/3/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一页</div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/page/5/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一页</div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+</main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>53</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>13</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>12</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">11</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
+        title="进程优化">
+        <div class="tags-list-item">进程优化</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+    <article class="card card-content widescreen-archive archive-widget">
+      <div class="archive-card">
+  <div class="archive-card-header">
+    <i 
+      class="iconfont icon-wodebaobiao" 
+      style="padding-right: 2px;">
+    </i>归档
+  </div>
+  <div class="archive-card-list">
+    
+    
+    
+      
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2022" 
+            class="archive-card-list-item">
+            2022
+            <span class="archive-card-list-item-badge">26</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2021" 
+            class="archive-card-list-item">
+            2021
+            <span class="archive-card-list-item-badge">20</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+    
+      <a 
+        href="/java4u/archives/2020" 
+        class="archive-card-list-item">
+        2020
+        <span class="archive-card-list-item-badge">7</span>
+      </a>
+    
+  </div>
+</div>
+    </article>
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-24</div>
+        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-21</div>
+        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-20</div>
+        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-20</div>
+        <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/"><div class="recent-posts-item-content">国网发票业务规则整理</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+    <article class="card card-content">
+      <div class="archive-card">
+  <div class="archive-card-header">
+    <i 
+      class="iconfont icon-wodebaobiao" 
+      style="padding-right: 2px;">
+    </i>归档
+  </div>
+  <div class="archive-card-list">
+    
+    
+    
+      
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2022" 
+            class="archive-card-list-item">
+            2022
+            <span class="archive-card-list-item-badge">26</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+          <a 
+            href="/java4u/archives/2021" 
+            class="archive-card-list-item">
+            2021
+            <span class="archive-card-list-item-badge">20</span>
+          </a>
+        
+        
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+        
+      
+    
+    
+      <a 
+        href="/java4u/archives/2020" 
+        class="archive-card-list-item">
+        2020
+        <span class="archive-card-list-item-badge">7</span>
+      </a>
+    
+  </div>
+</div>
+    </article>
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2022
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
 </footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/java4u/" class="mobile-nav-link">Home</a>
-  
-    <a href="/java4u/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+ 
     
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
 
-
-<script src="/java4u/js/jquery-3.4.1.min.js"></script>
-
-
-
-  
-<script src="/java4u/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/java4u/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
 </html>
