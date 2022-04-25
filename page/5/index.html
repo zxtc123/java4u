@@ -1,1631 +1,865 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-  <meta charset="UTF-8">
-  <meta 
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta 
-    http-equiv="X-UA-Compatible" 
-    content="ie=edge">
-  <meta 
-    name="theme-color" 
-    content="#fff" 
-    id="theme-color">
-  <meta 
-    name="description" 
-    content="Snail">
-  <link 
-    rel="icon" 
-    href="/java4u/img/snail.png">
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
   <title>Snail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Snail">
+<meta property="og:url" content="https://zxtc123.github.io/java4u/page/5/index.html">
+<meta property="og:site_name" content="Snail">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Zhao Xin">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/java4u/atom.xml" title="Snail" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/java4u/favicon.png">
+  
   
     
-      <meta 
-        property="og:title" 
-        content="Snail">
-    
-    
-      <meta 
-        property="og:url" 
-        content="https://zxtc123.github.io/java4u/page/5/index.html">
-    
-    
-      <meta 
-        property="og:img" 
-        content="/java4u/img/1.e3a1f41f.gif">
-    
-    
-    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
-  <script>
-    function loadScript(url, cb) {
-      var script = document.createElement('script');
-      script.src = url;
-      if (cb) script.onload = cb;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-    function loadCSS(href, data, attr) {
-      var sheet = document.createElement('link');
-      sheet.ref = 'stylesheet';
-      sheet.href = href;
-      sheet.dataset[data] = attr;
-      document.head.appendChild(sheet);
-    }
-    function changeCSS(cssFile, data, attr) {
-      var oldlink = document.querySelector(data);
-      var newlink = document.createElement("link");
-      newlink.setAttribute("rel", "stylesheet");
-      newlink.setAttribute("href", cssFile);
-      newlink.dataset.prism = attr;
-      document.head.replaceChild(newlink, oldlink);
-    }
-  </script>
+  
+<link rel="stylesheet" href="/java4u/css/style.css">
+
   
     
-  
-  <script>
-    // control reverse button
-    var reverseDarkList = {
-      dark: 'light',
-      light: 'dark'
-    };
-    var themeColor = {
-      dark: '#1c1c1e',
-      light: '#fff'
-    }
-    // get the data of css prefers-color-scheme
-    var getCssMediaQuery = function() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    // reverse current darkmode setting function
-    var reverseDarkModeSetting = function() {
-      var setting = localStorage.getItem('user-color-scheme');
-      if(reverseDarkList[setting]) {
-        setting = reverseDarkList[setting];
-      } else if(setting === null) {
-        setting = reverseDarkList[getCssMediaQuery()];
-      } else {
-        return;
-      }
-      localStorage.setItem('user-color-scheme', setting);
-      return setting;
-    };
-    // apply current darkmode setting
-  </script>
-  
-    <script>
-      var setDarkmode = function(mode) {
-      var setting = mode || localStorage.getItem('user-color-scheme');
-      if(setting === getCssMediaQuery()) {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else if(reverseDarkList[setting]) {
-        document.documentElement.setAttribute('data-user-color-scheme', setting);
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
-        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
-      }
-    };
-    setDarkmode();
-    </script>
-  
-  
-  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
-  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
-  
-  
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/java4u/css/main.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+<link rel="stylesheet" href="/java4u/fancybox/jquery.fancybox.min.css">
+
   
 <meta name="generator" content="Hexo 6.1.0"></head>
 
-  <body>
-    <div class="wrapper">
-       
-      <nav class="navbar">
-  <div class="navbar-logo">
-    <span class="navbar-logo-main">
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/java4u/" id="logo">Snail</a>
+      </h1>
       
-        <img 
-          class="navbar-logo-img"
-          width="32"
-          height="32"
-          src="/java4u/img/snail.png" 
-          alt="blog logo">
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/java4u/">Home</a>
+        
+          <a class="main-nav-link" href="/java4u/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/java4u/atom.xml" title="RSS 订阅"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zxtc123.github.io/java4u"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-122. 买卖股票的最佳时机 II" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/06/07/122.%20%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%20II/" class="article-date">
+  <time class="dt-published" datetime="2021-06-06T16:00:00.000Z" itemprop="datePublished">2021-06-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2021/06/07/122.%20%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%20II/">122. 买卖股票的最佳时机 II</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
       
-      <span class="navbar-logo-dsc">Snail</span>
-    </span>
-  </div>
-  <div class="navbar-menu">
-    
-      <a 
-        href="/java4u/" 
-        class="navbar-menu-item">
-        
-          首页
-        
-      </a>
-    
-      <a 
-        href="/java4u/archives" 
-        class="navbar-menu-item">
-        
-          归档
-        
-      </a>
-    
-      <a 
-        href="/java4u/tags" 
-        class="navbar-menu-item">
-        
-          标签
-        
-      </a>
-    
-      <a 
-        href="/java4u/categories" 
-        class="navbar-menu-item">
-        
-          分类
-        
-      </a>
-    
-      <a 
-        href="/java4u/about" 
-        class="navbar-menu-item">
-        
-          关于
-        
-      </a>
-    
-      <a 
-        href="/java4u/links" 
-        class="navbar-menu-item">
-        
-          友链
-        
-      </a>
-    
-    <a 
-      class="navbar-menu-item darknavbar" 
-      id="dark">
-      <i class="iconfont icon-weather"></i>
-    </a>
-    <a 
-      class="navbar-menu-item searchnavbar" 
-      id="search">
-      <i 
-        class="iconfont icon-search" 
-        style="font-size: 1.2rem; font-weight: 400;">
-      </i>
-    </a>
-  </div>
-</nav> 
+        <h1 id="122-买卖股票的最佳时机-II"><a href="#122-买卖股票的最佳时机-II" class="headerlink" title="122. 买卖股票的最佳时机 II"></a>122. 买卖股票的最佳时机 II</h1><p>给你一个整数数组 prices ，其中 prices[i] 表示某支股票第 i 天的价格。</p>
+<p>在每一天，你可以决定是否购买和&#x2F;或出售股票。你在任何时候 最多 只能持有 一股 股票。你也可以先购买，然后在 同一天 出售。</p>
+<p>返回 你能获得的 最大 利润 。</p>
+<p>示例 1：</p>
+<p>输入：prices &#x3D; [7,1,5,3,6,4]<br>输出：7<br>解释：在第 2 天（股票价格 &#x3D; 1）的时候买入，在第 3 天（股票价格 &#x3D; 5）的时候卖出, 这笔交易所能获得利润 &#x3D; 5 - 1 &#x3D; 4 。<br>     随后，在第 4 天（股票价格 &#x3D; 3）的时候买入，在第 5 天（股票价格 &#x3D; 6）的时候卖出, 这笔交易所能获得利润 &#x3D; 6 - 3 &#x3D; 3 。<br>     总利润为 4 + 3 &#x3D; 7 。</p>
+<p>示例 2：</p>
+<p>输入：prices &#x3D; [1,2,3,4,5]<br>输出：4<br>解释：在第 1 天（股票价格 &#x3D; 1）的时候买入，在第 5 天 （股票价格 &#x3D; 5）的时候卖出, 这笔交易所能获得利润 &#x3D; 5 - 1 &#x3D; 4 。<br>     总利润为 4 。</p>
+<p>示例 3：</p>
+<p>输入：prices &#x3D; [7,6,4,3,1]<br>输出：0<br>解释：在这种情况下, 交易无法获得正利润，所以不参与交易可以获得最大利润，最大利润为 0 。</p>
+<p>提示：</p>
+<p>1 &lt;&#x3D; prices.length &lt;&#x3D; 3 * 104<br>0 &lt;&#x3D; prices[i] &lt;&#x3D; 104</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *考虑到「不能同时参与多笔交易」，因此每天交易结束后只可能存在手里有一支股票或者没有股票的状态。</span></span><br><span class="line"><span class="comment"> * 定义状态 dp[i][0] 表示第 i 天交易完后手里没有股票的最大利润，</span></span><br><span class="line"><span class="comment"> * dp[i][1] 表示第 i 天交易完后手里持有一支股票的最大利润（i 从 0 开始）。</span></span><br><span class="line"><span class="comment"> * 考虑 dp[i][0] 的转移方程，如果这一天交易完后手里没有股票，那么可能的转移状态为前一天已经没有股票，</span></span><br><span class="line"><span class="comment"> * 即 dp[i−1][0]，或者前一天结束的时候手里持有一支股票，即 dp[i−1][1]，这时候我们要将其卖出，</span></span><br><span class="line"><span class="comment"> * 并获得 prices[i] 的收益。因此为了收益最大化，我们列出如下的转移方程：</span></span><br><span class="line"><span class="comment"> * dp[i][0]=max&#123;dp[i−1][0],dp[i−1][1]+prices[i]&#125;</span></span><br><span class="line"><span class="comment"> * 再来考虑 dp[i][1]，按照同样的方式考虑转移状态，那么可能的转移状态为前一天已经持有一支股票，即dp[i−1][1]，</span></span><br><span class="line"><span class="comment"> * 或者前一天结束时还没有股票，即 dp[i−1][0]，这时候我们要将其买入，并减少 prices[i] 的收益。</span></span><br><span class="line"><span class="comment"> * 可以列出如下的转移方程：</span></span><br><span class="line"><span class="comment"> * dp[i][1]=max&#123;dp[i−1][1],dp[i−1][0]−prices[i]&#125;</span></span><br><span class="line"><span class="comment"> * 对于初始状态，根据状态定义我们可以知道第 0 天交易结束的时候 dp[0][0]=0，dp[0][1]=−prices[0]。</span></span><br><span class="line"><span class="comment"> * 因此，我们只要从前往后依次计算状态即可。由于全部交易结束后，持有股票的收益一定低于不持有股票的收益，</span></span><br><span class="line"><span class="comment"> * 因此这时候 dp[n−1][0] 的收益必然是大于 dp[n−1][1] 的，最后的答案即为 dp[n−1][0]。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> prices</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit</span><span class="params">(<span class="type">int</span>[] prices)</span> &#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> prices.length;</span><br><span class="line">    <span class="type">int</span>[][] dp = <span class="keyword">new</span> <span class="title class_">int</span>[n][<span class="number">2</span>];</span><br><span class="line">    <span class="comment">//没有股票最大利益</span></span><br><span class="line">    dp[<span class="number">0</span>][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//有股票最大利益</span></span><br><span class="line">    dp[<span class="number">0</span>][<span class="number">1</span>] = -prices[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        dp[i][<span class="number">0</span>] = Math.max(dp[i - <span class="number">1</span>][<span class="number">0</span>], dp[i - <span class="number">1</span>][<span class="number">1</span>] + prices[i]);</span><br><span class="line">        dp[i][<span class="number">1</span>] = Math.max(dp[i - <span class="number">1</span>][<span class="number">1</span>], dp[i - <span class="number">1</span>][<span class="number">0</span>] - prices[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[n - <span class="number">1</span>][<span class="number">0</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 贪心</span></span><br><span class="line"><span class="comment"> * 计算一段时间的最大利润，即计算每个区间最大的贡献度，即取每个区间大于0的贡献度的加合</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> prices</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">maxProfit2</span><span class="params">(<span class="type">int</span>[] prices)</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i= <span class="number">1</span>;i&lt;prices.length;i++)&#123;</span><br><span class="line">        sum += Math.max(prices[i]-prices[i-<span class="number">1</span>], <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
       
-      <div 
-        id="local-search" 
-        style="display: none">
-        <input
-          class="navbar-menu-item"
-          id="search-input"
-          placeholder="请输入搜索内容..." />
-        <div id="search-content"></div>
-      </div>
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/06/07/122.%20%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%20II/" data-id="cl2ehag8h0000hwucdbeyd7lw" data-title="122. 买卖股票的最佳时机 II" class="article-share-link">分享</a>
       
-      <div class="section-wrap">
-        <div class="container">
-          <div class="columns">
-            <main class="main-column">
-  <div class="card">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-350.两个数组的交集 II" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/06/03/350.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86%20II/" class="article-date">
+  <time class="dt-published" datetime="2021-06-02T16:00:00.000Z" itemprop="datePublished">2021-06-03</time>
+</a>
     
-    <article class="card card-content">
-      <a href="/java4u/2021/06/07/122.%20%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%20II/">
-        <h1 class="post-title">
-          122. 买卖股票的最佳时机 II
-        </h1>
-      </a>
-      <div class="card-excerpt">
-        
-          122. 买卖股票的最佳时机...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2021-06-06T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2021-06-07</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
-                class="post-meta-link">
-                数据结构与算法
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2021/06/07/122.%20%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E7%9A%84%E6%9C%80%E4%BD%B3%E6%97%B6%E6%9C%BA%20II/">继续阅读 </a>
-      </div>
-    </article>
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2021/06/03/350.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86%20II/">
-        <h1 class="post-title">
-          350. 两个数组的交集 II
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          350. 两个数组的交集 II...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2021-06-02T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2021-06-03</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
-                class="post-meta-link">
-                数据结构与算法
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2021/06/03/350.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86%20II/">继续阅读 </a>
-      </div>
-    </article>
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2021/06/03/350.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86%20II/">350. 两个数组的交集 II</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="350-两个数组的交集-II"><a href="#350-两个数组的交集-II" class="headerlink" title="350. 两个数组的交集 II"></a>350. 两个数组的交集 II</h1><p>给你两个整数数组 nums1 和 nums2 ，请你以数组形式返回两数组的交集。返回结果中每个元素出现的次数，应与元素在两个数组中都出现的次数一致（如果出现次数不一致，则考虑取较小值）。可以不考虑输出结果的顺序。</p>
+<p>示例 1：</p>
+<p>输入：nums1 &#x3D; [1,2,2,1], nums2 &#x3D; [2,2]<br>输出：[2,2]</p>
+<p>示例 2:</p>
+<p>输入：nums1 &#x3D; [4,9,5], nums2 &#x3D; [9,4,9,8,4]<br>输出：[4,9]</p>
+<p>提示：</p>
+<p>1 &lt;&#x3D; nums1.length, nums2.length &lt;&#x3D; 1000<br>0 &lt;&#x3D; nums1[i], nums2[i] &lt;&#x3D; 1000</p>
+<p>进阶：</p>
+<p>如果给定的数组已经排好序呢？你将如何优化你的算法？<br>如果 nums1 的大小比 nums2 小，哪种方法更优？<br>如果 nums2 的元素存储在磁盘上，内存是有限的，并且你不能一次加载所有的元素到内存中，你该怎么办？</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * map映射</span></span><br><span class="line"><span class="comment"> * 由于同一个数字在两个数组中都可能出现多次，因此需要用哈希表存储每个数字出现的次数。</span></span><br><span class="line"><span class="comment"> * 对于一个数字，其在交集中出现的次数等于该数字在两个数组中出现次数的最小值。</span></span><br><span class="line"><span class="comment"> * 首先遍历第一个数组，并在哈希表中记录第一个数组中的每个数字以及对应出现的次数，</span></span><br><span class="line"><span class="comment"> * 然后遍历第二个数组，对于第二个数组中的每个数字，如果在哈希表中存在这个数字，则将该数字添加到答案，</span></span><br><span class="line"><span class="comment"> * 并减少哈希表中该数字出现的次数。</span></span><br><span class="line"><span class="comment"> * 为了降低空间复杂度，首先遍历较短的数组并在哈希表中记录每个数字以及对应出现的次数，然后遍历较长的数组得到交集。</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="type">int</span>[] intersect(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i : nums1) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!map.containsKey(i)) &#123;</span><br><span class="line">            map.put(i, <span class="number">1</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            map.put(i, map.get(i)+<span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j : nums2) &#123;</span><br><span class="line">        <span class="keyword">if</span>(map.containsKey(j))&#123;</span><br><span class="line">            <span class="type">Integer</span> <span class="variable">integer</span> <span class="operator">=</span> map.get(j);</span><br><span class="line">            <span class="keyword">if</span>(integer == <span class="number">0</span>)&#123;</span><br><span class="line">                map.remove(j);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            list.add(j);</span><br><span class="line">            map.put(j, map.get(j) - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> list.stream().mapToInt(Integer::intValue).toArray();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 优化</span></span><br><span class="line"><span class="comment"> * 1.先遍历短的数组求出现次数，在遍历长的数组求交集</span></span><br><span class="line"><span class="comment"> * 2.map.getOrDefault() 根据key从map取值，没有得到默认值</span></span><br><span class="line"><span class="comment"> * 3.Arrays.copyOfRange  使用System.arraycopy拷贝数组</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] intersect2(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">    <span class="keyword">if</span> (nums1.length &gt; nums2.length) &#123;</span><br><span class="line">        <span class="keyword">return</span> intersect(nums2, nums1);</span><br><span class="line">    &#125;</span><br><span class="line">    Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;Integer, Integer&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums1) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> map.getOrDefault(num, <span class="number">0</span>) + <span class="number">1</span>;</span><br><span class="line">        map.put(num, count);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>[] intersection = <span class="keyword">new</span> <span class="title class_">int</span>[nums1.length];</span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : nums2) &#123;</span><br><span class="line">        <span class="type">int</span> <span class="variable">count</span> <span class="operator">=</span> map.getOrDefault(num, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            intersection[index++] = num;</span><br><span class="line">            count--;</span><br><span class="line">            <span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                map.put(num, count);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                map.remove(num);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(intersection, <span class="number">0</span>, index);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 优化 排序好的数组</span></span><br><span class="line"><span class="comment"> * 使用2个指针判断2个数组中的值，相等同时向后移</span></span><br><span class="line"><span class="comment"> * 不相等，小的指针向后移</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums1</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> nums2</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] intersect3(<span class="type">int</span>[] nums1, <span class="type">int</span>[] nums2) &#123;</span><br><span class="line">    Arrays.sort(nums1);</span><br><span class="line">    Arrays.sort(nums2);</span><br><span class="line">    <span class="type">int</span> <span class="variable">len1</span> <span class="operator">=</span> nums1.length;</span><br><span class="line">    <span class="type">int</span> <span class="variable">len2</span> <span class="operator">=</span> nums2.length;</span><br><span class="line">    <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="title class_">int</span>[len1];</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i&lt;len1 &amp;&amp; j&lt;len2)&#123;</span><br><span class="line">        <span class="keyword">if</span>(nums1[i]==nums2[j])&#123;</span><br><span class="line">            res[index++]=nums1[i];</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums1[i] &lt; nums2[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Arrays.copyOfRange(res, <span class="number">0</span>, index);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/06/03/350.%E4%B8%A4%E4%B8%AA%E6%95%B0%E7%BB%84%E7%9A%84%E4%BA%A4%E9%9B%86%20II/" data-id="cl2ehag8w000fhwuccbnhgizy" data-title="350. 两个数组的交集 II" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-dubbo" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/05/15/dubbo/" class="article-date">
+  <time class="dt-published" datetime="2021-05-15T05:54:32.738Z" itemprop="datePublished">2021-05-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2021/05/15/dubbo/">
-        <h1 class="post-title">
-          Dubbo
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          核心功能1)面向接口代理的高性能RPC调用:
-提供高性能的基于代理的远程...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2021-05-15T05:54:32.738Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2021-05-15</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E6%A1%86%E6%9E%B6/" 
-                class="post-meta-link">
-                框架
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2021/05/15/dubbo/">继续阅读 </a>
-      </div>
-    </article>
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2021/05/15/dubbo/">Dubbo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h1><p>1)面向接口代理的高性能RPC调用:</p>
+<p>提供高性能的基于代理的远程调用能力，服务以接口为粒度，为开发者屏蔽远程调用底层细节。</p>
+<p>2)智能容错和负载均衡:</p>
+<p>内置多种负载均衡策略，智能感知下游节点健康状况，显著减少调用延迟，提高系统吞吐量。</p>
+<p>3)服务自动注册和发现:</p>
+<p>支持多种注册中心服务，服务实例上下线实时感知。</p>
+<p>4)高度可扩展能力:</p>
+<p>遵循微内核+插件的设计原则，所有核心能力如Protocol、Transport、Serialization被设计为扩展点，平等对待内置实现和第三方实现。</p>
+<p>5)运行期流量调度:</p>
+<p>内置条件、脚本等路由策略，通过配置不同的路由规则，轻松实现灰度发布，同机房优先等功能。</p>
+<p>6)可视化的服务治理与运维:</p>
+<p>提供丰富服务治理、运维工具：随时查询服务元数据、服务健康状态及调用统计，实时下发路由策略、调整配置参数。</p>
+<h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bdubbo-architucture%5D(httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg).png" alt="![dubbo-architucture](httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg)"></p>
+<ol>
+<li>服务容器负责启动，加载，运行服务提供者。</li>
+<li>服务提供者在启动时，向注册中心注册自己提供的服务。</li>
+<li>服务消费者在启动时，向注册中心订阅自己所需的服务。</li>
+<li>注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</li>
+<li>服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</li>
+<li>服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</li>
+</ol>
+<h1 id="项目实例"><a href="#项目实例" class="headerlink" title="项目实例"></a>项目实例</h1><p>1<code>user-rpc-service-api</code> 项目：<strong>服务接口</strong>，定义 Dubbo Service API 接口，提供给消费者使用</p>
+<p>2<code>user-rpc-service-provider</code> 项目：<strong>服务提供者</strong>，实现 <code>user-rpc-service-api</code> 项目定义的 Dubbo Service API 接口，提供相应的服务</p>
+<p>3<code>user-rpc-service-consumer</code> 项目：<strong>服务消费者</strong>，会调用 <code>user-rpc-service-provider</code> 项目提供的 Dubbo Service 服务</p>
+<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="（1）读取配置"><a href="#（1）读取配置" class="headerlink" title="（1）读取配置"></a>（1）读取配置</h2><p>将服务装载容器中，然后准备注册服务，dubbo先读配置文件解析服务</p>
+<p>1)dubbo标签的解析主要用到了DubboNamespaceHandler 这个类</p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net2018061915385054watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM%3Dfont5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" alt="![img](httpsimg-blog.csdn.net2018061915385054watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM=font5a6L5L2Tfontsize400fillI0JBQkFCMA==dissolve70)"></p>
+<p>2）所有dubbo标签都统一使用DubboBeanDefinitionParser进行解析，将XML标签解析为BEAN对象。在初始化时将BEAN对象转换为url格式，进行不同协议的服务暴露和引用</p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net20180619153914758watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM%3Dfont5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" alt="![img](httpsimg-blog.csdn.net20180619153914758watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM=font5a6L5L2Tfontsize400fillI0JBQkFCMA==dissolve70)"></p>
+<h2 id="（2）serviceBean是何时暴露服务的"><a href="#（2）serviceBean是何时暴露服务的" class="headerlink" title="（2）serviceBean是何时暴露服务的"></a>（2）serviceBean是何时暴露服务的</h2><h2 id="服务提供者暴露一个服务的详细过程"><a href="#服务提供者暴露一个服务的详细过程" class="headerlink" title="服务提供者暴露一个服务的详细过程"></a><strong>服务提供者暴露一个服务的详细过程</strong></h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png).png" alt="![img](httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png)"></p>
+<p>首先ServiceConfig类拿到对外提供服务的实际类ref(如：HelloWorldImpl),然后通过ProxyFactory类的getInvoker方法使用ref生成一个AbstractProxyInvoker实例，</p>
+<p>到这一步就完成具体服务到Invoker的转化。接下来就是Invoker转换到Exporter的过程。</p>
+<p>Dubbo处理服务暴露的关键就在Invoker转换到Exporter的过程(如上图中的红色部分)，下面我们以Dubbo和RMI这两种典型协议的实现来进行说明：</p>
+<p>Dubbo的实现：</p>
+<p>Dubbo协议的Invoker转为Exporter发生在DubboProtocol类的export方法，它主要是打开socket侦听服务，并接收客户端发来的各种请求，通讯细节由Dubbo自己实现。</p>
+<p>RMI的实现：</p>
+<p>RMI协议的Invoker转为Exporter发生在RmiProtocol类的export方法，<br>它通过Spring或Dubbo或JDK来实现RMI服务，通讯细节这一块由JDK底层来实现，这就省了不少工作量。</p>
+<h2 id="服务消费者消费一个服务的详细过程"><a href="#服务消费者消费一个服务的详细过程" class="headerlink" title="服务消费者消费一个服务的详细过程"></a><strong>服务消费者消费一个服务的详细过程</strong></h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png).png" alt="![img](httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png)"></p>
+<p>首先ReferenceConfig类的init方法调用Protocol的refer方法生成Invoker实例(如上图中的红色部分)，这是服务消费的关键。</p>
+<p>接下来把Invoker转换为客户端需要的接口(如：HelloWorld)。</p>
+<h2 id="dubbo工作流程"><a href="#dubbo工作流程" class="headerlink" title="dubbo工作流程"></a>dubbo工作流程</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" alt="![在这里插入图片描述](httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process=imagewatermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o=,size_16,color_FFFFFF,t_70)"></p>
+<ul>
+<li>服务提供者在启动的时候，会通过读取一些配置将服务实例化。</li>
+<li>Proxy 封装服务调用接口，方便调用者调用。客户端获取 Proxy 时，可以像调用本地服务一样，调用远程服务。</li>
+<li>Proxy 在封装时，需要调用 Protocol 定义协议格式，例如：Dubbo Protocol。</li>
+<li>将 Proxy 封装成 Invoker，它是真实服务调用的实例。</li>
+<li>将 Invoker 转化成 Exporter，Exporter 只是把 Invoker<br>包装了一层，是为了在注册中心中暴露自己，方便消费者使用。</li>
+<li>将包装好的 Exporter 注册到注册中心。</li>
+<li>服务消费者建立好实例，会到服务注册中心订阅服务提供者的元数据。元数据包括服务 IP 和端口以及调用方式(Proxy)。</li>
+<li>消费者会通过获取的 Proxy 进行调用。通过服务提供方包装过程可以知道，Proxy 实际包装了 Invoker 实体，因此需要使用<br>Invoker 进行调用。</li>
+<li>在 Invoker 调用之前，通过 Directory 获取服务提供者的 Invoker<br>列表。在分布式的服务中有可能出现同一个服务，分布在不同的节点上。</li>
+<li>通过路由规则了解，服务需要从哪些节点获取。</li>
+<li>Invoker 调用过程中，通过 Cluster 进行容错，如果遇到失败策略进行重试。</li>
+<li>调用中，由于多个服务可能会分布到不同的节点，就要通过 LoadBalance 来实现负载均衡。</li>
+<li>Invoker 调用之前还需要经过 Filter，它是一个过滤链，用来处理上下文，限流和计数的工作。</li>
+<li>生成过滤以后的 Invoker。</li>
+<li>用 Client 进行数据传输。</li>
+<li>Codec 会根据 Protocol 定义的协议，进行协议的构造。</li>
+<li>构造完成的数据，通过序列化 Serialization 传输给服务提供者。</li>
+<li>Request 已经到达了服务提供者，它会被分配到线程池(ThreadPool)中进行处理。</li>
+<li>Server 拿到请求以后查找对应的 Exporter(包含有 Invoker)。</li>
+<li>由于 Export 也会被 Filter 层层包裹</li>
+<li>通过 Filter 以后获得 Invoker</li>
+<li>最后，对服务提供者实体进行调用。</li>
+</ul>
+<p>RPC 工作原理</p>
+<p>RPC的设计由Client，Client stub，Network ，Server stub，Server构成。 其中Client就是用来调用服务的，Cient stub是用来把调用的方法和参数序列化的（因为要在网络中传输，必须要把对象转变成字节），Network用来传输这些信息到Server stub， Server stub用来把这些信息反序列化的，Server就是服务的提供者，最终调用的就是Server提供的方法。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/05/15/dubbo/" data-id="cl2ehag99001chwucbf1dfiqz" data-title="Dubbo" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-RPC" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/04/23/RPC/" class="article-date">
+  <time class="dt-published" datetime="2021-04-22T16:00:00.000Z" itemprop="datePublished">2021-04-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2021/04/23/RPC/">
-        <h1 class="post-title">
-          RPC
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          RPC就是要像调用本地的函数一样去调远程函数
-1.Call ID映射。本地调用中，函数体是直接通过函数指针来指定的在RPC中，所有的函数都必须有自己的一个ID。这个ID在所有进程中都是唯一确定的。客户端在做...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2021-04-22T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2021-04-23</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/" 
-                class="post-meta-link">
-                分布式
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2021/04/23/RPC/">继续阅读 </a>
-      </div>
-    </article>
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2021/04/23/RPC/">RPC</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>RPC就是要像调用本地的函数一样去调远程函数</p>
+<p>1.Call ID映射。本地调用中，函数体是直接通过函数指针来指定的<br>在RPC中，所有的函数都必须有自己的一个ID。这个ID在所有进程中都是唯一确定的。客户端在做远程过程调用时，必须附上这个ID。<br>然后我们还需要在客户端和服务端分别维护一个 {函数 &lt;–&gt; Call ID} 的对应表。<br>当客户端需要进行远程调用时，它就查一下这个表，找出相应的Call ID，然后把它传给服务端，服务端也通过查表，<br>来确定客户端需要调用的函数，然后执行相应函数的代码</p>
+<p>2.序列化和反序列化。客户端把参数先转成一个字节流，传给服务端后，再把字节流转成自己能读取的格式。这个过程叫序列化和反序列化。<br>同理，从服务端返回的值也需要序列化反序列化的过程。</p>
+<p>3.网络传输。网络传输层需要把Call ID和序列化后的参数字节流传给服务端，然后再把序列化后的调用结果传回客户端。<br>只要能完成这两者的，都可以作为传输层使用。因此，它所使用的协议其实是不限的，能完成传输就行。<br>尽管大部分RPC框架都使用TCP协议，但其实UDP也可以，而gRPC干脆就用了HTTP2。Java的Netty也属于这层的东西</p>
+<p>&#x2F;&#x2F; Client端<br>&#x2F;&#x2F;    int l_times_r &#x3D; Call(ServerAddr, Multiply, lvalue, rvalue)</p>
+<ol>
+<li>将这个调用映射为Call ID。这里假设用最简单的字符串当Call ID的方法</li>
+<li>将Call ID，lvalue和rvalue序列化。可以直接将它们的值以二进制形式打包</li>
+<li>把2中得到的数据包发送给ServerAddr，这需要使用网络传输层</li>
+<li>等待服务器返回结果</li>
+<li>如果服务器调用成功，那么就将结果反序列化，并赋给l_times_r</li>
+</ol>
+<p>&#x2F;&#x2F; Server端</p>
+<ol>
+<li>在本地维护一个Call ID到函数指针的映射call_id_map，可以用std::map&lt;std::string, std::function&lt;&gt;&gt;</li>
+<li>等待请求</li>
+<li>得到一个请求后，将其数据包反序列化，得到Call ID</li>
+<li>通过在call_id_map中查找，得到相应的函数指针</li>
+<li>将lvalue和rvalue反序列化后，在本地调用Multiply函数，得到结果</li>
+<li>将结果序列化后通过网络返回给Client</li>
+</ol>
+<p>SCF调用方式：<br>    callMap(svcName, data)</p>
+<pre><code>IServiceOutput call(String svcName, BizVisit visit, Object datas, Paging page)
+
+IServiceOutput out = CallerProvider.getCaller(svcName).call(visit, datas, page, false);
+
+Map&lt;String, Object&gt; response = this.invokeService(this.createRequest(visit, data, page));
+
+IClientSV client = CsfServiceFactory.getService(this.getSvcName());
+Map&lt;String, Object&gt; result = (Map)client.service(param);
+
+获取返回值
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/04/23/RPC/" data-id="cl2ehag9b001jhwucevwk2wum" data-title="RPC" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-OAuth" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/04/22/OAuth/" class="article-date">
+  <time class="dt-published" datetime="2021-04-21T16:00:00.000Z" itemprop="datePublished">2021-04-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/security/">security</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2021/04/22/OAuth/">
-        <h1 class="post-title">
-          OAuth
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          OAuth是一个关于授权（authorization）的开放网络标准
-场景：拍的照片发给Google，云拍照需要用到Google上的照片，需要授权
-名词定义：
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2021/04/22/OAuth/">OAuth</a>
+    </h1>
+  
 
-第三方应用，”...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2021-04-21T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2021-04-22</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/security/" 
-                class="post-meta-link">
-                security
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2021/04/22/OAuth/">继续阅读 </a>
-      </div>
-    </article>
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>OAuth是一个关于授权（authorization）的开放网络标准</p>
+<p>场景：拍的照片发给Google，云拍照需要用到Google上的照片，需要授权</p>
+<p>名词定义：</p>
+<ul>
+<li>第三方应用，”客户端“，即云拍照</li>
+<li>HTTP service: 服务提供商，即Google</li>
+<li>Resource Owner:资源拥有者，即用户</li>
+<li>User Agent:用户代理，即浏览器</li>
+<li>Authorization server:认证服务器</li>
+<li>Resource server:资源服务器</li>
+</ul>
+<p>OAuth思路：</p>
+<ul>
+<li>在客户端与服务提供商之间设置授权层，客户端不直接登陆服务提供商，只登陆授权层</li>
+<li>客户端登陆授权层所用的令牌，指定令牌的权限范围和有效期</li>
+</ul>
+<p>运行流程：</p>
+<ul>
+<li>（A）用户打开客户端以后，客户端要求用户给予授权。</li>
+<li>（B）用户同意给予客户端授权。</li>
+<li>（C）客户端使用上一步获得的授权，向认证服务器申请令牌。</li>
+<li>（D）认证服务器对客户端进行认证以后，确认无误，同意发放令牌。</li>
+<li>（E）客户端使用令牌，向资源服务器申请获取资源。</li>
+<li>（F）资源服务器确认令牌无误，同意向客户端开放资源。</li>
+</ul>
+<p>客户端授权模式</p>
+<ul>
+<li>授权码模式</li>
+<li>简化模式</li>
+<li>密码模式</li>
+<li>客户端模式</li>
+</ul>
+<p>授权码模式：<br>    通过客户端的后台服务器，与”服务提供商”的认证服务器进行互动</p>
+<ul>
+<li>（A）用户访问客户端，后者将前者导向认证服务器。</li>
+<li>（B）用户选择是否给予客户端授权。</li>
+<li>（C）假设用户给予授权，认证服务器将用户导向客户端事先指定的”重定向URI”（redirection URI），<br>  同时附上一个授权码。</li>
+<li>（D）客户端收到授权码，附上早先的”重定向URI”，向认证服务器申请令牌。<br>  这一步是在客户端的后台的服务器上完成的，对用户不可见。</li>
+<li>（E）认证服务器核对了授权码和重定向URI，确认无误后，<br>  向客户端发送访问令牌（access token）和更新令牌（refresh token）。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/04/22/OAuth/" data-id="cl2ehag960014hwuc4zfz0w7p" data-title="OAuth" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-6. Z 字形变换" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/" class="article-date">
+  <time class="dt-published" datetime="2021-01-31T16:00:00.000Z" itemprop="datePublished">2021-02-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/">
-        <h1 class="post-title">
-          Z 字形变换
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          6. Z 字形变换将一个给定字符串 s 根据给定的行数 nu...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2021-01-31T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2021-02-01</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" 
-                class="post-meta-link">
-                数据结构与算法
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/">继续阅读 </a>
-      </div>
-    </article>
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/">Z 字形变换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="6-Z-字形变换"><a href="#6-Z-字形变换" class="headerlink" title="6. Z 字形变换"></a>6. Z 字形变换</h1><p>将一个给定字符串 s 根据给定的行数 numRows ，以从上往下、从左到右进行 Z 字形排列。</p>
+<p>比如输入字符串为 “PAYPALISHIRING” 行数为 3 时，排列如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">P   A   H   N</span><br><span class="line">A P L S I I G</span><br><span class="line">Y   I   R</span><br></pre></td></tr></table></figure>
+<p>之后，你的输出需要从左往右逐行读取，产生出一个新的字符串，比如：”PAHNAPLSIIGYIR”。</p>
+<p>请你实现这个将字符串进行指定行数变换的函数：</p>
+<p>string convert(string s, int numRows);</p>
+<p>示例 1：</p>
+<p>输入：s &#x3D; “PAYPALISHIRING”, numRows &#x3D; 3<br>输出：”PAHNAPLSIIGYIR”</p>
+<p>示例 2：<br>输入：s &#x3D; “PAYPALISHIRING”, numRows &#x3D; 4<br>输出：”PINALSIGYAHRPI”<br>解释：<br>P     I    N<br>A   L S  I G<br>Y A   H R<br>P     I</p>
+<p>示例 3：</p>
+<p>输入：s &#x3D; “A”, numRows &#x3D; 1<br>输出：”A”</p>
+<p>提示：</p>
+<p>1 &lt;&#x3D; s.length &lt;&#x3D; 1000<br>s 由英文字母（小写和大写）、’,’ 和 ‘.’ 组成<br>1 &lt;&#x3D; numRows &lt;&#x3D; 1000</p>
+<h2 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 从左到右迭代字符，将Z型字符添加到它所在的行，在从上到下，合并各个行</span></span><br><span class="line"><span class="comment"> * 行号上下限为 0~numRows-1</span></span><br><span class="line"><span class="comment"> * 到达上下限，反向递增或递减</span></span><br><span class="line"><span class="comment"> * L   C   I   R      list[0]</span></span><br><span class="line"><span class="comment"> * E T O E S I I G    list[1]</span></span><br><span class="line"><span class="comment"> * E   D   H   N      list[2]</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> s</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> numRows</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">convert2</span><span class="params">(String s, <span class="type">int</span> numRows)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (numRows &lt; <span class="number">2</span>) <span class="keyword">return</span> s;</span><br><span class="line">    List&lt;StringBuilder&gt; rows = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;StringBuilder&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numRows; i++) rows.add(<span class="keyword">new</span> <span class="title class_">StringBuilder</span>());</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>, flag = -<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">char</span> c : s.toCharArray()) &#123;</span><br><span class="line">        rows.get(i).append(c);</span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">0</span> || i == numRows - <span class="number">1</span>) flag = -flag;</span><br><span class="line">        i += flag;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">StringBuilder</span> <span class="variable">res</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">    <span class="keyword">for</span> (StringBuilder row : rows) res.append(row);</span><br><span class="line">    <span class="keyword">return</span> res.toString();</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/02/01/6.%20Z%20%E5%AD%97%E5%BD%A2%E5%8F%98%E6%8D%A2/" data-id="cl2ehag91000qhwuce5rn5ybe" data-title="Z 字形变换" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-加密解密" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2020/12/18/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" class="article-date">
+  <time class="dt-published" datetime="2020-12-17T16:00:00.000Z" itemprop="datePublished">2020-12-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2020/12/18/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/">
-        <h1 class="post-title">
-          加密解码
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          通过特定的算法，将数据明文加密成复杂的密文
-一。简介单项...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2020-12-17T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2020-12-18</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/" 
-                class="post-meta-link">
-                加密解码
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2020/12/18/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/">继续阅读 </a>
-      </div>
-    </article>
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2020/12/18/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/">加密解码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>通过特定的算法，将数据明文加密成复杂的密文</p>
+<h2 id="一。简介"><a href="#一。简介" class="headerlink" title="一。简介"></a>一。简介</h2><pre><code>单项加密和双向加密。单项加密指通过对数据进行摘要计算生成密文，密文不可逆推还原，比如有Base64、MD5、SHA等
+双向加密则相反，指可以把密文逆推还原成明文，其中双向加密又分为对称加密和非对称加密。
+对称加密是指数据使用者必须拥有同样的密钥才可以进行加密解密，就像大家共同约定了一组暗号一样，对称加密的手段有DES、3DES、AES、IDEA、RC4、RC5等
+而非对称加密相对于对称加密而言，无需拥有同一组密钥，它是一种“信息公开的密钥交换协议”。非对称加密需要公开密钥和私有密钥两组密钥，
+公开密钥和私有密钥是配对起来的，也就是说使用公开密钥进行数据加密，只有对应的私有密钥才能进行解密。此类的加密手段有RSA、DSA等
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2020/12/18/%E5%8A%A0%E5%AF%86%E8%A7%A3%E5%AF%86/" data-id="cl2ehag9k0024hwucc9y57e6h" data-title="加密解码" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-TCP IP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2020/11/09/TCP%20IP/" class="article-date">
+  <time class="dt-published" datetime="2020-11-08T16:00:00.000Z" itemprop="datePublished">2020-11-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a>
   </div>
 
-  <div class="card">
+  </div>
+  <div class="article-inner">
     
-    <article class="card card-content">
-      <a href="/java4u/2020/11/09/TCP%20IP/">
-        <h1 class="post-title">
-          TPC/IP
-        </h1>
-      </a>
-      <div class="card-excerpt">
+    
+      <header class="article-header">
         
-          一 TCP&amp;#x2F;IP模型    由上到下，层层包装
-应用层  http/ftp协议
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2020/11/09/TCP%20IP/">TPC/IP</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>一 TCP&#x2F;IP模型<br>    由上到下，层层包装</p>
+<pre><code>应用层  http/ftp协议
 传输层	TCP/UDP协议
 网络层	IP协议
 链路层	未待传送数据加入以太网协议头
+</code></pre>
+<p>二 数据链路层<br>    把网络层数据加头和尾，封装成帧，包含源MAC地址和目的MAC地址</p>
+<p>三	网络层<br>    1.1 以IP数据格式传输，地址标识就是IP地址</p>
+<pre><code>1.2 TTL生存时间，穿过多少个路由后被抛弃
 
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2020-11-08T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2020-11-09</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E7%BD%91%E7%BB%9C/" 
-                class="post-meta-link">
-                网络
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2020/11/09/TCP%20IP/">继续阅读 </a>
-      </div>
-    </article>
-  </div>
+2.ARP及RARP协议 根据IP地址获取MAC地址的协议
 
-  <div class="card">
-    
-    <article class="card card-content">
-      <a href="/java4u/2020/10/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <h1 class="post-title">
-          线程池
-        </h1>
-      </a>
-      <div class="card-excerpt">
-        
-          TheadPoolExecutor
-&amp;#96;&amp;#96;&amp;#96;    getTask()        1.线程池状态为 STOP TIDYING TERMINATED  或者是SHUTDOWN...
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2020-10-26T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2020-10-27</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" 
-                class="post-meta-link">
-                线程池
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2020/10/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">继续阅读 </a>
-      </div>
-    </article>
-  </div>
+3.ICMP协议	当传送IP数据包发生错误，ICMP会把错误信息封包传送回主机
+</code></pre>
+<p>四 ping<br>    ICMP最著名应用</p>
+<p>五 traceroute<br>    用来侦测主机到目的主机之间所经路由情况的工具</p>
+<p>六	TCP&#x2F;UDP协议<br>            TCP         	UDP<br>可靠性		可靠			不可靠<br>连接性		面向连接		无连接<br>报文		面向字节流		面向报文<br>效率		传输效率低		传输效率高<br>双工性		全双工			一对一&#x2F;一对多&#x2F;多对一&#x2F;多对多<br>流量控制	滑动窗口		无<br>拥塞控制	慢开始&#x2F;拥塞避免&#x2F;<br>            快重传&#x2F;快恢复<br>传输速度	慢				快<br>应用场景	对效率要求低	对效率要求高<br>            对准确性要求高</p>
+<pre><code>应用协议		应用		传输层协议
+SMTP			电子邮件	TCP
+TELNET			远程终端接入
+HTTP			万维网
+FTP				文件传输
 
-  <div class="card">
-    
-    <article class="card card-content">
-      <a href="/java4u/2020/10/16/WSDL/">
-        <h1 class="post-title">
-          WSDL
-        </h1>
-      </a>
-      <div class="card-excerpt">
-        
-          WSDL（网络服务描述语言，Web Services Description Language）是一门基于 XML 的语言，用于描述 Web Services 以及如何对它们进行访问
-文档结构    
-        
-      </div>
-      <div class="card-post-footer">
-        <div class="post-meta">
-          <time datetime="2020-10-15T16:00:00.000Z">
-            <i 
-              class="iconfont icon-calendar" 
-              style="margin-right: 2px;">
-            </i>
-            <span>2020-10-16</span>
-          </time>
-          
-            
-            
-              
-            
-            <span class="dot"></span>
-            
-              
-              <a 
-                href="/java4u/categories/webservice/" 
-                class="post-meta-link">
-                webservice
-              </a>
-            
-          
-        </div>
-        <a href="/java4u/2020/10/16/WSDL/">继续阅读 </a>
-      </div>
-    </article>
-  </div>
+DNS				域名转换	UDP
+TFTP			文件传输
+SNMP			网络管理
+NFS				远程文件服务器
+</code></pre>
 
-
-  <div class="nav">
-  
-    <div class="nav-item-prev">
-      <a 
-        href="/java4u/page/4/" 
-        class="nav-link">
-        <i class="iconfont icon-left nav-prev-icon"></i>
-        <div>
-          <div class="nav-label">上一页</div>
-          
-        </div>
-      </a>
+      
     </div>
-  
-  
-    <div class="nav-item-next">
-      <a 
-        href="/java4u/page/6/" 
-        class="nav-link">
-        <div>
-          <div class="nav-label">下一页</div>
-          
-        </div>
-        <i class="iconfont icon-right nav-next-icon"></i>
-      </a>
-    </div>
-  
-</div>
-</main>
-            <aside class="left-column">
-              
-              <div class="card card-author">
-                
-  <img 
-    src="/java4u/img/1.e3a1f41f.gif" 
-    class="author-img"
-    width="88"
-    height="88"
-    alt="author avatar">
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2020/11/09/TCP%20IP/" data-id="cl2ehag9h001whwucbyax0jlx" data-title="TPC/IP" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li></ul>
 
-<p class="author-name">Zhao Xin</p>
-<p class="author-description">5年工作经验，不秃头的java萌新。</p>
-<div class="author-message">
-  <a 
-    class="author-posts-count" 
-    href="/java4u/archives">
-    <span>53</span>
-    <span>文章</span>
-  </a>
-  <a 
-    class="author-categories-count" 
-    href="/java4u/categories">
-    <span>13</span>
-    <span>分类</span>
-  </a>
-  <a 
-    class="author-tags-count" 
-    href="/java4u/tags">
-    <span>12</span>
-    <span>标签</span>
-  </a>
-</div>
+    </footer>
+  </div>
+  
+</article>
 
-              </div>
-               <div class="sticky-tablet">
-  
-  
-  
-  <article class="card card-content categories-widget">
-    <div class="categories-card">
-  <div class="categories-header">
-    <i 
-      class="iconfont icon-fenlei" 
-      style="padding-right: 2px;">
-    </i>分类
-  </div>
-  <div class="categories-list">
-    
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">11</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
-        <div class="categories-list-item">
-          面试
-          <span class="categories-list-item-badge">8</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/security/">
-        <div class="categories-list-item">
-          security
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
-        <div class="categories-list-item">
-          分布式
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/SQL/">
-        <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  <article class="card card-content tags-widget">
-    <div class="tags-card">
-  <div class="tags-header">
-    <i 
-      class="iconfont icon-biaoqian" 
-      style="padding-right: 2px;">
-    </i>热门标签
-  </div>
-  <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
-        title="数组">
-        <div class="tags-list-item">数组</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        title="进程优化">
-        <div class="tags-list-item">进程优化</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/OAuth/" 
-        title="OAuth">
-        <div class="tags-list-item">OAuth</div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  
-    <article class="card card-content widescreen-archive archive-widget">
-      <div class="archive-card">
-  <div class="archive-card-header">
-    <i 
-      class="iconfont icon-wodebaobiao" 
-      style="padding-right: 2px;">
-    </i>归档
-  </div>
-  <div class="archive-card-list">
-    
-    
-    
-      
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-          <a 
-            href="/java4u/archives/2022" 
-            class="archive-card-list-item">
-            2022
-            <span class="archive-card-list-item-badge">27</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-          <a 
-            href="/java4u/archives/2021" 
-            class="archive-card-list-item">
-            2021
-            <span class="archive-card-list-item-badge">19</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-    
-      <a 
-        href="/java4u/archives/2020" 
-        class="archive-card-list-item">
-        2020
-        <span class="archive-card-list-item-badge">7</span>
-      </a>
-    
-  </div>
-</div>
-    </article>
-  
-</div>
-            </aside>
-            <aside class="right-column">
-              <div class="sticky-widescreen">
-  
-  
-  
-  <article class="card card-content">
-    <div class="recent-posts-card">
-  <div class="recent-posts-header">
-    <i 
-      class="iconfont icon-wenzhang_huaban" 
-      style="padding-right: 2px;">
-    </i>最近文章
-  </div>
-  <div class="recent-posts-list">
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-25</div>
-        <a href="/java4u/2022/04/25/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/"><div class="recent-posts-item-content">21. 合并两个有序链表</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-24</div>
-        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-21</div>
-        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
-      </div>
-    
-  </div>
-</div>
-  </article>
-  
-  
-    <article class="card card-content">
-      <div class="archive-card">
-  <div class="archive-card-header">
-    <i 
-      class="iconfont icon-wodebaobiao" 
-      style="padding-right: 2px;">
-    </i>归档
-  </div>
-  <div class="archive-card-list">
-    
-    
-    
-      
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-          <a 
-            href="/java4u/archives/2022" 
-            class="archive-card-list-item">
-            2022
-            <span class="archive-card-list-item-badge">27</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-          <a 
-            href="/java4u/archives/2021" 
-            class="archive-card-list-item">
-            2021
-            <span class="archive-card-list-item-badge">19</span>
-          </a>
-        
-        
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-      
-        
-      
-    
-    
-      <a 
-        href="/java4u/archives/2020" 
-        class="archive-card-list-item">
-        2020
-        <span class="archive-card-list-item-badge">7</span>
-      </a>
-    
-  </div>
-</div>
-    </article>
-  
-</div>
-            </aside>
-          </div>
-        </div>
-      </div>
-    </div>
-     
-    <footer class="footer">
-  <div class="footer-container">
-    <div>
-      <div class="footer-dsc">
-        <span>
-          Copyright ©
-          
-            2020
-          
-          
-                - 
-                2022
-          
-        </span>
-        &nbsp;
-        <a 
-          href="/java4u/" 
-          class="footer-link">
-          Snail
-        </a>
-      </div>
-    </div>
 
+
+  
+    <article id="post-线程池" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2020/10/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" class="article-date">
+  <time class="dt-published" datetime="2020-10-26T16:00:00.000Z" itemprop="datePublished">2020-10-27</time>
+</a>
     
-      <div class="footer-dsc">
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
         
-          Powered by
-          <a 
-            href="https://hexo.io/" 
-            class="footer-link" 
-            target="_blank" 
-            rel="nofollow noopener noreferrer">
-            &nbsp;Hexo
-          </a>
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2020/10/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>TheadPoolExecutor</p>
+<p>&#96;&#96;&#96;<br>    getTask()<br>        1.线程池状态为 STOP TIDYING TERMINATED  或者是SHUTDOWN且工作队列为空<br>        if (rs &gt;&#x3D; SHUTDOWN &amp;&amp; (rs &gt;&#x3D; STOP || workQueue.isEmpty())) {<br>                decrementWorkerCount();<br>                return null;<br>        }</p>
+<pre><code>    2.工作线程大于最大线程数或当前工作线程已超时
+    if ((wc &gt; maximumPoolSize || (timed &amp;&amp; timedOut))
+            &amp;&amp; (wc &gt; 1 || workQueue.isEmpty())) &#123;
+            if (compareAndDecrementWorkerCount(c))
+                return null;
+            continue;
+    &#125;
+</code></pre>
+<p>&#96;&#96;&#96;		<br>        分场景分析线程池回收工作线程</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2020/10/27/%E7%BA%BF%E7%A8%8B%E6%B1%A0/" data-id="cl2ehag9l0027hwucc3ltcro9" data-title="线程池" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-WSDL" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2020/10/16/WSDL/" class="article-date">
+  <time class="dt-published" datetime="2020-10-15T16:00:00.000Z" itemprop="datePublished">2020-10-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/webservice/">webservice</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
         
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/java4u/2020/10/16/WSDL/">WSDL</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>WSDL（网络服务描述语言，Web Services Description Language）是一门基于 XML 的语言，用于描述 Web Services 以及如何对它们进行访问</p>
+<p>文档结构<br>    <portType>  web service 执行的操作<br>    <message>   web service 使用的消息<br>    <types>     web service 使用的数据类型<br>    <binding>   web service 使用的通信协议</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;definitions&gt;</span><br><span class="line">	&lt;types&gt;</span><br><span class="line">		definition of types........</span><br><span class="line">	&lt;/types&gt;</span><br><span class="line"></span><br><span class="line">	&lt;message&gt;</span><br><span class="line">		definition of a message....</span><br><span class="line">	&lt;/message&gt;</span><br><span class="line"></span><br><span class="line">	&lt;portType&gt;</span><br><span class="line">		definition of a port.......</span><br><span class="line">	&lt;/portType&gt;</span><br><span class="line"></span><br><span class="line">	&lt;binding type=&quot;glossaryTerms&quot; name=&quot;b1&quot;&gt;      name 属性定义 binding 的名称，而 type 属性指向用于 binding 的端口，在这个例子中是 &quot;glossaryTerms&quot; 端口。</span><br><span class="line">	&lt;soap:binding style=&quot;document&quot;</span><br><span class="line">	transport=&quot;http://schemas.xmlsoap.org/soap/http&quot; /&gt;    style 属性可取值 &quot;rpc&quot; 或 &quot;document&quot;。在这个例子中我们使用 document。transport 属性定义了要使用的 SOAP 协议。在这个例子中我们使用 HTTP。</span><br><span class="line">	  &lt;operation&gt;</span><br><span class="line">		&lt;soap:operation</span><br><span class="line">		 soapAction=&quot;http://example.com/getTerm&quot; /&gt;</span><br><span class="line">		&lt;input&gt;</span><br><span class="line">		  &lt;soap:body use=&quot;literal&quot; /&gt;</span><br><span class="line">		&lt;/input&gt;</span><br><span class="line">		&lt;output&gt;</span><br><span class="line">		  &lt;soap:body use=&quot;literal&quot; /&gt;</span><br><span class="line">		&lt;/output&gt;</span><br><span class="line">	  &lt;/operation&gt;</span><br><span class="line">	&lt;/binding&gt;</span><br><span class="line">&lt;/definitions&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span><br><span class="line">&lt;wsdl:definitions xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:wsdl=&quot;http://schemas.xmlsoap.org/wsdl/&quot; xmlns:tns=&quot;http://impl.cxf.aisino.com/&quot; xmlns:soap=&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot; xmlns:ns2=&quot;http://cxf.apache.org/bindings/xformat&quot; xmlns:ns1=&quot;http://cxf.aisino.com/&quot; targetNamespace=&quot;http://impl.cxf.aisino.com/&quot; name=&quot;EInvWebServiceImplService&quot;&gt;</span><br><span class="line">	&lt;wsdl:import namespace=&quot;http://cxf.aisino.com/&quot; location=&quot;http://222.190.120.106:10001/TestGome_SlProj/webService/eInvWS?wsdl=IEInvWebService.wsdl&quot;&gt; &lt;/wsdl:import&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;wsdl:binding name=&quot;EInvWebServiceImplServiceSoapBinding&quot; type=&quot;ns1:IEInvWebService&quot;&gt;</span><br><span class="line">		&lt;soap:binding transport=&quot;http://schemas.xmlsoap.org/soap/http&quot; style=&quot;document&quot;/&gt;</span><br><span class="line">		&lt;wsdl:operation name=&quot;gomeData&quot;&gt;</span><br><span class="line">			&lt;soap:operation style=&quot;document&quot; soapAction=&quot;&quot;/&gt;</span><br><span class="line">			&lt;wsdl:input name=&quot;gomeData&quot;&gt;</span><br><span class="line">				&lt;soap:body use=&quot;literal&quot;/&gt;</span><br><span class="line">			&lt;/wsdl:input&gt;</span><br><span class="line">			&lt;wsdl:output name=&quot;gomeDataResponse&quot;&gt;</span><br><span class="line">				&lt;soap:body use=&quot;literal&quot;/&gt;</span><br><span class="line">			&lt;/wsdl:output&gt;</span><br><span class="line">		&lt;/wsdl:operation&gt;</span><br><span class="line">	&lt;/wsdl:binding&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;wsdl:service name=&quot;EInvWebServiceImplService&quot;&gt;</span><br><span class="line">		&lt;wsdl:port name=&quot;EInvWebServiceImplPort&quot; binding=&quot;tns:EInvWebServiceImplServiceSoapBinding&quot;&gt;</span><br><span class="line">			&lt;soap:address location=&quot;http://222.190.120.106:10001/TestGome_SlProj/webService/eInvWS&quot;/&gt;</span><br><span class="line">		&lt;/wsdl:port&gt;</span><br><span class="line">	&lt;/wsdl:service&gt;</span><br><span class="line">&lt;/wsdl:definitions&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2020/10/16/WSDL/" data-id="cl2ehag9j001zhwucbnl0dyw7" data-title="WSDL" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/java4u/page/4/">&laquo; 上一页</a><a class="page-number" href="/java4u/">1</a><span class="space">&hellip;</span><a class="page-number" href="/java4u/page/3/">3</a><a class="page-number" href="/java4u/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/java4u/page/6/">6</a><a class="extend next" rel="next" href="/java4u/page/6/">下一页 &raquo;</a>
+  </nav>
+
+</section>
         
-          <span>&nbsp;|&nbsp;</span>
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/security/">security</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/webservice/">webservice</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">项目流程</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" rel="tag">业务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/java4u/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/java4u/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/java4u/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/java4u/tags/TPC-IP/" style="font-size: 10px;">TPC/IP</a> <a href="/java4u/tags/WSDL/" style="font-size: 10px;">WSDL</a> <a href="/java4u/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" style="font-size: 12.5px;">业务</a> <a href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/java4u/tags/%E6%95%B0%E7%BB%84/" style="font-size: 15px;">数组</a> <a href="/java4u/tags/%E6%BA%90%E7%A0%81/" style="font-size: 12.5px;">源码</a> <a href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" style="font-size: 10px;">进程优化</a> <a href="/java4u/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 12.5px;">链表</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
+          <li>
+            <a href="/java4u/2022/04/24/MQ/">MQ</a>
+          </li>
         
-          Theme -
-          <a 
-            href="https://github.com/theme-kaze" 
-            class="footer-link" 
-            target="_blank"
-            rel="nofollow noopener noreferrer">
-            &nbsp;Kaze
-          </a>
+          <li>
+            <a href="/java4u/2022/04/21/SpringCloud/">SpringCloud</a>
+          </li>
+        
+          <li>
+            <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">REDIS深入了解</a>
+          </li>
+        
+          <li>
+            <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/">国网发票业务规则整理</a>
+          </li>
+        
+          <li>
+            <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/">账管业务流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
         
       </div>
-    
-    
-    
-    
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhao Xin<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
 </footer>
- 
-    
-  <a 
-    role="button" 
-    id="scrollbutton" 
-    class="basebutton" 
-    aria-label="回到顶部">
-    <i class="iconfont icon-arrowleft button-icon"></i>
-  </a>
 
-<a 
-  role="button" 
-  id="menubutton"
-  aria-label="menu button"
-  class="basebutton">
-  <i class="iconfont icon-menu button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="popbutton" 
-  class="basebutton" 
-  aria-label="控制中心">
-  <i class="iconfont icon-expand button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="darkbutton" 
-  class="basebutton darkwidget" 
-  aria-label="夜色模式">
-  <i class="iconfont icon-weather button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="searchbutton" 
-  class="basebutton searchwidget" 
-  aria-label="搜索">
-  <i class="iconfont icon-search button-icon"></i>
-</a> 
-     
-     
-     
-     
-    <script src="/java4u/js/main.js"></script> 
-     
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/java4u/" class="mobile-nav-link">Home</a>
+  
+    <a href="/java4u/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
     
-      <script>
-        var addLazyload = function () {
-          var observer = lozad('.lozad', {
-            load: function (el) {
-              el.srcset = el.getAttribute('data-src')
-            },
-            loaded: function (el) {
-              el.classList.add('loaded')
-            },
-          })
-          observer.observe()
-        }
-      </script>
-      <script>
-        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
-      </script>
-     
-    
-    
-      <script>
-        setTimeout(() => {localSearch("search.json")}, 0)
-      </script>
-    
-  </body>
+
+
+<script src="/java4u/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/java4u/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/java4u/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
 </html>

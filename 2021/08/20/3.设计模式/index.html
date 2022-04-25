@@ -1,341 +1,127 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-  <meta charset="UTF-8">
-  <meta 
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta 
-    http-equiv="X-UA-Compatible" 
-    content="ie=edge">
-  <meta 
-    name="theme-color" 
-    content="#fff" 
-    id="theme-color">
-  <meta 
-    name="description" 
-    content="Snail">
-  <link 
-    rel="icon" 
-    href="/java4u/img/snail.png">
-  <title>设计模式</title>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>设计模式 | Snail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1.工厂方法模式12345public class SendFactory &amp;#123;    public Sender produceMail()&amp;#123;return new MailSender();&amp;#125;        public Sender produceSms()&amp;#123;return new SmsSender();&amp;#125;&amp;#125;  静态⼯⼚⽅法模式：将上⾯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="https://zxtc123.github.io/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Snail">
+<meta property="og:description" content="1.工厂方法模式12345public class SendFactory &amp;#123;    public Sender produceMail()&amp;#123;return new MailSender();&amp;#125;        public Sender produceSms()&amp;#123;return new SmsSender();&amp;#125;&amp;#125;  静态⼯⼚⽅法模式：将上⾯">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-20T09:27:01.996Z">
+<meta property="article:modified_time" content="2022-04-24T03:19:38.314Z">
+<meta property="article:author" content="Zhao Xin">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/java4u/atom.xml" title="Snail" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/java4u/favicon.png">
+  
   
     
-      <meta 
-        property="og:title" 
-        content="设计模式">
-    
-    
-      <meta 
-        property="og:url" 
-        content="https://zxtc123.github.io/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
-    
-    
-      <meta 
-        property="og:img" 
-        content="/java4u/img/1.e3a1f41f.gif">
-    
-    
-    
-      <meta 
-        property="og:type" 
-        content="article">
-      <meta 
-        property="og:article:published_time" 
-        content="2021-08-20">
-      <meta 
-        property="og:article:modified_time" 
-        content="2022-04-24">
-      <meta 
-        property="og:article:author" 
-        content="Zhao Xin">
-      
-        
-          <meta 
-            property="og:article:tag" 
-            content="学习">
-        
-      
-    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
-  <script>
-    function loadScript(url, cb) {
-      var script = document.createElement('script');
-      script.src = url;
-      if (cb) script.onload = cb;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-    function loadCSS(href, data, attr) {
-      var sheet = document.createElement('link');
-      sheet.ref = 'stylesheet';
-      sheet.href = href;
-      sheet.dataset[data] = attr;
-      document.head.appendChild(sheet);
-    }
-    function changeCSS(cssFile, data, attr) {
-      var oldlink = document.querySelector(data);
-      var newlink = document.createElement("link");
-      newlink.setAttribute("rel", "stylesheet");
-      newlink.setAttribute("href", cssFile);
-      newlink.dataset.prism = attr;
-      document.head.replaceChild(newlink, oldlink);
-    }
-  </script>
+  
+<link rel="stylesheet" href="/java4u/css/style.css">
+
   
     
-  
-  <script>
-    // control reverse button
-    var reverseDarkList = {
-      dark: 'light',
-      light: 'dark'
-    };
-    var themeColor = {
-      dark: '#1c1c1e',
-      light: '#fff'
-    }
-    // get the data of css prefers-color-scheme
-    var getCssMediaQuery = function() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    // reverse current darkmode setting function
-    var reverseDarkModeSetting = function() {
-      var setting = localStorage.getItem('user-color-scheme');
-      if(reverseDarkList[setting]) {
-        setting = reverseDarkList[setting];
-      } else if(setting === null) {
-        setting = reverseDarkList[getCssMediaQuery()];
-      } else {
-        return;
-      }
-      localStorage.setItem('user-color-scheme', setting);
-      return setting;
-    };
-    // apply current darkmode setting
-  </script>
-  
-    <script>
-      var setDarkmode = function(mode) {
-      var setting = mode || localStorage.getItem('user-color-scheme');
-      if(setting === getCssMediaQuery()) {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else if(reverseDarkList[setting]) {
-        document.documentElement.setAttribute('data-user-color-scheme', setting);
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
-        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
-      }
-    };
-    setDarkmode();
-    </script>
-  
-  
-  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
-  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
-  
-  
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/java4u/css/main.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
-  
-    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+<link rel="stylesheet" href="/java4u/fancybox/jquery.fancybox.min.css">
+
   
 <meta name="generator" content="Hexo 6.1.0"></head>
 
-  <body>
-    <div class="wrapper">
-       
-      <nav class="navbar">
-  <div class="navbar-logo">
-    <span class="navbar-logo-main">
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/java4u/" id="logo">Snail</a>
+      </h1>
       
-        <img 
-          class="navbar-logo-img"
-          width="32"
-          height="32"
-          src="/java4u/img/snail.png" 
-          alt="blog logo">
-      
-      <span class="navbar-logo-dsc">Snail</span>
-    </span>
-  </div>
-  <div class="navbar-menu">
-    
-      <a 
-        href="/java4u/" 
-        class="navbar-menu-item">
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
         
-          首页
+          <a class="main-nav-link" href="/java4u/">Home</a>
         
-      </a>
-    
-      <a 
-        href="/java4u/archives" 
-        class="navbar-menu-item">
+          <a class="main-nav-link" href="/java4u/archives">Archives</a>
         
-          归档
+      </nav>
+      <nav id="sub-nav">
         
-      </a>
-    
-      <a 
-        href="/java4u/tags" 
-        class="navbar-menu-item">
+          <a id="nav-rss-link" class="nav-icon" href="/java4u/atom.xml" title="RSS 订阅"></a>
         
-          标签
-        
-      </a>
-    
-      <a 
-        href="/java4u/categories" 
-        class="navbar-menu-item">
-        
-          分类
-        
-      </a>
-    
-      <a 
-        href="/java4u/about" 
-        class="navbar-menu-item">
-        
-          关于
-        
-      </a>
-    
-      <a 
-        href="/java4u/links" 
-        class="navbar-menu-item">
-        
-          友链
-        
-      </a>
-    
-    <a 
-      class="navbar-menu-item darknavbar" 
-      id="dark">
-      <i class="iconfont icon-weather"></i>
-    </a>
-    <a 
-      class="navbar-menu-item searchnavbar" 
-      id="search">
-      <i 
-        class="iconfont icon-search" 
-        style="font-size: 1.2rem; font-weight: 400;">
-      </i>
-    </a>
-  </div>
-</nav> 
-      
-      <div 
-        id="local-search" 
-        style="display: none">
-        <input
-          class="navbar-menu-item"
-          id="search-input"
-          placeholder="请输入搜索内容..." />
-        <div id="search-content"></div>
-      </div>
-      
-      <div class="section-wrap">
-        <div class="container">
-          <div class="columns">
-            <main class="main-column">
-<article class="card card-content">
-  <header>
-    <h1 class="post-title">
-      设计模式
-    </h1>
-  </header>
-  <div class="post-meta post-show-meta">
-    <time datetime="2021-08-20T09:27:01.996Z">
-      <i 
-        class="iconfont icon-calendar" 
-        style="margin-right: 2px;">
-      </i>
-      <span>2021-08-20</span>
-    </time>
-    
-      <span class="dot"></span>
-      
-        <a 
-          href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
-          class="post-meta-link">
-          面试
-        </a>
-      
-    
-    
-      <span class="dot"></span>
-      <span>1.2k 字</span>
-    
-  </div>
-  
-    <div 
-      class="post-meta post-show-meta" 
-      style="margin-top: -10px;">
-      <div style="display: flex; align-items: center;">
-        <i 
-          class="iconfont icon-biaoqian" 
-          style="margin-right: 2px; font-size: 1.15rem;">
-        </i>
-        
-          
-          <a 
-            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-            class="post-meta-link">
-            学习
-          </a>
-        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zxtc123.github.io/java4u"></form>
       </div>
     </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-3.设计模式" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time class="dt-published" datetime="2021-08-20T09:27:01.996Z" itemprop="datePublished">2021-08-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-  </header>
-  <div 
-    id="section" 
-    class="post-content">
-    <h1 id="1-工厂方法模式"><a href="#1-工厂方法模式" class="headerlink" title="1.工厂方法模式"></a>1.工厂方法模式</h1><pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SendFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Sender <span class="title function_">produceMail</span><span class="params">()</span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MailSender</span>();&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Sender <span class="title function_">produceSms</span><span class="params">()</span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SmsSender</span>();&#125;</span><br><span class="line">&#125;</span><br></pre>
+    <h1 class="p-name article-title" itemprop="headline name">
+      设计模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-工厂方法模式"><a href="#1-工厂方法模式" class="headerlink" title="1.工厂方法模式"></a>1.工厂方法模式</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SendFactory</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> Sender <span class="title function_">produceMail</span><span class="params">()</span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">MailSender</span>();&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> Sender <span class="title function_">produceSms</span><span class="params">()</span>&#123;<span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">SmsSender</span>();&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>静态⼯⼚⽅法模式：将上⾯的多个⼯⼚⽅法置为静态的，不需要创建⼯⼚实例，直接调⽤即可；</p>
 <p>适⽤场景：凡是出现了⼤量不同种类的产品需要创建，并且具有共同的接⼝时，可以通过⼯⼚⽅法模式进⾏创建。⼤多数情况下，我们会选⽤——静态⼯⼚⽅法模式。</p>
 <h1 id="2-抽象工厂模式"><a href="#2-抽象工厂模式" class="headerlink" title="2.抽象工厂模式"></a>2.抽象工厂模式</h1><p>创建多个⼯⼚类，（生产一个系列商品）提⾼⼯⼚的扩展性，不⽤像上⾯⼀样如果增加产品则要去修改唯⼀的⼯⼚类；</p>
 <h1 id="3-单例模式"><a href="#3-单例模式" class="headerlink" title="3.单例模式"></a>3.单例模式</h1><p>保证在⼀个JVM中，该对象只有⼀个实例存在；</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">/* 持有私有静态实例，防⽌被引⽤，此处赋值为null，⽬的是实现延迟加载 */</span></span><br><span class="line">    <span class="keyword">private</span> state <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">/* 私有构造⽅法，防⽌被实例化 */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">/* 静态⼯程⽅法，创建实例 */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="comment">/* 持有私有静态实例，防⽌被引⽤，此处赋值为null，⽬的是实现延迟加载 */</span></span><br><span class="line">    <span class="keyword">private</span> state <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="comment">/* 私有构造⽅法，防⽌被实例化 */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="comment">/* 静态⼯程⽅法，创建实例 */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>1、饿汉式：类初始化时创建单例，线程安全，适⽤于单例占内存⼩的场景，否则推荐使⽤懒汉式延迟加载；</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;<span class="keyword">return</span> instance;&#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;<span class="keyword">return</span> instance;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>2、懒汉式：需要创建单例实例的时候再创建，需要考虑线程安全(性能不太好)：</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">null</span> == instance)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(<span class="literal">null</span> == instance)&#123;</span><br><span class="line">            instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>3、双重检验锁：效率⾼；(解决问题：假如两个线程A、B，A执⾏了if (instance &#x3D;&#x3D; null)语句，它会认为单例对象没有创建，此时线程切到B也执⾏了同样的语句，B也认为单例对象没有创建，然后两个线程依次执⾏同步代码块，并分别创建了⼀个单例对象。)</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;<span class="comment">//volatile的⼀个语义是禁⽌指令重排序优化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton.class)&#123;</span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">volatile</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="literal">null</span>;<span class="comment">//volatile的⼀个语义是禁⽌指令重排序优化</span></span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            <span class="keyword">synchronized</span>(Singleton.class)&#123;</span><br><span class="line">                <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>4、静态内部类⽅式：可以同时保证延迟加载和线程安全。</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Singleton</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title class_">SingletonHolder</span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">Singleton</span> <span class="variable">instance</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Singleton</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="title function_">Singleton</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title function_">getInstance</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> SingletonHolder.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>5、枚举：使⽤枚举除了线程安全和防⽌反射调⽤构造器之外，还提供了⾃动序列化机制，防⽌反序列化的时候创建新的对象。</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    instance;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">mothod</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Singleton</span>&#123;</span><br><span class="line">    instance;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">mothod</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="4-原型模式"><a href="#4-原型模式" class="headerlink" title="4.原型模式"></a>4.原型模式</h1><p>(对⼀个原型对象进⾏复制、克隆产⽣类似新对象)：将⼀个对象作为原型，对其进⾏复制、克隆，产⽣⼀个和元对象类似的新对象；</p>
 <p> 1、核⼼：它的核⼼是原型类Prototype，需要实现Cloneable接⼝，和重写Object类中的clone⽅法；</p>
@@ -343,543 +129,170 @@
 <h1 id="5-适配器模式"><a href="#5-适配器模式" class="headerlink" title="5.适配器模式"></a>5.适配器模式</h1><p>将某个类的接⼝转换成客户端期望的另⼀个接⼝表示，⽬的是消除由于接⼝不匹配所造成的类的兼容性问题</p>
 <p>1、类的适配器模式：</p>
 <p>Source拥有一个方法，目标接口Targetable,通过Adapter类，将Source功能扩展到Targetable</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Source</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is original method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="comment">//与原类中方法相同</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>;</span><br><span class="line">    <span class="comment">//新类的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adapter</span> <span class="keyword">extends</span> <span class="title class_">Source</span> <span class="keyword">implements</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is the targetable method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Source</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is original method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="comment">//与原类中方法相同</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>;</span><br><span class="line">    <span class="comment">//新类的方法</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Adapter</span> <span class="keyword">extends</span> <span class="title class_">Source</span> <span class="keyword">implements</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is the targetable method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>2、对象的适配器模式：</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Wrapper</span> <span class="keyword">implements</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Source source;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Wrapper</span><span class="params">(Source source)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.source = source;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is the targetable method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Wrapper</span> <span class="keyword">implements</span> <span class="title class_">Targetable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> Source source;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Wrapper</span><span class="params">(Source source)</span>&#123;</span><br><span class="line">        <span class="built_in">super</span>();</span><br><span class="line">        <span class="built_in">this</span>.source = source;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;this is the targetable method!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>3、接⼝的适配器模式：</p>
-<pre class="highlight"><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Sourceable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method3</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Wrapper2</span> <span class="keyword">implements</span> <span class="title class_">Sourceable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method3</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SourceSub1</span> <span class="keyword">extends</span> <span class="title class_">Wrapper2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;the sourceable interface&#x27;s first Sub1!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SourceSub2</span> <span class="keyword">extends</span> <span class="title class_">Wrapper2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;the sourceable interface&#x27;s second Sub2!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Sourceable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method3</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title class_">Wrapper2</span> <span class="keyword">implements</span> <span class="title class_">Sourceable</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method3</span><span class="params">()</span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SourceSub1</span> <span class="keyword">extends</span> <span class="title class_">Wrapper2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method1</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;the sourceable interface&#x27;s first Sub1!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SourceSub2</span> <span class="keyword">extends</span> <span class="title class_">Wrapper2</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">method2</span><span class="params">()</span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;the sourceable interface&#x27;s second Sub2!&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p> 4、使⽤场景：</p>
 <p> 1、类的适配器模式：当希望将⼀个类转换成满⾜另⼀个新接⼝的类时，可以使⽤类的适配器模式，创建⼀个新类，继承原有的类，实现新的接⼝即可。</p>
 <p> 2、对象的适配器模式：当希望将⼀个对象转换成满⾜另⼀个新接⼝的对象时，可以创建⼀个Wrapper类，持有原类的⼀个实例，在Wrapper类的⽅法中，调⽤实例的⽅法就⾏。</p>
 <p> 3、接⼝的适配器模式：当不希望实现⼀个接⼝中所有的⽅法时，可以创建⼀个抽象类Wrapper，实现所有⽅法，我们写别的类的时候，继承抽象类即可。 </p>
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-id="cl2ehag8u000ahwuc439r0fxq" data-title="设计模式" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
+
+    </footer>
   </div>
-  <div>
+  
     
-      <div 
-        class="post-note note-warning copyright" 
-        style="margin-top: 42px">
-        <p>
-          <span style="font-weight: bold;">作者：</span><a 
-            target="_blank" 
-            rel="nofollow noopener noreferrer" 
-            href="/java4u/about">
-            Zhao Xin
-          </a>
-        </p>
-        <p>
-          <span style="font-weight: bold;">文章链接：</span><a 
-            target="_blank" 
-            rel="nofollow noopener noreferrer" 
-            href="https://zxtc123.github.io/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
-            https://zxtc123.github.io/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/
-          </a>
-        </p>
-        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+<nav id="article-nav">
+  
+    <a href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          多线程
+        
       </div>
-    
-  </div>
+    </a>
+  
+  
+    <a href="/java4u/2021/08/16/2.jvm/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">JVM</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-<div class="nav">
-  
-    <div class="nav-item-prev">
-      <a 
-        href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/" 
-        class="nav-link">
-        <i class="iconfont icon-left nav-prev-icon"></i>
-        <div>
-          <div class="nav-label">上一篇</div>
-          
-            <div class="nav-title">多线程 </div>
-          
-        </div>
-      </a>
-    </div>
-  
-  
-    <div class="nav-item-next">
-      <a 
-        href="/java4u/2021/08/16/2.jvm/" 
-        class="nav-link">
-        <div>
-          <div class="nav-label">下一篇</div>
-          
-            <div class="nav-title">JVM </div>
-          
-        </div>
-        <i class="iconfont icon-right nav-next-icon"></i>
-      </a>
-    </div>
-  
-</div>
 
-<div 
-  class="card card-content toc-card" 
-  id="mobiletoc">
-  <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.工厂方法模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">2.抽象工厂模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">3.单例模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">4.原型模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">5.适配器模式</span></a></li></ol>
-</div></main>
-            <aside class="left-column">
-              
-              <div class="card card-author">
-                
-  <img 
-    src="/java4u/img/1.e3a1f41f.gif" 
-    class="author-img"
-    width="88"
-    height="88"
-    alt="author avatar">
 
-<p class="author-name">Zhao Xin</p>
-<p class="author-description">5年工作经验，不秃头的java萌新。</p>
-<div class="author-message">
-  <a 
-    class="author-posts-count" 
-    href="/java4u/archives">
-    <span>53</span>
-    <span>文章</span>
-  </a>
-  <a 
-    class="author-categories-count" 
-    href="/java4u/categories">
-    <span>13</span>
-    <span>分类</span>
-  </a>
-  <a 
-    class="author-tags-count" 
-    href="/java4u/tags">
-    <span>12</span>
-    <span>标签</span>
-  </a>
-</div>
-
-              </div>
-               <div class="sticky-tablet">
+</section>
+        
+          <aside id="sidebar">
   
-  
-    <article class="display-when-two-columns spacer">
-      <div class="card card-content toc-card">
-        <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.工厂方法模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">2.抽象工厂模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">3.单例模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">4.原型模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">5.适配器模式</span></a></li></ol>
-      </div>
-    </article>
-  
-  
-  <article class="card card-content categories-widget">
-    <div class="categories-card">
-  <div class="categories-header">
-    <i 
-      class="iconfont icon-fenlei" 
-      style="padding-right: 2px;">
-    </i>分类
-  </div>
-  <div class="categories-list">
     
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">11</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
-        <div class="categories-list-item">
-          面试
-          <span class="categories-list-item-badge">8</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/security/">
-        <div class="categories-list-item">
-          security
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
-        <div class="categories-list-item">
-          分布式
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/SQL/">
-        <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  <article class="card card-content tags-widget">
-    <div class="tags-card">
-  <div class="tags-header">
-    <i 
-      class="iconfont icon-biaoqian" 
-      style="padding-right: 2px;">
-    </i>热门标签
-  </div>
-  <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
-        title="数组">
-        <div class="tags-list-item">数组</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/OAuth/" 
-        title="OAuth">
-        <div class="tags-list-item">OAuth</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        title="进程优化">
-        <div class="tags-list-item">进程优化</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-            </aside>
-            <aside class="right-column">
-              <div class="sticky-widescreen">
-  
-  
-    <article class="card card-content toc-card">
-      <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="toc-text">1.工厂方法模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">2.抽象工厂模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">3.单例模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F"><span class="toc-text">4.原型模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="toc-text">5.适配器模式</span></a></li></ol>
-    </article>
-  
-  
-  <article class="card card-content">
-    <div class="recent-posts-card">
-  <div class="recent-posts-header">
-    <i 
-      class="iconfont icon-wenzhang_huaban" 
-      style="padding-right: 2px;">
-    </i>最近文章
-  </div>
-  <div class="recent-posts-list">
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-25</div>
-        <a href="/java4u/2022/04/25/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/"><div class="recent-posts-item-content">21. 合并两个有序链表</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-24</div>
-        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-21</div>
-        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
-      </div>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-            </aside>
-          </div>
-        </div>
-      </div>
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/security/">security</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/webservice/">webservice</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">项目流程</a></li></ul>
     </div>
-     
-    <footer class="footer">
-  <div class="footer-container">
-    <div>
-      <div class="footer-dsc">
-        <span>
-          Copyright ©
-          
-            2020
-          
-          
-                - 
-                2022
-          
-        </span>
-        &nbsp;
-        <a 
-          href="/java4u/" 
-          class="footer-link">
-          Snail
-        </a>
-      </div>
-    </div>
+  </div>
 
+
+  
     
-      <div class="footer-dsc">
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" rel="tag">业务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/java4u/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/java4u/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/java4u/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/java4u/tags/TPC-IP/" style="font-size: 10px;">TPC/IP</a> <a href="/java4u/tags/WSDL/" style="font-size: 10px;">WSDL</a> <a href="/java4u/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" style="font-size: 12.5px;">业务</a> <a href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/java4u/tags/%E6%95%B0%E7%BB%84/" style="font-size: 15px;">数组</a> <a href="/java4u/tags/%E6%BA%90%E7%A0%81/" style="font-size: 12.5px;">源码</a> <a href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" style="font-size: 10px;">进程优化</a> <a href="/java4u/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 12.5px;">链表</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
-          Powered by
-          <a 
-            href="https://hexo.io/" 
-            class="footer-link" 
-            target="_blank" 
-            rel="nofollow noopener noreferrer">
-            &nbsp;Hexo
-          </a>
+          <li>
+            <a href="/java4u/2022/04/24/MQ/">MQ</a>
+          </li>
         
+          <li>
+            <a href="/java4u/2022/04/21/SpringCloud/">SpringCloud</a>
+          </li>
         
-          <span>&nbsp;|&nbsp;</span>
+          <li>
+            <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">REDIS深入了解</a>
+          </li>
         
+          <li>
+            <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/">国网发票业务规则整理</a>
+          </li>
         
-          Theme -
-          <a 
-            href="https://github.com/theme-kaze" 
-            class="footer-link" 
-            target="_blank"
-            rel="nofollow noopener noreferrer">
-            &nbsp;Kaze
-          </a>
+          <li>
+            <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/">账管业务流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
         
       </div>
-    
-    
-    
-    
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhao Xin<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
 </footer>
- 
-    
-  <a 
-    role="button" 
-    id="scrollbutton" 
-    class="basebutton" 
-    aria-label="回到顶部">
-    <i class="iconfont icon-arrowleft button-icon"></i>
-  </a>
 
-<a 
-  role="button" 
-  id="menubutton"
-  aria-label="menu button"
-  class="basebutton">
-  <i class="iconfont icon-menu button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="popbutton" 
-  class="basebutton" 
-  aria-label="控制中心">
-  <i class="iconfont icon-expand button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="darkbutton" 
-  class="basebutton darkwidget" 
-  aria-label="夜色模式">
-  <i class="iconfont icon-weather button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="searchbutton" 
-  class="basebutton searchwidget" 
-  aria-label="搜索">
-  <i class="iconfont icon-search button-icon"></i>
-</a> 
-     
-     
-     
-      <script>
-  var addImgLayout = function () {
-    var img = document.querySelectorAll('.post-content img')
-    var i
-    for (i = 0; i < img.length; i++) {
-      var wrapper = document.createElement('a')
-      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
-      wrapper.setAttribute('aria-label', 'illustration')
-      wrapper.style.cssText =
-        'width: 100%; display: flex; justify-content: center;'
-      if (img[i].alt) wrapper.dataset.caption = img[i].alt
-      wrapper.dataset.nolink = true
-      img[i].before(wrapper)
-      wrapper.append(img[i])
-      var divWrap = document.createElement('div')
-      divWrap.classList.add('gallery')
-      wrapper.before(divWrap)
-      divWrap.append(wrapper)
-    }
-    baguetteBox.run('.gallery')
-  }
-</script>
-<script>
-  loadScript(
-    "/java4u/js/lib/lightbox/baguetteBox.min.js",
-    addImgLayout
-  )
-</script>
- 
-     
-     
-    <script src="/java4u/js/main.js"></script> 
-     
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/java4u/" class="mobile-nav-link">Home</a>
+  
+    <a href="/java4u/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
     
-      <script>
-        var addLazyload = function () {
-          var observer = lozad('.lozad', {
-            load: function (el) {
-              el.srcset = el.getAttribute('data-src')
-            },
-            loaded: function (el) {
-              el.classList.add('loaded')
-            },
-          })
-          observer.observe()
-        }
-      </script>
-      <script>
-        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
-      </script>
-     
-    
-    
-      <script>
-        setTimeout(() => {localSearch("search.json")}, 0)
-      </script>
-    
-  </body>
+
+
+<script src="/java4u/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/java4u/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/java4u/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
 </html>

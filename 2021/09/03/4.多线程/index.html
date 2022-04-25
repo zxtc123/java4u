@@ -1,320 +1,108 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-  <meta charset="UTF-8">
-  <meta 
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta 
-    http-equiv="X-UA-Compatible" 
-    content="ie=edge">
-  <meta 
-    name="theme-color" 
-    content="#fff" 
-    id="theme-color">
-  <meta 
-    name="description" 
-    content="Snail">
-  <link 
-    rel="icon" 
-    href="/java4u/img/snail.png">
-  <title>多线程</title>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>多线程 | Snail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="1. 什么是线程？1、线程是操作系统能够进⾏运算调度的最⼩单位，它被包含在进程之中，是进程中的实际运作单位，可以使⽤多线程对进⾏运算提速。 2.什么是⾃旋锁？⾃旋锁是SMP架构中的⼀种low-level的同步机制。 1、当线程A想要获取⼀把⾃旋锁⽽该锁⼜被其它线程锁持有时，线程A会在⼀个循环中⾃旋以检测锁是不是已经可⽤了。  2、⾃选锁需要注意： 由于⾃旋时不释放CPU，因⽽持有⾃旋锁的线程应该尽">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多线程">
+<meta property="og:url" content="https://zxtc123.github.io/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Snail">
+<meta property="og:description" content="1. 什么是线程？1、线程是操作系统能够进⾏运算调度的最⼩单位，它被包含在进程之中，是进程中的实际运作单位，可以使⽤多线程对进⾏运算提速。 2.什么是⾃旋锁？⾃旋锁是SMP架构中的⼀种low-level的同步机制。 1、当线程A想要获取⼀把⾃旋锁⽽该锁⼜被其它线程锁持有时，线程A会在⼀个循环中⾃旋以检测锁是不是已经可⽤了。  2、⾃选锁需要注意： 由于⾃旋时不释放CPU，因⽽持有⾃旋锁的线程应该尽">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="c:/Users/dave_cc/Downloads/4、多线程(68题)/5.png">
+<meta property="article:published_time" content="2021-09-03T03:30:29.312Z">
+<meta property="article:modified_time" content="2022-04-24T03:21:11.633Z">
+<meta property="article:author" content="Zhao Xin">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="c:/Users/dave_cc/Downloads/4、多线程(68题)/5.png">
+  
+    <link rel="alternate" href="/java4u/atom.xml" title="Snail" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/java4u/favicon.png">
+  
   
     
-      <meta 
-        property="og:title" 
-        content="多线程">
-    
-    
-      <meta 
-        property="og:url" 
-        content="https://zxtc123.github.io/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/index.html">
-    
-    
-      <meta 
-        property="og:img" 
-        content="/java4u/img/1.e3a1f41f.gif">
-    
-    
-    
-      <meta 
-        property="og:type" 
-        content="article">
-      <meta 
-        property="og:article:published_time" 
-        content="2021-09-03">
-      <meta 
-        property="og:article:modified_time" 
-        content="2022-04-24">
-      <meta 
-        property="og:article:author" 
-        content="Zhao Xin">
-      
-        
-          <meta 
-            property="og:article:tag" 
-            content="学习">
-        
-      
-    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
-  <script>
-    function loadScript(url, cb) {
-      var script = document.createElement('script');
-      script.src = url;
-      if (cb) script.onload = cb;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-    function loadCSS(href, data, attr) {
-      var sheet = document.createElement('link');
-      sheet.ref = 'stylesheet';
-      sheet.href = href;
-      sheet.dataset[data] = attr;
-      document.head.appendChild(sheet);
-    }
-    function changeCSS(cssFile, data, attr) {
-      var oldlink = document.querySelector(data);
-      var newlink = document.createElement("link");
-      newlink.setAttribute("rel", "stylesheet");
-      newlink.setAttribute("href", cssFile);
-      newlink.dataset.prism = attr;
-      document.head.replaceChild(newlink, oldlink);
-    }
-  </script>
+  
+<link rel="stylesheet" href="/java4u/css/style.css">
+
   
     
-  
-  <script>
-    // control reverse button
-    var reverseDarkList = {
-      dark: 'light',
-      light: 'dark'
-    };
-    var themeColor = {
-      dark: '#1c1c1e',
-      light: '#fff'
-    }
-    // get the data of css prefers-color-scheme
-    var getCssMediaQuery = function() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    // reverse current darkmode setting function
-    var reverseDarkModeSetting = function() {
-      var setting = localStorage.getItem('user-color-scheme');
-      if(reverseDarkList[setting]) {
-        setting = reverseDarkList[setting];
-      } else if(setting === null) {
-        setting = reverseDarkList[getCssMediaQuery()];
-      } else {
-        return;
-      }
-      localStorage.setItem('user-color-scheme', setting);
-      return setting;
-    };
-    // apply current darkmode setting
-  </script>
-  
-    <script>
-      var setDarkmode = function(mode) {
-      var setting = mode || localStorage.getItem('user-color-scheme');
-      if(setting === getCssMediaQuery()) {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else if(reverseDarkList[setting]) {
-        document.documentElement.setAttribute('data-user-color-scheme', setting);
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
-        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
-      }
-    };
-    setDarkmode();
-    </script>
-  
-  
-  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
-  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
-  
-  
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/java4u/css/main.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
-  
-    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+<link rel="stylesheet" href="/java4u/fancybox/jquery.fancybox.min.css">
+
   
 <meta name="generator" content="Hexo 6.1.0"></head>
 
-  <body>
-    <div class="wrapper">
-       
-      <nav class="navbar">
-  <div class="navbar-logo">
-    <span class="navbar-logo-main">
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/java4u/" id="logo">Snail</a>
+      </h1>
       
-        <img 
-          class="navbar-logo-img"
-          width="32"
-          height="32"
-          src="/java4u/img/snail.png" 
-          alt="blog logo">
-      
-      <span class="navbar-logo-dsc">Snail</span>
-    </span>
-  </div>
-  <div class="navbar-menu">
-    
-      <a 
-        href="/java4u/" 
-        class="navbar-menu-item">
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
         
-          首页
+          <a class="main-nav-link" href="/java4u/">Home</a>
         
-      </a>
-    
-      <a 
-        href="/java4u/archives" 
-        class="navbar-menu-item">
+          <a class="main-nav-link" href="/java4u/archives">Archives</a>
         
-          归档
+      </nav>
+      <nav id="sub-nav">
         
-      </a>
-    
-      <a 
-        href="/java4u/tags" 
-        class="navbar-menu-item">
+          <a id="nav-rss-link" class="nav-icon" href="/java4u/atom.xml" title="RSS 订阅"></a>
         
-          标签
-        
-      </a>
-    
-      <a 
-        href="/java4u/categories" 
-        class="navbar-menu-item">
-        
-          分类
-        
-      </a>
-    
-      <a 
-        href="/java4u/about" 
-        class="navbar-menu-item">
-        
-          关于
-        
-      </a>
-    
-      <a 
-        href="/java4u/links" 
-        class="navbar-menu-item">
-        
-          友链
-        
-      </a>
-    
-    <a 
-      class="navbar-menu-item darknavbar" 
-      id="dark">
-      <i class="iconfont icon-weather"></i>
-    </a>
-    <a 
-      class="navbar-menu-item searchnavbar" 
-      id="search">
-      <i 
-        class="iconfont icon-search" 
-        style="font-size: 1.2rem; font-weight: 400;">
-      </i>
-    </a>
-  </div>
-</nav> 
-      
-      <div 
-        id="local-search" 
-        style="display: none">
-        <input
-          class="navbar-menu-item"
-          id="search-input"
-          placeholder="请输入搜索内容..." />
-        <div id="search-content"></div>
-      </div>
-      
-      <div class="section-wrap">
-        <div class="container">
-          <div class="columns">
-            <main class="main-column">
-<article class="card card-content">
-  <header>
-    <h1 class="post-title">
-      多线程
-    </h1>
-  </header>
-  <div class="post-meta post-show-meta">
-    <time datetime="2021-09-03T03:30:29.312Z">
-      <i 
-        class="iconfont icon-calendar" 
-        style="margin-right: 2px;">
-      </i>
-      <span>2021-09-03</span>
-    </time>
-    
-      <span class="dot"></span>
-      
-        <a 
-          href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
-          class="post-meta-link">
-          面试
-        </a>
-      
-    
-    
-      <span class="dot"></span>
-      <span>5k 字</span>
-    
-  </div>
-  
-    <div 
-      class="post-meta post-show-meta" 
-      style="margin-top: -10px;">
-      <div style="display: flex; align-items: center;">
-        <i 
-          class="iconfont icon-biaoqian" 
-          style="margin-right: 2px; font-size: 1.15rem;">
-        </i>
-        
-          
-          <a 
-            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-            class="post-meta-link">
-            学习
-          </a>
-        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zxtc123.github.io/java4u"></form>
       </div>
     </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-4.多线程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-09-03T03:30:29.312Z" itemprop="datePublished">2021-09-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-  </header>
-  <div 
-    id="section" 
-    class="post-content">
-    <h1 id="1-什么是线程？"><a href="#1-什么是线程？" class="headerlink" title="1. 什么是线程？"></a><strong>1.</strong> 什么是线程？</h1><p>1、线程是操作系统能够进⾏运算调度的最⼩单位，它被包含在进程之中，是进程中的实际运作单位，可以使⽤多线程对进⾏运算提速。</p>
+    <h1 class="p-name article-title" itemprop="headline name">
+      多线程
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="1-什么是线程？"><a href="#1-什么是线程？" class="headerlink" title="1. 什么是线程？"></a><strong>1.</strong> 什么是线程？</h1><p>1、线程是操作系统能够进⾏运算调度的最⼩单位，它被包含在进程之中，是进程中的实际运作单位，可以使⽤多线程对进⾏运算提速。</p>
 <h1 id="2-什么是⾃旋锁？"><a href="#2-什么是⾃旋锁？" class="headerlink" title="2.什么是⾃旋锁？"></a>2.什么是⾃旋锁？</h1><p>⾃旋锁是SMP架构中的⼀种low-level的同步机制。</p>
 <p>1、当线程A想要获取⼀把⾃旋锁⽽该锁⼜被其它线程锁持有时，线程A会在⼀个循环中⾃旋以检测锁是不是已经可⽤了。 </p>
 <p>2、⾃选锁需要注意：</p>
@@ -401,7 +189,7 @@
 <p> 3、当⼀个线程完成任务时，它会从队列中取下⼀个任务来执⾏。</p>
 <p> 4、当⼀个线程⽆事可做，超过⼀定的时间（keepAliveTime）时，线程池会判断，如果当前运⾏的线程数⼤于corePoolSize，那么这个线程就被停掉。所以线程池的所有任务完成后，它最终会收缩到 corePoolSize 的⼤⼩。</p>
 <h1 id="13、ThreadLocal为什么会发⽣内存泄漏？"><a href="#13、ThreadLocal为什么会发⽣内存泄漏？" class="headerlink" title="13、ThreadLocal为什么会发⽣内存泄漏？"></a>13、ThreadLocal为什么会发⽣内存泄漏？</h1><p>1、threadlocal原理图：</p>
-<p><img src="C:\Users\dave_cc\Downloads\4、多线程(68题)\5.png" alt="5" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="C:\Users\dave_cc\Downloads\4、多线程(68题)\5.png" class="lozad post-image"></p>
+<p><img src="C:\Users\dave_cc\Downloads\4、多线程(68题)\5.png" alt="5"></p>
 <p>2、OOM实现：</p>
 <p>1、ThreadLocal的实现是这样的：每个Thread 维护⼀个 ThreadLocalMap 映射表，这个映射表的 key 是 ThreadLocal实例本身，value 是真正需要存储的 Object。 </p>
 <p>2、也就是说 ThreadLocal 本身并不存储值，它只是作为⼀个 key 来让线程从 ThreadLocalMap 获取 value。值得注意的是图中的虚线，表示 ThreadLocalMap 是使⽤ ThreadLocal 的弱引⽤作为 Key 的，弱引⽤的对象在 GC 时会被回收。</p>
@@ -425,530 +213,157 @@
 <h1 id="16、说说volatile如何保证可⻅性，从cpu层⾯分析？"><a href="#16、说说volatile如何保证可⻅性，从cpu层⾯分析？" class="headerlink" title="16、说说volatile如何保证可⻅性，从cpu层⾯分析？"></a>16、说说volatile如何保证可⻅性，从cpu层⾯分析？</h1><p>加入volatile关键字时，会多出一个lock前缀指令，lock前缀指令实际上相当于一个内存屏障，它有三个功能：</p>
 <p>1.确保指令重排序时不会把其后面的指令重排到内存屏障之前的位置，也不会把前面的指令排到内存屏障后面，即在执行到内存屏障这句指令时，前面的操作已经全部完成；<br>2.将当前处理器缓存行的数据立即写回系统内存（由volatile先行发生原则保证）；<br>3.这个写回内存的操作会引起在其他CPU里缓存了该内存地址的数据无效。写回操作时要经过总线传播数据，而每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置为无效状态，当处理器要对这个值进行修改的时候，会强制重新从系统内存里把数据读到处理器缓存(也是由volatile先行发生原则保证)；</p>
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/" data-id="cl2ehagan005nhwucbqwt2o8z" data-title="多线程" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li></ul>
+
+    </footer>
   </div>
-  <div>
+  
     
-      <div 
-        class="post-note note-warning copyright" 
-        style="margin-top: 42px">
-        <p>
-          <span style="font-weight: bold;">作者：</span><a 
-            target="_blank" 
-            rel="nofollow noopener noreferrer" 
-            href="/java4u/about">
-            Zhao Xin
-          </a>
-        </p>
-        <p>
-          <span style="font-weight: bold;">文章链接：</span><a 
-            target="_blank" 
-            rel="nofollow noopener noreferrer" 
-            href="https://zxtc123.github.io/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-            https://zxtc123.github.io/java4u/2021/09/03/4.%E5%A4%9A%E7%BA%BF%E7%A8%8B/
-          </a>
-        </p>
-        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+<nav id="article-nav">
+  
+    <a href="/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          托收算费优化
+        
       </div>
-    
-  </div>
+    </a>
+  
+  
+    <a href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">设计模式</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-<div class="nav">
-  
-    <div class="nav-item-prev">
-      <a 
-        href="/java4u/2021/09/16/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        class="nav-link">
-        <i class="iconfont icon-left nav-prev-icon"></i>
-        <div>
-          <div class="nav-label">上一篇</div>
-          
-            <div class="nav-title">托收算费优化 </div>
-          
-        </div>
-      </a>
-    </div>
-  
-  
-    <div class="nav-item-next">
-      <a 
-        href="/java4u/2021/08/20/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" 
-        class="nav-link">
-        <div>
-          <div class="nav-label">下一篇</div>
-          
-            <div class="nav-title">设计模式 </div>
-          
-        </div>
-        <i class="iconfont icon-right nav-next-icon"></i>
-      </a>
-    </div>
-  
-</div>
 
-<div 
-  class="card card-content toc-card" 
-  id="mobiletoc">
-  <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">1. 什么是线程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E2%BE%83%E6%97%8B%E9%94%81%EF%BC%9F"><span class="toc-text">2.什么是⾃旋锁？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F"><span class="toc-text">3. 什么是CAS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F"><span class="toc-text">4. 什么是AQS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E2%BD%A4%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%9D%A5%E5%AE%9E%E7%8E%B0%E2%BD%A3%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFCallable%E5%92%8CFuture"><span class="toc-text">6. 什么是Callable和Future?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFFutureTask"><span class="toc-text">7. 什么是FutureTask?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-ThreadLocal%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E4%BD%9C%E2%BD%A4%EF%BC%9F"><span class="toc-text">8. ThreadLocal的设计理念与作⽤？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E2%BE%BC%E5%B9%B6%E5%8F%91%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E7%9F%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E4%B8%8D%E2%BE%BC%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E2%BE%BC%E3%80%81%E4%B8%9A%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81%EF%BC%9F%E6%80%8E%E4%B9%88%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="toc-text">11. 如何检测死锁？怎么预防死锁？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1. 概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">2. 死锁的四个必要条件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%BB%E9%94%81%E4%BA%A7%E2%BD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">3. 死锁产⽣的原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5%E6%AD%BB%E9%94%81"><span class="toc-text">4. 检查死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4%E4%B8%8E%E9%A2%84%E9%98%B2%EF%BC%9A%E6%8E%A7%E5%88%B6%E4%B8%8D%E8%A6%81%E8%AE%A9%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%88%90%E2%BD%B4%E3%80%82"><span class="toc-text">5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">12. 线程池原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13%E3%80%81ThreadLocal%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E2%BD%A3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="toc-text">13、ThreadLocal为什么会发⽣内存泄漏？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9F"><span class="toc-text">14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-text">1、⾼并发系统性能优化：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9A"><span class="toc-text">2、防⽌库存超卖：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9A%E5%9C%A8%E6%9B%B4%E6%96%B0%E5%BA%93%E5%AD%98%E6%9C%9F%E9%97%B4%E5%8A%A0%E9%94%81%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%85%B6%E5%AE%83%E7%BA%BF%E7%A8%8B%E4%BF%AE%E6%94%B9%EF%BC%9B"><span class="toc-text">1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%9A%E4%BD%BF%E2%BD%A4%E5%B8%A6%E7%89%88%E6%9C%AC%E5%8F%B7%E7%9A%84%E6%9B%B4%E6%96%B0%E3%80%82%E6%AF%8F%E4%B8%AA%E7%BA%BF%E7%A8%8B%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%9C%89%E2%BC%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E4%BF%AE%E6%94%B9%E6%88%90%E5%8A%9F%EF%BC%8C%E5%85%B6%E5%AE%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E5%A4%B1%E8%B4%A5%E3%80%82"><span class="toc-text">2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E9%80%9A%E8%BF%87-FIFO-%E9%98%9F%E5%88%97%EF%BC%8C%E4%BD%BF%E4%BF%AE%E6%94%B9%E5%BA%93%E5%AD%98%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%B2%E2%BE%8F%E5%8C%96%E3%80%82"><span class="toc-text">3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15%E3%80%81%E8%AF%B4%E8%AF%B4java%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%EF%BC%8Cjava%E6%9C%89%E5%93%AA%E4%BA%9B%E9%94%81%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%94%81%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">15、说说java同步机制，java有哪些锁，每个锁的特性？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16%E3%80%81%E8%AF%B4%E8%AF%B4volatile%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E2%BB%85%E6%80%A7%EF%BC%8C%E4%BB%8Ecpu%E5%B1%82%E2%BE%AF%E5%88%86%E6%9E%90%EF%BC%9F"><span class="toc-text">16、说说volatile如何保证可⻅性，从cpu层⾯分析？</span></a></li></ol>
-</div></main>
-            <aside class="left-column">
-              
-              <div class="card card-author">
-                
-  <img 
-    src="/java4u/img/1.e3a1f41f.gif" 
-    class="author-img"
-    width="88"
-    height="88"
-    alt="author avatar">
 
-<p class="author-name">Zhao Xin</p>
-<p class="author-description">5年工作经验，不秃头的java萌新。</p>
-<div class="author-message">
-  <a 
-    class="author-posts-count" 
-    href="/java4u/archives">
-    <span>53</span>
-    <span>文章</span>
-  </a>
-  <a 
-    class="author-categories-count" 
-    href="/java4u/categories">
-    <span>13</span>
-    <span>分类</span>
-  </a>
-  <a 
-    class="author-tags-count" 
-    href="/java4u/tags">
-    <span>12</span>
-    <span>标签</span>
-  </a>
-</div>
-
-              </div>
-               <div class="sticky-tablet">
+</section>
+        
+          <aside id="sidebar">
   
-  
-    <article class="display-when-two-columns spacer">
-      <div class="card card-content toc-card">
-        <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">1. 什么是线程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E2%BE%83%E6%97%8B%E9%94%81%EF%BC%9F"><span class="toc-text">2.什么是⾃旋锁？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F"><span class="toc-text">3. 什么是CAS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F"><span class="toc-text">4. 什么是AQS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E2%BD%A4%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%9D%A5%E5%AE%9E%E7%8E%B0%E2%BD%A3%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFCallable%E5%92%8CFuture"><span class="toc-text">6. 什么是Callable和Future?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFFutureTask"><span class="toc-text">7. 什么是FutureTask?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-ThreadLocal%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E4%BD%9C%E2%BD%A4%EF%BC%9F"><span class="toc-text">8. ThreadLocal的设计理念与作⽤？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E2%BE%BC%E5%B9%B6%E5%8F%91%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E7%9F%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E4%B8%8D%E2%BE%BC%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E2%BE%BC%E3%80%81%E4%B8%9A%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81%EF%BC%9F%E6%80%8E%E4%B9%88%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="toc-text">11. 如何检测死锁？怎么预防死锁？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1. 概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">2. 死锁的四个必要条件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%BB%E9%94%81%E4%BA%A7%E2%BD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">3. 死锁产⽣的原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5%E6%AD%BB%E9%94%81"><span class="toc-text">4. 检查死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4%E4%B8%8E%E9%A2%84%E9%98%B2%EF%BC%9A%E6%8E%A7%E5%88%B6%E4%B8%8D%E8%A6%81%E8%AE%A9%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%88%90%E2%BD%B4%E3%80%82"><span class="toc-text">5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">12. 线程池原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13%E3%80%81ThreadLocal%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E2%BD%A3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="toc-text">13、ThreadLocal为什么会发⽣内存泄漏？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9F"><span class="toc-text">14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-text">1、⾼并发系统性能优化：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9A"><span class="toc-text">2、防⽌库存超卖：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9A%E5%9C%A8%E6%9B%B4%E6%96%B0%E5%BA%93%E5%AD%98%E6%9C%9F%E9%97%B4%E5%8A%A0%E9%94%81%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%85%B6%E5%AE%83%E7%BA%BF%E7%A8%8B%E4%BF%AE%E6%94%B9%EF%BC%9B"><span class="toc-text">1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%9A%E4%BD%BF%E2%BD%A4%E5%B8%A6%E7%89%88%E6%9C%AC%E5%8F%B7%E7%9A%84%E6%9B%B4%E6%96%B0%E3%80%82%E6%AF%8F%E4%B8%AA%E7%BA%BF%E7%A8%8B%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%9C%89%E2%BC%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E4%BF%AE%E6%94%B9%E6%88%90%E5%8A%9F%EF%BC%8C%E5%85%B6%E5%AE%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E5%A4%B1%E8%B4%A5%E3%80%82"><span class="toc-text">2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E9%80%9A%E8%BF%87-FIFO-%E9%98%9F%E5%88%97%EF%BC%8C%E4%BD%BF%E4%BF%AE%E6%94%B9%E5%BA%93%E5%AD%98%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%B2%E2%BE%8F%E5%8C%96%E3%80%82"><span class="toc-text">3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15%E3%80%81%E8%AF%B4%E8%AF%B4java%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%EF%BC%8Cjava%E6%9C%89%E5%93%AA%E4%BA%9B%E9%94%81%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%94%81%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">15、说说java同步机制，java有哪些锁，每个锁的特性？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16%E3%80%81%E8%AF%B4%E8%AF%B4volatile%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E2%BB%85%E6%80%A7%EF%BC%8C%E4%BB%8Ecpu%E5%B1%82%E2%BE%AF%E5%88%86%E6%9E%90%EF%BC%9F"><span class="toc-text">16、说说volatile如何保证可⻅性，从cpu层⾯分析？</span></a></li></ol>
-      </div>
-    </article>
-  
-  
-  <article class="card card-content categories-widget">
-    <div class="categories-card">
-  <div class="categories-header">
-    <i 
-      class="iconfont icon-fenlei" 
-      style="padding-right: 2px;">
-    </i>分类
-  </div>
-  <div class="categories-list">
     
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">11</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
-        <div class="categories-list-item">
-          面试
-          <span class="categories-list-item-badge">8</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/security/">
-        <div class="categories-list-item">
-          security
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
-        <div class="categories-list-item">
-          分布式
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/SQL/">
-        <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  <article class="card card-content tags-widget">
-    <div class="tags-card">
-  <div class="tags-header">
-    <i 
-      class="iconfont icon-biaoqian" 
-      style="padding-right: 2px;">
-    </i>热门标签
-  </div>
-  <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
-        title="数组">
-        <div class="tags-list-item">数组</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/OAuth/" 
-        title="OAuth">
-        <div class="tags-list-item">OAuth</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        title="进程优化">
-        <div class="tags-list-item">进程优化</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-            </aside>
-            <aside class="right-column">
-              <div class="sticky-widescreen">
-  
-  
-    <article class="card card-content toc-card">
-      <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">1. 什么是线程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E2%BE%83%E6%97%8B%E9%94%81%EF%BC%9F"><span class="toc-text">2.什么是⾃旋锁？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F"><span class="toc-text">3. 什么是CAS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F"><span class="toc-text">4. 什么是AQS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E2%BD%A4%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%9D%A5%E5%AE%9E%E7%8E%B0%E2%BD%A3%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFCallable%E5%92%8CFuture"><span class="toc-text">6. 什么是Callable和Future?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFFutureTask"><span class="toc-text">7. 什么是FutureTask?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-ThreadLocal%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E4%BD%9C%E2%BD%A4%EF%BC%9F"><span class="toc-text">8. ThreadLocal的设计理念与作⽤？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E2%BE%BC%E5%B9%B6%E5%8F%91%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E7%9F%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E4%B8%8D%E2%BE%BC%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E2%BE%BC%E3%80%81%E4%B8%9A%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81%EF%BC%9F%E6%80%8E%E4%B9%88%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="toc-text">11. 如何检测死锁？怎么预防死锁？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1. 概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">2. 死锁的四个必要条件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%BB%E9%94%81%E4%BA%A7%E2%BD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">3. 死锁产⽣的原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5%E6%AD%BB%E9%94%81"><span class="toc-text">4. 检查死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4%E4%B8%8E%E9%A2%84%E9%98%B2%EF%BC%9A%E6%8E%A7%E5%88%B6%E4%B8%8D%E8%A6%81%E8%AE%A9%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%88%90%E2%BD%B4%E3%80%82"><span class="toc-text">5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">12. 线程池原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13%E3%80%81ThreadLocal%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E2%BD%A3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="toc-text">13、ThreadLocal为什么会发⽣内存泄漏？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9F"><span class="toc-text">14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-text">1、⾼并发系统性能优化：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9A"><span class="toc-text">2、防⽌库存超卖：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9A%E5%9C%A8%E6%9B%B4%E6%96%B0%E5%BA%93%E5%AD%98%E6%9C%9F%E9%97%B4%E5%8A%A0%E9%94%81%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%85%B6%E5%AE%83%E7%BA%BF%E7%A8%8B%E4%BF%AE%E6%94%B9%EF%BC%9B"><span class="toc-text">1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%9A%E4%BD%BF%E2%BD%A4%E5%B8%A6%E7%89%88%E6%9C%AC%E5%8F%B7%E7%9A%84%E6%9B%B4%E6%96%B0%E3%80%82%E6%AF%8F%E4%B8%AA%E7%BA%BF%E7%A8%8B%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%9C%89%E2%BC%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E4%BF%AE%E6%94%B9%E6%88%90%E5%8A%9F%EF%BC%8C%E5%85%B6%E5%AE%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E5%A4%B1%E8%B4%A5%E3%80%82"><span class="toc-text">2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E9%80%9A%E8%BF%87-FIFO-%E9%98%9F%E5%88%97%EF%BC%8C%E4%BD%BF%E4%BF%AE%E6%94%B9%E5%BA%93%E5%AD%98%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%B2%E2%BE%8F%E5%8C%96%E3%80%82"><span class="toc-text">3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15%E3%80%81%E8%AF%B4%E8%AF%B4java%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%EF%BC%8Cjava%E6%9C%89%E5%93%AA%E4%BA%9B%E9%94%81%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%94%81%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">15、说说java同步机制，java有哪些锁，每个锁的特性？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16%E3%80%81%E8%AF%B4%E8%AF%B4volatile%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E2%BB%85%E6%80%A7%EF%BC%8C%E4%BB%8Ecpu%E5%B1%82%E2%BE%AF%E5%88%86%E6%9E%90%EF%BC%9F"><span class="toc-text">16、说说volatile如何保证可⻅性，从cpu层⾯分析？</span></a></li></ol>
-    </article>
-  
-  
-  <article class="card card-content">
-    <div class="recent-posts-card">
-  <div class="recent-posts-header">
-    <i 
-      class="iconfont icon-wenzhang_huaban" 
-      style="padding-right: 2px;">
-    </i>最近文章
-  </div>
-  <div class="recent-posts-list">
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-25</div>
-        <a href="/java4u/2022/04/25/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/"><div class="recent-posts-item-content">21. 合并两个有序链表</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-24</div>
-        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-21</div>
-        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
-      </div>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-            </aside>
-          </div>
-        </div>
-      </div>
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/security/">security</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/webservice/">webservice</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">项目流程</a></li></ul>
     </div>
-     
-    <footer class="footer">
-  <div class="footer-container">
-    <div>
-      <div class="footer-dsc">
-        <span>
-          Copyright ©
-          
-            2020
-          
-          
-                - 
-                2022
-          
-        </span>
-        &nbsp;
-        <a 
-          href="/java4u/" 
-          class="footer-link">
-          Snail
-        </a>
-      </div>
-    </div>
+  </div>
 
+
+  
     
-      <div class="footer-dsc">
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" rel="tag">业务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/java4u/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/java4u/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/java4u/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/java4u/tags/TPC-IP/" style="font-size: 10px;">TPC/IP</a> <a href="/java4u/tags/WSDL/" style="font-size: 10px;">WSDL</a> <a href="/java4u/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" style="font-size: 12.5px;">业务</a> <a href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/java4u/tags/%E6%95%B0%E7%BB%84/" style="font-size: 15px;">数组</a> <a href="/java4u/tags/%E6%BA%90%E7%A0%81/" style="font-size: 12.5px;">源码</a> <a href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" style="font-size: 10px;">进程优化</a> <a href="/java4u/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 12.5px;">链表</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
-          Powered by
-          <a 
-            href="https://hexo.io/" 
-            class="footer-link" 
-            target="_blank" 
-            rel="nofollow noopener noreferrer">
-            &nbsp;Hexo
-          </a>
+          <li>
+            <a href="/java4u/2022/04/24/MQ/">MQ</a>
+          </li>
         
+          <li>
+            <a href="/java4u/2022/04/21/SpringCloud/">SpringCloud</a>
+          </li>
         
-          <span>&nbsp;|&nbsp;</span>
+          <li>
+            <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">REDIS深入了解</a>
+          </li>
         
+          <li>
+            <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/">国网发票业务规则整理</a>
+          </li>
         
-          Theme -
-          <a 
-            href="https://github.com/theme-kaze" 
-            class="footer-link" 
-            target="_blank"
-            rel="nofollow noopener noreferrer">
-            &nbsp;Kaze
-          </a>
+          <li>
+            <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/">账管业务流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
         
       </div>
-    
-    
-    
-    
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhao Xin<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
 </footer>
- 
-    
-  <a 
-    role="button" 
-    id="scrollbutton" 
-    class="basebutton" 
-    aria-label="回到顶部">
-    <i class="iconfont icon-arrowleft button-icon"></i>
-  </a>
 
-<a 
-  role="button" 
-  id="menubutton"
-  aria-label="menu button"
-  class="basebutton">
-  <i class="iconfont icon-menu button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="popbutton" 
-  class="basebutton" 
-  aria-label="控制中心">
-  <i class="iconfont icon-expand button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="darkbutton" 
-  class="basebutton darkwidget" 
-  aria-label="夜色模式">
-  <i class="iconfont icon-weather button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="searchbutton" 
-  class="basebutton searchwidget" 
-  aria-label="搜索">
-  <i class="iconfont icon-search button-icon"></i>
-</a> 
-     
-     
-     
-      <script>
-  var addImgLayout = function () {
-    var img = document.querySelectorAll('.post-content img')
-    var i
-    for (i = 0; i < img.length; i++) {
-      var wrapper = document.createElement('a')
-      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
-      wrapper.setAttribute('aria-label', 'illustration')
-      wrapper.style.cssText =
-        'width: 100%; display: flex; justify-content: center;'
-      if (img[i].alt) wrapper.dataset.caption = img[i].alt
-      wrapper.dataset.nolink = true
-      img[i].before(wrapper)
-      wrapper.append(img[i])
-      var divWrap = document.createElement('div')
-      divWrap.classList.add('gallery')
-      wrapper.before(divWrap)
-      divWrap.append(wrapper)
-    }
-    baguetteBox.run('.gallery')
-  }
-</script>
-<script>
-  loadScript(
-    "/java4u/js/lib/lightbox/baguetteBox.min.js",
-    addImgLayout
-  )
-</script>
- 
-     
-     
-    <script src="/java4u/js/main.js"></script> 
-     
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/java4u/" class="mobile-nav-link">Home</a>
+  
+    <a href="/java4u/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
     
-      <script>
-        var addLazyload = function () {
-          var observer = lozad('.lozad', {
-            load: function (el) {
-              el.srcset = el.getAttribute('data-src')
-            },
-            loaded: function (el) {
-              el.classList.add('loaded')
-            },
-          })
-          observer.observe()
-        }
-      </script>
-      <script>
-        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
-      </script>
-     
-    
-    
-      <script>
-        setTimeout(() => {localSearch("search.json")}, 0)
-      </script>
-    
-  </body>
+
+
+<script src="/java4u/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/java4u/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/java4u/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
 </html>

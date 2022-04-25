@@ -1,351 +1,135 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-  <head>
-  <meta charset="UTF-8">
-  <meta 
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <meta 
-    http-equiv="X-UA-Compatible" 
-    content="ie=edge">
-  <meta 
-    name="theme-color" 
-    content="#fff" 
-    id="theme-color">
-  <meta 
-    name="description" 
-    content="Snail">
-  <link 
-    rel="icon" 
-    href="/java4u/img/snail.png">
-  <title>REDIS深入了解</title>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>REDIS深入了解 | Snail</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="redis数据对象 字符串对象（string）、列表对象（list）、哈希对象（hash）、集合（set）对象和有序集合对象（zset）  1.redisObjectredis是以键值对存储数据的，所以对象又分为键对象和值对象，即存储一个key-value键值对会创建两个对象，键对象和值对象。键对象总是一个字符串对象，而值对象可以是五大对象中的任意一种。 123456789101112131415">
+<meta property="og:type" content="article">
+<meta property="og:title" content="REDIS深入了解">
+<meta property="og:url" content="https://zxtc123.github.io/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Snail">
+<meta property="og:description" content="redis数据对象 字符串对象（string）、列表对象（list）、哈希对象（hash）、集合（set）对象和有序集合对象（zset）  1.redisObjectredis是以键值对存储数据的，所以对象又分为键对象和值对象，即存储一个key-value键值对会创建两个对象，键对象和值对象。键对象总是一个字符串对象，而值对象可以是五大对象中的任意一种。 123456789101112131415">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/202204211011607.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/20220421135603.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/20220421140508.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190724190523169-37367083.png).png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725141632347-55730063.png).png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725143921457-867037586.png).png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725145433340-1601591082.png).png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725152001192-1416991725.png).png">
+<meta property="og:image" content="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725153231123-1482693872.png).png">
+<meta property="article:published_time" content="2022-04-20T10:12:40.234Z">
+<meta property="article:modified_time" content="2022-04-21T06:37:48.513Z">
+<meta property="article:author" content="Zhao Xin">
+<meta property="article:tag" content="学习">
+<meta property="article:tag" content="源码">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zxtc123/image/main/202204211011607.png">
+  
+    <link rel="alternate" href="/java4u/atom.xml" title="Snail" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/java4u/favicon.png">
+  
   
     
-      <meta 
-        property="og:title" 
-        content="REDIS深入了解">
-    
-    
-      <meta 
-        property="og:url" 
-        content="https://zxtc123.github.io/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/index.html">
-    
-    
-      <meta 
-        property="og:img" 
-        content="/java4u/img/1.e3a1f41f.gif">
-    
-    
-    
-      <meta 
-        property="og:type" 
-        content="article">
-      <meta 
-        property="og:article:published_time" 
-        content="2022-04-20">
-      <meta 
-        property="og:article:modified_time" 
-        content="2022-04-21">
-      <meta 
-        property="og:article:author" 
-        content="Zhao Xin">
-      
-        
-          <meta 
-            property="og:article:tag" 
-            content="学习">
-        
-          <meta 
-            property="og:article:tag" 
-            content="源码">
-        
-      
-    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
   
-  <script>
-    function loadScript(url, cb) {
-      var script = document.createElement('script');
-      script.src = url;
-      if (cb) script.onload = cb;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-    function loadCSS(href, data, attr) {
-      var sheet = document.createElement('link');
-      sheet.ref = 'stylesheet';
-      sheet.href = href;
-      sheet.dataset[data] = attr;
-      document.head.appendChild(sheet);
-    }
-    function changeCSS(cssFile, data, attr) {
-      var oldlink = document.querySelector(data);
-      var newlink = document.createElement("link");
-      newlink.setAttribute("rel", "stylesheet");
-      newlink.setAttribute("href", cssFile);
-      newlink.dataset.prism = attr;
-      document.head.replaceChild(newlink, oldlink);
-    }
-  </script>
+  
+<link rel="stylesheet" href="/java4u/css/style.css">
+
   
     
-  
-  <script>
-    // control reverse button
-    var reverseDarkList = {
-      dark: 'light',
-      light: 'dark'
-    };
-    var themeColor = {
-      dark: '#1c1c1e',
-      light: '#fff'
-    }
-    // get the data of css prefers-color-scheme
-    var getCssMediaQuery = function() {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    };
-    // reverse current darkmode setting function
-    var reverseDarkModeSetting = function() {
-      var setting = localStorage.getItem('user-color-scheme');
-      if(reverseDarkList[setting]) {
-        setting = reverseDarkList[setting];
-      } else if(setting === null) {
-        setting = reverseDarkList[getCssMediaQuery()];
-      } else {
-        return;
-      }
-      localStorage.setItem('user-color-scheme', setting);
-      return setting;
-    };
-    // apply current darkmode setting
-  </script>
-  
-    <script>
-      var setDarkmode = function(mode) {
-      var setting = mode || localStorage.getItem('user-color-scheme');
-      if(setting === getCssMediaQuery()) {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else if(reverseDarkList[setting]) {
-        document.documentElement.setAttribute('data-user-color-scheme', setting);
-        document.getElementById('theme-color').content = themeColor[setting];
-        document.getElementById('theme-color').dataset.mode = setting;
-      } else {
-        document.documentElement.removeAttribute('data-user-color-scheme');
-        localStorage.removeItem('user-color-scheme');
-        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
-        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
-      }
-    };
-    setDarkmode();
-    </script>
-  
-  
-  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
-  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
-    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
-  
-  
-    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
-  
-  
-  
-  
-  
-  
-  
-  <link rel="stylesheet" href="/java4u/css/main.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
-  
-  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
-  
-    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+<link rel="stylesheet" href="/java4u/fancybox/jquery.fancybox.min.css">
+
   
 <meta name="generator" content="Hexo 6.1.0"></head>
 
-  <body>
-    <div class="wrapper">
-       
-      <nav class="navbar">
-  <div class="navbar-logo">
-    <span class="navbar-logo-main">
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/java4u/" id="logo">Snail</a>
+      </h1>
       
-        <img 
-          class="navbar-logo-img"
-          width="32"
-          height="32"
-          src="/java4u/img/snail.png" 
-          alt="blog logo">
-      
-      <span class="navbar-logo-dsc">Snail</span>
-    </span>
-  </div>
-  <div class="navbar-menu">
-    
-      <a 
-        href="/java4u/" 
-        class="navbar-menu-item">
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
         
-          首页
+          <a class="main-nav-link" href="/java4u/">Home</a>
         
-      </a>
-    
-      <a 
-        href="/java4u/archives" 
-        class="navbar-menu-item">
+          <a class="main-nav-link" href="/java4u/archives">Archives</a>
         
-          归档
+      </nav>
+      <nav id="sub-nav">
         
-      </a>
-    
-      <a 
-        href="/java4u/tags" 
-        class="navbar-menu-item">
+          <a id="nav-rss-link" class="nav-icon" href="/java4u/atom.xml" title="RSS 订阅"></a>
         
-          标签
-        
-      </a>
-    
-      <a 
-        href="/java4u/categories" 
-        class="navbar-menu-item">
-        
-          分类
-        
-      </a>
-    
-      <a 
-        href="/java4u/about" 
-        class="navbar-menu-item">
-        
-          关于
-        
-      </a>
-    
-      <a 
-        href="/java4u/links" 
-        class="navbar-menu-item">
-        
-          友链
-        
-      </a>
-    
-    <a 
-      class="navbar-menu-item darknavbar" 
-      id="dark">
-      <i class="iconfont icon-weather"></i>
-    </a>
-    <a 
-      class="navbar-menu-item searchnavbar" 
-      id="search">
-      <i 
-        class="iconfont icon-search" 
-        style="font-size: 1.2rem; font-weight: 400;">
-      </i>
-    </a>
-  </div>
-</nav> 
-      
-      <div 
-        id="local-search" 
-        style="display: none">
-        <input
-          class="navbar-menu-item"
-          id="search-input"
-          placeholder="请输入搜索内容..." />
-        <div id="search-content"></div>
-      </div>
-      
-      <div class="section-wrap">
-        <div class="container">
-          <div class="columns">
-            <main class="main-column">
-<article class="card card-content">
-  <header>
-    <h1 class="post-title">
-      REDIS深入了解
-    </h1>
-  </header>
-  <div class="post-meta post-show-meta">
-    <time datetime="2022-04-20T10:12:40.234Z">
-      <i 
-        class="iconfont icon-calendar" 
-        style="margin-right: 2px;">
-      </i>
-      <span>2022-04-20</span>
-    </time>
-    
-      <span class="dot"></span>
-      
-        <a 
-          href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/" 
-          class="post-meta-link">
-          中间件
-        </a>
-      
-    
-    
-      <span class="dot"></span>
-      <span>3.2k 字</span>
-    
-  </div>
-  
-    <div 
-      class="post-meta post-show-meta" 
-      style="margin-top: -10px;">
-      <div style="display: flex; align-items: center;">
-        <i 
-          class="iconfont icon-biaoqian" 
-          style="margin-right: 2px; font-size: 1.15rem;">
-        </i>
-        
-          
-          <a 
-            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-            class="post-meta-link">
-            学习
-          </a>
-        
-          
-            <span class="dot"></span>
-          
-          <a 
-            href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-            class="post-meta-link">
-            源码
-          </a>
-        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="搜索"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zxtc123.github.io/java4u"></form>
       </div>
     </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-REDIS深入了解" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/" class="article-date">
+  <time class="dt-published" datetime="2022-04-20T10:12:40.234Z" itemprop="datePublished">2022-04-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-  </header>
-  <div 
-    id="section" 
-    class="post-content">
-    <p>redis数据对象</p>
+    <h1 class="p-name article-title" itemprop="headline name">
+      REDIS深入了解
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>redis数据对象</p>
 <p><strong>字符串对象（string）、列表对象（list）、哈希对象（hash）、集合（set）对象和有序集合对象（zset）</strong></p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/202204211011607.png" alt="202204211011607" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/202204211011607.png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/202204211011607.png" alt="202204211011607"></p>
 <h1 id="1-redisObject"><a href="#1-redisObject" class="headerlink" title="1.redisObject"></a>1.redisObject</h1><p>redis是以键值对存储数据的，所以对象又分为键对象和值对象，即存储一个key-value键值对会创建两个对象，键对象和值对象。<strong>键对象总是一个字符串对象，而值对象可以是五大对象中的任意一种</strong>。</p>
-<pre class="highlight"><span class="line"><span class="meta">#<span class="keyword">define</span> REDIS_LRU_BITS 24</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REDIS_LRU_CLOCK_MAX ((1<span class="string">&lt;&lt;REDIS_LRU_BITS)-1) /* Max value of obj-&gt;</span>lru */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REDIS_LRU_CLOCK_RESOLUTION 1000 <span class="comment">/* LRU clock resolution in ms */</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="comment">//类型属性存储的是对象的类型，也就是我们说的 string、list、hash、set、zset中的一种</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对象最后一次被访问的时间</span></span><br><span class="line">    <span class="type">unsigned</span> lru:REDIS_LRU_BITS; <span class="comment">/* lru time (relative to server.lruclock) */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 引用计数</span></span><br><span class="line">    <span class="type">int</span> refcount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指向实际值的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line"></span><br><span class="line">&#125; robj;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> REDIS_LRU_BITS 24</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REDIS_LRU_CLOCK_MAX ((1<span class="string">&lt;&lt;REDIS_LRU_BITS)-1) /* Max value of obj-&gt;</span>lru */</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> REDIS_LRU_CLOCK_RESOLUTION 1000 <span class="comment">/* LRU clock resolution in ms */</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisObject</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 类型</span></span><br><span class="line">    <span class="comment">//类型属性存储的是对象的类型，也就是我们说的 string、list、hash、set、zset中的一种</span></span><br><span class="line">    <span class="type">unsigned</span> type:<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 编码</span></span><br><span class="line">    <span class="type">unsigned</span> encoding:<span class="number">4</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对象最后一次被访问的时间</span></span><br><span class="line">    <span class="type">unsigned</span> lru:REDIS_LRU_BITS; <span class="comment">/* lru time (relative to server.lruclock) */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 引用计数</span></span><br><span class="line">    <span class="type">int</span> refcount;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 指向实际值的指针</span></span><br><span class="line">    <span class="type">void</span> *ptr;</span><br><span class="line"></span><br><span class="line">&#125; robj;</span><br></pre></td></tr></table></figure>
 
 <h1 id="2-String"><a href="#2-String" class="headerlink" title="2.String"></a>2.String</h1><p>字符串对象底层数据结构实现为简单动态字符串（SDS）和直接存储，<strong>但其编码方式可以是int、raw或者embstr，区别在于内存结构的不同</strong>。</p>
 <p>1)int编码，直接保存在ptr属性中</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421135603.png" alt="20220421135603" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/20220421135603.png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421135603.png" alt="20220421135603"></p>
 <p><strong>2）raw编码</strong></p>
 <p>在长度特别短时，使用 emb 形式存储 (<strong>embedded</strong>)，当长度超过 <strong>44</strong> 时，使用 <strong>raw</strong> 形式存储</p>
 <p><strong>embstr</strong> 存储形式是这样一种存储形式，它将 <strong>RedisObject 对象头和 SDS 对象连续存在一起</strong>，使用 malloc 方法一次分配。而 <strong>raw</strong> 存储形式不一样，它<strong>需要两次 malloc，两个对象头在内存地址上一般是不连续的</strong>。</p>
 <p> 字符串保存的大于32字节的字符串值，则使用简单动态字符串（SDS）结构，并将编码设置为raw，此时内存结构与SDS结构一致，内存分配次数为两次，创建redisObject对象和sdshdr结构，如图：</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421140508.png" alt="20220421140508" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/20220421140508.png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/20220421140508.png" alt="20220421140508"></p>
 <p>3）<strong>embstr编码</strong></p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190724190523169-37367083.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190724190523169-37367083.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190724190523169-37367083.png).png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190724190523169-37367083.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190724190523169-37367083.png)"></p>
 <h1 id="3-list"><a href="#3-list" class="headerlink" title="3.list"></a>3.list</h1><p>列表对象的编码可以是ziplist和linkedlist之一，当字符串长度较小且元素数量也较小时，会转换成压缩列表，否则都是双端列表</p>
 <h2 id="1）linkedlist"><a href="#1）linkedlist" class="headerlink" title="1）linkedlist"></a>1）linkedlist</h2><p>linkedlist编码底层采用双端链表实现，每个双端链表节点都保存了一个字符串对象，在每个字符串对象内保存了一个列表元素。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725141632347-55730063.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725141632347-55730063.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725141632347-55730063.png).png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725141632347-55730063.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725141632347-55730063.png)"></p>
 <h2 id="2）ziplist"><a href="#2）ziplist" class="headerlink" title="2）ziplist"></a>2）ziplist</h2><p>ziplist是list键、hash键以及zset键的底层实现之一</p>
 <p>Ziplist 是为了尽可能地节约内存而设计的特殊编码双端链表。</p>
 <p><strong>Ziplist 可以储存字符串值和整数值，其中，整数值被保存为实际的整数，而不是字符数组。</strong></p>
@@ -418,577 +202,204 @@
 <li></li>
 </ul>
 <p> * 所有整数都表示为小端字节序。</p>
-<pre class="highlight"><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">空白 ziplist 示例图</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">area        |&lt;---- ziplist header ----&gt;|&lt;-- end --&gt;|</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">size          4 bytes   4 bytes 2 bytes  1 byte</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+-----------+</span></span><br><span class="line"><span class="comment">component   | zlbytes | zltail | zllen | zlend     |</span></span><br><span class="line"><span class="comment">            |         |        |       |           |</span></span><br><span class="line"><span class="comment">value       |  1011   |  1010  |   0   | 1111 1111 |</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+-----------+</span></span><br><span class="line"><span class="comment">                                       ^</span></span><br><span class="line"><span class="comment">                                       |</span></span><br><span class="line"><span class="comment">                               ZIPLIST_ENTRY_HEAD</span></span><br><span class="line"><span class="comment">                                       &amp;</span></span><br><span class="line"><span class="comment">address                        ZIPLIST_ENTRY_TAIL</span></span><br><span class="line"><span class="comment">                                       &amp;</span></span><br><span class="line"><span class="comment">                               ZIPLIST_ENTRY_END</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">非空 ziplist 示例图</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">area        |&lt;---- ziplist header ----&gt;|&lt;----------- entries -------------&gt;|&lt;-end-&gt;|</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">size          4 bytes  4 bytes  2 bytes    ?        ?        ?        ?     1 byte</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+--------+--------+--------+--------+-------+</span></span><br><span class="line"><span class="comment">component   | zlbytes | zltail | zllen | entry1 | entry2 |  ...   | entryN | zlend |</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+--------+--------+--------+--------+-------+</span></span><br><span class="line"><span class="comment">                                       ^                          ^        ^</span></span><br><span class="line"><span class="comment">address                                |                          |        |</span></span><br><span class="line"><span class="comment">                                ZIPLIST_ENTRY_HEAD                |   ZIPLIST_ENTRY_END</span></span><br><span class="line"><span class="comment">                                                                  |</span></span><br><span class="line"><span class="comment">                                                        ZIPLIST_ENTRY_TAIL</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment">空白 ziplist 示例图</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">area        |&lt;---- ziplist header ----&gt;|&lt;-- end --&gt;|</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">size          4 bytes   4 bytes 2 bytes  1 byte</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+-----------+</span></span><br><span class="line"><span class="comment">component   | zlbytes | zltail | zllen | zlend     |</span></span><br><span class="line"><span class="comment">            |         |        |       |           |</span></span><br><span class="line"><span class="comment">value       |  1011   |  1010  |   0   | 1111 1111 |</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+-----------+</span></span><br><span class="line"><span class="comment">                                       ^</span></span><br><span class="line"><span class="comment">                                       |</span></span><br><span class="line"><span class="comment">                               ZIPLIST_ENTRY_HEAD</span></span><br><span class="line"><span class="comment">                                       &amp;</span></span><br><span class="line"><span class="comment">address                        ZIPLIST_ENTRY_TAIL</span></span><br><span class="line"><span class="comment">                                       &amp;</span></span><br><span class="line"><span class="comment">                               ZIPLIST_ENTRY_END</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">非空 ziplist 示例图</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">area        |&lt;---- ziplist header ----&gt;|&lt;----------- entries -------------&gt;|&lt;-end-&gt;|</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">size          4 bytes  4 bytes  2 bytes    ?        ?        ?        ?     1 byte</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+--------+--------+--------+--------+-------+</span></span><br><span class="line"><span class="comment">component   | zlbytes | zltail | zllen | entry1 | entry2 |  ...   | entryN | zlend |</span></span><br><span class="line"><span class="comment">            +---------+--------+-------+--------+--------+--------+--------+-------+</span></span><br><span class="line"><span class="comment">                                       ^                          ^        ^</span></span><br><span class="line"><span class="comment">address                                |                          |        |</span></span><br><span class="line"><span class="comment">                                ZIPLIST_ENTRY_HEAD                |   ZIPLIST_ENTRY_END</span></span><br><span class="line"><span class="comment">                                                                  |</span></span><br><span class="line"><span class="comment">                                                        ZIPLIST_ENTRY_TAIL</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
 
-<pre class="highlight"><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 保存 ziplist 节点信息的结构</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zlentry</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// prevrawlen ：前置节点的长度</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// prevrawlensize ：编码 prevrawlen 所需的字节大小</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> prevrawlensize, prevrawlen;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// len ：当前节点值的长度</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// lensize ：编码 len 所需的字节大小</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> lensize, len;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当前节点 header 的大小</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 等于 prevrawlensize + lensize</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> headersize;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当前节点值所使用的编码类型</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> encoding;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 指向当前节点的指针</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> *p;</span><br><span class="line"></span><br><span class="line">&#125; zlentry;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 保存 ziplist 节点信息的结构</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zlentry</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// prevrawlen ：前置节点的长度</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// prevrawlensize ：编码 prevrawlen 所需的字节大小</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> prevrawlensize, prevrawlen;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// len ：当前节点值的长度</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// lensize ：编码 len 所需的字节大小</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> lensize, len;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当前节点 header 的大小</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 等于 prevrawlensize + lensize</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> headersize;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当前节点值所使用的编码类型</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> encoding;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 指向当前节点的指针</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">char</span> *p;</span><br><span class="line"></span><br><span class="line">&#125; zlentry;</span><br></pre></td></tr></table></figure>
 
 
 
 <h1 id="4-hash"><a href="#4-hash" class="headerlink" title="4.hash"></a>4.hash</h1><p>哈希对象的编码可以是ziplist和hashtable之一。</p>
 <h2 id="1）ziplist"><a href="#1）ziplist" class="headerlink" title="1）ziplist"></a>1）ziplist</h2><p>ziplist编码的哈希对象底层实现是压缩列表，在ziplist编码的哈希对象中，key-value键值对是以紧密相连的方式放入压缩链表的，先把key放入表尾，再放入value；键值对总是向表尾添加。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725143921457-867037586.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725143921457-867037586.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725143921457-867037586.png).png" class="lozad post-image"></p>
-<h2 id="2）hashtable"><a href="#2）hashtable" class="headerlink" title="2）hashtable"></a>2）hashtable</h2><pre class="highlight"><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 哈希表节点</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 键</span></span><br><span class="line"></span><br><span class="line">  <span class="type">void</span> *key;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 值</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line"></span><br><span class="line">​    <span class="type">void</span> *val;</span><br><span class="line"></span><br><span class="line">​    <span class="type">uint64_t</span> u64;</span><br><span class="line"></span><br><span class="line">​    <span class="type">int64_t</span> s64;</span><br><span class="line"></span><br><span class="line">  &#125; v;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line"></span><br><span class="line">&#125; dictEntry;</span><br></pre>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725143921457-867037586.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725143921457-867037586.png)"></p>
+<h2 id="2）hashtable"><a href="#2）hashtable" class="headerlink" title="2）hashtable"></a>2）hashtable</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 哈希表节点</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 键</span></span><br><span class="line"></span><br><span class="line">  <span class="type">void</span> *key;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 值</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line"></span><br><span class="line">​    <span class="type">void</span> *val;</span><br><span class="line"></span><br><span class="line">​    <span class="type">uint64_t</span> u64;</span><br><span class="line"></span><br><span class="line">​    <span class="type">int64_t</span> s64;</span><br><span class="line"></span><br><span class="line">  &#125; v;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 指向下个哈希表节点，形成链表</span></span><br><span class="line"></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">dictEntry</span> *<span class="title">next</span>;</span></span><br><span class="line"></span><br><span class="line">&#125; dictEntry;</span><br></pre></td></tr></table></figure>
 
 
 
-<pre class="highlight"><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 哈希表</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 每个字典都使用两个哈希表，从而实现渐进式 rehash 。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表数组</span></span><br><span class="line"></span><br><span class="line">  dictEntry **table;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表大小</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 总是等于 size - 1</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line"></span><br><span class="line">&#125; dictht;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 哈希表</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 每个字典都使用两个哈希表，从而实现渐进式 rehash 。</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dictht</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表数组</span></span><br><span class="line"></span><br><span class="line">  dictEntry **table;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表大小</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> size;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表大小掩码，用于计算索引值</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 总是等于 size - 1</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> sizemask;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 该哈希表已有节点的数量</span></span><br><span class="line"></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> used;</span><br><span class="line"></span><br><span class="line">&#125; dictht;</span><br></pre></td></tr></table></figure>
 
 
 
-<pre class="highlight"><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 字典</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 类型特定函数</span></span><br><span class="line"></span><br><span class="line">  dictType *type;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 私有数据</span></span><br><span class="line"></span><br><span class="line">  <span class="type">void</span> *privdata;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表</span></span><br><span class="line"></span><br><span class="line">  dictht ht[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// rehash 索引</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当 rehash 不在进行时，值为 -1</span></span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> rehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 目前正在运行的安全迭代器的数量</span></span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> iterators; <span class="comment">/* number of iterators currently running */</span></span><br><span class="line"></span><br><span class="line">&#125; dict;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 字典</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">dict</span> &#123;</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 类型特定函数</span></span><br><span class="line"></span><br><span class="line">  dictType *type;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 私有数据</span></span><br><span class="line"></span><br><span class="line">  <span class="type">void</span> *privdata;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 哈希表</span></span><br><span class="line"></span><br><span class="line">  dictht ht[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// rehash 索引</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 当 rehash 不在进行时，值为 -1</span></span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> rehashidx; <span class="comment">/* rehashing not in progress if rehashidx == -1 */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 目前正在运行的安全迭代器的数量</span></span><br><span class="line"></span><br><span class="line">  <span class="type">int</span> iterators; <span class="comment">/* number of iterators currently running */</span></span><br><span class="line"></span><br><span class="line">&#125; dict;</span><br></pre></td></tr></table></figure>
 
 <p>ht[0]:字典使用的dictht哈希表，ht[1]哈希表进行rehash时使用。</p>
 <p>rehash步骤：</p>
 <p>为字典的ht[1]哈希表分配空间，大小就是ht[0].used。<br>将ht[0]中所有的键值对rehash到ht[1]上面。<br>当ht[0]包含的所有键都迁移到ht[1]之后，释放ht[0]，将ht[1]设置为ht[0]，并在ht[1]新建一个空白哈希表，为下次rehash准备。</p>
 <h1 id="5-set"><a href="#5-set" class="headerlink" title="5.set"></a>5.set</h1><p>集合对象的编码可以是intset和hashtable之一。</p>
 <h2 id="1）intset编码"><a href="#1）intset编码" class="headerlink" title="1）intset编码"></a>1）<strong>intset编码</strong></h2><p>intset编码的集合对象底层实现是整数集合，所有元素都保存在整数集合中。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725145433340-1601591082.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725145433340-1601591082.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725145433340-1601591082.png).png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725145433340-1601591082.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725145433340-1601591082.png)"></p>
 <h1 id="1-zset"><a href="#1-zset" class="headerlink" title="1.zset"></a>1.<strong>zset</strong></h1><p>有序集合的编码可以是ziplist和skiplist之一。</p>
 <h2 id="1）ziplist编码"><a href="#1）ziplist编码" class="headerlink" title="1）ziplist编码"></a>1）<strong>ziplist编码</strong></h2><p>ziplist编码的有序集合对象底层实现是压缩列表，其结构与哈希对象类似，不同的是两个紧密相连的压缩列表节点，第一个保存元素的成员，第二个保存元素的分值，而且分值小的靠近表头，大的靠近表尾。</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725152001192-1416991725.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725152001192-1416991725.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725152001192-1416991725.png).png" class="lozad post-image"></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725152001192-1416991725.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725152001192-1416991725.png)"></p>
 <h2 id="2）skiplist编码"><a href="#2）skiplist编码" class="headerlink" title="2）skiplist编码"></a>2）<strong>skiplist编码</strong></h2><p>skiplist编码的有序集合对象底层实现是跳跃表和字典两种；</p>
 <p>每个跳跃表节点都保存一个集合元素，并按分值从小到大排列；节点的object属性保存了元素的成员，score属性保存分值；</p>
 <p>字典的每个键值对保存一个集合元素，字典的键保存元素的成员，字典的值保存分值。</p>
 <p>跳跃表解决数据查询问题</p>
-<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725153231123-1482693872.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725153231123-1482693872.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725153231123-1482693872.png).png" class="lozad post-image"></p>
-<pre class="highlight"><span class="line"><span class="comment">/* ZSETs use a specialized version of Skiplists */</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表节点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2018.cnblogs.comblog14326342019071432634-20190725153231123-1482693872.png).png" alt="![img](httpsimg2018.cnblogs.comblog14326342019071432634-20190725153231123-1482693872.png)"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ZSETs use a specialized version of Skiplists */</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表节点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line">    &#125; level[];</span><br><span class="line">&#125; zskiplistNode;</span><br></pre></td></tr></table></figure>
 
-<pre class="highlight"><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line">    <span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line">&#125; zskiplist;</span><br></pre></td></tr></table></figure>
 
-<pre class="highlight"><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 有序集合</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 字典，键为成员，值为分值</span></span><br><span class="line">    <span class="comment">// 用于支持 O(1) 复杂度的按成员取分值操作</span></span><br><span class="line">    dict *dict;</span><br><span class="line">    <span class="comment">// 跳跃表，按分值排序成员</span></span><br><span class="line">    <span class="comment">// 用于支持平均复杂度为 O(log N) 的按分值定位成员操作</span></span><br><span class="line">    <span class="comment">// 以及范围操作</span></span><br><span class="line">    zskiplist *zsl;</span><br><span class="line">&#125; zset;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 有序集合</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zset</span> &#123;</span></span><br><span class="line">    <span class="comment">// 字典，键为成员，值为分值</span></span><br><span class="line">    <span class="comment">// 用于支持 O(1) 复杂度的按成员取分值操作</span></span><br><span class="line">    dict *dict;</span><br><span class="line">    <span class="comment">// 跳跃表，按分值排序成员</span></span><br><span class="line">    <span class="comment">// 用于支持平均复杂度为 O(log N) 的按分值定位成员操作</span></span><br><span class="line">    <span class="comment">// 以及范围操作</span></span><br><span class="line">    zskiplist *zsl;</span><br><span class="line">&#125; zset;</span><br></pre></td></tr></table></figure>
 
 
 
-<h1 id="3-redisClient"><a href="#3-redisClient" class="headerlink" title="3.redisClient"></a>3.redisClient</h1><pre class="highlight"><span class="line"><span class="comment">/* With multiplexing we need to take per-client state.</span></span><br><span class="line"><span class="comment"> * Clients are taken in a liked list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 因为 I/O 复用的缘故，需要为每个客户端维持一个状态。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 多个客户端状态被服务器用链表连接起来。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisClient</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 套接字描述符</span></span><br><span class="line">    <span class="type">int</span> fd;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前正在使用的数据库</span></span><br><span class="line">    redisDb *db;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前正在使用的数据库的 id （号码）</span></span><br><span class="line">    <span class="type">int</span> dictid;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端的名字</span></span><br><span class="line">    robj *name;             <span class="comment">/* As set by CLIENT SETNAME */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询缓冲区</span></span><br><span class="line">    sds querybuf;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询缓冲区长度峰值</span></span><br><span class="line">    <span class="type">size_t</span> querybuf_peak;   <span class="comment">/* Recent (100ms or more) peak of querybuf size */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 参数数量</span></span><br><span class="line">    <span class="type">int</span> argc;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 参数对象数组</span></span><br><span class="line">    robj **argv;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录被客户端执行的命令</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">redisCommand</span> *<span class="title">cmd</span>, *<span class="title">lastcmd</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请求的类型：内联命令还是多条命令</span></span><br><span class="line">    <span class="type">int</span> reqtype;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 剩余未读取的命令内容数量</span></span><br><span class="line">    <span class="type">int</span> multibulklen;       <span class="comment">/* number of multi bulk arguments left to read */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 命令内容的长度</span></span><br><span class="line">    <span class="type">long</span> bulklen;           <span class="comment">/* length of bulk argument in multi bulk request */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 回复链表</span></span><br><span class="line">    <span class="built_in">list</span> *reply;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 回复链表中对象的总大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> reply_bytes; <span class="comment">/* Tot bytes of objects in reply list */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 已发送字节，处理 short write 用</span></span><br><span class="line">    <span class="type">int</span> sentlen;            <span class="comment">/* Amount of bytes already sent in the current</span></span><br><span class="line"><span class="comment">                               buffer or object being sent. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建客户端的时间</span></span><br><span class="line">    <span class="type">time_t</span> ctime;           <span class="comment">/* Client creation time */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端最后一次和服务器互动的时间</span></span><br><span class="line">    <span class="type">time_t</span> lastinteraction; <span class="comment">/* time of the last interaction, used for timeout */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端的输出缓冲区超过软性限制的时间</span></span><br><span class="line">    <span class="type">time_t</span> obuf_soft_limit_reached_time;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端状态标志</span></span><br><span class="line">    <span class="type">int</span> flags;              <span class="comment">/* REDIS_SLAVE | REDIS_MONITOR | REDIS_MULTI ... */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当 server.requirepass 不为 NULL 时</span></span><br><span class="line">    <span class="comment">// 代表认证的状态</span></span><br><span class="line">    <span class="comment">// 0 代表未认证， 1 代表已认证</span></span><br><span class="line">    <span class="type">int</span> authenticated;      <span class="comment">/* when requirepass is non-NULL */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 复制状态</span></span><br><span class="line">    <span class="type">int</span> replstate;          <span class="comment">/* replication state if this is a slave */</span></span><br><span class="line">    <span class="comment">// 用于保存主服务器传来的 RDB 文件的文件描述符</span></span><br><span class="line">    <span class="type">int</span> repldbfd;           <span class="comment">/* replication DB file descriptor */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读取主服务器传来的 RDB 文件的偏移量</span></span><br><span class="line">    <span class="type">off_t</span> repldboff;        <span class="comment">/* replication DB file offset */</span></span><br><span class="line">    <span class="comment">// 主服务器传来的 RDB 文件的大小</span></span><br><span class="line">    <span class="type">off_t</span> repldbsize;       <span class="comment">/* replication DB file size */</span></span><br><span class="line">    </span><br><span class="line">    sds replpreamble;       <span class="comment">/* replication DB preamble. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 主服务器的复制偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> reploff;      <span class="comment">/* replication offset if this is our master */</span></span><br><span class="line">    <span class="comment">// 从服务器最后一次发送 REPLCONF ACK 时的偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> repl_ack_off; <span class="comment">/* replication ack offset, if this is a slave */</span></span><br><span class="line">    <span class="comment">// 从服务器最后一次发送 REPLCONF ACK 的时间</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> repl_ack_time;<span class="comment">/* replication ack time, if this is a slave */</span></span><br><span class="line">    <span class="comment">// 主服务器的 master run ID</span></span><br><span class="line">    <span class="comment">// 保存在客户端，用于执行部分重同步</span></span><br><span class="line">    <span class="type">char</span> replrunid[REDIS_RUN_ID_SIZE+<span class="number">1</span>]; <span class="comment">/* master run id if this is a master */</span></span><br><span class="line">    <span class="comment">// 从服务器的监听端口号</span></span><br><span class="line">    <span class="type">int</span> slave_listening_port; <span class="comment">/* As configured with: SLAVECONF listening-port */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 事务状态</span></span><br><span class="line">    multiState mstate;      <span class="comment">/* MULTI/EXEC state */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 阻塞类型</span></span><br><span class="line">    <span class="type">int</span> btype;              <span class="comment">/* Type of blocking op if REDIS_BLOCKED. */</span></span><br><span class="line">    <span class="comment">// 阻塞状态</span></span><br><span class="line">    blockingState bpop;     <span class="comment">/* blocking state */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最后被写入的全局复制偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> woff;         <span class="comment">/* Last write global replication offset. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 被监视的键</span></span><br><span class="line">    <span class="built_in">list</span> *watched_keys;     <span class="comment">/* Keys WATCHED for MULTI/EXEC CAS */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个字典记录了客户端所有订阅的频道</span></span><br><span class="line">    <span class="comment">// 键为频道名字，值为 NULL</span></span><br><span class="line">    <span class="comment">// 也即是，一个频道的集合</span></span><br><span class="line">    dict *pubsub_channels;  <span class="comment">/* channels a client is interested in (SUBSCRIBE) */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 链表，包含多个 pubsubPattern 结构</span></span><br><span class="line">    <span class="comment">// 记录了所有订阅频道的客户端的信息</span></span><br><span class="line">    <span class="comment">// 新 pubsubPattern 结构总是被添加到表尾</span></span><br><span class="line">    <span class="built_in">list</span> *pubsub_patterns;  <span class="comment">/* patterns a client is interested in (SUBSCRIBE) */</span></span><br><span class="line">    sds peerid;             <span class="comment">/* Cached peer ID. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Response buffer */</span></span><br><span class="line">    <span class="comment">// 回复偏移量</span></span><br><span class="line">    <span class="type">int</span> bufpos;</span><br><span class="line">    <span class="comment">// 回复缓冲区</span></span><br><span class="line">    <span class="type">char</span> buf[REDIS_REPLY_CHUNK_BYTES];</span><br><span class="line"></span><br><span class="line">&#125; redisClient;</span><br></pre>
+<h1 id="3-redisClient"><a href="#3-redisClient" class="headerlink" title="3.redisClient"></a>3.redisClient</h1><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* With multiplexing we need to take per-client state.</span></span><br><span class="line"><span class="comment"> * Clients are taken in a liked list.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 因为 I/O 复用的缘故，需要为每个客户端维持一个状态。</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * 多个客户端状态被服务器用链表连接起来。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">redisClient</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 套接字描述符</span></span><br><span class="line">    <span class="type">int</span> fd;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前正在使用的数据库</span></span><br><span class="line">    redisDb *db;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前正在使用的数据库的 id （号码）</span></span><br><span class="line">    <span class="type">int</span> dictid;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端的名字</span></span><br><span class="line">    robj *name;             <span class="comment">/* As set by CLIENT SETNAME */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询缓冲区</span></span><br><span class="line">    sds querybuf;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询缓冲区长度峰值</span></span><br><span class="line">    <span class="type">size_t</span> querybuf_peak;   <span class="comment">/* Recent (100ms or more) peak of querybuf size */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 参数数量</span></span><br><span class="line">    <span class="type">int</span> argc;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 参数对象数组</span></span><br><span class="line">    robj **argv;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 记录被客户端执行的命令</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">redisCommand</span> *<span class="title">cmd</span>, *<span class="title">lastcmd</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 请求的类型：内联命令还是多条命令</span></span><br><span class="line">    <span class="type">int</span> reqtype;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 剩余未读取的命令内容数量</span></span><br><span class="line">    <span class="type">int</span> multibulklen;       <span class="comment">/* number of multi bulk arguments left to read */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 命令内容的长度</span></span><br><span class="line">    <span class="type">long</span> bulklen;           <span class="comment">/* length of bulk argument in multi bulk request */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 回复链表</span></span><br><span class="line">    <span class="built_in">list</span> *reply;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 回复链表中对象的总大小</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> reply_bytes; <span class="comment">/* Tot bytes of objects in reply list */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 已发送字节，处理 short write 用</span></span><br><span class="line">    <span class="type">int</span> sentlen;            <span class="comment">/* Amount of bytes already sent in the current</span></span><br><span class="line"><span class="comment">                               buffer or object being sent. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建客户端的时间</span></span><br><span class="line">    <span class="type">time_t</span> ctime;           <span class="comment">/* Client creation time */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端最后一次和服务器互动的时间</span></span><br><span class="line">    <span class="type">time_t</span> lastinteraction; <span class="comment">/* time of the last interaction, used for timeout */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端的输出缓冲区超过软性限制的时间</span></span><br><span class="line">    <span class="type">time_t</span> obuf_soft_limit_reached_time;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端状态标志</span></span><br><span class="line">    <span class="type">int</span> flags;              <span class="comment">/* REDIS_SLAVE | REDIS_MONITOR | REDIS_MULTI ... */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当 server.requirepass 不为 NULL 时</span></span><br><span class="line">    <span class="comment">// 代表认证的状态</span></span><br><span class="line">    <span class="comment">// 0 代表未认证， 1 代表已认证</span></span><br><span class="line">    <span class="type">int</span> authenticated;      <span class="comment">/* when requirepass is non-NULL */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 复制状态</span></span><br><span class="line">    <span class="type">int</span> replstate;          <span class="comment">/* replication state if this is a slave */</span></span><br><span class="line">    <span class="comment">// 用于保存主服务器传来的 RDB 文件的文件描述符</span></span><br><span class="line">    <span class="type">int</span> repldbfd;           <span class="comment">/* replication DB file descriptor */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 读取主服务器传来的 RDB 文件的偏移量</span></span><br><span class="line">    <span class="type">off_t</span> repldboff;        <span class="comment">/* replication DB file offset */</span></span><br><span class="line">    <span class="comment">// 主服务器传来的 RDB 文件的大小</span></span><br><span class="line">    <span class="type">off_t</span> repldbsize;       <span class="comment">/* replication DB file size */</span></span><br><span class="line">    </span><br><span class="line">    sds replpreamble;       <span class="comment">/* replication DB preamble. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 主服务器的复制偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> reploff;      <span class="comment">/* replication offset if this is our master */</span></span><br><span class="line">    <span class="comment">// 从服务器最后一次发送 REPLCONF ACK 时的偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> repl_ack_off; <span class="comment">/* replication ack offset, if this is a slave */</span></span><br><span class="line">    <span class="comment">// 从服务器最后一次发送 REPLCONF ACK 的时间</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> repl_ack_time;<span class="comment">/* replication ack time, if this is a slave */</span></span><br><span class="line">    <span class="comment">// 主服务器的 master run ID</span></span><br><span class="line">    <span class="comment">// 保存在客户端，用于执行部分重同步</span></span><br><span class="line">    <span class="type">char</span> replrunid[REDIS_RUN_ID_SIZE+<span class="number">1</span>]; <span class="comment">/* master run id if this is a master */</span></span><br><span class="line">    <span class="comment">// 从服务器的监听端口号</span></span><br><span class="line">    <span class="type">int</span> slave_listening_port; <span class="comment">/* As configured with: SLAVECONF listening-port */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 事务状态</span></span><br><span class="line">    multiState mstate;      <span class="comment">/* MULTI/EXEC state */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 阻塞类型</span></span><br><span class="line">    <span class="type">int</span> btype;              <span class="comment">/* Type of blocking op if REDIS_BLOCKED. */</span></span><br><span class="line">    <span class="comment">// 阻塞状态</span></span><br><span class="line">    blockingState bpop;     <span class="comment">/* blocking state */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最后被写入的全局复制偏移量</span></span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> woff;         <span class="comment">/* Last write global replication offset. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 被监视的键</span></span><br><span class="line">    <span class="built_in">list</span> *watched_keys;     <span class="comment">/* Keys WATCHED for MULTI/EXEC CAS */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 这个字典记录了客户端所有订阅的频道</span></span><br><span class="line">    <span class="comment">// 键为频道名字，值为 NULL</span></span><br><span class="line">    <span class="comment">// 也即是，一个频道的集合</span></span><br><span class="line">    dict *pubsub_channels;  <span class="comment">/* channels a client is interested in (SUBSCRIBE) */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 链表，包含多个 pubsubPattern 结构</span></span><br><span class="line">    <span class="comment">// 记录了所有订阅频道的客户端的信息</span></span><br><span class="line">    <span class="comment">// 新 pubsubPattern 结构总是被添加到表尾</span></span><br><span class="line">    <span class="built_in">list</span> *pubsub_patterns;  <span class="comment">/* patterns a client is interested in (SUBSCRIBE) */</span></span><br><span class="line">    sds peerid;             <span class="comment">/* Cached peer ID. */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Response buffer */</span></span><br><span class="line">    <span class="comment">// 回复偏移量</span></span><br><span class="line">    <span class="type">int</span> bufpos;</span><br><span class="line">    <span class="comment">// 回复缓冲区</span></span><br><span class="line">    <span class="type">char</span> buf[REDIS_REPLY_CHUNK_BYTES];</span><br><span class="line"></span><br><span class="line">&#125; redisClient;</span><br></pre></td></tr></table></figure>
 
 <h1 id="4-zskiplist-跳跃表"><a href="#4-zskiplist-跳跃表" class="headerlink" title="4.zskiplist  跳跃表"></a>4.zskiplist  跳跃表</h1><p><strong>像这种链表加多级索引的结构，就是跳跃表！</strong></p>
-<pre class="highlight"><span class="line"><span class="comment">/* ZSETs use a specialized version of Skiplists */</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表节点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line"></span><br><span class="line">    &#125; level[];</span><br><span class="line"></span><br><span class="line">&#125; zskiplistNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line"></span><br><span class="line">&#125; zskiplist;</span><br></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* ZSETs use a specialized version of Skiplists */</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表节点</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 成员对象</span></span><br><span class="line">    robj *obj;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 分值</span></span><br><span class="line">    <span class="type">double</span> score;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 后退指针</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">backward</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 层</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistLevel</span> &#123;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 前进指针</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">forward</span>;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 跨度</span></span><br><span class="line">        <span class="type">unsigned</span> <span class="type">int</span> span;</span><br><span class="line"></span><br><span class="line">    &#125; level[];</span><br><span class="line"></span><br><span class="line">&#125; zskiplistNode;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * 跳跃表</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">zskiplist</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表头节点和表尾节点</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">zskiplistNode</span> *<span class="title">header</span>, *<span class="title">tail</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表中节点的数量</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">long</span> length;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 表中层数最大的节点的层数</span></span><br><span class="line">    <span class="type">int</span> level;</span><br><span class="line"></span><br><span class="line">&#125; zskiplist;</span><br></pre></td></tr></table></figure>
 
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zxtc123.github.io/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/" data-id="cl2ehagao005phwuc00k7cmn6" data-title="REDIS深入了解" class="article-share-link">分享</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li></ul>
+
+    </footer>
   </div>
-  <div>
+  
     
-      <div 
-        class="post-note note-warning copyright" 
-        style="margin-top: 42px">
-        <p>
-          <span style="font-weight: bold;">作者：</span><a 
-            target="_blank" 
-            rel="nofollow noopener noreferrer" 
-            href="/java4u/about">
-            Zhao Xin
-          </a>
-        </p>
-        <p>
-          <span style="font-weight: bold;">文章链接：</span><a 
-            target="_blank" 
-            rel="nofollow noopener noreferrer" 
-            href="https://zxtc123.github.io/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">
-            https://zxtc123.github.io/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/
-          </a>
-        </p>
-        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+<nav id="article-nav">
+  
+    <a href="/java4u/2022/04/21/SpringCloud/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">前一篇</strong>
+      <div class="article-nav-title">
+        
+          SpringCloud
+        
       </div>
-    
-  </div>
+    </a>
+  
+  
+    <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">后一篇</strong>
+      <div class="article-nav-title">国网发票业务规则整理</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-<div class="nav">
-  
-    <div class="nav-item-prev">
-      <a 
-        href="/java4u/2022/04/21/SpringCloud/" 
-        class="nav-link">
-        <i class="iconfont icon-left nav-prev-icon"></i>
-        <div>
-          <div class="nav-label">上一篇</div>
-          
-            <div class="nav-title">SpringCloud </div>
-          
-        </div>
-      </a>
-    </div>
-  
-  
-    <div class="nav-item-next">
-      <a 
-        href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/" 
-        class="nav-link">
-        <div>
-          <div class="nav-label">下一篇</div>
-          
-            <div class="nav-title">国网发票业务规则整理 </div>
-          
-        </div>
-        <i class="iconfont icon-right nav-next-icon"></i>
-      </a>
-    </div>
-  
-</div>
 
-<div 
-  class="card card-content toc-card" 
-  id="mobiletoc">
-  <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-redisObject"><span class="toc-text">1.redisObject</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-String"><span class="toc-text">2.String</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-list"><span class="toc-text">3.list</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89linkedlist"><span class="toc-text">1）linkedlist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89ziplist"><span class="toc-text">2）ziplist</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-hash"><span class="toc-text">4.hash</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89ziplist"><span class="toc-text">1）ziplist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89hashtable"><span class="toc-text">2）hashtable</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-set"><span class="toc-text">5.set</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89intset%E7%BC%96%E7%A0%81"><span class="toc-text">1）intset编码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-zset"><span class="toc-text">1.zset</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89ziplist%E7%BC%96%E7%A0%81"><span class="toc-text">1）ziplist编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89skiplist%E7%BC%96%E7%A0%81"><span class="toc-text">2）skiplist编码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-redisClient"><span class="toc-text">3.redisClient</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-zskiplist-%E8%B7%B3%E8%B7%83%E8%A1%A8"><span class="toc-text">4.zskiplist  跳跃表</span></a></li></ol>
-</div></main>
-            <aside class="left-column">
-              
-              <div class="card card-author">
-                
-  <img 
-    src="/java4u/img/1.e3a1f41f.gif" 
-    class="author-img"
-    width="88"
-    height="88"
-    alt="author avatar">
 
-<p class="author-name">Zhao Xin</p>
-<p class="author-description">5年工作经验，不秃头的java萌新。</p>
-<div class="author-message">
-  <a 
-    class="author-posts-count" 
-    href="/java4u/archives">
-    <span>53</span>
-    <span>文章</span>
-  </a>
-  <a 
-    class="author-categories-count" 
-    href="/java4u/categories">
-    <span>13</span>
-    <span>分类</span>
-  </a>
-  <a 
-    class="author-tags-count" 
-    href="/java4u/tags">
-    <span>12</span>
-    <span>标签</span>
-  </a>
-</div>
-
-              </div>
-               <div class="sticky-tablet">
+</section>
+        
+          <aside id="sidebar">
   
-  
-    <article class="display-when-two-columns spacer">
-      <div class="card card-content toc-card">
-        <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-redisObject"><span class="toc-text">1.redisObject</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-String"><span class="toc-text">2.String</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-list"><span class="toc-text">3.list</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89linkedlist"><span class="toc-text">1）linkedlist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89ziplist"><span class="toc-text">2）ziplist</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-hash"><span class="toc-text">4.hash</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89ziplist"><span class="toc-text">1）ziplist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89hashtable"><span class="toc-text">2）hashtable</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-set"><span class="toc-text">5.set</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89intset%E7%BC%96%E7%A0%81"><span class="toc-text">1）intset编码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-zset"><span class="toc-text">1.zset</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89ziplist%E7%BC%96%E7%A0%81"><span class="toc-text">1）ziplist编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89skiplist%E7%BC%96%E7%A0%81"><span class="toc-text">2）skiplist编码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-redisClient"><span class="toc-text">3.redisClient</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-zskiplist-%E8%B7%B3%E8%B7%83%E8%A1%A8"><span class="toc-text">4.zskiplist  跳跃表</span></a></li></ol>
-      </div>
-    </article>
-  
-  
-  <article class="card card-content categories-widget">
-    <div class="categories-card">
-  <div class="categories-header">
-    <i 
-      class="iconfont icon-fenlei" 
-      style="padding-right: 2px;">
-    </i>分类
-  </div>
-  <div class="categories-list">
     
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">11</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
-        <div class="categories-list-item">
-          面试
-          <span class="categories-list-item-badge">8</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/security/">
-        <div class="categories-list-item">
-          security
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
-        <div class="categories-list-item">
-          分布式
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/SQL/">
-        <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  <article class="card card-content tags-widget">
-    <div class="tags-card">
-  <div class="tags-header">
-    <i 
-      class="iconfont icon-biaoqian" 
-      style="padding-right: 2px;">
-    </i>热门标签
-  </div>
-  <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
-        title="数组">
-        <div class="tags-list-item">数组</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/OAuth/" 
-        title="OAuth">
-        <div class="tags-list-item">OAuth</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        title="进程优化">
-        <div class="tags-list-item">进程优化</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-            </aside>
-            <aside class="right-column">
-              <div class="sticky-widescreen">
-  
-  
-    <article class="card card-content toc-card">
-      <div class="toc-header">
-  <i 
-    class="iconfont icon-menu" 
-    style="padding-right: 2px;">
-  </i>目录
-</div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-redisObject"><span class="toc-text">1.redisObject</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-String"><span class="toc-text">2.String</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-list"><span class="toc-text">3.list</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89linkedlist"><span class="toc-text">1）linkedlist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89ziplist"><span class="toc-text">2）ziplist</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-hash"><span class="toc-text">4.hash</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89ziplist"><span class="toc-text">1）ziplist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89hashtable"><span class="toc-text">2）hashtable</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-set"><span class="toc-text">5.set</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89intset%E7%BC%96%E7%A0%81"><span class="toc-text">1）intset编码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1-zset"><span class="toc-text">1.zset</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%EF%BC%89ziplist%E7%BC%96%E7%A0%81"><span class="toc-text">1）ziplist编码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%EF%BC%89skiplist%E7%BC%96%E7%A0%81"><span class="toc-text">2）skiplist编码</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-redisClient"><span class="toc-text">3.redisClient</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-zskiplist-%E8%B7%B3%E8%B7%83%E8%A1%A8"><span class="toc-text">4.zskiplist  跳跃表</span></a></li></ol>
-    </article>
-  
-  
-  <article class="card card-content">
-    <div class="recent-posts-card">
-  <div class="recent-posts-header">
-    <i 
-      class="iconfont icon-wenzhang_huaban" 
-      style="padding-right: 2px;">
-    </i>最近文章
-  </div>
-  <div class="recent-posts-list">
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-25</div>
-        <a href="/java4u/2022/04/25/21.%20%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/"><div class="recent-posts-item-content">21. 合并两个有序链表</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-24</div>
-        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-21</div>
-        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
-      </div>
-    
-      <div class="recent-posts-item">
-        <div class="recent-posts-item-title">2022-04-20</div>
-        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
-      </div>
-    
-  </div>
-</div>
-  </article>
-  
-  
-</div>
-            </aside>
-          </div>
-        </div>
-      </div>
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/SQL/">SQL</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/security/">security</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/webservice/">webservice</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">中间件</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">分布式</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">加密解码</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E6%A1%86%E6%9E%B6/">框架</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E7%BD%91%E7%BB%9C/">网络</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E8%B0%83%E4%BC%98/">调优</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%9D%A2%E8%AF%95/">面试</a></li><li class="category-list-item"><a class="category-list-link" href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">项目流程</a></li></ul>
     </div>
-     
-    <footer class="footer">
-  <div class="footer-container">
-    <div>
-      <div class="footer-dsc">
-        <span>
-          Copyright ©
-          
-            2020
-          
-          
-                - 
-                2022
-          
-        </span>
-        &nbsp;
-        <a 
-          href="/java4u/" 
-          class="footer-link">
-          Snail
-        </a>
-      </div>
-    </div>
+  </div>
 
+
+  
     
-      <div class="footer-dsc">
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/MQ/" rel="tag">MQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/OAuth/" rel="tag">OAuth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/RPC/" rel="tag">RPC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/TPC-IP/" rel="tag">TPC&#x2F;IP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/WSDL/" rel="tag">WSDL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/leetcode/" rel="tag">leetcode</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" rel="tag">业务</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" rel="tag">学习</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%95%B0%E7%BB%84/" rel="tag">数组</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E6%BA%90%E7%A0%81/" rel="tag">源码</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" rel="tag">进程优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/java4u/tags/%E9%93%BE%E8%A1%A8/" rel="tag">链表</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/java4u/tags/MQ/" style="font-size: 10px;">MQ</a> <a href="/java4u/tags/OAuth/" style="font-size: 10px;">OAuth</a> <a href="/java4u/tags/RPC/" style="font-size: 10px;">RPC</a> <a href="/java4u/tags/TPC-IP/" style="font-size: 10px;">TPC/IP</a> <a href="/java4u/tags/WSDL/" style="font-size: 10px;">WSDL</a> <a href="/java4u/tags/leetcode/" style="font-size: 17.5px;">leetcode</a> <a href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" style="font-size: 12.5px;">业务</a> <a href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" style="font-size: 20px;">学习</a> <a href="/java4u/tags/%E6%95%B0%E7%BB%84/" style="font-size: 15px;">数组</a> <a href="/java4u/tags/%E6%BA%90%E7%A0%81/" style="font-size: 12.5px;">源码</a> <a href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" style="font-size: 10px;">进程优化</a> <a href="/java4u/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 12.5px;">链表</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/04/">四月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2022/02/">二月 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/10/">十月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/09/">九月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/08/">八月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/06/">六月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/05/">五月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/04/">四月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2021/02/">二月 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/12/">十二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/11/">十一月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/java4u/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
         
-          Powered by
-          <a 
-            href="https://hexo.io/" 
-            class="footer-link" 
-            target="_blank" 
-            rel="nofollow noopener noreferrer">
-            &nbsp;Hexo
-          </a>
+          <li>
+            <a href="/java4u/2022/04/24/MQ/">MQ</a>
+          </li>
         
+          <li>
+            <a href="/java4u/2022/04/21/SpringCloud/">SpringCloud</a>
+          </li>
         
-          <span>&nbsp;|&nbsp;</span>
+          <li>
+            <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/">REDIS深入了解</a>
+          </li>
         
+          <li>
+            <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/">国网发票业务规则整理</a>
+          </li>
         
-          Theme -
-          <a 
-            href="https://github.com/theme-kaze" 
-            class="footer-link" 
-            target="_blank"
-            rel="nofollow noopener noreferrer">
-            &nbsp;Kaze
-          </a>
+          <li>
+            <a href="/java4u/2022/04/20/%E8%B4%A6%E7%AE%A1%E6%B5%81%E7%A8%8B/">账管业务流程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
         
       </div>
-    
-    
-    
-    
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 Zhao Xin<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
 </footer>
- 
-    
-  <a 
-    role="button" 
-    id="scrollbutton" 
-    class="basebutton" 
-    aria-label="回到顶部">
-    <i class="iconfont icon-arrowleft button-icon"></i>
-  </a>
 
-<a 
-  role="button" 
-  id="menubutton"
-  aria-label="menu button"
-  class="basebutton">
-  <i class="iconfont icon-menu button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="popbutton" 
-  class="basebutton" 
-  aria-label="控制中心">
-  <i class="iconfont icon-expand button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="darkbutton" 
-  class="basebutton darkwidget" 
-  aria-label="夜色模式">
-  <i class="iconfont icon-weather button-icon"></i>
-</a>
-<a 
-  role="button" 
-  id="searchbutton" 
-  class="basebutton searchwidget" 
-  aria-label="搜索">
-  <i class="iconfont icon-search button-icon"></i>
-</a> 
-     
-     
-     
-      <script>
-  var addImgLayout = function () {
-    var img = document.querySelectorAll('.post-content img')
-    var i
-    for (i = 0; i < img.length; i++) {
-      var wrapper = document.createElement('a')
-      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
-      wrapper.setAttribute('aria-label', 'illustration')
-      wrapper.style.cssText =
-        'width: 100%; display: flex; justify-content: center;'
-      if (img[i].alt) wrapper.dataset.caption = img[i].alt
-      wrapper.dataset.nolink = true
-      img[i].before(wrapper)
-      wrapper.append(img[i])
-      var divWrap = document.createElement('div')
-      divWrap.classList.add('gallery')
-      wrapper.before(divWrap)
-      divWrap.append(wrapper)
-    }
-    baguetteBox.run('.gallery')
-  }
-</script>
-<script>
-  loadScript(
-    "/java4u/js/lib/lightbox/baguetteBox.min.js",
-    addImgLayout
-  )
-</script>
- 
-     
-     
-    <script src="/java4u/js/main.js"></script> 
-     
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/java4u/" class="mobile-nav-link">Home</a>
+  
+    <a href="/java4u/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
     
-      <script>
-        var addLazyload = function () {
-          var observer = lozad('.lozad', {
-            load: function (el) {
-              el.srcset = el.getAttribute('data-src')
-            },
-            loaded: function (el) {
-              el.classList.add('loaded')
-            },
-          })
-          observer.observe()
-        }
-      </script>
-      <script>
-        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
-      </script>
-     
-    
-    
-      <script>
-        setTimeout(() => {localSearch("search.json")}, 0)
-      </script>
-    
-  </body>
+
+
+<script src="/java4u/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/java4u/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/java4u/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
 </html>
