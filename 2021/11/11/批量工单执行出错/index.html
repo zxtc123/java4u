@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>批量工单执行出错</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="批量工单执行出错">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2021/11/11/%E6%89%B9%E9%87%8F%E5%B7%A5%E5%8D%95%E6%89%A7%E8%A1%8C%E5%87%BA%E9%94%99/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2021-11-11">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-26">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="内存溢出">
+        
+          <meta 
+            property="og:article:tag" 
+            content="JVM">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      批量工单执行出错
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-11-10T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2021-11-11</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/JVM/" 
+          class="post-meta-link">
+          JVM
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>927 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA/" 
+            class="post-meta-link">
+            内存溢出
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/java4u/tags/JVM/" 
+            class="post-meta-link">
+            JVM
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <p>批量处理工单处理任务时，发现大量错误：<br>CsfException [serviceCode&#x3D;asset_ITaskCSV_syncWriteOffTask, processName&#x3D;asset_writeoffAsynBatch,<br>date&#x3D;2021-11-11 23:13:08, exceptionCode&#x3D;csf1219, exceptionMessage&#x3D;获取返回值失败，可能原因是服务端返回值过大，<br>需要配置csf客户端maxContextLength大小，也可能是在给定时间内未收到服务的响应，无法获取到返回值,<br>exceptionStack&#x3D;java.lang.OutOfMemoryError: GC overhead limit exceeded<br>, requestId&#x3D;]</p>
+<p>原因：由于某种原因垃圾收集器占用了过多的时间（默认为进程所有 CPU 时间的 98%）并且在每次运行中回收的内存非常少（默认为堆的 2%）。<br>      这实际上意味着您的程序停止执行任何进度并且一直忙于只运行垃圾收集。<br>     为了防止您的应用程序在没有完成任何事情的情况下占用 CPU 时间，JVM 会抛出此问题，Error以便您有机会诊断问题</p>
+<p>现象：</p>
+<pre class="highlight"><span class="line">进程端报错，插入工单历史表出错</span><br><span class="line">[2021-11-11 23:13:13,738] [processor-1] (DataStoreImpl.java:773)  WARN  - 3108</span><br><span class="line">java.lang.Exception: SQLִŻ5;9Hat com.ai.appframe2.bo.DataStoreImpl.save2(DataStoreImpl.java:773)</span><br><span class="line">                                                  (                      )</span><br><span class="line">        at com.ai.appframe2.complex.tab.store.AdvanceDataStoreImpl.save2(AdvanceDataStoreImpl.java:44)</span><br><span class="line">        at com.ai.appframe2.bo.DataStoreImpl.save(DataStoreImpl.java:989)</span><br><span class="line">        at com.asiainfo.asset.component.po.bo.payment.BOBusiTaskEngine.save(BOBusiTaskEngine.java:141)</span><br><span class="line">        at com.asiainfo.asset.component.po.dao.payment.impl.BusiTaskDAOImpl.addBusiTaskHis(BusiTaskDAOImpl.java:186)</span><br><span class="line">        at sun.reflect.GeneratedMethodAccessor27.invoke(Unknown Source)</span><br><span class="line">        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">        at java.lang.reflect.Method.invoke(Method.java:498)</span><br><span class="line">        at com.ai.appframe2.complex.service.proxy.ProxyInvocationHandler.invoke(ProxyInvocationHandler.java:129)</span><br><span class="line">        at com.sun.proxy.$Proxy18.addBusiTaskHis(Unknown Source)</span><br><span class="line">        at com.ai.ac.core.writeoff.dao.BusiTaskDao.insertBusiTaskHis(BusiTaskDao.java:55)</span><br><span class="line">        at com.ai.ac.core.writeoff.bc.WriteOffAsynTaskApp.doWriteOffAsynEnd(WriteOffAsynTaskApp.java:125)</span><br><span class="line">        at com.ai.ac.core.writeoff.task.WriteOffAsynBatchTask.execute(WriteOffAsynBatchTask.java:146)</span><br><span class="line">        at com.ai.ac.core.writeoff.task.WriteOffAsynBatchTask.execute(WriteOffAsynBatchTask.java:30)</span><br><span class="line">        at com.ai.acctcomp.task.client.AbstractThreadTaskDeal.process(AbstractThreadTaskDeal.java:43)</span><br><span class="line">        at com.ai.acctcomp.queue.disruptor.MsgWorkHandler.onEvent(DisruptorQueueProcessor.java:92)</span><br><span class="line">        at com.ai.acctcomp.queue.disruptor.MsgWorkHandler.onEvent(DisruptorQueueProcessor.java:82)</span><br><span class="line">	</span><br><span class="line">	插入异常日志则为内存溢出</span><br></pre>
+
+<pre class="highlight"><span class="line">	临时解决方案：</span><br><span class="line">	JVM 选项启用吞吐量收集：</span><br><span class="line">	-XX:+UseParallelGC</span><br><span class="line">	在此期间，请为您的应用程序提供尽可能多的堆空间：</span><br><span class="line">	-Xms????m</span><br><span class="line">（其中????代表以 MB 为单位的堆空间量，例如-Xms8192m）</span><br><span class="line">	如果这没有帮助，请尝试使用此选项设置更宽松的吞吐量目标：</span><br><span class="line">	-XX:GCTimeRatio=19 </span><br></pre>
+
+<pre class="highlight"><span class="line">	查询JVM内存堆信息：</span><br><span class="line">	</span><br><span class="line">	[boss@js-cache-04 batchAsynWoff]$ jmap -heap 1095460</span><br><span class="line">Attaching to process ID 1095460, please wait...</span><br><span class="line">Debugger attached successfully.</span><br><span class="line">Server compiler detected.</span><br><span class="line">JVM version is 25.211-b12</span><br><span class="line"></span><br><span class="line">using thread-local object allocation.</span><br><span class="line">Parallel GC with 23 thread(s)</span><br><span class="line"></span><br><span class="line">Heap Configuration:</span><br><span class="line">   MinHeapFreeRatio         = 0</span><br><span class="line">   MaxHeapFreeRatio         = 100</span><br><span class="line">   MaxHeapSize              = 1073741824 (1024.0MB)</span><br><span class="line">   NewSize                  = 89128960 (85.0MB)</span><br><span class="line">   MaxNewSize               = 357564416 (341.0MB)</span><br><span class="line">   OldSize                  = 179306496 (171.0MB)</span><br><span class="line">   NewRatio                 = 2</span><br><span class="line">   SurvivorRatio            = 8</span><br><span class="line">   MetaspaceSize            = 21807104 (20.796875MB)</span><br><span class="line">   CompressedClassSpaceSize = 1073741824 (1024.0MB)</span><br><span class="line">   MaxMetaspaceSize         = 17592186044415 MB</span><br><span class="line">   G1HeapRegionSize         = 0 (0.0MB)</span><br><span class="line"></span><br><span class="line">Heap Usage:</span><br><span class="line">PS Young Generation</span><br><span class="line">Eden Space:</span><br><span class="line">   capacity = 119537664 (114.0MB)</span><br><span class="line">   used     = 118662472 (113.16535186767578MB)</span><br><span class="line">   free     = 875192 (0.8346481323242188MB)</span><br><span class="line">   99.26785251550507% used                          -----Eden区几乎被完全占用</span><br><span class="line">From Space:</span><br><span class="line">   capacity = 119013376 (113.5MB)</span><br><span class="line">   used     = 0 (0.0MB)</span><br><span class="line">   free     = 119013376 (113.5MB)</span><br><span class="line">   0.0% used</span><br><span class="line">To Space:</span><br><span class="line">   capacity = 119013376 (113.5MB)</span><br><span class="line">   used     = 0 (0.0MB)</span><br><span class="line">   free     = 119013376 (113.5MB)</span><br><span class="line">   0.0% used</span><br><span class="line">PS Old Generation</span><br><span class="line">   capacity = 716177408 (683.0MB)</span><br><span class="line">   used     = 716172800 (682.99560546875MB)</span><br><span class="line">   free     = 4608 (0.00439453125MB)</span><br><span class="line">   99.99935658400439% used												-------Old Generation几乎被完全占用</span><br><span class="line">```   </span><br><span class="line"></span><br></pre>
+<p>   因为修改堆空间只会暂时延缓问题出现的时间，是程序中出现的问题，需要分析dump</p>
+<p>   jmap -dump:file&#x3D;a.dump <pid>  生成dump文件<br>   下载到本地，使用 jvisualvm 分析dump<br>   在使用MAT（MemoryAnalyzer）分析dump，查看dominator tree</p>
+<pre class="highlight"><span class="line">![202204261548188](https://raw.githubusercontent.com/zxtc123/image/main/202204261548188.jpg)</span><br><span class="line">![202204261549426](https://raw.githubusercontent.com/zxtc123/image/main/202204261549426.jpg)</span><br></pre>
+<p>   com.asiainfo.asset.component.po.bo.payment.BOBusiTaskBean 占其中91%    ———BOBusiTaskBean就是分发的对象<br>   快速处理任务的时候，会创建大量分发对象分发到多个线程处理，每个线程获取到分发对象，<br>   需要调销账服务进行处理，没有完成销账会一直持有分发对象，<br>   在不影响效率的情况下提供内存空间到1024M，任务顺利跑完<br>&#96;&#96;&#96;</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2021/11/11/%E6%89%B9%E9%87%8F%E5%B7%A5%E5%8D%95%E6%89%A7%E8%A1%8C%E5%87%BA%E9%94%99/">
+            https://zxtc123.github.io/java4u/2021/11/11/%E6%89%B9%E9%87%8F%E5%B7%A5%E5%8D%95%E6%89%A7%E8%A1%8C%E5%87%BA%E9%94%99/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2022/02/01/176.%20%E7%AC%AC%E4%BA%8C%E9%AB%98%E7%9A%84%E8%96%AA%E6%B0%B4/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">176.第二高的薪水 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2021/10/06/6.2%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">其他框架 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>56</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>14</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>14</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">13</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
+        title="进程优化">
+        <div class="tags-list-item">进程优化</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA/" 
+        title="内存溢出">
+        <div class="tags-list-item">内存溢出</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-24</div>
+        <a href="/java4u/2022/04/24/MQ/"><div class="recent-posts-item-content">MQ</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-21</div>
+        <a href="/java4u/2022/04/21/SpringCloud/"><div class="recent-posts-item-content">SpringCloud</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-20</div>
+        <a href="/java4u/2022/04/20/REDIS%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">REDIS深入了解</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-04-20</div>
+        <a href="/java4u/2022/04/20/%E5%9B%BD%E7%BD%91%E5%8F%91%E7%A5%A8%E4%B8%9A%E5%8A%A1%E8%A7%84%E5%88%99%E6%95%B4%E7%90%86/"><div class="recent-posts-item-content">国网发票业务规则整理</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2022
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
