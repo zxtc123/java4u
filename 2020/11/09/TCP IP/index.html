@@ -45,7 +45,7 @@
         content="2020-11-09">
       <meta 
         property="og:article:modified_time" 
-        content="2022-04-24">
+        content="2022-04-30">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>386 字</span>
+      <span>865 字</span>
     
   </div>
   
@@ -314,34 +314,101 @@
   <div 
     id="section" 
     class="post-content">
-    <p>一 TCP&#x2F;IP模型<br>    由上到下，层层包装</p>
-<pre><code>应用层  http/ftp协议
-传输层	TCP/UDP协议
-网络层	IP协议
-链路层	未待传送数据加入以太网协议头
-</code></pre>
-<p>二 数据链路层<br>    把网络层数据加头和尾，封装成帧，包含源MAC地址和目的MAC地址</p>
-<p>三	网络层<br>    1.1 以IP数据格式传输，地址标识就是IP地址</p>
-<pre><code>1.2 TTL生存时间，穿过多少个路由后被抛弃
-
-2.ARP及RARP协议 根据IP地址获取MAC地址的协议
-
-3.ICMP协议	当传送IP数据包发生错误，ICMP会把错误信息封包传送回主机
-</code></pre>
-<p>四 ping<br>    ICMP最著名应用</p>
-<p>五 traceroute<br>    用来侦测主机到目的主机之间所经路由情况的工具</p>
-<p>六	TCP&#x2F;UDP协议<br>            TCP         	UDP<br>可靠性		可靠			不可靠<br>连接性		面向连接		无连接<br>报文		面向字节流		面向报文<br>效率		传输效率低		传输效率高<br>双工性		全双工			一对一&#x2F;一对多&#x2F;多对一&#x2F;多对多<br>流量控制	滑动窗口		无<br>拥塞控制	慢开始&#x2F;拥塞避免&#x2F;<br>            快重传&#x2F;快恢复<br>传输速度	慢				快<br>应用场景	对效率要求低	对效率要求高<br>            对准确性要求高</p>
-<pre><code>应用协议		应用		传输层协议
-SMTP			电子邮件	TCP
-TELNET			远程终端接入
-HTTP			万维网
-FTP				文件传输
-
-DNS				域名转换	UDP
-TFTP			文件传输
-SNMP			网络管理
-NFS				远程文件服务器
-</code></pre>
+    <h2 id="一-TCP-x2F-IP模型"><a href="#一-TCP-x2F-IP模型" class="headerlink" title="一 TCP&#x2F;IP模型"></a>一 TCP&#x2F;IP模型</h2><p>由上到下，层层包装</p>
+<ul>
+<li>应用层 http&#x2F;ftp协议</li>
+<li>传输层 TCP&#x2F;UDP协议 经过TCP层加上TCP首部，产生TCP段（segment）</li>
+<li>网络层 IP协议 TCP segment经过IP层再加上IP首部，产生IP数据包（datagram）</li>
+<li>链路层 未待传送数据加入以太网协议头 IP datagram通过链路层，经以太网驱动程序处理后，加上以太网首部+尾部，产生以太网帧（frame），以太网帧的长度在46~1500之间</li>
+</ul>
+<p><img src="https://github.com/zxtc123/image/blob/main/202204301714335.png" alt="202204301714335" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://github.com/zxtc123/image/blob/main/202204301714335.png" class="lozad post-image"></p>
+<p>发送端发送数据时，数据层层封装发送给接收端。<br>接收端收到数据后，要执行跟发送端相反的解封操作，把首尾部剥离，获取传递的原始数据</p>
+<p><img src="https://github.com/zxtc123/image/blob/main/202204301714422.png" alt="202204301714422" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://github.com/zxtc123/image/blob/main/202204301714422.png" class="lozad post-image"></p>
+<h2 id="二-数据链路层"><a href="#二-数据链路层" class="headerlink" title="二 数据链路层"></a>二 数据链路层</h2><p>把网络层数据加头和尾，封装成帧，包含源MAC地址和目的MAC地址</p>
+<h2 id="三-网络层"><a href="#三-网络层" class="headerlink" title="三 网络层"></a>三 网络层</h2><p>1.1 以IP数据格式传输，地址标识就是IP地址</p>
+<p>1.2 TTL生存时间，穿过多少个路由后被抛弃	</p>
+<p>2.ARP及RARP协议 根据IP地址获取MAC地址的协议</p>
+<p>3.ICMP协议 当传送IP数据包发生错误，ICMP会把错误信息封包传送回主机</p>
+<h2 id="四-ping"><a href="#四-ping" class="headerlink" title="四 ping"></a>四 ping</h2><p>ICMP最著名应用</p>
+<h2 id="五-traceroute"><a href="#五-traceroute" class="headerlink" title="五 traceroute"></a>五 traceroute</h2><p>用来侦测主机到目的主机之间所经路由情况的工具</p>
+<h2 id="六-TCP-x2F-UDP协议"><a href="#六-TCP-x2F-UDP协议" class="headerlink" title="六 TCP&#x2F;UDP协议"></a>六 TCP&#x2F;UDP协议</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可靠性</td>
+<td>可靠</td>
+<td>不可靠</td>
+</tr>
+<tr>
+<td>连接性</td>
+<td>面向连接</td>
+<td>无连接</td>
+</tr>
+<tr>
+<td>报文</td>
+<td>面向字节流</td>
+<td>面向报文</td>
+</tr>
+<tr>
+<td>效率</td>
+<td>传输效率低</td>
+<td>传输效率高</td>
+</tr>
+<tr>
+<td>双工性</td>
+<td>全双工</td>
+<td>一对一&#x2F;一对多&#x2F;多对一&#x2F;多对多</td>
+</tr>
+<tr>
+<td>流量控制</td>
+<td>滑动窗口</td>
+<td>无</td>
+</tr>
+<tr>
+<td>拥塞控制</td>
+<td>慢开始&#x2F;拥塞避免</td>
+<td>快重传&#x2F;快恢复</td>
+</tr>
+<tr>
+<td>传输速度</td>
+<td>慢</td>
+<td>快</td>
+</tr>
+<tr>
+<td>应用场景</td>
+<td>对效率要求低\对准确性要求高</td>
+<td>对效率要求高</td>
+</tr>
+</tbody></table>
+<h2 id="七-应用层"><a href="#七-应用层" class="headerlink" title="七 应用层"></a>七 应用层</h2><p>每一个应用层（TCP&#x2F;IP参考模型的最高层）协议一般都会使用到两个传输层协议之一： 面向连接的TCP传输控制协议和无连接的包传输的UDP用户数据报文协议。 常用的应用层协议有：</p>
+<p>运行在TCP协议上的协议：</p>
+<ul>
+<li>HTTP（Hypertext Transfer Protocol，超文本传输协议），主要用于普通浏览。</li>
+<li>HTTPS（Hypertext Transfer Protocol over Secure Socket Layer, or HTTP over SSL，安全超文本传输协议）,HTTP协议的安全版本。</li>
+<li>FTP（File Transfer Protocol，文件传输协议），由名知义，用于文件传输。</li>
+<li>POP3（Post Office Protocol, version 3，邮局协议），收邮件用。</li>
+<li>SMTP（Simple Mail Transfer Protocol，简单邮件传输协议），用来发送电子邮件。</li>
+<li>TELNET（Teletype over the Network，网络电传），通过一个终端（terminal）登陆到网络。</li>
+<li>SSH（Secure Shell，用于替代安全性差的TELNET），用于加密安全登陆用。</li>
+</ul>
+<p>运行在UDP协议上的协议：</p>
+<ul>
+<li>BOOTP（Boot Protocol，启动协议），应用于无盘设备。</li>
+<li>NTP（Network Time Protocol，网络时间协议），用于网络同步。</li>
+<li>DHCP（Dynamic Host Configuration Protocol，动态主机配置协议），动态配置IP地址。</li>
+</ul>
+<p>其他：</p>
+<ul>
+<li>DNS（Domain Name Service，域名服务），用于完成地址查找，邮件转发等工作（运行在TCP和UDP协议上）。</li>
+<li>ECHO（Echo Protocol，回绕协议），用于查错及测量应答时间（运行在TCP和UDP协议上）。</li>
+<li>SNMP（Simple Network Management Protocol，简单网络管理协议），用于网络信息的收集和网络管理。</li>
+<li>ARP（Address Resolution Protocol，地址解析协议），用于动态解析以太网硬件的地址。</li>
+</ul>
 
   </div>
   <div>
@@ -412,7 +479,7 @@ NFS				远程文件服务器
     style="padding-right: 2px;">
   </i>目录
 </div>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-TCP-x2F-IP%E6%A8%A1%E5%9E%8B"><span class="toc-text">一 TCP&#x2F;IP模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-text">二 数据链路层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-text">三 网络层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-ping"><span class="toc-text">四 ping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-traceroute"><span class="toc-text">五 traceroute</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-TCP-x2F-UDP%E5%8D%8F%E8%AE%AE"><span class="toc-text">六 TCP&#x2F;UDP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-text">七 应用层</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -460,7 +527,7 @@ NFS				远程文件服务器
     style="padding-right: 2px;">
   </i>目录
 </div>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-TCP-x2F-IP%E6%A8%A1%E5%9E%8B"><span class="toc-text">一 TCP&#x2F;IP模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-text">二 数据链路层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-text">三 网络层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-ping"><span class="toc-text">四 ping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-traceroute"><span class="toc-text">五 traceroute</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-TCP-x2F-UDP%E5%8D%8F%E8%AE%AE"><span class="toc-text">六 TCP&#x2F;UDP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-text">七 应用层</span></a></li></ol>
       </div>
     </article>
   
@@ -474,6 +541,41 @@ NFS				远程文件服务器
     </i>分类
   </div>
   <div class="categories-list">
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        <div class="categories-list-item">
+          数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
     
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
@@ -506,41 +608,6 @@ NFS				远程文件服务器
       <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
         <div class="categories-list-item">
           线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/SQL/">
-        <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-        <div class="categories-list-item">
-          数据库
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -667,18 +734,6 @@ NFS				远程文件服务器
       </a>
     
       <a 
-        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
-        title="更换数据库">
-        <div class="tags-list-item">更换数据库</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/WSDL/" 
         title="WSDL">
         <div class="tags-list-item">WSDL</div>
@@ -688,6 +743,18 @@ NFS				远程文件服务器
         href="/java4u/tags/TPC-IP/" 
         title="TPC/IP">
         <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
       </a>
     
   </div>
@@ -708,7 +775,7 @@ NFS				远程文件服务器
     style="padding-right: 2px;">
   </i>目录
 </div>
-
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-TCP-x2F-IP%E6%A8%A1%E5%9E%8B"><span class="toc-text">一 TCP&#x2F;IP模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-text">二 数据链路层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89-%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="toc-text">三 网络层</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B-ping"><span class="toc-text">四 ping</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94-traceroute"><span class="toc-text">五 traceroute</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD-TCP-x2F-UDP%E5%8D%8F%E8%AE%AE"><span class="toc-text">六 TCP&#x2F;UDP协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83-%E5%BA%94%E7%94%A8%E5%B1%82"><span class="toc-text">七 应用层</span></a></li></ol>
     </article>
   
   
