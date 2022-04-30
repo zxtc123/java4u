@@ -45,7 +45,7 @@
         content="2022-04-24">
       <meta 
         property="og:article:modified_time" 
-        content="2022-04-27">
+        content="2022-04-29">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>396 字</span>
+      <span>439 字</span>
     
   </div>
   
@@ -342,7 +342,15 @@
 <p>direct exchange:根据规则将消息路由到指定的queue,因此称之路由模式(根据routingkey进行路由)</p>
 <p>topic exchange:topic的routingkey必须是多个单词的列表并以.分割（可以使用通配符路由）</p>
 <p><em>使用MessageConverter使用消息的序列化和反序列化,发送方和接收方的converter必须相同</em></p>
-<h2 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h2>
+<h2 id="RocketMQ"><a href="#RocketMQ" class="headerlink" title="RocketMQ"></a>RocketMQ</h2><h3 id="rocketmq角色"><a href="#rocketmq角色" class="headerlink" title="rocketmq角色"></a>rocketmq角色</h3><ul>
+<li>producer:消息发送者</li>
+<li>consumer:消息接收者</li>
+<li>broker:暂存和传输消息</li>
+<li>nameserver:管理broker</li>
+<li>topic:区分消息的种类</li>
+<li>message queue:相当于topic的分区</li>
+</ul>
+
   </div>
   <div>
     
@@ -412,7 +420,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQ"><span class="toc-text">MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8BMQ"><span class="toc-text">初始MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq"><span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringAMQP"><span class="toc-text">SpringAMQP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RocketMQ"><span class="toc-text">RocketMQ</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQ"><span class="toc-text">MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8BMQ"><span class="toc-text">初始MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq"><span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringAMQP"><span class="toc-text">SpringAMQP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RocketMQ"><span class="toc-text">RocketMQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rocketmq%E8%A7%92%E8%89%B2"><span class="toc-text">rocketmq角色</span></a></li></ol></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -431,7 +439,7 @@
   <a 
     class="author-posts-count" 
     href="/java4u/archives">
-    <span>61</span>
+    <span>65</span>
     <span>文章</span>
   </a>
   <a 
@@ -460,7 +468,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQ"><span class="toc-text">MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8BMQ"><span class="toc-text">初始MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq"><span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringAMQP"><span class="toc-text">SpringAMQP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RocketMQ"><span class="toc-text">RocketMQ</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQ"><span class="toc-text">MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8BMQ"><span class="toc-text">初始MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq"><span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringAMQP"><span class="toc-text">SpringAMQP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RocketMQ"><span class="toc-text">RocketMQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rocketmq%E8%A7%92%E8%89%B2"><span class="toc-text">rocketmq角色</span></a></li></ol></li></ol></li></ol>
       </div>
     </article>
   
@@ -478,49 +486,7 @@
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
           数据结构与算法
-          <span class="categories-list-item-badge">17</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
-        <div class="categories-list-item">
-          面试
-          <span class="categories-list-item-badge">8</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
-        <div class="categories-list-item">
-          分布式
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/security/">
-        <div class="categories-list-item">
-          security
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/JVM/">
-        <div class="categories-list-item">
-          JVM
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
-          <span class="categories-list-item-badge">1</span>
+          <span class="categories-list-item-badge">21</span>
         </div>
       </a>
     
@@ -538,13 +504,6 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/SQL/">
-        <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
         <div class="categories-list-item">
           加密解码
@@ -556,6 +515,13 @@
         <div class="categories-list-item">
           线程池
           <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
         </div>
       </a>
     
@@ -573,9 +539,51 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
         <div class="categories-list-item">
           数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -607,15 +615,27 @@
       </a>
     
       <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
         href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
         title="链表">
         <div class="tags-list-item">链表</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
       </a>
     
       <a 
@@ -625,9 +645,21 @@
       </a>
     
       <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
       </a>
     
       <a 
@@ -637,9 +669,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
       </a>
     
       <a 
@@ -661,33 +693,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
-        title="更换数据库">
-        <div class="tags-list-item">更换数据库</div>
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
       </a>
     
   </div>
@@ -708,7 +716,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQ"><span class="toc-text">MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8BMQ"><span class="toc-text">初始MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq"><span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringAMQP"><span class="toc-text">SpringAMQP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RocketMQ"><span class="toc-text">RocketMQ</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MQ"><span class="toc-text">MQ</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8BMQ"><span class="toc-text">初始MQ</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rabbitmq"><span class="toc-text">Rabbitmq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringAMQP"><span class="toc-text">SpringAMQP</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RocketMQ"><span class="toc-text">RocketMQ</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#rocketmq%E8%A7%92%E8%89%B2"><span class="toc-text">rocketmq角色</span></a></li></ol></li></ol></li></ol>
     </article>
   
   
