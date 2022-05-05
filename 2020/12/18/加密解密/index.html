@@ -45,7 +45,7 @@
         content="2020-12-18">
       <meta 
         property="og:article:modified_time" 
-        content="2022-04-24">
+        content="2022-05-05">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>281 字</span>
+      <span>477 字</span>
     
   </div>
   
@@ -315,12 +315,14 @@
     id="section" 
     class="post-content">
     <p>通过特定的算法，将数据明文加密成复杂的密文</p>
-<h2 id="一。简介"><a href="#一。简介" class="headerlink" title="一。简介"></a>一。简介</h2><pre><code>单项加密和双向加密。单项加密指通过对数据进行摘要计算生成密文，密文不可逆推还原，比如有Base64、MD5、SHA等
-双向加密则相反，指可以把密文逆推还原成明文，其中双向加密又分为对称加密和非对称加密。
-对称加密是指数据使用者必须拥有同样的密钥才可以进行加密解密，就像大家共同约定了一组暗号一样，对称加密的手段有DES、3DES、AES、IDEA、RC4、RC5等
-而非对称加密相对于对称加密而言，无需拥有同一组密钥，它是一种“信息公开的密钥交换协议”。非对称加密需要公开密钥和私有密钥两组密钥，
-公开密钥和私有密钥是配对起来的，也就是说使用公开密钥进行数据加密，只有对应的私有密钥才能进行解密。此类的加密手段有RSA、DSA等
-</code></pre>
+<h2 id="一。简介"><a href="#一。简介" class="headerlink" title="一。简介"></a>一。简介</h2><p>单项加密和双向加密。<br>单项加密指通过对数据进行摘要计算生成密文，密文不可逆推还原，比如有Base64、MD5、SHA等</p>
+<h3 id="单项加密使用场景"><a href="#单项加密使用场景" class="headerlink" title="单项加密使用场景"></a>单项加密使用场景</h3><ul>
+<li>用户密码保护:在保存用户密码时，不记录密码本身，只记录密码的MD5结果（即使数据库被盗也无法反推出明文）</li>
+<li>文件完整性校验：先在发送端计算一次文件的MD5，并把结果发送给接收端，接收端在接受文件后也计算一次MD5，两次结果一致文件完整。</li>
+<li>云盘秒传：云盘上传时计算MD5，并在自己的数据库中搜索一下 MD5是否存在，存在则使用已有的文件就可以了，从而实现云盘秒传。</li>
+<li>数字签名：发布程序时同时发布其MD5，下载后比较MD5是否相同，就可知道程序是否被篡改。</li>
+</ul>
+<p>双向加密则相反，指可以把密文逆推还原成明文，其中双向加密又分为对称加密和非对称加密。<br>对称加密是指数据使用者必须拥有同样的密钥才可以进行加密解密，就像大家共同约定了一组暗号一样，对称加密的手段有DES、3DES、AES、IDEA、RC4、RC5等<br>而非对称加密相对于对称加密而言，无需拥有同一组密钥，它是一种“信息公开的密钥交换协议”。非对称加密需要公开密钥和私有密钥两组密钥，<br>公开密钥和私有密钥是配对起来的，也就是说使用公开密钥进行数据加密，只有对应的私有密钥才能进行解密。此类的加密手段有RSA、DSA等</p>
 
   </div>
   <div>
@@ -391,7 +393,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%82%E7%AE%80%E4%BB%8B"><span class="toc-text">一。简介</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%82%E7%AE%80%E4%BB%8B"><span class="toc-text">一。简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E5%8A%A0%E5%AF%86%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">单项加密使用场景</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -410,7 +412,7 @@
   <a 
     class="author-posts-count" 
     href="/java4u/archives">
-    <span>68</span>
+    <span>71</span>
     <span>文章</span>
   </a>
   <a 
@@ -439,7 +441,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%82%E7%AE%80%E4%BB%8B"><span class="toc-text">一。简介</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%82%E7%AE%80%E4%BB%8B"><span class="toc-text">一。简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E5%8A%A0%E5%AF%86%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">单项加密使用场景</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -457,7 +459,35 @@
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
           数据结构与算法
-          <span class="categories-list-item-badge">24</span>
+          <span class="categories-list-item-badge">27</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -475,24 +505,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
         <div class="categories-list-item">
           分布式
           <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
@@ -503,23 +526,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
         <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
+          调优
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -528,13 +537,6 @@
         <div class="categories-list-item">
           SQL
           <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -574,21 +576,15 @@
   <div class="tags-list">
     
       <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
         href="/java4u/tags/leetcode/" 
         title="leetcode">
         <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
       </a>
     
       <a 
@@ -598,9 +594,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -610,9 +606,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/OAuth/" 
-        title="OAuth">
-        <div class="tags-list-item">OAuth</div>
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
       </a>
     
       <a 
@@ -622,39 +624,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        title="进程优化">
-        <div class="tags-list-item">进程优化</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA/" 
-        title="内存溢出">
-        <div class="tags-list-item">内存溢出</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/JVM/" 
-        title="JVM">
-        <div class="tags-list-item">JVM</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
       </a>
     
       <a 
@@ -664,9 +636,39 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
+        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
+        title="进程优化">
+        <div class="tags-list-item">进程优化</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA/" 
+        title="内存溢出">
+        <div class="tags-list-item">内存溢出</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
       </a>
     
   </div>
@@ -687,7 +689,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%82%E7%AE%80%E4%BB%8B"><span class="toc-text">一。简介</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%82%E7%AE%80%E4%BB%8B"><span class="toc-text">一。简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E9%A1%B9%E5%8A%A0%E5%AF%86%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-text">单项加密使用场景</span></a></li></ol></li></ol>
     </article>
   
   
