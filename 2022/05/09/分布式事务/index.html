@@ -45,7 +45,7 @@
         content="2022-05-09">
       <meta 
         property="og:article:modified_time" 
-        content="2022-05-16">
+        content="2022-05-17">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>936 字</span>
+      <span>1.2k 字</span>
     
   </div>
   
@@ -338,7 +338,8 @@
 <li>TM事务管理器：定义全局事务范围、开始全局事务、提交或回滚全局事务</li>
 <li>RM资源管理器：管理分支事务，与TC交谈以注册分支事务和报告分支事务的状态，并驱动分支事务提交或回滚</li>
 </ul>
-<h2 id="XA模式"><a href="#XA模式" class="headerlink" title="XA模式"></a>XA模式</h2><p>seata的XA模式做了调整（数据库支持，seata只做简单的封装），但大体相似：<br>RM一阶段工作：</p>
+<h2 id="XA模式"><a href="#XA模式" class="headerlink" title="XA模式"></a>XA模式</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/202205171924436.png" alt="202205171924436" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/202205171924436.png" class="lozad post-image"></p>
+<p>seata的XA模式做了调整（数据库支持，seata只做简单的封装），但大体相似：<br>RM一阶段工作：</p>
 <ol>
 <li>注册分支事务到TC</li>
 <li>执行分支业务sql但不提交</li>
@@ -362,7 +363,8 @@
 <li>第一阶段需要锁定数据库资源，等待二阶段才释放，性能较差</li>
 <li>依赖关系型数据库实现事务</li>
 </ul>
-<h2 id="AT模式"><a href="#AT模式" class="headerlink" title="AT模式"></a>AT模式</h2><p>AT同样是分阶段提交事务模型，不过弥补了XA模式中资源锁定周期过长的缺陷</p>
+<h2 id="AT模式"><a href="#AT模式" class="headerlink" title="AT模式"></a>AT模式</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/202205171935280.png" alt="202205171935280" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/202205171935280.png" class="lozad post-image"></p>
+<p>AT同样是分阶段提交事务模型，不过弥补了XA模式中资源锁定周期过长的缺陷</p>
 <p>RM一阶段工作：</p>
 <ul>
 <li>注册分支事务</li>
@@ -395,6 +397,27 @@
 <li>两阶段之间属于软状态，属于最终一致</li>
 <li>框架快照会影响性能，但比XA模式要好得多</li>
 </ul>
+<h2 id="TCC模式"><a href="#TCC模式" class="headerlink" title="TCC模式"></a>TCC模式</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/202205172004289.png" alt="202205172004289" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/202205172004289.png" class="lozad post-image"></p>
+<p>TCC通过人工编码实现数据恢复</p>
+<ul>
+<li>Try:资源检测和预留</li>
+<li>Confirm:完成资源操作业务；要求try成功confirm一定能成功</li>
+<li>Cancel:预留资源释放，可以理解未try的反向操作</li>
+</ul>
+<p>TCC优化：</p>
+<ul>
+<li>一阶段完成直接提交事务，性能好</li>
+<li>相比AT模型，无需生成快照，无需使用全局锁</li>
+<li>不依赖数据库事务，可以用于非事务型数据库</li>
+</ul>
+<p>TCC缺点：</p>
+<ul>
+<li>有代码侵入，需要人为编写</li>
+<li>软状态，事务最终一致</li>
+<li>需要考虑confirm和cancel失败情况，做好幂等处理</li>
+</ul>
+<h3 id="TCC空回滚和业务悬挂"><a href="#TCC空回滚和业务悬挂" class="headerlink" title="TCC空回滚和业务悬挂"></a>TCC空回滚和业务悬挂</h3><p>当某分支事务try阶段阻塞时，可能导致全局事务超时而触发二阶段的cancel操作。对于未执行try操作的分支，此时cancel不能回滚，就做一个空回滚</p>
+<p>对于已经空回滚的业务，如果之后又可以继续执行try，但整个事务已经回滚了，那之后的confirm和cancel就不会执行了，就是业务悬挂。应当阻止执行空回滚后的try操作，避免悬挂</p>
 
   </div>
   <div>
@@ -465,7 +488,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-text">CAP定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seata%E6%9E%B6%E6%9E%84"><span class="toc-text">Seata架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XA%E6%A8%A1%E5%BC%8F"><span class="toc-text">XA模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-text">CAP定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seata%E6%9E%B6%E6%9E%84"><span class="toc-text">Seata架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XA%E6%A8%A1%E5%BC%8F"><span class="toc-text">XA模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC%E6%A8%A1%E5%BC%8F"><span class="toc-text">TCC模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCC%E7%A9%BA%E5%9B%9E%E6%BB%9A%E5%92%8C%E4%B8%9A%E5%8A%A1%E6%82%AC%E6%8C%82"><span class="toc-text">TCC空回滚和业务悬挂</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -484,7 +507,7 @@
   <a 
     class="author-posts-count" 
     href="/java4u/archives">
-    <span>98</span>
+    <span>101</span>
     <span>文章</span>
   </a>
   <a 
@@ -513,7 +536,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-text">CAP定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seata%E6%9E%B6%E6%9E%84"><span class="toc-text">Seata架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XA%E6%A8%A1%E5%BC%8F"><span class="toc-text">XA模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-text">CAP定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seata%E6%9E%B6%E6%9E%84"><span class="toc-text">Seata架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XA%E6%A8%A1%E5%BC%8F"><span class="toc-text">XA模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC%E6%A8%A1%E5%BC%8F"><span class="toc-text">TCC模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCC%E7%A9%BA%E5%9B%9E%E6%BB%9A%E5%92%8C%E4%B8%9A%E5%8A%A1%E6%82%AC%E6%8C%82"><span class="toc-text">TCC空回滚和业务悬挂</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -531,35 +554,7 @@
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
           数据结构与算法
-          <span class="categories-list-item-badge">50</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
+          <span class="categories-list-item-badge">53</span>
         </div>
       </a>
     
@@ -577,13 +572,6 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
         <div class="categories-list-item">
           分布式
@@ -591,9 +579,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
         <div class="categories-list-item">
-          方案
+          框架
           <span class="categories-list-item-badge">2</span>
         </div>
       </a>
@@ -602,6 +590,13 @@
         <div class="categories-list-item">
           JVM
           <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
+        <div class="categories-list-item">
+          方案
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
@@ -654,6 +649,34 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
   </div>
 </div>
   </article>
@@ -675,15 +698,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
-        title="数组">
-        <div class="tags-list-item">数组</div>
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
       </a>
     
       <a 
@@ -693,27 +710,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
-        title="二叉树">
-        <div class="tags-list-item">二叉树</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
-        title="字符串">
-        <div class="tags-list-item">字符串</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
         title="位运算">
         <div class="tags-list-item">位运算</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
-        title="滑动窗口">
-        <div class="tags-list-item">滑动窗口</div>
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
       </a>
     
       <a 
@@ -729,9 +734,39 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
+        title="回溯">
+        <div class="tags-list-item">回溯</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
       </a>
     
       <a 
@@ -741,27 +776,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E9%98%9F%E5%88%97/" 
-        title="队列">
-        <div class="tags-list-item">队列</div>
+        href="/java4u/tags/%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA/" 
+        title="内存溢出">
+        <div class="tags-list-item">内存溢出</div>
       </a>
     
       <a 
-        href="/java4u/tags/Disruptor/" 
-        title="Disruptor">
-        <div class="tags-list-item">Disruptor</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
-        title="更换数据库">
-        <div class="tags-list-item">更换数据库</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
-        title="分布式">
-        <div class="tags-list-item">分布式</div>
+        href="/java4u/tags/JVM/" 
+        title="JVM">
+        <div class="tags-list-item">JVM</div>
       </a>
     
   </div>
@@ -782,7 +805,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-text">CAP定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seata%E6%9E%B6%E6%9E%84"><span class="toc-text">Seata架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XA%E6%A8%A1%E5%BC%8F"><span class="toc-text">XA模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#CAP%E5%AE%9A%E7%90%86"><span class="toc-text">CAP定理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BASE%E7%90%86%E8%AE%BA"><span class="toc-text">BASE理论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seata%E6%9E%B6%E6%9E%84"><span class="toc-text">Seata架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XA%E6%A8%A1%E5%BC%8F"><span class="toc-text">XA模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AT%E6%A8%A1%E5%BC%8F"><span class="toc-text">AT模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCC%E6%A8%A1%E5%BC%8F"><span class="toc-text">TCC模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCC%E7%A9%BA%E5%9B%9E%E6%BB%9A%E5%92%8C%E4%B8%9A%E5%8A%A1%E6%82%AC%E6%8C%82"><span class="toc-text">TCC空回滚和业务悬挂</span></a></li></ol></li></ol>
     </article>
   
   
