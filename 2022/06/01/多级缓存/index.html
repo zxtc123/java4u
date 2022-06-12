@@ -45,7 +45,7 @@
         content="2022-06-01">
       <meta 
         property="og:article:modified_time" 
-        content="2022-06-06">
+        content="2022-06-10">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>485 字</span>
+      <span>984 字</span>
     
   </div>
   
@@ -340,6 +340,31 @@
 <p>2.封装http请求</p>
 <pre class="highlight"><span class="line"><span class="comment">-- 导入common函数库</span></span><br><span class="line"><span class="keyword">local</span> common = <span class="built_in">require</span>(<span class="string">&#x27;common&#x27;</span>)</span><br><span class="line"><span class="keyword">local</span> read_http = common.read_http</span><br><span class="line"><span class="comment">-- 导入cjson库</span></span><br><span class="line"><span class="keyword">local</span> cjson = <span class="built_in">require</span>(<span class="string">&#x27;cjson&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--获取路径参数</span></span><br><span class="line"><span class="keyword">local</span> id = ngx.var[<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">--查询商品信息</span></span><br><span class="line"><span class="keyword">local</span> itemJSON = read_http(<span class="string">&quot;/item/&quot;</span> .. id, <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--查询库存信息</span></span><br><span class="line"><span class="keyword">local</span> stockJSON = read_http(<span class="string">&quot;/item/stock/&quot;</span> .. id, <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">-- JOSN转化成对象</span></span><br><span class="line"><span class="keyword">local</span> item = cjson.decode(itemJSON)</span><br><span class="line"><span class="keyword">local</span> stock = cjson.decode(stockJSON)</span><br><span class="line"><span class="comment">--组合数据</span></span><br><span class="line">item.stock = stock.stock</span><br><span class="line">item.sold=stock.sold</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 返回假数据</span></span><br><span class="line"><span class="comment">--ngx.say(&#x27;&#123;&quot;id&quot;:&#x27; .. id ..&#x27;,&quot;name&quot;:&quot;SALSA AIR&quot;&#125;&#x27;)</span></span><br><span class="line"><span class="comment">--把item序列化成json返回</span></span><br><span class="line">ngx.say(cjson.encode(itemJSON))</span><br></pre>
 
+<h2 id="redis"><a href="#redis" class="headerlink" title="redis"></a>redis</h2><p>redis缓存预热（项目启动时，加载缓存）<br>项目启动时加载各类缓存类，预加载缓存数据</p>
+<pre class="highlight"><span class="line"></span><br><span class="line"><span class="comment">--导入redis</span></span><br><span class="line"><span class="keyword">local</span> redis = <span class="built_in">require</span>(<span class="string">&#x27;resty.redis&#x27;</span>)</span><br><span class="line"><span class="comment">--初始化redis</span></span><br><span class="line"><span class="keyword">local</span> red = redis::new()</span><br><span class="line">red:set_timeouts(<span class="number">1000</span>, <span class="number">1000</span>, <span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">--关闭redis连接的工具方法，其实是放入连接池</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">close_redis</span><span class="params">(red)</span></span></span><br><span class="line">	<span class="keyword">local</span> pool_max_idle_time = <span class="number">10000</span> <span class="comment">--连接的空闲时间</span></span><br><span class="line">	<span class="keyword">local</span> pool_size = <span class="number">100</span>  <span class="comment">--连接池大小</span></span><br><span class="line">	<span class="keyword">local</span> ok, err = red:set_keepalive(pool_max_idle_time,pool_size)</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span></span><br><span class="line">		ngx.<span class="built_in">log</span>(ngx.ERR, <span class="string">&quot;放入redis连接池失败：&quot;</span>+err)</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--查询redis方法</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">read_redis</span><span class="params">(ip,port,key)</span></span></span><br><span class="line">	<span class="comment">--获取一个连接</span></span><br><span class="line">	<span class="keyword">local</span> ok,err = red:connect(ip,port)</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> ok <span class="keyword">then</span></span><br><span class="line">		ngx.<span class="built_in">log</span>(ngx.ERR, <span class="string">&quot;连接redis失败：&quot;</span>+err)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="comment">--查询redis</span></span><br><span class="line">	<span class="keyword">local</span> resp,err=red:get(key)</span><br><span class="line">	<span class="comment">--查询失败处理</span></span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> resp <span class="keyword">then</span></span><br><span class="line">		ngx.<span class="built_in">log</span>(ngx.ERR,<span class="string">&quot;查询redis失败：&quot;</span>,err,<span class="string">&quot;,key=&quot;</span>,key)</span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	close_redis(red)</span><br><span class="line">	<span class="keyword">return</span> resp</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--封装函数，先查询redis,在查询http</span></span><br><span class="line"><span class="keyword">local</span> <span class="function"><span class="keyword">function</span> <span class="title">read_data</span><span class="params">(key, expire, path, params)</span></span></span><br><span class="line">	<span class="comment">-- 查询本地缓存</span></span><br><span class="line">	<span class="keyword">local</span> val = item_cache:get(key)</span><br><span class="line">	<span class="keyword">if</span> <span class="keyword">not</span> val <span class="keyword">then</span></span><br><span class="line">		ngx.<span class="built_in">log</span>(ngx.ERR, <span class="string">&quot;本地缓存查询失败&quot;</span>)</span><br><span class="line">		<span class="comment">--查询redis</span></span><br><span class="line">		val = read_redis(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">6379</span>,key)</span><br><span class="line">		<span class="comment">--判断redis是否命中</span></span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">not</span> val <span class="keyword">then</span></span><br><span class="line">			<span class="comment">--redis查询失败，查询http</span></span><br><span class="line">			val = read_http(<span class="built_in">path</span>, params)</span><br><span class="line">		<span class="keyword">end</span></span><br><span class="line">	<span class="keyword">end</span></span><br><span class="line">	<span class="comment">--查询成功，把数据存入本地缓存</span></span><br><span class="line">	item_cache:set(key, val, expire)</span><br><span class="line">	<span class="keyword">return</span> val</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br></pre>
+
+<h2 id="缓存同步"><a href="#缓存同步" class="headerlink" title="缓存同步"></a>缓存同步</h2><p>缓存同步策略：</p>
+<ul>
+<li>设置有效期，到期自动删除<ul>
+<li>优势：简单、方便</li>
+<li>缺点：时效性差，缓存可能不一致</li>
+<li>场景：更新频率较低，时效性要求低的业务</li>
+</ul>
+</li>
+<li>同步双写，修改数据库的同时，直接修改缓存<ul>
+<li>优势：时效性强，缓存与数据库强一致</li>
+<li>缺点：有代码侵入，耦合度高</li>
+<li>场景：对一致性、时效性要求较高的缓存数据</li>
+</ul>
+</li>
+<li>异步通知，修改数据库时发送事件通知<ul>
+<li>优势：低耦合，可以通知多个缓存</li>
+<li>缺点：时效性一般，存在中间不一致状态</li>
+<li>场景：时效性要求一般，有多个服务需要同步</li>
+</ul>
+</li>
+</ul>
+<h3 id="监听canal实现缓存同步"><a href="#监听canal实现缓存同步" class="headerlink" title="监听canal实现缓存同步"></a>监听canal实现缓存同步</h3>
   </div>
   <div>
     
@@ -395,7 +420,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="toc-text">JVM进程缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Caffeine"><span class="toc-text">Caffeine</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua"><span class="toc-text">Lua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenResty"><span class="toc-text">OpenResty</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="toc-text">JVM进程缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Caffeine"><span class="toc-text">Caffeine</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua"><span class="toc-text">Lua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenResty"><span class="toc-text">OpenResty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis"><span class="toc-text">redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5"><span class="toc-text">缓存同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%ACcanal%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5"><span class="toc-text">监听canal实现缓存同步</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -443,7 +468,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="toc-text">JVM进程缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Caffeine"><span class="toc-text">Caffeine</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua"><span class="toc-text">Lua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenResty"><span class="toc-text">OpenResty</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="toc-text">JVM进程缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Caffeine"><span class="toc-text">Caffeine</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua"><span class="toc-text">Lua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenResty"><span class="toc-text">OpenResty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis"><span class="toc-text">redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5"><span class="toc-text">缓存同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%ACcanal%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5"><span class="toc-text">监听canal实现缓存同步</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -479,17 +504,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/SQL/">
         <div class="categories-list-item">
           SQL
           <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -612,21 +637,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
         title="数组">
         <div class="tags-list-item">数组</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -642,21 +655,9 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
-        title="二分法">
-        <div class="tags-list-item">二分法</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
-        title="位运算">
-        <div class="tags-list-item">位运算</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
-        title="滑动窗口">
-        <div class="tags-list-item">滑动窗口</div>
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -666,9 +667,39 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+        title="分布式">
+        <div class="tags-list-item">分布式</div>
       </a>
     
       <a 
@@ -678,27 +709,21 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E8%BF%9B%E7%A8%8B%E4%BC%98%E5%8C%96/" 
-        title="进程优化">
-        <div class="tags-list-item">进程优化</div>
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E6%89%98%E6%94%B6/" 
-        title="托收">
-        <div class="tags-list-item">托收</div>
+        href="/java4u/tags/Disruptor/" 
+        title="Disruptor">
+        <div class="tags-list-item">Disruptor</div>
       </a>
     
       <a 
-        href="/java4u/tags/xxl-job/" 
-        title="xxl-job">
-        <div class="tags-list-item">xxl-job</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%94%AF%E4%BB%98/" 
-        title="支付">
-        <div class="tags-list-item">支付</div>
+        href="/java4u/tags/%E9%98%9F%E5%88%97/" 
+        title="队列">
+        <div class="tags-list-item">队列</div>
       </a>
     
   </div>
@@ -719,7 +744,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="toc-text">JVM进程缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Caffeine"><span class="toc-text">Caffeine</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua"><span class="toc-text">Lua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenResty"><span class="toc-text">OpenResty</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM%E8%BF%9B%E7%A8%8B%E7%BC%93%E5%AD%98"><span class="toc-text">JVM进程缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Caffeine"><span class="toc-text">Caffeine</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lua"><span class="toc-text">Lua</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenResty"><span class="toc-text">OpenResty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#redis"><span class="toc-text">redis</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5"><span class="toc-text">缓存同步</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E5%90%ACcanal%E5%AE%9E%E7%8E%B0%E7%BC%93%E5%AD%98%E5%90%8C%E6%AD%A5"><span class="toc-text">监听canal实现缓存同步</span></a></li></ol></li></ol>
     </article>
   
   
