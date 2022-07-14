@@ -45,7 +45,7 @@
         content="2022-06-26">
       <meta 
         property="og:article:modified_time" 
-        content="2022-06-28">
+        content="2022-07-14">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>1.1k 字</span>
+      <span>2.9k 字</span>
     
   </div>
   
@@ -450,6 +450,105 @@
 <p>geo_distance:查询到指定中心点小于某个距离值的所有文档</p>
 <pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;geo_distance&quot;: &#123;</span><br><span class="line">      &quot;distance&quot;: &quot;15km&quot;,</span><br><span class="line">      &quot;FIELD&quot;: &quot;31.21,121.5&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
 
+<h3 id="复合查询"><a href="#复合查询" class="headerlink" title="复合查询"></a>复合查询</h3><p>相关性算分：<br>TF（词条频率）&#x3D; 词条出现次数&#x2F;文档中词条总数</p>
+<p>TF-IDF算法<br>IDF（逆文档频率）&#x3D; log(文档总数&#x2F;包含词条的文档总数)<br>score &#x3D; TF * IDF(1–n)</p>
+<p>BM25算法<br>score(Q,d)&#x3D;log(1+(N-n+0.5)&#x2F;(n+0.5))<em>fi&#x2F;(fi+k1</em>(1-b+b*dl&#x2F;avgdl));</p>
+<h3 id="Function-Score-Query"><a href="#Function-Score-Query" class="headerlink" title="Function Score Query"></a>Function Score Query</h3><p>可以修改文档的相关性算分，根据新得到的算分排序</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;&quot;match&quot;: &#123;&quot;all&quot;: &quot;外滩&quot;&#125;&#125;,       //原始查询条件，搜索文档并 根据相关性打分</span><br><span class="line">      &quot;function&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;filter&quot;: &#123;&quot;term&quot;: &#123;&quot;id&quot;: &quot;1&quot;&#125;&#125;,      //过滤条件，符合文档才会被重新算分</span><br><span class="line">          &quot;weight&quot;: 10                          //算分函数，将来与query score运算</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;boot_mode&quot;: &quot;multiply&quot;                   //加权模式，定义function score与query score运算方式</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="Boolean-Query"><a href="#Boolean-Query" class="headerlink" title="Boolean Query"></a>Boolean Query</h3><p>布尔查询是一个或多个查询子句的组合，组合方式：</p>
+<ul>
+<li>must:必须匹配每个子查询，&amp;&amp;</li>
+<li>should:选择性匹配子查询，||</li>
+<li>must_not:必须不匹配，不参与算分，！</li>
+<li>filter:必须匹配，不参与算分</li>
+</ul>
+<p>需求：搜索名字包含“如家”，价格不高于400，在坐标31.21，121.5周围10KM范围的酒店</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match&quot;: &#123;&quot;name&quot;: &quot;如家&quot;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;must_not&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;range&quot;: &#123;&quot;price&quot;: &#123;&quot;gt&quot;: 400&#125;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;geo_distance&quot;: &#123;</span><br><span class="line">            &quot;distance&quot;: &quot;10km&quot;, &quot;location&quot;: &#123;&quot;lat&quot;: 31.21, &quot;lon&quot;: 121.5&#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="搜索结果处理"><a href="#搜索结果处理" class="headerlink" title="搜索结果处理"></a>搜索结果处理</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><p>elasticsearch默认根据相关度排序。可以排序字段类型：keyword、数值类型、地理坐标类型、日期类型</p>
+<pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;FIELD&quot;: &quot;desc&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#地理排序</span><br><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;_geo_distance&quot;: &#123;</span><br><span class="line">        &quot;FIELD&quot;: &quot;纬度，经度&quot;,</span><br><span class="line">        &quot;order&quot;: &quot;asc&quot;,</span><br><span class="line">        &quot;unit&quot;: &quot;km&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre>
+
+<h4 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h4><p>elasticsearch默认只返回top10数据</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;from&quot;: 990,     //分页开始位置，默认为0</span><br><span class="line">  &quot;size&quot;: 10,      //期望获取的文档总数</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;&quot;price&quot;: &quot;asc&quot;&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre>
+
+<p>深度分页问题：<br>ES是分布式的，在ES集群里数据会被分到多个分片上，如果需要排序，<br>需要获取所有分片的结果，重新排序取前几位的数据</p>
+<h4 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h4><pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;FIELD&quot;: &quot;TEXT&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;hightlight&quot;: &#123;</span><br><span class="line">      &quot;fields&quot;: &#123;         //指定要高亮的字段</span><br><span class="line">        &quot;FIELD&quot;: &#123;</span><br><span class="line">          &quot;require_field_match&quot;: &quot;true&quot; //默认情况ES搜索字段必须与高亮字段一致</span><br><span class="line">          &quot;pre_tags&quot;: &quot;&lt;em&gt;&quot;,   //用来标记高亮字段前置标签</span><br><span class="line">          &quot;post_tags&quot;: &quot;&lt;/em&gt;&quot;  //用来标记高亮字段后置标签</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="数据聚合"><a href="#数据聚合" class="headerlink" title="数据聚合"></a>数据聚合</h2><p>聚合可以实现对文档数据的统计、分析、运算，常见聚合有：</p>
+<ul>
+<li>桶（Bucket）聚合：用来对文档做分组<ul>
+<li>termAggregation:按照文档字段值分组</li>
+<li>Date Histogram:按照日期阶梯分组，例如一周为一组，或者一月为一组</li>
+</ul>
+</li>
+<li>度量（Metric）聚合：用以计算一些值，比如：最大值、最小值、平均值等</li>
+<li>管道（pipeline）聚合：其他聚合的结果为基础做聚合</li>
+</ul>
+<p>统计酒店品牌有几种，根据酒店品牌的名称做聚合，Bucket聚合</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;size&quot;: 0,   //设置size为0，结果中不包含文档，只包含聚合结果</span><br><span class="line">  &quot;aggs&quot;: &#123;   //定义聚合</span><br><span class="line">    &quot;brandAgg&quot;: &#123;   //给聚合起个名字</span><br><span class="line">      &quot;terms&quot;: &#123;    //聚合类型，按照品牌值聚合</span><br><span class="line">        &quot;field&quot;: &quot;brand&quot;,   //参与聚合的字段</span><br><span class="line">        &quot;size&quot;: 20     //希望获取的聚合数量</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>获取每个品牌的用户评分min&#x2F;max&#x2F;avg  Metrics聚合<br>我们可以利用stats聚合：</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;size&quot;: 0,</span><br><span class="line">  &quot;aggs&quot;: &#123;</span><br><span class="line">    &quot;brandAgg&quot;: &#123;</span><br><span class="line">      &quot;term&quot;: &#123;</span><br><span class="line">        &quot;field&quot;: &quot;brand&quot;,</span><br><span class="line">        &quot;size&quot;: 20</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;aggs&quot;: &#123;  //是brands聚合的子聚合，也就是分组后对每组分别计算</span><br><span class="line">        &quot;score_stats&quot;: &#123;</span><br><span class="line">          &quot;stats&quot;: &#123;   //聚合类型，这里stats可以计算min/max/avg</span><br><span class="line">            &quot;field&quot;: &quot;score&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h2><h3 id="拼音分词器"><a href="#拼音分词器" class="headerlink" title="拼音分词器"></a>拼音分词器</h3><p>通过拼音对词组进行分词</p>
+<p>自定义分词器</p>
+<p>在创建索引库时，通过settings来配置自定义analyzer</p>
+<pre class="highlight"><span class="line">PUT /test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">    &quot;analysis&quot;: &#123;</span><br><span class="line">      &quot;analyzer&quot;: &#123;  //自定义分词器</span><br><span class="line">        &quot;my_analyzer&quot;: &#123;  //分词器名称</span><br><span class="line">          &quot;tokenizer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">          &quot;filter&quot;: &quot;py&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;filter&quot;: &#123;  //自定义tokenizer filter</span><br><span class="line">        &quot;py&quot;: &#123;    //过滤器名称</span><br><span class="line">          &quot;type&quot;: &quot;pinyin&quot;,   //过滤器类型，这里是pinyin</span><br><span class="line">          &quot;keep_full_pinyin&quot;: false,</span><br><span class="line">          &quot;keep_joined_full_pinyin&quot;: true,</span><br><span class="line">          &quot;keep_original&quot;: true,</span><br><span class="line">          &quot;limit_first_letter_length&quot;: 16,</span><br><span class="line">          &quot;remove_duplicated_term&quot;: true,</span><br><span class="line">          &quot;none_chinese_pinyin_tokenize&quot;: false</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">        &quot;analyzer&quot;: &quot;my_analyzer&quot;,      //创建索引使用自定义分词</span><br><span class="line">        &quot;search_analyzer&quot;: &quot;ik_smart&quot;   //字段搜索使用ik_smart分词器</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>自动补全：字段类型是completion类型，字段值是多词条的数组</p>
+<pre class="highlight"><span class="line">GET /test/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;suggest&quot;: &#123;</span><br><span class="line">    &quot;title_suggest&quot;: &#123;</span><br><span class="line">      &quot;text&quot;: &quot;s&quot;,   //关键字</span><br><span class="line">      &quot;completion&quot;: &#123;</span><br><span class="line">        &quot;field&quot;: &quot;title&quot;,   //补全查询的字段</span><br><span class="line">        &quot;skip_duplicates&quot;: true,   //跳过重复的</span><br><span class="line">        &quot;size&quot;: 10     //获取前10条结果</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h2><p>elasticsearch中的数据来自mysql数据库，因此mysql数据发生改变，es必须跟着改变，这就是数据同步</p>
+<p>方案一：同步调用  写数据库时同步调用es修改<br>方案二：异步通知  通过mq发布消息<br>方案三：监听binlog   canal监听binlog通知服务</p>
+<h2 id="elasticsearch集群"><a href="#elasticsearch集群" class="headerlink" title="elasticsearch集群"></a>elasticsearch集群</h2><p>单机es做数据存储，必然面临2个问题：海量数据存储问题、单点故障问题：</p>
+<ul>
+<li>海量数据存储问题：将索引库从逻辑上拆分成N个分片，存储到多个节点</li>
+<li>单点故障问题：将分片数据在不同节点备份</li>
+</ul>
+<p>ES集群的节点角色</p>
+<table>
+<thead>
+<tr>
+<th>节点类型</th>
+<th>配置参数</th>
+<th>默认值</th>
+<th>节点职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master eligible</td>
+<td>node.master</td>
+<td>true</td>
+<td>备选主节点：主节点可以管理和记录集群状态、决定分片在哪个节点、处理创建和删除索引库的请求</td>
+</tr>
+<tr>
+<td>data</td>
+<td>node.data</td>
+<td>true</td>
+<td>数据节点：存储数据、搜索、聚合、CRUD</td>
+</tr>
+<tr>
+<td>ingest</td>
+<td>node.ingest</td>
+<td>true</td>
+<td>数据存储之前的预处理</td>
+</tr>
+<tr>
+<td>coordinating</td>
+<td>上面3个参数都为false则为coordinating节点</td>
+<td>无</td>
+<td>路由请求到其他节点合并其他节点处理的结果，返回给用户</td>
+</tr>
+</tbody></table>
+<p>ES集群的分布式查询分成2个阶段：</p>
+<ul>
+<li>scatter phase:分散阶段，协调者会把请求分发到每一个分片</li>
+<li>gather phase:聚集阶段，协调者汇总data node的搜索结果，并处理为最终结果集返回给用户</li>
+</ul>
+<p>ES集群的故障转移</p>
+<p>集群的master节点会监控集群中的节点状态，如果发现节点宕机，会立即将宕机节点的分片数据</p>
+
   </div>
   <div>
     
@@ -505,7 +604,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">复合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean-Query"><span class="toc-text">Boolean Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-text">搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-text">分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-text">高亮</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-text">数据聚合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-text">自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">拼音分词器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elasticsearch%E9%9B%86%E7%BE%A4"><span class="toc-text">elasticsearch集群</span></a></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -553,7 +652,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">复合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean-Query"><span class="toc-text">Boolean Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-text">搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-text">分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-text">高亮</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-text">数据聚合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-text">自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">拼音分词器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elasticsearch%E9%9B%86%E7%BE%A4"><span class="toc-text">elasticsearch集群</span></a></li></ol>
       </div>
     </article>
   
@@ -568,10 +667,45 @@
   </div>
   <div class="categories-list">
     
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">53</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/SQL/">
         <div class="categories-list-item">
           SQL
           <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -596,17 +730,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
         <div class="categories-list-item">
           事务
           <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
@@ -638,41 +772,6 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">53</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
         <div class="categories-list-item">
           面试
@@ -694,17 +793,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/JVM/">
-        <div class="categories-list-item">
-          JVM
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
         <div class="categories-list-item">
           方案
           <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -728,48 +827,6 @@
     </i>热门标签
   </div>
   <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
-        title="分布式">
-        <div class="tags-list-item">分布式</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
-        title="更换数据库">
-        <div class="tags-list-item">更换数据库</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/Disruptor/" 
-        title="Disruptor">
-        <div class="tags-list-item">Disruptor</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%98%9F%E5%88%97/" 
-        title="队列">
-        <div class="tags-list-item">队列</div>
-      </a>
     
       <a 
         href="/java4u/tags/leetcode/" 
@@ -796,15 +853,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
         title="链表">
         <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -825,6 +882,48 @@
         <div class="tags-list-item">WSDL</div>
       </a>
     
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+        title="分布式">
+        <div class="tags-list-item">分布式</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/Disruptor/" 
+        title="Disruptor">
+        <div class="tags-list-item">Disruptor</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%98%9F%E5%88%97/" 
+        title="队列">
+        <div class="tags-list-item">队列</div>
+      </a>
+    
   </div>
 </div>
   </article>
@@ -843,7 +942,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B2%BE%E7%A1%AE%E6%9F%A5%E8%AF%A2"><span class="toc-text">精确查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">复合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean-Query"><span class="toc-text">Boolean Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-text">搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-text">分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-text">高亮</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-text">数据聚合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-text">自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">拼音分词器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elasticsearch%E9%9B%86%E7%BE%A4"><span class="toc-text">elasticsearch集群</span></a></li></ol>
     </article>
   
   

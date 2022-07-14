@@ -45,7 +45,7 @@
         content="2021-05-15">
       <meta 
         property="og:article:modified_time" 
-        content="2022-05-06">
+        content="2022-06-30">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -327,7 +327,7 @@
   <div 
     id="section" 
     class="post-content">
-    <h1 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h1><p>1)面向接口代理的高性能RPC调用:</p>
+    <h2 id="核心功能"><a href="#核心功能" class="headerlink" title="核心功能"></a>核心功能</h2><p>1)面向接口代理的高性能RPC调用:</p>
 <p>提供高性能的基于代理的远程调用能力，服务以接口为粒度，为开发者屏蔽远程调用底层细节。</p>
 <p>2)智能容错和负载均衡:</p>
 <p>内置多种负载均衡策略，智能感知下游节点健康状况，显著减少调用延迟，提高系统吞吐量。</p>
@@ -339,7 +339,7 @@
 <p>内置条件、脚本等路由策略，通过配置不同的路由规则，轻松实现灰度发布，同机房优先等功能。</p>
 <p>6)可视化的服务治理与运维:</p>
 <p>提供丰富服务治理、运维工具：随时查询服务元数据、服务健康状态及调用统计，实时下发路由策略、调整配置参数。</p>
-<h1 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h1><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bdubbo-architucture%5D(httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg).png" alt="![dubbo-architucture](httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bdubbo-architucture%5D(httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg).png" class="lozad post-image"></p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bdubbo-architucture%5D(httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg).png" alt="![dubbo-architucture](httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bdubbo-architucture%5D(httpsdubbo.apache.orgimgsuserdubbo-architecture.jpg).png" class="lozad post-image"></p>
 <ol>
 <li>服务容器负责启动，加载，运行服务提供者。</li>
 <li>服务提供者在启动时，向注册中心注册自己提供的服务。</li>
@@ -348,15 +348,16 @@
 <li>服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</li>
 <li>服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</li>
 </ol>
-<h1 id="项目实例"><a href="#项目实例" class="headerlink" title="项目实例"></a>项目实例</h1><p>1<code>user-rpc-service-api</code> 项目：<strong>服务接口</strong>，定义 Dubbo Service API 接口，提供给消费者使用</p>
+<h2 id="项目实例"><a href="#项目实例" class="headerlink" title="项目实例"></a>项目实例</h2><p>1<code>user-rpc-service-api</code> 项目：<strong>服务接口</strong>，定义 Dubbo Service API 接口，提供给消费者使用</p>
 <p>2<code>user-rpc-service-provider</code> 项目：<strong>服务提供者</strong>，实现 <code>user-rpc-service-api</code> 项目定义的 Dubbo Service API 接口，提供相应的服务</p>
 <p>3<code>user-rpc-service-consumer</code> 项目：<strong>服务消费者</strong>，会调用 <code>user-rpc-service-provider</code> 项目提供的 Dubbo Service 服务</p>
-<h1 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h1><h2 id="（1）读取配置"><a href="#（1）读取配置" class="headerlink" title="（1）读取配置"></a>（1）读取配置</h2><p>将服务装载容器中，然后准备注册服务，dubbo先读配置文件解析服务</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="（1）读取配置"><a href="#（1）读取配置" class="headerlink" title="（1）读取配置"></a>（1）读取配置</h3><p>将服务装载容器中，然后准备注册服务，dubbo先读配置文件解析服务</p>
 <p>1)dubbo标签的解析主要用到了DubboNamespaceHandler 这个类</p>
 <p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net2018061915385054watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM%3Dfont5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" alt="![img](httpsimg-blog.csdn.net2018061915385054watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM=font5a6L5L2Tfontsize400fillI0JBQkFCMA==dissolve70)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net2018061915385054watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM%3Dfont5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" class="lozad post-image"></p>
 <p>2）所有dubbo标签都统一使用DubboBeanDefinitionParser进行解析，将XML标签解析为BEAN对象。在初始化时将BEAN对象转换为url格式，进行不同协议的服务暴露和引用</p>
 <p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net20180619153914758watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM%3Dfont5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" alt="![img](httpsimg-blog.csdn.net20180619153914758watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM=font5a6L5L2Tfontsize400fillI0JBQkFCMA==dissolve70)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg-blog.csdn.net20180619153914758watermark2textaHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTIxMTc3MjM%3Dfont5a6L5L2Tfontsize400fillI0JBQkFCMA%3D%3Ddissolve70).png" class="lozad post-image"></p>
-<h2 id="（2）serviceBean是何时暴露服务的"><a href="#（2）serviceBean是何时暴露服务的" class="headerlink" title="（2）serviceBean是何时暴露服务的"></a>（2）serviceBean是何时暴露服务的</h2><h2 id="服务提供者暴露一个服务的详细过程"><a href="#服务提供者暴露一个服务的详细过程" class="headerlink" title="服务提供者暴露一个服务的详细过程"></a><strong>服务提供者暴露一个服务的详细过程</strong></h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png).png" alt="![img](httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png).png" class="lozad post-image"></p>
+<h3 id="（2）serviceBean是何时暴露服务的"><a href="#（2）serviceBean是何时暴露服务的" class="headerlink" title="（2）serviceBean是何时暴露服务的"></a>（2）serviceBean是何时暴露服务的</h3><p><em><strong>服务提供者暴露一个服务的详细过程</strong></em></p>
+<p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png).png" alt="![img](httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320132941429-1596716664.png).png" class="lozad post-image"></p>
 <p>首先ServiceConfig类拿到对外提供服务的实际类ref(如：HelloWorldImpl),然后通过ProxyFactory类的getInvoker方法使用ref生成一个AbstractProxyInvoker实例，</p>
 <p>到这一步就完成具体服务到Invoker的转化。接下来就是Invoker转换到Exporter的过程。</p>
 <p>Dubbo处理服务暴露的关键就在Invoker转换到Exporter的过程(如上图中的红色部分)，下面我们以Dubbo和RMI这两种典型协议的实现来进行说明：</p>
@@ -364,10 +365,10 @@
 <p>Dubbo协议的Invoker转为Exporter发生在DubboProtocol类的export方法，它主要是打开socket侦听服务，并接收客户端发来的各种请求，通讯细节由Dubbo自己实现。</p>
 <p>RMI的实现：</p>
 <p>RMI协议的Invoker转为Exporter发生在RmiProtocol类的export方法，<br>它通过Spring或Dubbo或JDK来实现RMI服务，通讯细节这一块由JDK底层来实现，这就省了不少工作量。</p>
-<h2 id="服务消费者消费一个服务的详细过程"><a href="#服务消费者消费一个服务的详细过程" class="headerlink" title="服务消费者消费一个服务的详细过程"></a><strong>服务消费者消费一个服务的详细过程</strong></h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png).png" alt="![img](httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png).png" class="lozad post-image"></p>
+<h3 id="服务消费者消费一个服务的详细过程"><a href="#服务消费者消费一个服务的详细过程" class="headerlink" title="服务消费者消费一个服务的详细过程"></a><strong>服务消费者消费一个服务的详细过程</strong></h3><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png).png" alt="![img](httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5Bimg%5D(httpsimg2020.cnblogs.comi-beta17037952020031703795-20200320133111026-500313980.png).png" class="lozad post-image"></p>
 <p>首先ReferenceConfig类的init方法调用Protocol的refer方法生成Invoker实例(如上图中的红色部分)，这是服务消费的关键。</p>
 <p>接下来把Invoker转换为客户端需要的接口(如：HelloWorld)。</p>
-<h2 id="dubbo工作流程"><a href="#dubbo工作流程" class="headerlink" title="dubbo工作流程"></a>dubbo工作流程</h2><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" alt="![在这里插入图片描述](httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process=imagewatermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o=,size_16,color_FFFFFF,t_70)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" class="lozad post-image"></p>
+<h3 id="dubbo工作流程"><a href="#dubbo工作流程" class="headerlink" title="dubbo工作流程"></a>dubbo工作流程</h3><p><img src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" alt="![在这里插入图片描述](httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process=imagewatermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o=,size_16,color_FFFFFF,t_70)" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="https://raw.githubusercontent.com/zxtc123/image/main/!%5B%E5%9C%A8%E8%BF%99%E9%87%8C%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%8F%8F%E8%BF%B0%5D(httpsimg-blog.csdnimg.cn20200503120120367.pngx-oss-process%3Dimagewatermark%2Ctype_ZmFuZ3poZW5naGVpdGk%2Cshadow_10%2Ctext_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2N3el9jd3o%3D%2Csize_16%2Ccolor_FFFFFF%2Ct_70).png" class="lozad post-image"></p>
 <ul>
 <li>服务提供者在启动的时候，会通过读取一些配置将服务实例化。</li>
 <li>Proxy 封装服务调用接口，方便调用者调用。客户端获取 Proxy 时，可以像调用本地服务一样，调用远程服务。</li>
@@ -484,7 +485,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-text">架构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E4%BE%8B"><span class="toc-text">项目实例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-text">（1）读取配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%882%EF%BC%89serviceBean%E6%98%AF%E4%BD%95%E6%97%B6%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84"><span class="toc-text">（2）serviceBean是何时暴露服务的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85%E6%9A%B4%E9%9C%B2%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务提供者暴露一个服务的详细过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务消费者消费一个服务的详细过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">dubbo工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">Dubbo高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BC%93%E5%AD%98"><span class="toc-text">地址缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E8%AF%95"><span class="toc-text">超时与重试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99"><span class="toc-text">集群容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-text">服务降级</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-text">架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E4%BE%8B"><span class="toc-text">项目实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-text">（1）读取配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89serviceBean%E6%98%AF%E4%BD%95%E6%97%B6%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84"><span class="toc-text">（2）serviceBean是何时暴露服务的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务消费者消费一个服务的详细过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dubbo%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">dubbo工作流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">Dubbo高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BC%93%E5%AD%98"><span class="toc-text">地址缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E8%AF%95"><span class="toc-text">超时与重试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99"><span class="toc-text">集群容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-text">服务降级</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -532,7 +533,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-text">架构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E4%BE%8B"><span class="toc-text">项目实例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-text">（1）读取配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%882%EF%BC%89serviceBean%E6%98%AF%E4%BD%95%E6%97%B6%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84"><span class="toc-text">（2）serviceBean是何时暴露服务的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85%E6%9A%B4%E9%9C%B2%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务提供者暴露一个服务的详细过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务消费者消费一个服务的详细过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">dubbo工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">Dubbo高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BC%93%E5%AD%98"><span class="toc-text">地址缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E8%AF%95"><span class="toc-text">超时与重试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99"><span class="toc-text">集群容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-text">服务降级</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-text">架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E4%BE%8B"><span class="toc-text">项目实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-text">（1）读取配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89serviceBean%E6%98%AF%E4%BD%95%E6%97%B6%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84"><span class="toc-text">（2）serviceBean是何时暴露服务的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务消费者消费一个服务的详细过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dubbo%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">dubbo工作流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">Dubbo高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BC%93%E5%AD%98"><span class="toc-text">地址缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E8%AF%95"><span class="toc-text">超时与重试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99"><span class="toc-text">集群容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-text">服务降级</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -547,10 +548,45 @@
   </div>
   <div class="categories-list">
     
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">53</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/SQL/">
         <div class="categories-list-item">
           SQL
           <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -575,17 +611,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
         <div class="categories-list-item">
           事务
           <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
         </div>
       </a>
     
@@ -617,41 +653,6 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">53</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
         <div class="categories-list-item">
           面试
@@ -673,17 +674,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/JVM/">
-        <div class="categories-list-item">
-          JVM
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
         <div class="categories-list-item">
           方案
           <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -707,48 +708,6 @@
     </i>热门标签
   </div>
   <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
-        title="业务">
-        <div class="tags-list-item">业务</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
-        title="分布式">
-        <div class="tags-list-item">分布式</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
-        title="更换数据库">
-        <div class="tags-list-item">更换数据库</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/Disruptor/" 
-        title="Disruptor">
-        <div class="tags-list-item">Disruptor</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%98%9F%E5%88%97/" 
-        title="队列">
-        <div class="tags-list-item">队列</div>
-      </a>
     
       <a 
         href="/java4u/tags/leetcode/" 
@@ -775,15 +734,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
         title="链表">
         <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -804,6 +763,48 @@
         <div class="tags-list-item">WSDL</div>
       </a>
     
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+        title="分布式">
+        <div class="tags-list-item">分布式</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/Disruptor/" 
+        title="Disruptor">
+        <div class="tags-list-item">Disruptor</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%98%9F%E5%88%97/" 
+        title="队列">
+        <div class="tags-list-item">队列</div>
+      </a>
+    
   </div>
 </div>
   </article>
@@ -822,7 +823,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-text">架构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E4%BE%8B"><span class="toc-text">项目实例</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-text">（1）读取配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%EF%BC%882%EF%BC%89serviceBean%E6%98%AF%E4%BD%95%E6%97%B6%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84"><span class="toc-text">（2）serviceBean是何时暴露服务的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%8F%90%E4%BE%9B%E8%80%85%E6%9A%B4%E9%9C%B2%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务提供者暴露一个服务的详细过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务消费者消费一个服务的详细过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dubbo%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">dubbo工作流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">Dubbo高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BC%93%E5%AD%98"><span class="toc-text">地址缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E8%AF%95"><span class="toc-text">超时与重试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99"><span class="toc-text">集群容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-text">服务降级</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E5%8A%9F%E8%83%BD"><span class="toc-text">核心功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%B6%E6%9E%84"><span class="toc-text">架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E4%BE%8B"><span class="toc-text">项目实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-text">原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E8%AF%BB%E5%8F%96%E9%85%8D%E7%BD%AE"><span class="toc-text">（1）读取配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89serviceBean%E6%98%AF%E4%BD%95%E6%97%B6%E6%9A%B4%E9%9C%B2%E6%9C%8D%E5%8A%A1%E7%9A%84"><span class="toc-text">（2）serviceBean是何时暴露服务的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E6%B6%88%E8%B4%B9%E8%80%85%E6%B6%88%E8%B4%B9%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="toc-text">服务消费者消费一个服务的详细过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dubbo%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">dubbo工作流程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dubbo%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="toc-text">Dubbo高级特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E5%9D%80%E7%BC%93%E5%AD%98"><span class="toc-text">地址缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B6%85%E6%97%B6%E4%B8%8E%E9%87%8D%E8%AF%95"><span class="toc-text">超时与重试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E7%89%88%E6%9C%AC"><span class="toc-text">多版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="toc-text">负载均衡</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E5%AE%B9%E9%94%99"><span class="toc-text">集群容错</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E9%99%8D%E7%BA%A7"><span class="toc-text">服务降级</span></a></li></ol></li></ol>
     </article>
   
   
