@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>docker</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="docker">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2022/09/07/docker/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-09-07">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-12-15">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="学习">
+        
+          <meta 
+            property="og:article:tag" 
+            content="docker">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      docker
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-09-06T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-09-07</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/%E5%AE%B9%E5%99%A8/" 
+          class="post-meta-link">
+          容器
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>2.7k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            学习
+          </a>
+        
+          
+            <span class="dot"></span>
+          
+          <a 
+            href="/java4u/tags/docker/" 
+            class="post-meta-link">
+            docker
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="docker架构"><a href="#docker架构" class="headerlink" title="docker架构"></a>docker架构</h2><ul>
+<li>镜像：docker镜像就相当于一个root文件系统，相当容器的“源代码”</li>
+<li>容器：镜像和容器的关系就是类和对象的关系，用镜像创建的运行实例</li>
+<li>仓库：存放镜像</li>
+</ul>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><h3 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h3><p>docker –help<br>docker images 查看本地镜像<br>docker search redis  搜索镜像<br>docker pull redis 拉取镜像<br>docker rmi images_id  删除镜像</p>
+<p>REPOSITORY和TAG都是none，虚悬镜像</p>
+<h3 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h3><p>启动容器    保持运行（id后台运行）       选择镜像<br>docker run -it –name&#x3D;c1 centos:7 &#x2F;bin&#x2F;bash<br>exit   退出容器（容器会停止）<br>ctrl+p+q   退出容器（容器不停止）<br>docker ps [-a]  查看运行的容器(历史容器)<br>docker exec -it c2 &#x2F;bin&#x2F;bash  进入容器<br>docker attach 容器ID<br>docker stop name  停止容器<br>docker rm c1   删除容器<br>docker top [imageid]<br>docker inspect c2   查看容器信息<br>docker cp 容器ID:容器内路径 目的主机路径<br>docker export 容器ID &gt; 文件名.tar     导出容器内容作为tar归档文件<br>cat xxx.tar | docker import  镜像名称&#x2F;镜像版本：镜像版本</p>
+<h2 id="数据卷"><a href="#数据卷" class="headerlink" title="数据卷"></a>数据卷</h2><ul>
+<li>数据卷是宿主机的一个目录或文件</li>
+<li>当容器目录和数据卷目录绑定后，对方的修改会立即同步</li>
+<li>一个数据卷可以被多个容器同时挂载</li>
+<li>一个容器也可以挂载多个数据卷</li>
+<li>–privileged&#x3D;true,扩大容器权限</li>
+<li>默认创建的挂载有读写权限，添加ro，给只读权限，限制容器内去写</li>
+</ul>
+<p>docker run .. -v 宿主机目录（文件）:容器内目录（文件）<br>docker run -it –name&#x3D;c1 -v &#x2F;home&#x2F;dave_cc&#x2F;data:&#x2F;root&#x2F;data_container centos:7:ro &#x2F;bin&#x2F;bash</p>
+<p>创建数据卷容器<br>docker run -it –name&#x3D;c3 -v &#x2F;volume centos:7<br>挂载数据卷容器（继承数据卷挂载规则）<br>docker run -it –name&#x3D;c1 –volumes-from c3 centos:7</p>
+<h2 id="常规软件安装"><a href="#常规软件安装" class="headerlink" title="常规软件安装"></a>常规软件安装</h2><h3 id="部署mysql"><a href="#部署mysql" class="headerlink" title="部署mysql"></a>部署mysql</h3><p>docker run -d -p 3307:3306 –privileged&#x3D;true <br>-v &#x2F;home&#x2F;dave_cc&#x2F;mysql&#x2F;conf:&#x2F;etc&#x2F;mysql&#x2F;conf.d <br>-v &#x2F;home&#x2F;dave_cc&#x2F;mysql&#x2F;logs:&#x2F;var&#x2F;log&#x2F;mysql <br>-v &#x2F;home&#x2F;dave_cc&#x2F;mysql&#x2F;data:&#x2F;var&#x2F;lib&#x2F;mysql <br>-e MYSQL_ROOT_PASSWORD&#x3D;123456 <br>–name&#x3D;c_mysql mysql:5.6</p>
+<p>进入mysql<br>mysql -uroot -p</p>
+<p>查看mysql编码<br>show variables like ‘character%’;</p>
+<h3 id="部署tomcat"><a href="#部署tomcat" class="headerlink" title="部署tomcat"></a>部署tomcat</h3><p>docker run -id –name&#x3D;c_tomcat -p 8080:8080 tomcat</p>
+<p>将之前的webapps删除，将webapps.dist改名成webapps即可看到首页</p>
+<h3 id="部署nginx"><a href="#部署nginx" class="headerlink" title="部署nginx"></a>部署nginx</h3><p>user  nginx;<br>worker_processes  1;<br>error_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;error.log warn;<br>pid        &#x2F;var&#x2F;run&#x2F;nginx.pid;<br>events {<br>    worker_connections  1024;<br>}<br>http {<br>    include       &#x2F;etc&#x2F;nginx&#x2F;mime.types;<br>    default_type  application&#x2F;octet-stream;<br>    log_format  main  ‘$remote_addr - $remote_user [$time_local] “$request” ‘<br>                      ‘$status $body_bytes_sent “$http_referer” ‘<br>                      ‘“$http_user_agent” “$http_x_forwarded_for”‘;<br>    access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;<br>    sendfile        on;<br>    # tcp_nopush     on;<br>    keepalive_timeout  65;</p>
+<pre><code>include /etc/nginx/conf.d/*.conf;
+</code></pre>
+<p>}</p>
+<p>docker run -id –name&#x3D;c_nginx \</p>
+<blockquote>
+<p>-p 80:80 <br>-v $PWD&#x2F;conf&#x2F;nginx.conf:&#x2F;etc&#x2F;nginx&#x2F;nginx.conf <br>-v $PWD&#x2F;logs:&#x2F;var&#x2F;log&#x2F;nginx <br>-v $PWD&#x2F;html:&#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html <br>nginx</p>
+</blockquote>
+<h3 id="部署redis集群"><a href="#部署redis集群" class="headerlink" title="部署redis集群"></a>部署redis集群</h3><p>docker run -d –name&#x3D;redis-node-1 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-1:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6381<br>docker run -d –name&#x3D;redis-node-2 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-2:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6382<br>docker run -d –name&#x3D;redis-node-3 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-3:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6383<br>docker run -d –name&#x3D;redis-node-4 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-4:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6384<br>docker run -d –name&#x3D;redis-node-5 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-5:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6385<br>docker run -d –name&#x3D;redis-node-6 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-6:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6386</p>
+<p>构建主从关系</p>
+<p>redis-cli –cluster create 127.0.0.1:6381 127.0.0.1:6382 127.0.0.1:6383 127.0.0.1:6384 127.0.0.1:6385 127.0.0.1:6386 –cluster-replicas 1</p>
+<p>查看集群状态<br>redis-cli -p 6381<br>cluster info<br>cluster nodes</p>
+<p>连接redis集群方式<br>redis-cli -p 6381 -c</p>
+<p>集群检查<br>redis-cli –cluster check 127.0.0.1:6381</p>
+<h4 id="redis集群扩容"><a href="#redis集群扩容" class="headerlink" title="redis集群扩容"></a>redis集群扩容</h4><p>1.新建6387 6388 两个节点<br>docker run -d –name&#x3D;redis-node-7 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-7:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6387<br>docker run -d –name&#x3D;redis-node-8 –net host –privileged&#x3D;true -v &#x2F;home&#x2F;dave_cc&#x2F;redis&#x2F;share&#x2F;redis-node-8:&#x2F;data redis –cluster-enabled yes –appendonly yes –port 6388</p>
+<p>2.将新增的6387节点作为master节点加入原集群<br>进入6387容器<br>redis-cli –cluster add-node 127.0.0.1:6387 127.0.0.1:6381</p>
+<p>3.重新分配槽号<br>redis-cli –cluster reshard 127.0.0.1:6381</p>
+<p>4.为6387分配6388的从节点<br>redis-cli –cluster add-node 127.0.0.1:6388 127.0.0.1:6387 –cluster-slave –cluster-master-id 4a15b5abc41f3a73baa1fd5875007ad9405a4b6a</p>
+<h4 id="redis集群缩容"><a href="#redis集群缩容" class="headerlink" title="redis集群缩容"></a>redis集群缩容</h4><p>1.将6388（从节点）从集群中删除<br>redis-cli –cluster del-node 127.0.0.1:6388 6c1cf259c2eb0b06bf7f4dafe2470c0d383bd98d</p>
+<p>2.将6387的槽号清空，重新分配（选择需要分配槽的数量，目标节点和来源节点）<br>redis-cli –cluster reshard 127.0.0.1:6381</p>
+<p>3.将6387从集群中删除<br>redis-cli –cluster del-node 127.0.0.1:6387 4a15b5abc41f3a73baa1fd5875007ad9405a4b6a</p>
+<h2 id="dockerfile"><a href="#dockerfile" class="headerlink" title="dockerfile"></a>dockerfile</h2><h3 id="docker镜像原理"><a href="#docker镜像原理" class="headerlink" title="docker镜像原理"></a>docker镜像原理</h3><ul>
+<li>docker镜像是由特殊文件系统叠加而成</li>
+<li>最底端是bootfs,并使用宿主机的bootfs</li>
+<li>第二层是root文件系统rootfs</li>
+<li>然后可以往上叠加其他的镜像文件</li>
+<li>统一文件系统技术能够将不同层整合成一个文件系统，为这些层提供一个统一的视角</li>
+<li>一个镜像可以放在另一个镜像上面</li>
+</ul>
+<h3 id="镜像制作"><a href="#镜像制作" class="headerlink" title="镜像制作"></a>镜像制作</h3><p>1.容器转为镜像<br>docker commit -m&#x3D;”注释” -a&#x3D;”作者” 容器id 镜像名称：版本号<br>docker save -o 压缩文件名称 镜像名称：版本号<br>docker load -i 压缩文件名称  (还原成镜像)</p>
+<p>2.dockerfile</p>
+<ul>
+<li>dockerfile是一个文本文件</li>
+<li>包含了一条条指令</li>
+<li>每一条指令构建一层，基于基础镜像，最终构建一个新的镜像</li>
+<li>对于开发人员：可以为开发团体提供一个完全一致的开发环境</li>
+<li>对于测试人员：可以直接拿开发时构建的镜像或者通过dockerfile构建一个新的镜像</li>
+<li>对于运维人员：在部署时，可以实现应用的无缝移植</li>
+</ul>
+<p>dockerfile关键字</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FROM</td>
+<td>指定父镜像</td>
+<td>指定dockerfile基于那个image构建</td>
+</tr>
+<tr>
+<td>MAINTAINER</td>
+<td>作者信息</td>
+<td>用来标明这个dockerfile谁写的</td>
+</tr>
+<tr>
+<td>LABEL</td>
+<td>标签</td>
+<td>标明dockerfile标签</td>
+</tr>
+<tr>
+<td>RUN</td>
+<td>执行命令</td>
+<td>执行一段命令默认是&#x2F;bin&#x2F;sh，RUN在构建时运行</td>
+</tr>
+<tr>
+<td>CMD</td>
+<td>容器启动命令</td>
+<td>提供容器启动时的默认命令，CMD会被docker run之后的参数替换</td>
+</tr>
+<tr>
+<td>ENTRYPOINT</td>
+<td>入口</td>
+<td>指定容器启动时要运行的命令，但ENTRYPOINT不会被docker run后面的命令覆盖</td>
+</tr>
+<tr>
+<td>COPY</td>
+<td>复制文件</td>
+<td>build的时候复制文件到image中</td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>添加文件</td>
+<td>将宿主机目录下的文件拷贝进镜像且会自动处理URL和解压tar压缩包</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>环境变量</td>
+<td>指定build时候的环境变量 可以在启动容器的时候通过-e覆盖</td>
+</tr>
+<tr>
+<td>ARG</td>
+<td>构建参数</td>
+<td>构建参数只在构建的时候使用的参数</td>
+</tr>
+<tr>
+<td>VOLUME</td>
+<td>定义外部可以挂载的数据卷</td>
+<td></td>
+</tr>
+<tr>
+<td>EXPOSE</td>
+<td>暴露端口</td>
+<td></td>
+</tr>
+<tr>
+<td>WORKDIR</td>
+<td>工作目录</td>
+<td>指定容器内部的工作目录</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>指定执行用户</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>ENTRYPOINT和CMD一起使用，实际运行ENTRYPOINT,CMD就是给ENTRYPOINT传递参数<br>相当于：<ENTRYPOINT> “<CMD>“</p>
+<p>构建镜像<br>docker build -f Dockerfile -t centos:1.5 .</p>
+<p>没有仓库名和TAG是虚悬镜像，查看虚悬镜像<br>docker image ls -f dangling&#x3D;true<br>删除虚悬镜像<br>docker image prune</p>
+<h2 id="私有仓库"><a href="#私有仓库" class="headerlink" title="私有仓库"></a>私有仓库</h2><h3 id="私有仓库搭建"><a href="#私有仓库搭建" class="headerlink" title="私有仓库搭建"></a>私有仓库搭建</h3><p>1.拉取私有仓库镜像<br>docker pull registry<br>2.启动私有仓库容器<br>docker run -d –name&#x3D;registry -p 5000:5000 -v &#x2F;home&#x2F;dave_cc&#x2F;myregistry:&#x2F;tmp&#x2F;registry –privileged&#x3D;true registry<br><a target="_blank" rel="noopener" href="http://localhost:5000/v2/_catalog">http://localhost:5000/v2/_catalog</a> 看到{“repositories”:[]}表示搭建成功<br>3.修改daemon.json 取消docker不允许http的推送方式<br>vim &#x2F;etc&#x2F;docker&#x2F;daemon.json<br>{“insecure-registries”:[“127.0.0.1:5000”]}<br>4.重启docker<br>systemctl restart docker</p>
+<h3 id="将镜像上传至私有仓库"><a href="#将镜像上传至私有仓库" class="headerlink" title="将镜像上传至私有仓库"></a>将镜像上传至私有仓库</h3><p>1.标记镜像为私有仓库镜像<br>docker tag  镜像:Tag Host:Port&#x2F;Repository:Tag<br>docker tag centos:7 127.0.0.1:5000&#x2F;centos:7<br>2.上传标记的镜像<br>docker push 127.0.0.1:5000&#x2F;centos:7</p>
+<h3 id="从私有仓库拉取镜像"><a href="#从私有仓库拉取镜像" class="headerlink" title="从私有仓库拉取镜像"></a>从私有仓库拉取镜像</h3><p>docker pull 127.0.0.1:5000&#x2F;myubuntu:1.3</p>
+<h2 id="分布式存储"><a href="#分布式存储" class="headerlink" title="分布式存储"></a>分布式存储</h2><h3 id="哈希取余"><a href="#哈希取余" class="headerlink" title="哈希取余"></a>哈希取余</h3><p>通过hash算法和计算台数，计算出数据落在哪台机器 hash(key)%n</p>
+<p>优点：简答有效<br>缺点：集群扩容或缩容都会导致数据混淆</p>
+<h3 id="一致性哈希"><a href="#一致性哈希" class="headerlink" title="一致性哈希"></a>一致性哈希</h3><ul>
+<li>算法构建一致性哈希环</li>
+<li>服务器IP节点映射<br>根据服务器IP将每台服务器映射到环上</li>
+<li>key落到服务器的落键规则<br>key使用相同的hash规则计算出环上的位置，从此位置延环顺时针移动，第一台遇到的服务器就是应该定位到的服务器</li>
+</ul>
+<p>优点：解决了哈希取余的一致性和扩缩的问题<br>缺点：一致性哈希算法的数据倾斜问题（大部分数据可能会被分配到一台或某几台机器上）</p>
+<h3 id="哈希槽分区"><a href="#哈希槽分区" class="headerlink" title="哈希槽分区"></a>哈希槽分区</h3><p>解决均匀分配的问题，在数据和节点之间加入了一层（增大数据分配的粒度），把这层称之哈希槽，用于管理数据和节点之间的关系，相当于节点上放的是槽，槽里放的是数据</p>
+<h2 id="docker网络"><a href="#docker网络" class="headerlink" title="docker网络"></a>docker网络</h2><p>网络模式：</p>
+<ul>
+<li>bridge:为每一个容器分配&#x2F;设置IP等，并将容器连接到一个docker0虚拟网桥,默认为该模式</li>
+<li>host:使用宿主机的IP和端口</li>
+<li>none:容器有独立的network，但并没有对其进行任何网络设置</li>
+<li>container:和一个指定的容器共享IP&#x2F;端口范围</li>
+<li>自定义网络，维护好主机名和IP的对应关系，让IP和服务名都可以PING通</li>
+</ul>
+<h2 id="docker-compose"><a href="#docker-compose" class="headerlink" title="docker-compose"></a>docker-compose</h2><p>对服务进行编排，可以同时批量进行服务启动</p>
+<p>常用命令：</p>
+<ol>
+<li>-h 帮助</li>
+<li>up 启动所有docker-compose服务</li>
+<li>up -d 启动所有docker-compose服务并后台运行</li>
+<li>down 停止并删除容器&#x2F;网络&#x2F;卷&#x2F;镜像</li>
+<li>exec 服务id  进入容器内部</li>
+<li>ps  展示当前docker-compose编排过的运行的所有容器</li>
+<li>config 检查配置</li>
+</ol>
+<h2 id="Portainer"><a href="#Portainer" class="headerlink" title="Portainer"></a>Portainer</h2><p>docker管理图形化工具</p>
+<p>docker run -d -p 8000:8000 -p 9000:9000 –name portainer –restart&#x3D;always -v &#x2F;var&#x2F;run&#x2F;docker.sock:&#x2F;var&#x2F;run&#x2F;docker.sock -v portainer_data:&#x2F;data portainer&#x2F;portainer-ce:latest</p>
+<h2 id="CIG重量级监控系统"><a href="#CIG重量级监控系统" class="headerlink" title="CIG重量级监控系统"></a>CIG重量级监控系统</h2><p>CAdvisor监控收集+InfluxDB存储数据+Granfana展示图表</p>
+<p>CAdvisor是容器资源监控工具，针对单物理机，提供数据集接口，将数据发往数据库储存<br>功能：展示HOST和容器的监控数据；展示历史变化数据<br>InfluxDB开源分布式时序&#x2F;事件和指标数据库<br>功能：基于时间序列；可度量性，可以实时对大量数据进行计算；基于事件<br>Granfana开源数据监控分析可视化平台</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2022/09/07/docker/">
+            https://zxtc123.github.io/java4u/2022/09/07/docker/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2022/10/01/python/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">python </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2022/09/07/kubernetes/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">kubernetes </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E6%9E%B6%E6%9E%84"><span class="toc-text">docker架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F"><span class="toc-text">镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-text">容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-text">数据卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-text">常规软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2mysql"><span class="toc-text">部署mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2tomcat"><span class="toc-text">部署tomcat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2nginx"><span class="toc-text">部署nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2redis%E9%9B%86%E7%BE%A4"><span class="toc-text">部署redis集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E9%9B%86%E7%BE%A4%E6%89%A9%E5%AE%B9"><span class="toc-text">redis集群扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E9%9B%86%E7%BE%A4%E7%BC%A9%E5%AE%B9"><span class="toc-text">redis集群缩容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dockerfile"><span class="toc-text">dockerfile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%95%9C%E5%83%8F%E5%8E%9F%E7%90%86"><span class="toc-text">docker镜像原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C"><span class="toc-text">镜像制作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-text">私有仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA"><span class="toc-text">私有仓库搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E9%95%9C%E5%83%8F%E4%B8%8A%E4%BC%A0%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-text">将镜像上传至私有仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-text">从私有仓库拉取镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-text">分布式存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%8F%96%E4%BD%99"><span class="toc-text">哈希取余</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C"><span class="toc-text">一致性哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E6%A7%BD%E5%88%86%E5%8C%BA"><span class="toc-text">哈希槽分区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E7%BD%91%E7%BB%9C"><span class="toc-text">docker网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose"><span class="toc-text">docker-compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Portainer"><span class="toc-text">Portainer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CIG%E9%87%8D%E9%87%8F%E7%BA%A7%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F"><span class="toc-text">CIG重量级监控系统</span></a></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>117</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>27</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>37</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E6%9E%B6%E6%9E%84"><span class="toc-text">docker架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F"><span class="toc-text">镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-text">容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-text">数据卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-text">常规软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2mysql"><span class="toc-text">部署mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2tomcat"><span class="toc-text">部署tomcat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2nginx"><span class="toc-text">部署nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2redis%E9%9B%86%E7%BE%A4"><span class="toc-text">部署redis集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E9%9B%86%E7%BE%A4%E6%89%A9%E5%AE%B9"><span class="toc-text">redis集群扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E9%9B%86%E7%BE%A4%E7%BC%A9%E5%AE%B9"><span class="toc-text">redis集群缩容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dockerfile"><span class="toc-text">dockerfile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%95%9C%E5%83%8F%E5%8E%9F%E7%90%86"><span class="toc-text">docker镜像原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C"><span class="toc-text">镜像制作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-text">私有仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA"><span class="toc-text">私有仓库搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E9%95%9C%E5%83%8F%E4%B8%8A%E4%BC%A0%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-text">将镜像上传至私有仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-text">从私有仓库拉取镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-text">分布式存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%8F%96%E4%BD%99"><span class="toc-text">哈希取余</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C"><span class="toc-text">一致性哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E6%A7%BD%E5%88%86%E5%8C%BA"><span class="toc-text">哈希槽分区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E7%BD%91%E7%BB%9C"><span class="toc-text">docker网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose"><span class="toc-text">docker-compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Portainer"><span class="toc-text">Portainer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CIG%E9%87%8D%E9%87%8F%E7%BA%A7%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F"><span class="toc-text">CIG重量级监控系统</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
+        <div class="categories-list-item">
+          方案
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        <div class="categories-list-item">
+          数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
+        <div class="categories-list-item">
+          分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
+        title="回溯">
+        <div class="tags-list-item">回溯</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E6%9E%B6%E6%9E%84"><span class="toc-text">docker架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F"><span class="toc-text">镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%B9%E5%99%A8"><span class="toc-text">容器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8D%B7"><span class="toc-text">数据卷</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E8%BD%AF%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-text">常规软件安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2mysql"><span class="toc-text">部署mysql</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2tomcat"><span class="toc-text">部署tomcat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2nginx"><span class="toc-text">部署nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2redis%E9%9B%86%E7%BE%A4"><span class="toc-text">部署redis集群</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E9%9B%86%E7%BE%A4%E6%89%A9%E5%AE%B9"><span class="toc-text">redis集群扩容</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#redis%E9%9B%86%E7%BE%A4%E7%BC%A9%E5%AE%B9"><span class="toc-text">redis集群缩容</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dockerfile"><span class="toc-text">dockerfile</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker%E9%95%9C%E5%83%8F%E5%8E%9F%E7%90%86"><span class="toc-text">docker镜像原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%95%9C%E5%83%8F%E5%88%B6%E4%BD%9C"><span class="toc-text">镜像制作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-text">私有仓库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%90%AD%E5%BB%BA"><span class="toc-text">私有仓库搭建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%86%E9%95%9C%E5%83%8F%E4%B8%8A%E4%BC%A0%E8%87%B3%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93"><span class="toc-text">将镜像上传至私有仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E7%A7%81%E6%9C%89%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="toc-text">从私有仓库拉取镜像</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E5%AD%98%E5%82%A8"><span class="toc-text">分布式存储</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E5%8F%96%E4%BD%99"><span class="toc-text">哈希取余</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E5%93%88%E5%B8%8C"><span class="toc-text">一致性哈希</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%88%E5%B8%8C%E6%A7%BD%E5%88%86%E5%8C%BA"><span class="toc-text">哈希槽分区</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker%E7%BD%91%E7%BB%9C"><span class="toc-text">docker网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#docker-compose"><span class="toc-text">docker-compose</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Portainer"><span class="toc-text">Portainer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CIG%E9%87%8D%E9%87%8F%E7%BA%A7%E7%9B%91%E6%8E%A7%E7%B3%BB%E7%BB%9F"><span class="toc-text">CIG重量级监控系统</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-04-25</div>
+        <a href="/java4u/2023/04/25/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8/"><div class="recent-posts-item-content">人工智能入门</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-02-01</div>
+        <a href="/java4u/2023/02/01/linux%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">linux深入了解</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-01-22</div>
+        <a href="/java4u/2023/01/22/FastAPI/"><div class="recent-posts-item-content">FastAPI</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-12-17</div>
+        <a href="/java4u/2022/12/17/DRF/"><div class="recent-posts-item-content">django Rest Framework</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2023
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

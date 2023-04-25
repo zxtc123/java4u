@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>FastAPI</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="FastAPI">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2023/01/22/FastAPI/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2023-01-22">
+      <meta 
+        property="og:article:modified_time" 
+        content="2023-01-27">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="学习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      FastAPI
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2023-01-21T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2023-01-22</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/%E6%A1%86%E6%9E%B6/" 
+          class="post-meta-link">
+          框架
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>940 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            学习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="FastAPI"><a href="#FastAPI" class="headerlink" title="FastAPI"></a>FastAPI</h2><p>高性能的异步web框架，使用Pydantic作为数据模型，Uvicorn作为ASGI服务器</p>
+<h3 id="请求参数的解析与验证"><a href="#请求参数的解析与验证" class="headerlink" title="请求参数的解析与验证"></a>请求参数的解析与验证</h3><h4 id="路径参数与数字验证"><a href="#路径参数与数字验证" class="headerlink" title="路径参数与数字验证"></a>路径参数与数字验证</h4><pre class="highlight"><span class="line"><span class="meta">@app03.get(<span class="params"><span class="string">&quot;/path/&#123;parameters&#125;&quot;</span></span>)  </span><span class="comment"># 函数的顺序就是路由的顺序</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">path_prams02</span>(<span class="params">parameters: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;message&quot;</span>: parameters&#125;</span><br></pre>
+
+<p>支持枚举类，使用Path作为路径参数的校验</p>
+<h4 id="查询参数和字符串验证"><a href="#查询参数和字符串验证" class="headerlink" title="查询参数和字符串验证"></a>查询参数和字符串验证</h4><pre class="highlight"><span class="line"><span class="meta">@app03.get(<span class="params"><span class="string">&quot;/query/validations&quot;</span></span>)  </span><span class="comment"># 长度+正则表达式验证，比如长度8-16位，以a开头。其它校验方法看Query类的源码</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">query_params_validate</span>(<span class="params"></span></span><br><span class="line"><span class="params">    value: <span class="built_in">str</span> = Query(<span class="params">..., min_length=<span class="number">8</span>, max_length=<span class="number">16</span>, regex=<span class="string">&quot;^a&quot;</span></span>),  <span class="comment"># ...换成None就变成选填的参数</span></span></span><br><span class="line"><span class="params">    values: <span class="type">List</span>[<span class="built_in">str</span>] = Query(<span class="params">[<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>], alias=<span class="string">&quot;alias_name&quot;</span></span>)</span></span><br><span class="line"><span class="params"></span>):  <span class="comment"># 多个查询参数的列表。参数别名</span></span><br><span class="line">    <span class="keyword">return</span> value, values</span><br></pre>
+
+<p>GET请求中不属于路径参数的就是查询参数，使用Query作为查询参数校验</p>
+<h4 id="请求体和字段"><a href="#请求体和字段" class="headerlink" title="请求体和字段"></a>请求体和字段</h4><pre class="highlight"><span class="line"><span class="keyword">class</span> <span class="title class_">CityInfo</span>(<span class="title class_ inherited__">BaseModel</span>):</span><br><span class="line">    name: <span class="built_in">str</span> = Field(..., example=<span class="string">&quot;Beijing&quot;</span>)  <span class="comment"># example是注解的作用，值不会被验证</span></span><br><span class="line">    country: <span class="built_in">str</span></span><br><span class="line">    country_code: <span class="built_in">str</span> = <span class="literal">None</span>  <span class="comment"># 给一个默认值</span></span><br><span class="line">    country_population: <span class="built_in">int</span> = Field(default=<span class="number">800</span>, title=<span class="string">&quot;人口数量&quot;</span>, description=<span class="string">&quot;国家的人口数量&quot;</span>, ge=<span class="number">800</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">class</span> <span class="title class_">Config</span>:</span><br><span class="line">        schema_extra = &#123;</span><br><span class="line">            <span class="string">&quot;example&quot;</span>: &#123;</span><br><span class="line">                <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Shanghai&quot;</span>,</span><br><span class="line">                <span class="string">&quot;country&quot;</span>: <span class="string">&quot;China&quot;</span>,</span><br><span class="line">                <span class="string">&quot;country_code&quot;</span>: <span class="string">&quot;CN&quot;</span>,</span><br><span class="line">                <span class="string">&quot;country_population&quot;</span>: <span class="number">1400000000</span>,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app03.post(<span class="params"><span class="string">&quot;/request_body/city&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">city_info</span>(<span class="params">city: CityInfo</span>):</span><br><span class="line">    <span class="built_in">print</span>(city.name, city.country)  <span class="comment"># 当在IDE中输入city.的时候，属性会自动弹出</span></span><br><span class="line">    <span class="keyword">return</span> city.<span class="built_in">dict</span>()</span><br></pre>
+
+<p>post&#x2F;put请求，可以直接设置传入的模型，Pydantic模型的字段使用Field校验</p>
+<h3 id="响应及数据处理"><a href="#响应及数据处理" class="headerlink" title="响应及数据处理"></a>响应及数据处理</h3><h4 id="响应模型"><a href="#响应模型" class="headerlink" title="响应模型"></a>响应模型</h4><pre class="highlight"><span class="line"><span class="meta">@app04.post(<span class="params"><span class="string">&quot;/response_model/&quot;</span>, response_model=UserOut, response_model_exclude_unset=<span class="literal">True</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">response_model</span>(<span class="params">user: UserIn</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;response_model_exclude_unset=True表示默认值不包含在响应中，仅包含实际给的值，如果实际给的值与默认值相同也会包含在响应中&quot;&quot;&quot;</span></span><br><span class="line">    <span class="built_in">print</span>(user.password)  <span class="comment"># password不会被返回</span></span><br><span class="line">    <span class="comment"># return user</span></span><br><span class="line">    <span class="keyword">return</span> users[<span class="string">&quot;user01&quot;</span>]</span><br></pre>
+
+<p>通过response_model设置响应模型</p>
+<h4 id="响应状态码"><a href="#响应状态码" class="headerlink" title="响应状态码"></a>响应状态码</h4><pre class="highlight"><span class="line"><span class="meta">@app04.post(<span class="params"><span class="string">&quot;/status_attribute&quot;</span>, status_code=status.HTTP_200_OK</span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">status_attribute</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(status.HTTP_200_OK))</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;status_code&quot;</span>: status.HTTP_200_OK&#125;</span><br></pre>
+
+<h4 id="单文件-x2F-多文件上传及参数详解"><a href="#单文件-x2F-多文件上传及参数详解" class="headerlink" title="单文件&#x2F;多文件上传及参数详解"></a>单文件&#x2F;多文件上传及参数详解</h4><pre class="highlight"><span class="line"><span class="meta">@app04.post(<span class="params"><span class="string">&quot;/upload_files&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">upload_files</span>(<span class="params">files: <span class="type">List</span>[UploadFile] = File(<span class="params">...</span>)</span>):  <span class="comment"># 如果要上传单个文件 file: UploadFile = File(...)</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    使用UploadFile类的优势:</span></span><br><span class="line"><span class="string">    1.文件存储在内存中，使用的内存达到阈值后，将被保存在磁盘中</span></span><br><span class="line"><span class="string">    2.适合于图片、视频大文件</span></span><br><span class="line"><span class="string">    3.可以获取上传的文件的元数据，如文件名，创建时间等</span></span><br><span class="line"><span class="string">    4.有文件对象的异步接口</span></span><br><span class="line"><span class="string">    5.上传的文件是Python文件对象，可以使用write(), read(), seek(), close()操作</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> file <span class="keyword">in</span> files:</span><br><span class="line">        contents = <span class="keyword">await</span> file.read()</span><br><span class="line">        <span class="built_in">print</span>(contents)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;filename&quot;</span>: files[<span class="number">0</span>].filename, <span class="string">&quot;content_type&quot;</span>: files[<span class="number">0</span>].content_type&#125;</span><br></pre>
+
+<h4 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h4><pre class="highlight"><span class="line"><span class="meta">@app04.get(<span class="params"><span class="string">&quot;/http_exception&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">http_exception</span>(<span class="params">city: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">if</span> city != <span class="string">&quot;Beijing&quot;</span>:</span><br><span class="line">        <span class="keyword">raise</span> HTTPException(status_code=<span class="number">404</span>, detail=<span class="string">&quot;City not found!&quot;</span>, headers=&#123;<span class="string">&quot;X-Error&quot;</span>: <span class="string">&quot;Error&quot;</span>&#125;)</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;city&quot;</span>: city&#125;</span><br></pre>
+
+<h3 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h3><p>作用：代码复用，共用数据库连接</p>
+<h4 id="函数作为依赖"><a href="#函数作为依赖" class="headerlink" title="函数作为依赖"></a>函数作为依赖</h4><pre class="highlight"><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">common_parameters</span>(<span class="params">q: <span class="type">Optional</span>[<span class="built_in">str</span>] = <span class="literal">None</span>, page: <span class="built_in">int</span> = <span class="number">1</span>, limit: <span class="built_in">int</span> = <span class="number">100</span></span>):</span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">&quot;q&quot;</span>: q, <span class="string">&quot;page&quot;</span>: page, <span class="string">&quot;limit&quot;</span>: limit&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app05.get(<span class="params"><span class="string">&quot;/dependency01&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">dependency01</span>(<span class="params">commons: <span class="built_in">dict</span> = Depends(<span class="params">common_parameters</span>)</span>):</span><br><span class="line">    <span class="keyword">return</span> commons</span><br></pre>
+
+<h4 id="类作为依赖"><a href="#类作为依赖" class="headerlink" title="类作为依赖"></a>类作为依赖</h4><pre class="highlight"><span class="line"><span class="keyword">class</span> <span class="title class_">CommonQueryParams</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, q: <span class="type">Optional</span>[<span class="built_in">str</span>] = <span class="literal">None</span>, page: <span class="built_in">int</span> = <span class="number">1</span>, limit: <span class="built_in">int</span> = <span class="number">100</span></span>):</span><br><span class="line">        self.q = q</span><br><span class="line">        self.page = page</span><br><span class="line">        self.limit = limit</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@app05.get(<span class="params"><span class="string">&quot;/classes_as_dependencies&quot;</span></span>)</span></span><br><span class="line"><span class="comment"># async def classes_as_dependencies(commons: CommonQueryParams = Depends(CommonQueryParams)):</span></span><br><span class="line"><span class="comment"># async def classes_as_dependencies(commons: CommonQueryParams = Depends()):</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">classes_as_dependencies</span>(<span class="params">commons=Depends(<span class="params">CommonQueryParams</span>)</span>):</span><br><span class="line">    response = &#123;&#125;</span><br><span class="line">    <span class="keyword">if</span> commons.q:</span><br><span class="line">        response.update(&#123;<span class="string">&quot;q&quot;</span>: commons.q&#125;)</span><br><span class="line">    items = fake_items_db[commons.page: commons.page + commons.limit]</span><br><span class="line">    response.update(&#123;<span class="string">&quot;items&quot;</span>: items&#125;)</span><br><span class="line">    <span class="keyword">return</span> response</span><br></pre>
+
+<h4 id="带yield的依赖"><a href="#带yield的依赖" class="headerlink" title="带yield的依赖"></a>带yield的依赖</h4><pre class="highlight"><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">get_db</span>():</span><br><span class="line">    db = DBSession()</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> db</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        db.close()</span><br></pre>
+
+<p>yield在发送响应之前，只执行包含该语句之前的代码,获取数据库连接,yield响应传递后执行语句后面的代码，使用finally确保执行退出步骤</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2023/01/22/FastAPI/">
+            https://zxtc123.github.io/java4u/2023/01/22/FastAPI/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2023/02/01/linux%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">linux深入了解 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2022/12/17/DRF/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">django Rest Framework </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FastAPI"><span class="toc-text">FastAPI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E7%9A%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-text">请求参数的解析与验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E5%8F%82%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%AA%8C%E8%AF%81"><span class="toc-text">路径参数与数字验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%AA%8C%E8%AF%81"><span class="toc-text">查询参数和字符串验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%BD%93%E5%92%8C%E5%AD%97%E6%AE%B5"><span class="toc-text">请求体和字段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-text">响应及数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%A8%A1%E5%9E%8B"><span class="toc-text">响应模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-text">响应状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E6%96%87%E4%BB%B6-x2F-%E5%A4%9A%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8F%8A%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-text">单文件&#x2F;多文件上传及参数详解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-text">错误处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-text">依赖注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96"><span class="toc-text">函数作为依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96"><span class="toc-text">类作为依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6yield%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-text">带yield的依赖</span></a></li></ol></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>117</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>27</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>37</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FastAPI"><span class="toc-text">FastAPI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E7%9A%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-text">请求参数的解析与验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E5%8F%82%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%AA%8C%E8%AF%81"><span class="toc-text">路径参数与数字验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%AA%8C%E8%AF%81"><span class="toc-text">查询参数和字符串验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%BD%93%E5%92%8C%E5%AD%97%E6%AE%B5"><span class="toc-text">请求体和字段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-text">响应及数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%A8%A1%E5%9E%8B"><span class="toc-text">响应模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-text">响应状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E6%96%87%E4%BB%B6-x2F-%E5%A4%9A%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8F%8A%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-text">单文件&#x2F;多文件上传及参数详解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-text">错误处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-text">依赖注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96"><span class="toc-text">函数作为依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96"><span class="toc-text">类作为依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6yield%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-text">带yield的依赖</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
+        <div class="categories-list-item">
+          方案
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        <div class="categories-list-item">
+          数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
+        <div class="categories-list-item">
+          分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
+        title="回溯">
+        <div class="tags-list-item">回溯</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#FastAPI"><span class="toc-text">FastAPI</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E7%9A%84%E8%A7%A3%E6%9E%90%E4%B8%8E%E9%AA%8C%E8%AF%81"><span class="toc-text">请求参数的解析与验证</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%B7%AF%E5%BE%84%E5%8F%82%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%AA%8C%E8%AF%81"><span class="toc-text">路径参数与数字验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%8F%82%E6%95%B0%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%AA%8C%E8%AF%81"><span class="toc-text">查询参数和字符串验证</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%BD%93%E5%92%8C%E5%AD%97%E6%AE%B5"><span class="toc-text">请求体和字段</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E5%8F%8A%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="toc-text">响应及数据处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E6%A8%A1%E5%9E%8B"><span class="toc-text">响应模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%93%8D%E5%BA%94%E7%8A%B6%E6%80%81%E7%A0%81"><span class="toc-text">响应状态码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E6%96%87%E4%BB%B6-x2F-%E5%A4%9A%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%8F%8A%E5%8F%82%E6%95%B0%E8%AF%A6%E8%A7%A3"><span class="toc-text">单文件&#x2F;多文件上传及参数详解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="toc-text">错误处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5"><span class="toc-text">依赖注入</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96"><span class="toc-text">函数作为依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E4%BD%9C%E4%B8%BA%E4%BE%9D%E8%B5%96"><span class="toc-text">类作为依赖</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6yield%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-text">带yield的依赖</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-04-25</div>
+        <a href="/java4u/2023/04/25/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8/"><div class="recent-posts-item-content">人工智能入门</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-02-01</div>
+        <a href="/java4u/2023/02/01/linux%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">linux深入了解</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-01-22</div>
+        <a href="/java4u/2023/01/22/FastAPI/"><div class="recent-posts-item-content">FastAPI</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-12-17</div>
+        <a href="/java4u/2022/12/17/DRF/"><div class="recent-posts-item-content">django Rest Framework</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2023
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

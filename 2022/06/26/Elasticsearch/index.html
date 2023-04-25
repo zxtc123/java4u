@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>Elasticsearch</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="Elasticsearch">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2022/06/26/Elasticsearch/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2022-06-26">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-09-18">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="学习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      Elasticsearch
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2022-06-25T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2022-06-26</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/" 
+          class="post-meta-link">
+          分布式搜索
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>3.9k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            学习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h2 id="Elasticsearch简介"><a href="#Elasticsearch简介" class="headerlink" title="Elasticsearch简介"></a>Elasticsearch简介</h2><p>Elasticsearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful 接口</p>
+<h3 id="Elasticsearch功能"><a href="#Elasticsearch功能" class="headerlink" title="Elasticsearch功能"></a>Elasticsearch功能</h3><ul>
+<li>分布式的搜索引擎和数据分析引擎<br>搜索：互联网搜索、电商网站站内搜索、OA系统查询<br>数据分析：电商网站查询近一周哪些品类的图书销售前十；新闻网站，最近3天阅读量最高的十个关键词，舆情分析</li>
+<li>全文检索，结构化检索，数据分析</li>
+<li>对海量数据进行近实时的处理</li>
+</ul>
+<p>使用脚本更新，获取原值的同时进行更新</p>
+<pre class="highlight"><span class="line">POST /test_index/_doc/6/_update</span><br><span class="line">&#123;</span><br><span class="line">  &quot;script&quot;: &quot;ctx._source.num+=1&quot;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>ES内部的主从和并发控制基于乐观锁version来控制</p>
+<h2 id="倒排索引"><a href="#倒排索引" class="headerlink" title="倒排索引"></a>倒排索引</h2><p>什么是文档和词条？</p>
+<ul>
+<li>每一条数据就是一个文档</li>
+<li>对文档中的内容分词，得到的词语就是词条</li>
+</ul>
+<p>什么是正向索引？</p>
+<ul>
+<li>基于文档id创建索引。查询词条时必须先找到文档，而后判断是否包含词条</li>
+</ul>
+<p>什么是倒排索引？</p>
+<ul>
+<li>对文档内容分词，对词条创建索引，并记录词条所在文档的信息。查询时先根据词条查询到文档id,而后获取到文档</li>
+</ul>
+<p>es与mysql概念对比</p>
+<table>
+<thead>
+<tr>
+<th>mysql</th>
+<th>elasticsearch</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>table</td>
+<td>index</td>
+<td>索引就是文档集合，类似数据库的表</td>
+</tr>
+<tr>
+<td>row</td>
+<td>document</td>
+<td>文档就是一条条数据，类似数据库的行，文档都是JSON格式</td>
+</tr>
+<tr>
+<td>column</td>
+<td>field</td>
+<td>字段，就是文档中的字段，类似数据库中的列</td>
+</tr>
+<tr>
+<td>schema</td>
+<td>mapping</td>
+<td>映射是索引中文档的约束，例如字段类型约束。类似数据库的表结构</td>
+</tr>
+<tr>
+<td>SQL</td>
+<td>DSL</td>
+<td>DSL是elasticsearch提供的JSON风格的请求语句，实现CRUD</td>
+</tr>
+</tbody></table>
+<h2 id="分词器"><a href="#分词器" class="headerlink" title="分词器"></a>分词器</h2><p>分词器的作用是什么？</p>
+<ul>
+<li>创建倒排索引时对文档分词</li>
+<li>用户搜索时，对输入的内容分词</li>
+</ul>
+<p>IK分词器有几种模式？</p>
+<ul>
+<li>ik_smart:智能切分，粗粒度</li>
+<li>ik_max_work；最细切分，细粒度</li>
+</ul>
+<p>IK分词器如何扩展词条？如何停用词条</p>
+<ul>
+<li>利用config目录的IkAnalyzer.cfg.xml文件添加拓展词典和停用词典</li>
+<li>在词典中添加拓展词条或者停用词条</li>
+</ul>
+<h2 id="索引库操作"><a href="#索引库操作" class="headerlink" title="索引库操作"></a>索引库操作</h2><h3 id="mapping属性"><a href="#mapping属性" class="headerlink" title="mapping属性"></a>mapping属性</h3><p>mapping是对索引库中文档的约束，常见的mapping属性包括：</p>
+<ul>
+<li>type:字段数据类型，常见简单类型：<ul>
+<li>字符串：text(可分词文本)、keyword(精确值，例如：品牌、国家、ip地址)</li>
+<li>数值：long&#x2F;integer&#x2F;short&#x2F;byte&#x2F;double&#x2F;float</li>
+<li>布尔：boolean</li>
+<li>日期：date</li>
+<li>对象：object</li>
+</ul>
+</li>
+<li>index:是否创建索引，默认为true</li>
+<li>analyzer:使用哪种分词器</li>
+<li>properties:该字段子字段</li>
+<li>store:是否在source外在储存一份</li>
+</ul>
+<p>索引库操作：</p>
+<ul>
+<li>创建索引库：PUT&#x2F;索引名</li>
+<li>查询索引库：GET&#x2F;索引名</li>
+<li>删除索引库：DELETE&#x2F;索引名</li>
+<li>添加字段：PUT&#x2F;索引名&#x2F;_mapping</li>
+</ul>
+<pre class="highlight"><span class="line">PUT book/_mapping</span><br><span class="line">&#123;</span><br><span class="line">  &quot;properties&quot;: &#123;</span><br><span class="line">    &quot;name&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;text&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;description&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">      &quot;analyzer&quot;: &quot;english&quot;,</span><br><span class="line">      &quot;search_analyzer&quot;: &quot;english&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;pic&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;keyword&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;studymodel&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;text&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;timestamp&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;date&quot;,</span><br><span class="line">      &quot;format&quot;: &quot;yyyy-MM-dd HH:mm:ss||yyyy-MM-dd&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;price&quot;: &#123;</span><br><span class="line">      &quot;type&quot;: &quot;scaled_float&quot;,</span><br><span class="line">      &quot;scaling_factor&quot;: 100</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>文档操作：</p>
+<ul>
+<li>新增文档：POST&#x2F;索引库名&#x2F;_doc&#x2F;文档id {JSON文档}</li>
+<li>查询文档：GET&#x2F;索引库名&#x2F;_doc&#x2F;文档id</li>
+<li>删除：DELETE&#x2F;索引库名&#x2F;_doc&#x2F;文档id</li>
+<li>修改文档：<ul>
+<li>全量修改，删除旧文档，添加新文档 PUT&#x2F;索引库名&#x2F;_doc&#x2F;文档id {JSON文档}</li>
+<li>增量修改，修改指定字段  POST&#x2F;索引库名&#x2F;_update&#x2F;文档id {“doc”:{字段}}</li>
+</ul>
+</li>
+</ul>
+<p>ES支持2种地理坐标数据类型：</p>
+<ul>
+<li>geo_point:由经度纬度确定的一个点 “32.8752, 120.2981”</li>
+<li>geo_shape:多个geo_point组成的复杂几何图形</li>
+</ul>
+<p>字段拷贝可以使用copy_to属性将当前字段拷贝到指定字段：<br>“all”: {<br>  “type”：”text”,<br>  “analyzer”: “ik_max_word”<br>},<br>“brand”: {<br>  “type”: “keyword”,<br>  “copy_to”: “all”<br>}</p>
+<h2 id="DSL查询文档"><a href="#DSL查询文档" class="headerlink" title="DSL查询文档"></a>DSL查询文档</h2><p>DSL查询分类，常见查询类型：</p>
+<ul>
+<li>查询所有：查询所有数据</li>
+<li>全文检索：利用分词器对用户输入内容分词，然后去倒排索引库匹配<ul>
+<li>match_query</li>
+<li>multi_match_query</li>
+</ul>
+</li>
+<li>精确查询；一般查询keyword、数值、日期等，例如：<ul>
+<li>ids</li>
+<li>range</li>
+<li>term</li>
+</ul>
+</li>
+<li>地理查询：根据经纬度查询，例如：<ul>
+<li>geo_distance</li>
+<li>geo_bounding_box</li>
+</ul>
+</li>
+<li>复合查询：复合查询可以将上述查询条件组合起来，合并查询</li>
+</ul>
+<p>ES支持多索引搜索</p>
+<p>GET &#x2F;book1,book2&#x2F;_search<br>GET &#x2F;book*&#x2F;_search</p>
+<p>可以直接将book开头的索引一起搜索出来，应用场景：<br>生产环境的log索引可以按日期分开<br>log_to_es_20190910<br>log_to_es_20190911<br>log_to_es_20180910<br>可以查询所有或单个日期的日志</p>
+<h3 id="全文检索"><a href="#全文检索" class="headerlink" title="全文检索"></a>全文检索</h3><p>match查询</p>
+<pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;FIELD&quot;: &quot;TEXT&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>multi_match:与match查询类似，只不过允许同时查询多个字段</p>
+<pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;multi_match&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &quot;TEXT&quot;,</span><br><span class="line">      &quot;fields&quot;: [&quot;FIELD1&quot;,&quot;FIELD2&quot;]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="各类查询"><a href="#各类查询" class="headerlink" title="各类查询"></a>各类查询</h3><pre class="highlight"><span class="line">#term查询,精确查询</span><br><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;term&quot;: &#123;</span><br><span class="line">      &quot;FIELD&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;VALUE&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#range查询</span><br><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;range&quot;: &#123;</span><br><span class="line">      &quot;FIELD&quot;: &#123;</span><br><span class="line">        &quot;gte&quot;: 10,</span><br><span class="line">        &quot;lte&quot;: 20</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#Fuzzy query</span><br><span class="line">#返回包含与搜索词类似词的文档，编辑距离</span><br><span class="line">更改 box -&gt; fox</span><br><span class="line">删除 aple -&gt; apple</span><br><span class="line">插入 sick -&gt; sic</span><br><span class="line">调换字符 ACT -&gt; CAT</span><br><span class="line"></span><br><span class="line">GET /book/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;fuzzy&quot;: &#123;</span><br><span class="line">      &quot;description&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;jave&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#正则查询</span><br><span class="line">GET /book/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;regexp&quot;: &#123;</span><br><span class="line">      &quot;description&quot;: &#123;</span><br><span class="line">        &quot;value&quot;: &quot;j.*a&quot;,</span><br><span class="line">        &quot;flags&quot;: &quot;ALL&quot;,</span><br><span class="line">        &quot;max_determinized_states&quot;: 10000,</span><br><span class="line">        &quot;rewrite&quot;: &quot;constant_score&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="地理查询"><a href="#地理查询" class="headerlink" title="地理查询"></a>地理查询</h3><p>geo_bounding_box:查询geo_point落在某个矩形范围的所有文档</p>
+<pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;geo_bounding_box&quot;: &#123;</span><br><span class="line">      &quot;FIELD&quot;: &#123;</span><br><span class="line">        &quot;top_left&quot;: &#123;</span><br><span class="line">          &quot;lat&quot;: 31.1,</span><br><span class="line">          &quot;lon&quot;: 121.5</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;bottom_right&quot;: &#123;</span><br><span class="line">          &quot;lat&quot;: 30.9,</span><br><span class="line">          &quot;lon&quot;: 121.7</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>geo_distance:查询到指定中心点小于某个距离值的所有文档</p>
+<pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;geo_distance&quot;: &#123;</span><br><span class="line">      &quot;distance&quot;: &quot;15km&quot;,</span><br><span class="line">      &quot;FIELD&quot;: &quot;31.21,121.5&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="复合查询"><a href="#复合查询" class="headerlink" title="复合查询"></a>复合查询</h3><p>相关性算分：<br>TF（词条频率）&#x3D; 词条出现次数&#x2F;文档中词条总数</p>
+<p>TF-IDF算法<br>IDF（逆文档频率）&#x3D; log(文档总数&#x2F;包含词条的文档总数)<br>score &#x3D; TF * IDF(1–n)</p>
+<p>BM25算法<br>score(Q,d)&#x3D;log(1+(N-n+0.5)&#x2F;(n+0.5))<em>fi&#x2F;(fi+k1</em>(1-b+b*dl&#x2F;avgdl));</p>
+<h3 id="Function-Score-Query"><a href="#Function-Score-Query" class="headerlink" title="Function Score Query"></a>Function Score Query</h3><p>可以修改文档的相关性算分，根据新得到的算分排序</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;function_score&quot;: &#123;</span><br><span class="line">      &quot;query&quot;: &#123;&quot;match&quot;: &#123;&quot;all&quot;: &quot;外滩&quot;&#125;&#125;,       //原始查询条件，搜索文档并 根据相关性打分</span><br><span class="line">      &quot;function&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;filter&quot;: &#123;&quot;term&quot;: &#123;&quot;id&quot;: &quot;1&quot;&#125;&#125;,      //过滤条件，符合文档才会被重新算分</span><br><span class="line">          &quot;weight&quot;: 10                          //算分函数，将来与query score运算</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;boot_mode&quot;: &quot;multiply&quot;                   //加权模式，定义function score与query score运算方式</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="Boolean-Query"><a href="#Boolean-Query" class="headerlink" title="Boolean Query"></a>Boolean Query</h3><p>布尔查询是一个或多个查询子句的组合，组合方式：</p>
+<ul>
+<li>must:必须匹配每个子查询，&amp;&amp;</li>
+<li>should:选择性匹配子查询，||</li>
+<li>must_not:必须不匹配，不参与算分，！</li>
+<li>filter:必须匹配，不参与算分</li>
+</ul>
+<p>需求：搜索名字包含“如家”，价格不高于400，在坐标31.21，121.5周围10KM范围的酒店</p>
+<p>查询计划(定位错误语法)</p>
+<p>GET &#x2F;book&#x2F;_validate&#x2F;query?explain<br>{<br>  “query”: {<br>    “match”: {<br>      “description”: “java程序员”<br>    }<br>  }<br>}</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;bool&quot;: &#123;</span><br><span class="line">      &quot;must&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;match&quot;: &#123;&quot;name&quot;: &quot;如家&quot;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;must_not&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;range&quot;: &#123;&quot;price&quot;: &#123;&quot;gt&quot;: 400&#125;&#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ],</span><br><span class="line">      &quot;filter&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">          &quot;geo_distance&quot;: &#123;</span><br><span class="line">            &quot;distance&quot;: &quot;10km&quot;, &quot;location&quot;: &#123;&quot;lat&quot;: 31.21, &quot;lon&quot;: 121.5&#125;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="搜索结果处理"><a href="#搜索结果处理" class="headerlink" title="搜索结果处理"></a>搜索结果处理</h3><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><p>elasticsearch默认根据相关度排序。可以排序字段类型：keyword、数值类型、地理坐标类型、日期类型</p>
+<pre class="highlight"><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;FIELD&quot;: &quot;desc&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#地理排序</span><br><span class="line">GET /indexName/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;_geo_distance&quot;: &#123;</span><br><span class="line">        &quot;FIELD&quot;: &quot;纬度，经度&quot;,</span><br><span class="line">        &quot;order&quot;: &quot;asc&quot;,</span><br><span class="line">        &quot;unit&quot;: &quot;km&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre>
+
+<h4 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h4><p>elasticsearch默认只返回top10数据</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match_all&quot;: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;from&quot;: 990,     //分页开始位置，默认为0</span><br><span class="line">  &quot;size&quot;: 10,      //期望获取的文档总数</span><br><span class="line">  &quot;sort&quot;: [</span><br><span class="line">    &#123;&quot;price&quot;: &quot;asc&quot;&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre>
+
+<p>深度分页问题：<br>ES是分布式的，在ES集群里数据会被分到多个分片上，如果需要排序，<br>需要获取所有分片的结果，重新排序取前几位的数据<br>比如:需要9990-10000的数据<br>需要从每个节点获取前10000条数据给协调节点，协调节点汇总所有数据在进行排序，<br>如果3个主节点就30000条数据排序，浪费机器性能和带宽<br>尽量减少深度分页</p>
+<h4 id="高亮"><a href="#高亮" class="headerlink" title="高亮"></a>高亮</h4><pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;query&quot;: &#123;</span><br><span class="line">    &quot;match&quot;: &#123;</span><br><span class="line">      &quot;FIELD&quot;: &quot;TEXT&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;hightlight&quot;: &#123;</span><br><span class="line">      &quot;fields&quot;: &#123;         //指定要高亮的字段</span><br><span class="line">        &quot;FIELD&quot;: &#123;</span><br><span class="line">          &quot;require_field_match&quot;: &quot;true&quot; //默认情况ES搜索字段必须与高亮字段一致</span><br><span class="line">          &quot;pre_tags&quot;: &quot;&lt;em&gt;&quot;,   //用来标记高亮字段前置标签</span><br><span class="line">          &quot;post_tags&quot;: &quot;&lt;/em&gt;&quot;  //用来标记高亮字段后置标签</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="数据聚合"><a href="#数据聚合" class="headerlink" title="数据聚合"></a>数据聚合</h2><p>聚合可以实现对文档数据的统计、分析、运算，常见聚合有：</p>
+<ul>
+<li>桶（Bucket）聚合：用来对文档做分组<ul>
+<li>termAggregation:按照文档字段值分组</li>
+<li>Date Histogram:按照日期阶梯分组，例如一周为一组，或者一月为一组</li>
+</ul>
+</li>
+<li>度量（Metric）聚合：用以计算一些值，比如：最大值、最小值、平均值等</li>
+<li>管道（pipeline）聚合：其他聚合的结果为基础做聚合</li>
+</ul>
+<p>统计酒店品牌有几种，根据酒店品牌的名称做聚合，Bucket聚合</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;size&quot;: 0,   //设置size为0，结果中不包含文档，只包含聚合结果</span><br><span class="line">  &quot;aggs&quot;: &#123;   //定义聚合</span><br><span class="line">    &quot;brandAgg&quot;: &#123;   //给聚合起个名字</span><br><span class="line">      &quot;terms&quot;: &#123;    //聚合类型，按照品牌值聚合</span><br><span class="line">        &quot;field&quot;: &quot;brand&quot;,   //参与聚合的字段</span><br><span class="line">        &quot;size&quot;: 20     //希望获取的聚合数量</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>获取每个品牌的用户评分min&#x2F;max&#x2F;avg  Metrics聚合<br>我们可以利用stats聚合：</p>
+<pre class="highlight"><span class="line">GET /hotel/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;size&quot;: 0,</span><br><span class="line">  &quot;aggs&quot;: &#123;</span><br><span class="line">    &quot;brandAgg&quot;: &#123;</span><br><span class="line">      &quot;term&quot;: &#123;</span><br><span class="line">        &quot;field&quot;: &quot;brand&quot;,</span><br><span class="line">        &quot;size&quot;: 20</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;aggs&quot;: &#123;  //是brands聚合的子聚合，也就是分组后对每组分别计算</span><br><span class="line">        &quot;score_stats&quot;: &#123;</span><br><span class="line">          &quot;stats&quot;: &#123;   //聚合类型，这里stats可以计算min/max/avg</span><br><span class="line">            &quot;field&quot;: &quot;score&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h2><h3 id="拼音分词器"><a href="#拼音分词器" class="headerlink" title="拼音分词器"></a>拼音分词器</h3><p>通过拼音对词组进行分词</p>
+<p>自定义分词器</p>
+<p>在创建索引库时，通过settings来配置自定义analyzer</p>
+<pre class="highlight"><span class="line">PUT /test</span><br><span class="line">&#123;</span><br><span class="line">  &quot;settings&quot;: &#123;</span><br><span class="line">    &quot;analysis&quot;: &#123;</span><br><span class="line">      &quot;analyzer&quot;: &#123;  //自定义分词器</span><br><span class="line">        &quot;my_analyzer&quot;: &#123;  //分词器名称</span><br><span class="line">          &quot;tokenizer&quot;: &quot;ik_max_word&quot;,</span><br><span class="line">          &quot;filter&quot;: &quot;py&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;filter&quot;: &#123;  //自定义tokenizer filter</span><br><span class="line">        &quot;py&quot;: &#123;    //过滤器名称</span><br><span class="line">          &quot;type&quot;: &quot;pinyin&quot;,   //过滤器类型，这里是pinyin</span><br><span class="line">          &quot;keep_full_pinyin&quot;: false,</span><br><span class="line">          &quot;keep_joined_full_pinyin&quot;: true,</span><br><span class="line">          &quot;keep_original&quot;: true,</span><br><span class="line">          &quot;limit_first_letter_length&quot;: 16,</span><br><span class="line">          &quot;remove_duplicated_term&quot;: true,</span><br><span class="line">          &quot;none_chinese_pinyin_tokenize&quot;: false</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;mappings&quot;: &#123;</span><br><span class="line">    &quot;properties&quot;: &#123;</span><br><span class="line">      &quot;name&quot;: &#123;</span><br><span class="line">        &quot;type&quot;: &quot;text&quot;,</span><br><span class="line">        &quot;analyzer&quot;: &quot;my_analyzer&quot;,      //创建索引使用自定义分词</span><br><span class="line">        &quot;search_analyzer&quot;: &quot;ik_smart&quot;   //字段搜索使用ik_smart分词器</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<p>自动补全：字段类型是completion类型，字段值是多词条的数组</p>
+<pre class="highlight"><span class="line">GET /test/_search</span><br><span class="line">&#123;</span><br><span class="line">  &quot;suggest&quot;: &#123;</span><br><span class="line">    &quot;title_suggest&quot;: &#123;</span><br><span class="line">      &quot;text&quot;: &quot;s&quot;,   //关键字</span><br><span class="line">      &quot;completion&quot;: &#123;</span><br><span class="line">        &quot;field&quot;: &quot;title&quot;,   //补全查询的字段</span><br><span class="line">        &quot;skip_duplicates&quot;: true,   //跳过重复的</span><br><span class="line">        &quot;size&quot;: 10     //获取前10条结果</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h2><p>elasticsearch中的数据来自mysql数据库，因此mysql数据发生改变，es必须跟着改变，这就是数据同步</p>
+<p>方案一：同步调用  写数据库时同步调用es修改<br>方案二：异步通知  通过mq发布消息<br>方案三：监听binlog   canal监听binlog通知服务</p>
+<h2 id="elasticsearch集群"><a href="#elasticsearch集群" class="headerlink" title="elasticsearch集群"></a>elasticsearch集群</h2><p>单机es做数据存储，必然面临2个问题：海量数据存储问题、单点故障问题：</p>
+<ul>
+<li>海量数据存储问题：将索引库从逻辑上拆分成N个分片，存储到多个节点</li>
+<li>单点故障问题：将分片数据在不同节点备份</li>
+</ul>
+<p>ES集群的节点角色</p>
+<table>
+<thead>
+<tr>
+<th>节点类型</th>
+<th>配置参数</th>
+<th>默认值</th>
+<th>节点职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>master eligible</td>
+<td>node.master</td>
+<td>true</td>
+<td>备选主节点：主节点可以管理和记录集群状态、决定分片在哪个节点、处理创建和删除索引库的请求</td>
+</tr>
+<tr>
+<td>data</td>
+<td>node.data</td>
+<td>true</td>
+<td>数据节点：存储数据、搜索、聚合、CRUD</td>
+</tr>
+<tr>
+<td>ingest</td>
+<td>node.ingest</td>
+<td>true</td>
+<td>数据存储之前的预处理</td>
+</tr>
+<tr>
+<td>coordinating</td>
+<td>上面3个参数都为false则为coordinating节点</td>
+<td>无</td>
+<td>路由请求到其他节点合并其他节点处理的结果，返回给用户</td>
+</tr>
+</tbody></table>
+<p>ES集群的分布式查询分成2个阶段：</p>
+<ul>
+<li>scatter phase:分散阶段，协调者会把请求分发到每一个分片</li>
+<li>gather phase:聚集阶段，协调者汇总data node的搜索结果，并处理为最终结果集返回给用户</li>
+</ul>
+<p>ES集群的故障转移</p>
+<p>集群的master节点会监控集群中的节点状态，如果发现节点宕机，会立即将宕机节点的分片数据</p>
+<h3 id="ES分布式基础"><a href="#ES分布式基础" class="headerlink" title="ES分布式基础"></a>ES分布式基础</h3><h4 id="ES对复杂分布式机制的透明隐藏特性"><a href="#ES对复杂分布式机制的透明隐藏特性" class="headerlink" title="ES对复杂分布式机制的透明隐藏特性"></a>ES对复杂分布式机制的透明隐藏特性</h4><ul>
+<li>分布式机制</li>
+<li>分片机制</li>
+<li>集群发现机制</li>
+<li>shard负载均衡</li>
+<li>shard副本</li>
+</ul>
+<h4 id="扩容方案"><a href="#扩容方案" class="headerlink" title="扩容方案"></a>扩容方案</h4><p>（1）垂直扩容 买入性能更强的机器替换掉原来的机器<br>（2）水平扩容 新增机器加入集群</p>
+<h4 id="rebalance"><a href="#rebalance" class="headerlink" title="rebalance"></a>rebalance</h4><p>某些服务器负载重或轻。ES集群将某些分片转移到此机器或移走</p>
+<h4 id="master节点"><a href="#master节点" class="headerlink" title="master节点"></a>master节点</h4><p>（1）管理ES集群的元数据：创建删除索引，维护索引的元数据。节点的增加或减少<br>（2）默认情况ES会自动选择一台机器作为master</p>
+<h4 id="节点对等的分布式架构"><a href="#节点对等的分布式架构" class="headerlink" title="节点对等的分布式架构"></a>节点对等的分布式架构</h4><p>每个节点都能接受所有请求，自动路由</p>
+<h3 id="横向扩容"><a href="#横向扩容" class="headerlink" title="横向扩容"></a>横向扩容</h3><ul>
+<li>分片自动负载均衡，分片向空闲机器转移</li>
+<li>每个节点存储更少分片，系统给与每个分片的资源更多，整体集群性能提高</li>
+<li>扩容极限：节点数大于整体分片数，则必有空闲机器</li>
+<li>超过扩容极限，可以增加副本数，存储和搜索性能更强，容错性更好</li>
+<li>容错性：只要一个索引的所有主分片在，集群就可以运行</li>
+</ul>
+<h3 id="ES容错机制-master选举，replica容错"><a href="#ES容错机制-master选举，replica容错" class="headerlink" title="ES容错机制 master选举，replica容错"></a>ES容错机制 master选举，replica容错</h3><ul>
+<li>master node宕机，自动进行master选举，集群为red</li>
+<li>replica容错，新master将replica提升为primary shard，集群为yellow</li>
+<li>重启宕机node，新master将缺失的副本分片copy到该节点（增量数据），集群为green</li>
+</ul>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2022/06/26/Elasticsearch/">
+            https://zxtc123.github.io/java4u/2022/06/26/Elasticsearch/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2022/07/27/592.%20%E5%88%86%E6%95%B0%E5%8A%A0%E5%87%8F%E8%BF%90%E7%AE%97/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">592. 分数加减运算 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2022/06/13/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">微服务保护 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Elasticsearch%E7%AE%80%E4%BB%8B"><span class="toc-text">Elasticsearch简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch%E5%8A%9F%E8%83%BD"><span class="toc-text">Elasticsearch功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%B1%BB%E6%9F%A5%E8%AF%A2"><span class="toc-text">各类查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">复合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean-Query"><span class="toc-text">Boolean Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-text">搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-text">分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-text">高亮</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-text">数据聚合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-text">自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">拼音分词器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elasticsearch%E9%9B%86%E7%BE%A4"><span class="toc-text">elasticsearch集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E5%88%86%E5%B8%83%E5%BC%8F%E5%9F%BA%E7%A1%80"><span class="toc-text">ES分布式基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ES%E5%AF%B9%E5%A4%8D%E6%9D%82%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%BA%E5%88%B6%E7%9A%84%E9%80%8F%E6%98%8E%E9%9A%90%E8%97%8F%E7%89%B9%E6%80%A7"><span class="toc-text">ES对复杂分布式机制的透明隐藏特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E6%96%B9%E6%A1%88"><span class="toc-text">扩容方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rebalance"><span class="toc-text">rebalance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#master%E8%8A%82%E7%82%B9"><span class="toc-text">master节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%AF%B9%E7%AD%89%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-text">节点对等的分布式架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E6%89%A9%E5%AE%B9"><span class="toc-text">横向扩容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6-master%E9%80%89%E4%B8%BE%EF%BC%8Creplica%E5%AE%B9%E9%94%99"><span class="toc-text">ES容错机制 master选举，replica容错</span></a></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>117</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>27</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>37</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Elasticsearch%E7%AE%80%E4%BB%8B"><span class="toc-text">Elasticsearch简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch%E5%8A%9F%E8%83%BD"><span class="toc-text">Elasticsearch功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%B1%BB%E6%9F%A5%E8%AF%A2"><span class="toc-text">各类查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">复合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean-Query"><span class="toc-text">Boolean Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-text">搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-text">分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-text">高亮</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-text">数据聚合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-text">自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">拼音分词器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elasticsearch%E9%9B%86%E7%BE%A4"><span class="toc-text">elasticsearch集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E5%88%86%E5%B8%83%E5%BC%8F%E5%9F%BA%E7%A1%80"><span class="toc-text">ES分布式基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ES%E5%AF%B9%E5%A4%8D%E6%9D%82%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%BA%E5%88%B6%E7%9A%84%E9%80%8F%E6%98%8E%E9%9A%90%E8%97%8F%E7%89%B9%E6%80%A7"><span class="toc-text">ES对复杂分布式机制的透明隐藏特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E6%96%B9%E6%A1%88"><span class="toc-text">扩容方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rebalance"><span class="toc-text">rebalance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#master%E8%8A%82%E7%82%B9"><span class="toc-text">master节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%AF%B9%E7%AD%89%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-text">节点对等的分布式架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E6%89%A9%E5%AE%B9"><span class="toc-text">横向扩容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6-master%E9%80%89%E4%B8%BE%EF%BC%8Creplica%E5%AE%B9%E9%94%99"><span class="toc-text">ES容错机制 master选举，replica容错</span></a></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
+        <div class="categories-list-item">
+          方案
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        <div class="categories-list-item">
+          数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
+        <div class="categories-list-item">
+          分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/TPC-IP/" 
+        title="TPC/IP">
+        <div class="tags-list-item">TPC/IP</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/WSDL/" 
+        title="WSDL">
+        <div class="tags-list-item">WSDL</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
+        title="回溯">
+        <div class="tags-list-item">回溯</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Elasticsearch%E7%AE%80%E4%BB%8B"><span class="toc-text">Elasticsearch简介</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Elasticsearch%E5%8A%9F%E8%83%BD"><span class="toc-text">Elasticsearch功能</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95"><span class="toc-text">倒排索引</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">分词器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-text">索引库操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mapping%E5%B1%9E%E6%80%A7"><span class="toc-text">mapping属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DSL%E6%9F%A5%E8%AF%A2%E6%96%87%E6%A1%A3"><span class="toc-text">DSL查询文档</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%A8%E6%96%87%E6%A3%80%E7%B4%A2"><span class="toc-text">全文检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%B1%BB%E6%9F%A5%E8%AF%A2"><span class="toc-text">各类查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%B0%E7%90%86%E6%9F%A5%E8%AF%A2"><span class="toc-text">地理查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%8D%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="toc-text">复合查询</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-Score-Query"><span class="toc-text">Function Score Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Boolean-Query"><span class="toc-text">Boolean Query</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E5%A4%84%E7%90%86"><span class="toc-text">搜索结果处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8E%92%E5%BA%8F"><span class="toc-text">排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E9%A1%B5"><span class="toc-text">分页</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%AB%98%E4%BA%AE"><span class="toc-text">高亮</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%81%9A%E5%90%88"><span class="toc-text">数据聚合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="toc-text">自动补全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%BC%E9%9F%B3%E5%88%86%E8%AF%8D%E5%99%A8"><span class="toc-text">拼音分词器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5"><span class="toc-text">数据同步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#elasticsearch%E9%9B%86%E7%BE%A4"><span class="toc-text">elasticsearch集群</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E5%88%86%E5%B8%83%E5%BC%8F%E5%9F%BA%E7%A1%80"><span class="toc-text">ES分布式基础</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ES%E5%AF%B9%E5%A4%8D%E6%9D%82%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%BA%E5%88%B6%E7%9A%84%E9%80%8F%E6%98%8E%E9%9A%90%E8%97%8F%E7%89%B9%E6%80%A7"><span class="toc-text">ES对复杂分布式机制的透明隐藏特性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A9%E5%AE%B9%E6%96%B9%E6%A1%88"><span class="toc-text">扩容方案</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#rebalance"><span class="toc-text">rebalance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#master%E8%8A%82%E7%82%B9"><span class="toc-text">master节点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%AF%B9%E7%AD%89%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%9E%B6%E6%9E%84"><span class="toc-text">节点对等的分布式架构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%AA%E5%90%91%E6%89%A9%E5%AE%B9"><span class="toc-text">横向扩容</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ES%E5%AE%B9%E9%94%99%E6%9C%BA%E5%88%B6-master%E9%80%89%E4%B8%BE%EF%BC%8Creplica%E5%AE%B9%E9%94%99"><span class="toc-text">ES容错机制 master选举，replica容错</span></a></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-04-25</div>
+        <a href="/java4u/2023/04/25/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8/"><div class="recent-posts-item-content">人工智能入门</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-02-01</div>
+        <a href="/java4u/2023/02/01/linux%E6%B7%B1%E5%85%A5%E4%BA%86%E8%A7%A3/"><div class="recent-posts-item-content">linux深入了解</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-01-22</div>
+        <a href="/java4u/2023/01/22/FastAPI/"><div class="recent-posts-item-content">FastAPI</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2022-12-17</div>
+        <a href="/java4u/2022/12/17/DRF/"><div class="recent-posts-item-content">django Rest Framework</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2023
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
