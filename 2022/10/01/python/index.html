@@ -45,7 +45,7 @@
         content="2022-10-01">
       <meta 
         property="og:article:modified_time" 
-        content="2023-05-21">
+        content="2023-05-23">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -291,7 +291,7 @@
     
     
       <span class="dot"></span>
-      <span>2.9k 字</span>
+      <span>3.1k 字</span>
     
   </div>
   
@@ -535,6 +535,12 @@
 <pre class="highlight"><span class="line"><span class="comment">#pip install uvloop</span></span><br><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"><span class="keyword">import</span> uvloop</span><br><span class="line">asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())</span><br><span class="line"><span class="comment"># 之后编写代码与之前的代码一致</span></span><br></pre>
 
 <p>一个asgi（异步服务器网关接口） -&gt; <code>uvicorn</code>内部使用了uvloop</p>
+<h2 id="pytest"><a href="#pytest" class="headerlink" title="pytest"></a>pytest</h2><h3 id="1-pytest-mark-parametrize基本使用"><a href="#1-pytest-mark-parametrize基本使用" class="headerlink" title="1. pytest.mark.parametrize基本使用"></a>1. pytest.mark.parametrize基本使用</h3><pre class="highlight"><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestApi</span>:</span><br><span class="line"></span><br><span class="line"><span class="meta">    @pytest.mark.parametrize(<span class="params"><span class="string">&#x27;args&#x27;</span>, [<span class="string">&#x27;百里&#x27;</span>, <span class="string">&#x27;千里&#x27;</span>, <span class="string">&#x27;议案&#x27;</span>]</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_01_baili</span>(<span class="params">self, args</span>):</span><br><span class="line">        <span class="built_in">print</span>(args)</span><br></pre>
+
+<pre class="highlight"><span class="line"><span class="keyword">import</span> pytest</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestApi</span>:</span><br><span class="line"></span><br><span class="line"><span class="meta">    @pytest.mark.parametrize(<span class="params"><span class="string">&#x27;name,age&#x27;</span>, [[<span class="string">&#x27;百里&#x27;</span>, <span class="string">&#x27;38&#x27;</span>], [<span class="string">&#x27;千里&#x27;</span>, <span class="string">&#x27;18&#x27;</span>]]</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">test_02_baili</span>(<span class="params">self, name, age</span>):</span><br><span class="line">        <span class="built_in">print</span>(name, age)</span><br></pre>
+
+<h3 id="2-pytest-mock使用"><a href="#2-pytest-mock使用" class="headerlink" title="2. pytest-mock使用"></a>2. pytest-mock使用</h3><pre class="highlight"><span class="line"><span class="keyword">def</span> <span class="title function_">test_buy_product_success</span>(<span class="params">mocker</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    购买成功Mock</span></span><br><span class="line"><span class="string">    :param mocker:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 实例化一个产品对象</span></span><br><span class="line">    product = Product()</span><br><span class="line">    <span class="comment"># 对Product中的方法的返回值进行Mock</span></span><br><span class="line">    mock_value = &#123;<span class="string">&quot;id&quot;</span>: <span class="number">1</span>, <span class="string">&quot;name&quot;</span>: <span class="string">&quot;苹果&quot;</span>, <span class="string">&quot;num&quot;</span>: <span class="number">23</span>&#125;</span><br><span class="line">    <span class="comment"># Mock方法</span></span><br><span class="line">    <span class="comment"># 注意：需要指定方法的完整路径</span></span><br><span class="line">    <span class="comment"># mocker.patch 的第一个参数必须是模拟对象的具体路径，第二个参数用来指定返回值</span></span><br><span class="line">    product.get_product_status_by_id = mocker.patch(<span class="string">&quot;testcase.test_product.Product.get_product_status_by_id&quot;</span>,</span><br><span class="line">                                                    return_value=mock_value)</span><br><span class="line">    <span class="comment"># 调用购买产品的方法</span></span><br><span class="line">    result = product.buy_product(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">assert</span> result.get(<span class="string">&quot;status&quot;</span>) == <span class="number">0</span></span><br></pre>
+
 
   </div>
   <div>
@@ -605,7 +611,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%AF%AD%E5%8F%A5"><span class="toc-text">判断语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">数据容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6"><span class="toc-text">函数进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E7%A7%8D%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="toc-text">函数多种传参方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">匿名函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85"><span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="toc-text">魔术方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">类型注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B"><span class="toc-text">协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">1.异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">1.1 事件循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">1.2 快速上手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-await"><span class="toc-text">1.3 await</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-task%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.4 task对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-asyncio-Future%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.5 asyncio.Future对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-concurrent-futures-Future"><span class="toc-text">1.6 concurrent.futures.Future</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">1.7 异步上下文管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uvloop"><span class="toc-text">uvloop</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%AF%AD%E5%8F%A5"><span class="toc-text">判断语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">数据容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6"><span class="toc-text">函数进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E7%A7%8D%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="toc-text">函数多种传参方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">匿名函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85"><span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="toc-text">魔术方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">类型注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B"><span class="toc-text">协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">1.异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">1.1 事件循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">1.2 快速上手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-await"><span class="toc-text">1.3 await</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-task%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.4 task对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-asyncio-Future%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.5 asyncio.Future对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-concurrent-futures-Future"><span class="toc-text">1.6 concurrent.futures.Future</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">1.7 异步上下文管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uvloop"><span class="toc-text">uvloop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytest"><span class="toc-text">pytest</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pytest-mark-parametrize%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-text">1. pytest.mark.parametrize基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pytest-mock%E4%BD%BF%E7%94%A8"><span class="toc-text">2. pytest-mock使用</span></a></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -653,7 +659,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%AF%AD%E5%8F%A5"><span class="toc-text">判断语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">数据容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6"><span class="toc-text">函数进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E7%A7%8D%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="toc-text">函数多种传参方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">匿名函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85"><span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="toc-text">魔术方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">类型注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B"><span class="toc-text">协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">1.异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">1.1 事件循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">1.2 快速上手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-await"><span class="toc-text">1.3 await</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-task%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.4 task对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-asyncio-Future%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.5 asyncio.Future对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-concurrent-futures-Future"><span class="toc-text">1.6 concurrent.futures.Future</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">1.7 异步上下文管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uvloop"><span class="toc-text">uvloop</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%AF%AD%E5%8F%A5"><span class="toc-text">判断语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">数据容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6"><span class="toc-text">函数进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E7%A7%8D%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="toc-text">函数多种传参方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">匿名函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85"><span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="toc-text">魔术方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">类型注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B"><span class="toc-text">协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">1.异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">1.1 事件循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">1.2 快速上手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-await"><span class="toc-text">1.3 await</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-task%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.4 task对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-asyncio-Future%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.5 asyncio.Future对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-concurrent-futures-Future"><span class="toc-text">1.6 concurrent.futures.Future</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">1.7 异步上下文管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uvloop"><span class="toc-text">uvloop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytest"><span class="toc-text">pytest</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pytest-mark-parametrize%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-text">1. pytest.mark.parametrize基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pytest-mock%E4%BD%BF%E7%94%A8"><span class="toc-text">2. pytest-mock使用</span></a></li></ol></li></ol>
       </div>
     </article>
   
@@ -668,55 +674,6 @@
   </div>
   <div class="categories-list">
     
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-        <div class="categories-list-item">
-          数据结构与算法
-          <span class="categories-list-item-badge">55</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
-        <div class="categories-list-item">
-          网络
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">5</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
-        <div class="categories-list-item">
-          编程语言
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
-        <div class="categories-list-item">
-          线程池
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/SQL/">
         <div class="categories-list-item">
           SQL
@@ -724,17 +681,17 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/linux/">
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
-          linux
-          <span class="categories-list-item-badge">1</span>
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
         </div>
       </a>
     
-      <a href="/java4u/categories/AI/">
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
         <div class="categories-list-item">
-          AI
-          <span class="categories-list-item-badge">1</span>
+          框架
+          <span class="categories-list-item-badge">5</span>
         </div>
       </a>
     
@@ -773,6 +730,13 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
         <div class="categories-list-item">
           项目流程
@@ -780,9 +744,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
         <div class="categories-list-item">
-          事务
+          缓存
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -794,9 +758,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
         <div class="categories-list-item">
-          缓存
+          进程
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -808,9 +772,51 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
         <div class="categories-list-item">
-          进程
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -822,6 +828,13 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
         <div class="categories-list-item">
           分布式
@@ -829,9 +842,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/security/">
+      <a href="/java4u/categories/JVM/">
         <div class="categories-list-item">
-          security
+          JVM
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -840,13 +853,6 @@
         <div class="categories-list-item">
           方案
           <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/JVM/">
-        <div class="categories-list-item">
-          JVM
-          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -879,63 +885,15 @@
   <div class="tags-list">
     
       <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
-        title="数组">
-        <div class="tags-list-item">数组</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
-        title="二叉树">
-        <div class="tags-list-item">二叉树</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
-        title="字符串">
-        <div class="tags-list-item">字符串</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
-        title="滑动窗口">
-        <div class="tags-list-item">滑动窗口</div>
-      </a>
-    
-      <a 
-        href="/java4u/tags/TPC-IP/" 
-        title="TPC/IP">
-        <div class="tags-list-item">TPC/IP</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
         title="学习">
         <div class="tags-list-item">学习</div>
       </a>
     
       <a 
-        href="/java4u/tags/WSDL/" 
-        title="WSDL">
-        <div class="tags-list-item">WSDL</div>
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
       </a>
     
       <a 
@@ -945,15 +903,21 @@
       </a>
     
       <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
       </a>
     
       <a 
         href="/java4u/tags/django/" 
         title="django">
         <div class="tags-list-item">django</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
       </a>
     
       <a 
@@ -974,6 +938,48 @@
         <div class="tags-list-item">openscenario</div>
       </a>
     
+      <a 
+        href="/java4u/tags/docker/" 
+        title="docker">
+        <div class="tags-list-item">docker</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/spring/" 
+        title="spring">
+        <div class="tags-list-item">spring</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/python/" 
+        title="python">
+        <div class="tags-list-item">python</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%88%86%E5%B8%83%E5%BC%8F/" 
+        title="分布式">
+        <div class="tags-list-item">分布式</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%B8%9A%E5%8A%A1/" 
+        title="业务">
+        <div class="tags-list-item">业务</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%9B%B4%E6%8D%A2%E6%95%B0%E6%8D%AE%E5%BA%93/" 
+        title="更换数据库">
+        <div class="tags-list-item">更换数据库</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/Disruptor/" 
+        title="Disruptor">
+        <div class="tags-list-item">Disruptor</div>
+      </a>
+    
   </div>
 </div>
   </article>
@@ -992,7 +998,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%AF%AD%E5%8F%A5"><span class="toc-text">判断语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">数据容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6"><span class="toc-text">函数进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E7%A7%8D%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="toc-text">函数多种传参方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">匿名函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85"><span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="toc-text">魔术方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">类型注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B"><span class="toc-text">协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">1.异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">1.1 事件循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">1.2 快速上手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-await"><span class="toc-text">1.3 await</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-task%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.4 task对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-asyncio-Future%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.5 asyncio.Future对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-concurrent-futures-Future"><span class="toc-text">1.6 concurrent.futures.Future</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">1.7 异步上下文管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uvloop"><span class="toc-text">uvloop</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95"><span class="toc-text">基础语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%AF%AD%E5%8F%A5"><span class="toc-text">判断语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-text">循环语句</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AE%B9%E5%99%A8"><span class="toc-text">数据容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6"><span class="toc-text">函数进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-text">函数多返回值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E5%A4%9A%E7%A7%8D%E4%BC%A0%E5%8F%82%E6%96%B9%E5%BC%8F"><span class="toc-text">函数多种传参方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="toc-text">匿名函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">文件操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%82%E5%B8%B8"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97"><span class="toc-text">模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8C%85"><span class="toc-text">包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B1%BB"><span class="toc-text">类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95"><span class="toc-text">构造方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95"><span class="toc-text">魔术方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E6%B3%A8%E8%A7%A3"><span class="toc-text">类型注解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8F%E7%A8%8B"><span class="toc-text">协程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B"><span class="toc-text">1.异步编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="toc-text">1.1 事件循环</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B"><span class="toc-text">1.2 快速上手</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-await"><span class="toc-text">1.3 await</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-task%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.4 task对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-asyncio-Future%E5%AF%B9%E8%B1%A1"><span class="toc-text">1.5 asyncio.Future对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-concurrent-futures-Future"><span class="toc-text">1.6 concurrent.futures.Future</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-%E5%BC%82%E6%AD%A5%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">1.7 异步上下文管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#uvloop"><span class="toc-text">uvloop</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pytest"><span class="toc-text">pytest</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-pytest-mark-parametrize%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="toc-text">1. pytest.mark.parametrize基本使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pytest-mock%E4%BD%BF%E7%94%A8"><span class="toc-text">2. pytest-mock使用</span></a></li></ol></li></ol>
     </article>
   
   
