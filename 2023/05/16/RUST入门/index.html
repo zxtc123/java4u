@@ -45,7 +45,7 @@
         content="2023-05-16">
       <meta 
         property="og:article:modified_time" 
-        content="2023-05-28">
+        content="2023-05-31">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>1.6k 字</span>
+      <span>2.3k 字</span>
     
   </div>
   
@@ -402,6 +402,55 @@
 <h4 id="struct方法"><a href="#struct方法" class="headerlink" title="struct方法"></a>struct方法</h4><pre class="highlight"><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    width : <span class="type">u32</span>,</span><br><span class="line">    length: <span class="type">u32</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Rectangle</span> &#123;</span><br><span class="line">    <span class="comment">// 方法第一个参数是self,表示方法被调用的struct实例</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">area</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> <span class="type">u32</span> &#123;</span><br><span class="line">        <span class="keyword">self</span>.width * <span class="keyword">self</span>.length</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 不把self作为第一个参数的函数，它们叫关联函数</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">square</span>(size: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> Rectangle &#123;</span><br><span class="line">        Rectangle &#123; width: size, length: size &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">sq</span> = Rectangle::<span class="title function_ invoke__">square</span>(<span class="number">20</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">rect</span> = Rectangle &#123;</span><br><span class="line">        width: <span class="number">30</span>,</span><br><span class="line">        length: <span class="number">50</span>,</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, rect.<span class="title function_ invoke__">area</span>());</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:#?&#125;&quot;</span>, rect);</span><br><span class="line">&#125;</span><br></pre>
 
 <h4 id="关联函数"><a href="#关联函数" class="headerlink" title="关联函数"></a>关联函数</h4><p>可以在impl块里定义不把self作为第一个参数的函数，它们叫关联函数。关联函数通常用于构造器 <em><strong>::符号</strong></em>关联函数</p>
+<h2 id="6-枚举"><a href="#6-枚举" class="headerlink" title="6. 枚举"></a>6. 枚举</h2><h3 id="6-1-定义枚举"><a href="#6-1-定义枚举" class="headerlink" title="6.1 定义枚举"></a>6.1 定义枚举</h3><pre class="highlight"><span class="line"><span class="keyword">enum</span> <span class="title class_">IpAddrKind</span> &#123;</span><br><span class="line">    V4,</span><br><span class="line">    V6,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">four</span> = IpAddrKind::V4;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">six</span> = IpAddrKind::V6;</span><br><span class="line">    <span class="title function_ invoke__">route</span>(four);</span><br><span class="line">    <span class="title function_ invoke__">route</span>(six);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">route</span>(ip_kind: IpAddrKind)&#123;&#125;</span><br></pre>
+
+<p>可以将数据附加到枚举的变体中</p>
+<pre class="highlight"><span class="line"><span class="keyword">enum</span> <span class="title class_">IpAddr</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">V4</span>(<span class="type">u8</span>,<span class="type">u8</span>,<span class="type">u8</span>,<span class="type">u8</span>),</span><br><span class="line">    <span class="title function_ invoke__">V6</span>(<span class="type">String</span>),</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 不需要额外使用struct</span></span><br><span class="line"><span class="comment">// 每个变体可以拥有不同类型以及关联的数据量</span></span><br></pre>
+
+<h3 id="6-2-Option枚举"><a href="#6-2-Option枚举" class="headerlink" title="6.2 Option枚举"></a>6.2 Option枚举</h3><pre class="highlight"><span class="line"><span class="keyword">let</span> <span class="variable">some_number</span> = <span class="title function_ invoke__">Some</span>(<span class="number">5</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">some_string</span> = <span class="title function_ invoke__">Some</span>(<span class="string">&quot;A String&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">absent_number</span>: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; = <span class="literal">None</span>;</span><br></pre>
+
+<h3 id="6-3-控制流运算符-match"><a href="#6-3-控制流运算符-match" class="headerlink" title="6.3 控制流运算符 - match"></a>6.3 控制流运算符 - match</h3><pre class="highlight"><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">UsState</span> &#123;</span><br><span class="line">    Alabama,</span><br><span class="line">    Alaska,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">Coin</span> &#123;</span><br><span class="line">    Penny,</span><br><span class="line">    Nickel,</span><br><span class="line">    Dime,</span><br><span class="line">    <span class="title function_ invoke__">Quarter</span>(UsState),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">value_in_cents</span>(coin: Coin) <span class="punctuation">-&gt;</span> <span class="type">u8</span> &#123;</span><br><span class="line">    <span class="keyword">match</span> coin &#123;</span><br><span class="line">        Coin::Penny =&gt; <span class="number">1</span>,</span><br><span class="line">        Coin::Nickel =&gt; <span class="number">5</span>,</span><br><span class="line">        Coin::Dime =&gt; <span class="number">10</span>,</span><br><span class="line">        Coin::<span class="title function_ invoke__">Quarter</span>(state) =&gt; &#123;</span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;State quarter from &#123;:?&#125;!&quot;</span>, state);</span><br><span class="line">            <span class="number">25</span></span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = Coin::<span class="title function_ invoke__">Quarter</span>(UsState::Alaska);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, <span class="title function_ invoke__">value_in_cents</span>(c));</span><br><span class="line">&#125;</span><br></pre>
+
+<p>match匹配必须穷举所有的可能，或者使用_通配符替代其余没列出的值</p>
+<pre class="highlight"><span class="line">    <span class="keyword">let</span> <span class="variable">v</span> = <span class="title function_ invoke__">Some</span>(<span class="number">0u8</span>);</span><br><span class="line">    <span class="keyword">match</span> v &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(<span class="number">3</span>) =&gt; <span class="built_in">println!</span>(<span class="string">&quot;three&quot;</span>),</span><br><span class="line">        _ =&gt; (),</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Some</span>(<span class="number">3</span>) = v &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;three&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 只关心一种匹配而忽略其他匹配情况</span></span><br></pre>
+
+<h2 id="7-Package-Crate-Module"><a href="#7-Package-Crate-Module" class="headerlink" title="7. Package,Crate,Module"></a>7. Package,Crate,Module</h2><p>Package(包)：cargo特性，让你构建&#x2F;测试&#x2F;共享crate</p>
+<p>Crate(单元包)：一个模块树，它可以产生一个library或可执行文件</p>
+<ul>
+<li>binary</li>
+<li>library</li>
+</ul>
+<p>Module(模块)：让你控制代码的组织&#x2F;作用域&#x2F;私有路径</p>
+<p>Path(路径)：为struct&#x2F;function或module等项命名的方式</p>
+<h4 id="use的习惯用法"><a href="#use的习惯用法" class="headerlink" title="use的习惯用法"></a>use的习惯用法</h4><ul>
+<li>函数：将函数的父级模块引入作用域（指定到父级）</li>
+<li>struct,enum,其它：指定完整路径（指定到本身）</li>
+</ul>
+<p>pub use:重导出：</p>
+<ul>
+<li>将条目引入作用域</li>
+<li>该条目可以被外部代码引入到它们的作用域</li>
+</ul>
+<h2 id="8-常用的集合"><a href="#8-常用的集合" class="headerlink" title="8. 常用的集合"></a>8. 常用的集合</h2><h3 id="8-1-Vector"><a href="#8-1-Vector" class="headerlink" title="8.1 Vector"></a>8.1 Vector</h3><p>vector只能存储相同类型的数据，可以使用enum来存储多种数据类型（多个变体在一个enum下）</p>
+<pre class="highlight"><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">row</span> = <span class="built_in">vec!</span>[</span><br><span class="line">        SpreadsheetCell::<span class="title function_ invoke__">Int</span>(<span class="number">3</span>),</span><br><span class="line">        SpreadsheetCell::<span class="title function_ invoke__">Float</span>(<span class="number">10.12</span>),</span><br><span class="line">        SpreadsheetCell::<span class="title function_ invoke__">Text</span>(String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;blue&quot;</span>)),</span><br><span class="line">    ];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">SpreadsheetCell</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Int</span>(<span class="type">i32</span>),</span><br><span class="line">    <span class="title function_ invoke__">Float</span>(<span class="type">f64</span>),</span><br><span class="line">    <span class="title function_ invoke__">Text</span>(<span class="type">String</span>),</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="8-2-String"><a href="#8-2-String" class="headerlink" title="8.2 String"></a>8.2 String</h3><p>push_str()：把一个字符串切片附加到String</p>
+<p>push()：把单个字符附加到String</p>
+<p>***+***连接字符串</p>
+<p>format!：连接多个字符串</p>
+<pre class="highlight"><span class="line"><span class="keyword">let</span> <span class="variable">s1</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;tic&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s2</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;tac&quot;</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">s3</span> = String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;toe&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="built_in">format!</span>(<span class="string">&quot;&#123;&#125;-&#123;&#125;-&#123;&#125;&quot;</span>, s1,s2,s3);</span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,s);</span><br></pre>
+
+<h4 id="遍历String的方法"><a href="#遍历String的方法" class="headerlink" title="遍历String的方法"></a>遍历String的方法</h4><ul>
+<li>对于标量值：chars()</li>
+<li>对于字节：bytes()</li>
+</ul>
+<h3 id="8-3-HashMap"><a href="#8-3-HashMap" class="headerlink" title="8.3 HashMap"></a>8.3 HashMap</h3><p>在元素类型为tuple的vector上使用collect可以组建一个hashmap</p>
+<pre class="highlight"><span class="line"><span class="keyword">let</span> <span class="variable">teams</span> = <span class="built_in">vec!</span>[String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Blue&quot;</span>), String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Yellow&quot;</span>)];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">intial_scores</span> = <span class="built_in">vec!</span>[<span class="number">10</span>,<span class="number">50</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">scores</span>: HashMap&lt;_,_&gt;=teams.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">zip</span>(intial_scores.<span class="title function_ invoke__">iter</span>()).<span class="title function_ invoke__">collect</span>();</span><br></pre>
+
+<p>entry方法：检查指定的K是否对应一个V</p>
+<p>Entry的or_insert()方法：如果K存在，返回一个对应V的可变引用；如果K不存在，将方法参数作为K的新值插入，返回这个值的可变引用</p>
+<pre class="highlight"><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">scores</span> = HashMap::<span class="title function_ invoke__">new</span>();</span><br><span class="line">scores.<span class="title function_ invoke__">insert</span>(String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Blue&quot;</span>), <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">scores.<span class="title function_ invoke__">entry</span>(String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Yellow&quot;</span>)).<span class="title function_ invoke__">or_insert</span>(<span class="number">50</span>);</span><br><span class="line">scores.<span class="title function_ invoke__">entry</span>(String::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Blue&quot;</span>)).<span class="title function_ invoke__">or_insert</span>(<span class="number">50</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, scores);</span><br></pre>
+
 
   </div>
   <div>
@@ -458,7 +507,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8"><span class="toc-text">RUST入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%9A%E7%94%A8%E7%9A%84%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">3. 通用的编程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">3.1 变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%87%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型：标量类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.3 数据类型：复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuple"><span class="toc-text">Tuple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%87%BD%E6%95%B0"><span class="toc-text">3.4 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.5 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E6%8E%A7%E5%88%B6%E6%B5%81%EF%BC%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.6 控制流：循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">4. 所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-stack-vs-heap"><span class="toc-text">4.1 stack vs heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="toc-text">4.2 所有权规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%89%80%E6%9C%89%E6%9D%83%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 所有权与函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-text">4.4 引用与借用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">引用的规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%88%87%E7%89%87"><span class="toc-text">4.5 切片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-struct"><span class="toc-text">5. struct</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-struct"><span class="toc-text">tuple struct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct%E6%96%B9%E6%B3%95"><span class="toc-text">struct方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8"><span class="toc-text">RUST入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%9A%E7%94%A8%E7%9A%84%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">3. 通用的编程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">3.1 变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%87%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型：标量类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.3 数据类型：复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuple"><span class="toc-text">Tuple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%87%BD%E6%95%B0"><span class="toc-text">3.4 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.5 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E6%8E%A7%E5%88%B6%E6%B5%81%EF%BC%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.6 控制流：循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">4. 所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-stack-vs-heap"><span class="toc-text">4.1 stack vs heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="toc-text">4.2 所有权规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%89%80%E6%9C%89%E6%9D%83%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 所有权与函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-text">4.4 引用与借用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">引用的规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%88%87%E7%89%87"><span class="toc-text">4.5 切片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-struct"><span class="toc-text">5. struct</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-struct"><span class="toc-text">tuple struct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct%E6%96%B9%E6%B3%95"><span class="toc-text">struct方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9E%9A%E4%B8%BE"><span class="toc-text">6. 枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE"><span class="toc-text">6.1 定义枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-Option%E6%9E%9A%E4%B8%BE"><span class="toc-text">6.2 Option枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%8E%A7%E5%88%B6%E6%B5%81%E8%BF%90%E7%AE%97%E7%AC%A6-match"><span class="toc-text">6.3 控制流运算符 - match</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Package-Crate-Module"><span class="toc-text">7. Package,Crate,Module</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#use%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95"><span class="toc-text">use的习惯用法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%B8%B8%E7%94%A8%E7%9A%84%E9%9B%86%E5%90%88"><span class="toc-text">8. 常用的集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-Vector"><span class="toc-text">8.1 Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-String"><span class="toc-text">8.2 String</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86String%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">遍历String的方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-HashMap"><span class="toc-text">8.3 HashMap</span></a></li></ol></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -506,7 +555,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8"><span class="toc-text">RUST入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%9A%E7%94%A8%E7%9A%84%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">3. 通用的编程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">3.1 变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%87%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型：标量类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.3 数据类型：复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuple"><span class="toc-text">Tuple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%87%BD%E6%95%B0"><span class="toc-text">3.4 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.5 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E6%8E%A7%E5%88%B6%E6%B5%81%EF%BC%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.6 控制流：循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">4. 所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-stack-vs-heap"><span class="toc-text">4.1 stack vs heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="toc-text">4.2 所有权规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%89%80%E6%9C%89%E6%9D%83%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 所有权与函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-text">4.4 引用与借用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">引用的规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%88%87%E7%89%87"><span class="toc-text">4.5 切片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-struct"><span class="toc-text">5. struct</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-struct"><span class="toc-text">tuple struct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct%E6%96%B9%E6%B3%95"><span class="toc-text">struct方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8"><span class="toc-text">RUST入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%9A%E7%94%A8%E7%9A%84%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">3. 通用的编程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">3.1 变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%87%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型：标量类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.3 数据类型：复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuple"><span class="toc-text">Tuple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%87%BD%E6%95%B0"><span class="toc-text">3.4 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.5 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E6%8E%A7%E5%88%B6%E6%B5%81%EF%BC%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.6 控制流：循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">4. 所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-stack-vs-heap"><span class="toc-text">4.1 stack vs heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="toc-text">4.2 所有权规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%89%80%E6%9C%89%E6%9D%83%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 所有权与函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-text">4.4 引用与借用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">引用的规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%88%87%E7%89%87"><span class="toc-text">4.5 切片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-struct"><span class="toc-text">5. struct</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-struct"><span class="toc-text">tuple struct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct%E6%96%B9%E6%B3%95"><span class="toc-text">struct方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9E%9A%E4%B8%BE"><span class="toc-text">6. 枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE"><span class="toc-text">6.1 定义枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-Option%E6%9E%9A%E4%B8%BE"><span class="toc-text">6.2 Option枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%8E%A7%E5%88%B6%E6%B5%81%E8%BF%90%E7%AE%97%E7%AC%A6-match"><span class="toc-text">6.3 控制流运算符 - match</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Package-Crate-Module"><span class="toc-text">7. Package,Crate,Module</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#use%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95"><span class="toc-text">use的习惯用法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%B8%B8%E7%94%A8%E7%9A%84%E9%9B%86%E5%90%88"><span class="toc-text">8. 常用的集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-Vector"><span class="toc-text">8.1 Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-String"><span class="toc-text">8.2 String</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86String%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">遍历String的方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-HashMap"><span class="toc-text">8.3 HashMap</span></a></li></ol></li></ol></li></ol>
       </div>
     </article>
   
@@ -521,17 +570,38 @@
   </div>
   <div class="categories-list">
     
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
           数据结构与算法
           <span class="categories-list-item-badge">55</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
-        <div class="categories-list-item">
-          加密解码
-          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -556,72 +626,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
         <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">5</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/linux/">
-        <div class="categories-list-item">
-          linux
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
-        <div class="categories-list-item">
-          编程语言
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/AI/">
-        <div class="categories-list-item">
-          AI
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
-        <div class="categories-list-item">
-          面试
-          <span class="categories-list-item-badge">8</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/security/">
-        <div class="categories-list-item">
-          security
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
-        <div class="categories-list-item">
-          分布式
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/JVM/">
-        <div class="categories-list-item">
-          JVM
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
-        <div class="categories-list-item">
-          方案
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
-        <div class="categories-list-item">
-          调优
+          加密解码
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -710,6 +717,48 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">8</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
+        <div class="categories-list-item">
+          方案
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%B0%83%E4%BC%98/">
+        <div class="categories-list-item">
+          调优
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
         <div class="categories-list-item">
           分布式搜索
@@ -732,15 +781,15 @@
   <div class="tags-list">
     
       <a 
-        href="/java4u/tags/leetcode/" 
-        title="leetcode">
-        <div class="tags-list-item">leetcode</div>
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
-        title="二叉树">
-        <div class="tags-list-item">二叉树</div>
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
       </a>
     
       <a 
@@ -750,15 +799,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
-        title="字符串">
-        <div class="tags-list-item">字符串</div>
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
-        title="链表">
-        <div class="tags-list-item">链表</div>
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
       </a>
     
       <a 
@@ -768,15 +817,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
-        title="滑动窗口">
-        <div class="tags-list-item">滑动窗口</div>
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
       </a>
     
       <a 
@@ -792,39 +841,39 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
-        title="位运算">
-        <div class="tags-list-item">位运算</div>
+        href="/java4u/tags/%E6%95%B0%E5%AD%A6/" 
+        title="数学">
+        <div class="tags-list-item">数学</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
-        title="二分法">
-        <div class="tags-list-item">二分法</div>
+        href="/java4u/tags/django/" 
+        title="django">
+        <div class="tags-list-item">django</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
-        title="回溯">
-        <div class="tags-list-item">回溯</div>
+        href="/java4u/tags/MQ/" 
+        title="MQ">
+        <div class="tags-list-item">MQ</div>
       </a>
     
       <a 
-        href="/java4u/tags/OAuth/" 
-        title="OAuth">
-        <div class="tags-list-item">OAuth</div>
+        href="/java4u/tags/Reactor/" 
+        title="Reactor">
+        <div class="tags-list-item">Reactor</div>
       </a>
     
       <a 
-        href="/java4u/tags/RPC/" 
-        title="RPC">
-        <div class="tags-list-item">RPC</div>
+        href="/java4u/tags/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" 
+        title="参考资料">
+        <div class="tags-list-item">参考资料</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
-        title="源码">
-        <div class="tags-list-item">源码</div>
+        href="/java4u/tags/docker/" 
+        title="docker">
+        <div class="tags-list-item">docker</div>
       </a>
     
   </div>
@@ -845,7 +894,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8"><span class="toc-text">RUST入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%9A%E7%94%A8%E7%9A%84%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">3. 通用的编程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">3.1 变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%87%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型：标量类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.3 数据类型：复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuple"><span class="toc-text">Tuple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%87%BD%E6%95%B0"><span class="toc-text">3.4 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.5 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E6%8E%A7%E5%88%B6%E6%B5%81%EF%BC%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.6 控制流：循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">4. 所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-stack-vs-heap"><span class="toc-text">4.1 stack vs heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="toc-text">4.2 所有权规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%89%80%E6%9C%89%E6%9D%83%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 所有权与函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-text">4.4 引用与借用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">引用的规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%88%87%E7%89%87"><span class="toc-text">4.5 切片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-struct"><span class="toc-text">5. struct</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-struct"><span class="toc-text">tuple struct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct%E6%96%B9%E6%B3%95"><span class="toc-text">struct方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li></ol></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8"><span class="toc-text">RUST入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%AE%80%E4%BB%8B"><span class="toc-text">1. 简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="toc-text">2. 基础命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%80%9A%E7%94%A8%E7%9A%84%E7%BC%96%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="toc-text">3. 通用的编程概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="toc-text">3.1 变量与可变性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%A0%87%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.2 数据类型：标量类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%9A%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-text">3.3 数据类型：复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Tuple"><span class="toc-text">Tuple</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B0%E7%BB%84"><span class="toc-text">数组</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E5%87%BD%E6%95%B0"><span class="toc-text">3.4 函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E6%8E%A7%E5%88%B6%E6%B5%81"><span class="toc-text">3.5 控制流</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E6%8E%A7%E5%88%B6%E6%B5%81%EF%BC%9A%E5%BE%AA%E7%8E%AF"><span class="toc-text">3.6 控制流：循环</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%80%E6%9C%89%E6%9D%83"><span class="toc-text">4. 所有权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-stack-vs-heap"><span class="toc-text">4.1 stack vs heap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E6%89%80%E6%9C%89%E6%9D%83%E8%A7%84%E5%88%99"><span class="toc-text">4.2 所有权规则</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E6%89%80%E6%9C%89%E6%9D%83%E4%B8%8E%E5%87%BD%E6%95%B0"><span class="toc-text">4.3 所有权与函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%BC%95%E7%94%A8%E4%B8%8E%E5%80%9F%E7%94%A8"><span class="toc-text">4.4 引用与借用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E7%9A%84%E8%A7%84%E5%88%99"><span class="toc-text">引用的规则</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E5%88%87%E7%89%87"><span class="toc-text">4.5 切片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-struct"><span class="toc-text">5. struct</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tuple-struct"><span class="toc-text">tuple struct</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#struct%E6%96%B9%E6%B3%95"><span class="toc-text">struct方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="toc-text">关联函数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%9E%9A%E4%B8%BE"><span class="toc-text">6. 枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE"><span class="toc-text">6.1 定义枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-Option%E6%9E%9A%E4%B8%BE"><span class="toc-text">6.2 Option枚举</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E6%8E%A7%E5%88%B6%E6%B5%81%E8%BF%90%E7%AE%97%E7%AC%A6-match"><span class="toc-text">6.3 控制流运算符 - match</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-Package-Crate-Module"><span class="toc-text">7. Package,Crate,Module</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#use%E7%9A%84%E4%B9%A0%E6%83%AF%E7%94%A8%E6%B3%95"><span class="toc-text">use的习惯用法</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%B8%B8%E7%94%A8%E7%9A%84%E9%9B%86%E5%90%88"><span class="toc-text">8. 常用的集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#8-1-Vector"><span class="toc-text">8.1 Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-2-String"><span class="toc-text">8.2 String</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%8D%E5%8E%86String%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">遍历String的方法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-3-HashMap"><span class="toc-text">8.3 HashMap</span></a></li></ol></li></ol></li></ol>
     </article>
   
   
