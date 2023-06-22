@@ -45,7 +45,7 @@
         content="2023-04-25">
       <meta 
         property="og:article:modified_time" 
-        content="2023-05-07">
+        content="2023-06-22">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>2k 字</span>
+      <span>4.7k 字</span>
     
   </div>
   
@@ -362,7 +362,69 @@
 <li>最近在深度学习方面取得的许多进展，大都是由廉价传感器和互联网规模应用所产生的大量数据，以及（通过GPU）算力的突破来触发的。</li>
 <li>整个系统优化是获得高性能的关键环节。有效的深度学习框架的开源使得这一点的设计和实现变得非常容易。</li>
 </ul>
-<h2 id="二-预备知识"><a href="#二-预备知识" class="headerlink" title="二. 预备知识"></a>二. 预备知识</h2><h3 id="2-1-数据操作"><a href="#2-1-数据操作" class="headerlink" title="2.1 数据操作"></a>2.1 数据操作</h3>
+<h2 id="二-预备知识"><a href="#二-预备知识" class="headerlink" title="二. 预备知识"></a>二. 预备知识</h2><h3 id="2-1-数据操作"><a href="#2-1-数据操作" class="headerlink" title="2.1 数据操作"></a>2.1 数据操作</h3><pre class="highlight"><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="comment"># 创建一个行向量x</span></span><br><span class="line">x = tf.<span class="built_in">range</span>(<span class="number">12</span>)</span><br><span class="line"></span><br><span class="line">&lt;tf.Tensor: shape=(<span class="number">12</span>,), dtype=int32, numpy=array([ <span class="number">0</span>,  <span class="number">1</span>,  <span class="number">2</span>,  <span class="number">3</span>,  <span class="number">4</span>,  <span class="number">5</span>,  <span class="number">6</span>,  <span class="number">7</span>,  <span class="number">8</span>,  <span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>])&gt;</span><br><span class="line"><span class="comment"># 通过shape访问张量的形状</span></span><br><span class="line">x.shape</span><br><span class="line"><span class="comment"># 形状的所有元素乘积</span></span><br><span class="line">tf.size(x)</span><br><span class="line"><span class="comment"># 改变一个张量的形状而不改变元素数量和元素值</span></span><br><span class="line">X = tf.reshape(x, (<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line"><span class="comment"># 通过提供包含数值的Python列表（或嵌套列表），来为所需张量中的每个元素赋予确定值</span></span><br><span class="line">tf.constant([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br><span class="line"></span><br><span class="line">&lt;tf.Tensor: shape=(<span class="number">3</span>, <span class="number">4</span>), dtype=int32, numpy=</span><br><span class="line">array([[<span class="number">2</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>],</span><br><span class="line">       [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>],</span><br><span class="line">       [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]], dtype=int32)&gt;</span><br></pre>
+
+<h4 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h4><pre class="highlight"><span class="line">在数学表示法中，我们将通过符号 𝑓:ℝ→ℝ来表示一元标量运算符（只接收一个输入）。 </span><br><span class="line">这意味着该函数从任何实数（ℝ）映射到另一个实数。 同样，我们通过符号 𝑓:ℝ,ℝ→ℝ</span><br><span class="line">表示二元标量运算符，这意味着该函数接收两个输入，并产生一个输出。 </span><br><span class="line">给定同一形状的任意两个向量 𝐮 和 𝐯 和二元运算符 𝑓， 我们可以得到向量 𝐜=𝐹(𝐮,𝐯)。 </span><br><span class="line">具体计算方法是 𝑐𝑖←𝑓(𝑢𝑖,𝑣𝑖)， 其中 𝑐𝑖、 𝑢𝑖 和 𝑣𝑖 分别是向量 𝐜、 𝐮 和 𝐯中的元素。</span><br><span class="line">在这里，我们通过将标量函数升级为按元素向量运算来生成向量值  𝐹:ℝ𝑑,ℝ𝑑→ℝ𝑑。</span><br></pre>
+
+<pre class="highlight"><span class="line">x = tf.constant([1.0, 2, 4, 8])</span><br><span class="line">y = tf.constant([2.0, 2, 2, 2])</span><br><span class="line">x + y, x - y, x * y, x / y, x ** y  # **运算符是求幂运算</span><br><span class="line"></span><br><span class="line">(&lt;tf.Tensor: shape=(4,), dtype=float32, numpy=array([ 3.,  4.,  6., 10.], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(4,), dtype=float32, numpy=array([-1.,  0.,  2.,  6.], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(4,), dtype=float32, numpy=array([ 2.,  4.,  8., 16.], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(4,), dtype=float32, numpy=array([0.5, 1. , 2. , 4. ], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(4,), dtype=float32, numpy=array([ 1.,  4., 16., 64.], dtype=float32)&gt;)</span><br></pre>
+
+<p>可以把多个张量<em>连结</em>（concatenate）在一起， 把它们端对端地叠起来形成一个更大的张量。</p>
+<pre class="highlight"><span class="line">X = tf.reshape(tf.<span class="built_in">range</span>(<span class="number">12</span>, dtype=tf.float32), (<span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line">Y = tf.constant([[<span class="number">2.0</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>], [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>], [<span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]])</span><br><span class="line">tf.concat([X, Y], axis=<span class="number">0</span>), tf.concat([X, Y], axis=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">(&lt;tf.Tensor: shape=(<span class="number">6</span>, <span class="number">4</span>), dtype=float32, numpy=</span><br><span class="line"> array([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">        [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>],</span><br><span class="line">        [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>],</span><br><span class="line">        [ <span class="number">2.</span>,  <span class="number">1.</span>,  <span class="number">4.</span>,  <span class="number">3.</span>],</span><br><span class="line">        [ <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>,  <span class="number">4.</span>],</span><br><span class="line">        [ <span class="number">4.</span>,  <span class="number">3.</span>,  <span class="number">2.</span>,  <span class="number">1.</span>]], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(<span class="number">3</span>, <span class="number">8</span>), dtype=float32, numpy=</span><br><span class="line"> array([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>,  <span class="number">2.</span>,  <span class="number">1.</span>,  <span class="number">4.</span>,  <span class="number">3.</span>],</span><br><span class="line">        [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>,  <span class="number">4.</span>],</span><br><span class="line">        [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>,  <span class="number">4.</span>,  <span class="number">3.</span>,  <span class="number">2.</span>,  <span class="number">1.</span>]], dtype=float32)&gt;)</span><br></pre>
+
+<h4 id="广播机制"><a href="#广播机制" class="headerlink" title="广播机制"></a>广播机制</h4><p>广播机制工作方式如下：</p>
+<ol>
+<li>通过适当复制元素来扩展一个或两个数组，以便在转换之后，两个张量具有相同的形状；</li>
+<li>对生成的数组执行按元素操作。</li>
+</ol>
+<pre class="highlight"><span class="line">a = tf.reshape(tf.<span class="built_in">range</span>(<span class="number">3</span>), (<span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">b = tf.reshape(tf.<span class="built_in">range</span>(<span class="number">2</span>), (<span class="number">1</span>, <span class="number">2</span>))</span><br><span class="line">a, b</span><br><span class="line"></span><br><span class="line">(&lt;tf.Tensor: shape=(<span class="number">3</span>, <span class="number">1</span>), dtype=int32, numpy=</span><br><span class="line"> array([[<span class="number">0</span>],</span><br><span class="line">        [<span class="number">1</span>],</span><br><span class="line">        [<span class="number">2</span>]], dtype=int32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(<span class="number">1</span>, <span class="number">2</span>), dtype=int32, numpy=array([[<span class="number">0</span>, <span class="number">1</span>]], dtype=int32)&gt;)</span><br><span class="line"></span><br><span class="line">a + b</span><br><span class="line"></span><br><span class="line">&lt;tf.Tensor: shape=(<span class="number">3</span>, <span class="number">2</span>), dtype=int32, numpy=</span><br><span class="line">array([[<span class="number">0</span>, <span class="number">1</span>],</span><br><span class="line">       [<span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">       [<span class="number">2</span>, <span class="number">3</span>]], dtype=int32)&gt;</span><br></pre>
+
+<h4 id="索引和切片"><a href="#索引和切片" class="headerlink" title="索引和切片"></a>索引和切片</h4><p>张量中的元素可以通过索引访问。</p>
+<pre class="highlight"><span class="line">X[-<span class="number">1</span>], X[<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line">(&lt;tf.Tensor: shape=(<span class="number">4</span>,), dtype=float32, numpy=array([ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(<span class="number">2</span>, <span class="number">4</span>), dtype=float32, numpy=</span><br><span class="line"> array([[ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">6.</span>,  <span class="number">7.</span>],</span><br><span class="line">        [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>]], dtype=float32)&gt;)</span><br></pre>
+
+<p>TensorFlow中的<code>Tensors</code>是不可变的，也不能被赋值。 TensorFlow中的<code>Variables</code>是支持赋值的可变容器。</p>
+<pre class="highlight"><span class="line">X_var = tf.Variable(X)</span><br><span class="line">X_var[<span class="number">1</span>, <span class="number">2</span>].assign(<span class="number">9</span>)</span><br><span class="line">X_var</span><br><span class="line"></span><br><span class="line">&lt;tf.Variable <span class="string">&#x27;Variable:0&#x27;</span> shape=(<span class="number">3</span>, <span class="number">4</span>) dtype=float32, numpy=</span><br><span class="line">array([[ <span class="number">0.</span>,  <span class="number">1.</span>,  <span class="number">2.</span>,  <span class="number">3.</span>],</span><br><span class="line">       [ <span class="number">4.</span>,  <span class="number">5.</span>,  <span class="number">9.</span>,  <span class="number">7.</span>],</span><br><span class="line">       [ <span class="number">8.</span>,  <span class="number">9.</span>, <span class="number">10.</span>, <span class="number">11.</span>]], dtype=float32)&gt;</span><br></pre>
+
+<h3 id="2-2-数据预处理"><a href="#2-2-数据预处理" class="headerlink" title="2.2 数据预处理"></a>2.2 数据预处理</h3><p><code>pandas</code>预处理原始数据，并将原始数据转换为张量格式</p>
+<pre class="highlight"><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">data = pd.read_csv(data_file)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line">   NumRooms Alley   Price</span><br><span class="line"><span class="number">0</span>       NaN  Pave  <span class="number">127500</span></span><br><span class="line"><span class="number">1</span>       <span class="number">2.0</span>   NaN  <span class="number">106000</span></span><br><span class="line"><span class="number">2</span>       <span class="number">4.0</span>   NaN  <span class="number">178100</span></span><br><span class="line"><span class="number">3</span>       NaN   NaN  <span class="number">140000</span></span><br></pre>
+
+<p>通过位置索引<code>iloc</code>，我们将<code>data</code>分成<code>inputs</code>和<code>outputs</code>， 其中前者为<code>data</code>的前两列，而后者为<code>data</code>的最后一列。 对于<code>inputs</code>中缺少的数值，我们用同一列的均值替换“NaN”项。</p>
+<pre class="highlight"><span class="line">inputs, outputs = data.iloc[:, <span class="number">0</span>:<span class="number">2</span>], data.iloc[:, <span class="number">2</span>]</span><br><span class="line">inputs = inputs.fillna(inputs.mean())</span><br><span class="line"><span class="built_in">print</span>(inputs)</span><br><span class="line"></span><br><span class="line">   NumRooms Alley</span><br><span class="line"><span class="number">0</span>       <span class="number">3.0</span>  Pave</span><br><span class="line"><span class="number">1</span>       <span class="number">2.0</span>   NaN</span><br><span class="line"><span class="number">2</span>       <span class="number">4.0</span>   NaN</span><br><span class="line"><span class="number">3</span>       <span class="number">3.0</span>   NaN</span><br></pre>
+
+<p>[<strong>对于<code>inputs</code>中的类别值或离散值，我们将“NaN”视为一个类别。</strong>] 由于“巷子类型”（“Alley”）列只接受两种类型的类别值“Pave”和“NaN”， <code>pandas</code>可以自动将此列转换为两列“Alley_Pave”和“Alley_nan”。 巷子类型为“Pave”的行会将“Alley_Pave”的值设置为1，“Alley_nan”的值设置为0。 缺少巷子类型的行会将“Alley_Pave”和“Alley_nan”分别设置为0和1。</p>
+<pre class="highlight"><span class="line">inputs = pd.get_dummies(inputs, dummy_na=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(inputs)</span><br><span class="line"></span><br><span class="line">  NumRooms  Alley_Pave  Alley_nan</span><br><span class="line"><span class="number">0</span>       <span class="number">3.0</span>           <span class="number">1</span>          <span class="number">0</span></span><br><span class="line"><span class="number">1</span>       <span class="number">2.0</span>           <span class="number">0</span>          <span class="number">1</span></span><br><span class="line"><span class="number">2</span>       <span class="number">4.0</span>           <span class="number">0</span>          <span class="number">1</span></span><br><span class="line"><span class="number">3</span>       <span class="number">3.0</span>           <span class="number">0</span>          <span class="number">1</span></span><br></pre>
+
+<h3 id="2-3-线性代数"><a href="#2-3-线性代数" class="headerlink" title="2.3 线性代数"></a>2.3 线性代数</h3><h4 id="2-3-1-标量"><a href="#2-3-1-标量" class="headerlink" title="2.3.1 标量"></a>2.3.1 标量</h4><p>仅包含一个数值被称为<em>标量</em>（scalar）, 如果要将此华氏度值转换为更常用的摄氏度， 则可以计算表达式 $c &#x3D; \frac{5}{9}(f-32)$<br>$\mathbb{R}$表示所有实数标量的空间，表达式 $x \in \mathbb{R}$ 表示x是一个实值标量的正式形式</p>
+<h4 id="2-3-2-向量"><a href="#2-3-2-向量" class="headerlink" title="2.3.2 向量"></a>2.3.2 向量</h4><p>向量（vector）可以被视为标量值组成的列表。一个向量X由n个实值标量组成，可以将其表示为 $x \in \mathbb{R}^n$ 向量的长度通常称为向量的维度。<br>形状（shape）是一个元素组，列出了张量沿每个轴的长度（维数）</p>
+<h4 id="2-3-3-矩阵"><a href="#2-3-3-矩阵" class="headerlink" title="2.3.3 矩阵"></a>2.3.3 矩阵</h4><p>正如向量将标量从零阶推广到一阶，矩阵将向量从一阶推广到二阶，数学表示法使用 $A \in \mathbb{R}^{m \times n}$ 来表示矩阵A</p>
+<h4 id="2-3-4-张量"><a href="#2-3-4-张量" class="headerlink" title="2.3.4 张量"></a>2.3.4 张量</h4><p>张量是描述具有任意数量轴的n维数组的通用方法。 例如，向量是一阶张量，矩阵是二阶张量。</p>
+<h4 id="2-3-5-张量算法的基本性质"><a href="#2-3-5-张量算法的基本性质" class="headerlink" title="2.3.5 张量算法的基本性质"></a>2.3.5 张量算法的基本性质</h4><p>给定具有相同形状的任意两个张量，任何按元素二元运算的结果都将是相同形状的张量。两个矩阵的按元素乘法称为<em>Hadamard积</em>（Hadamard product）数学符号 $\bigodot$</p>
+<pre class="highlight"><span class="line">A * B</span><br><span class="line"></span><br><span class="line">&lt;tf.Tensor: shape=(<span class="number">5</span>, <span class="number">4</span>), dtype=float32, numpy=</span><br><span class="line">array([[  <span class="number">0.</span>,   <span class="number">1.</span>,   <span class="number">4.</span>,   <span class="number">9.</span>],</span><br><span class="line">       [ <span class="number">16.</span>,  <span class="number">25.</span>,  <span class="number">36.</span>,  <span class="number">49.</span>],</span><br><span class="line">       [ <span class="number">64.</span>,  <span class="number">81.</span>, <span class="number">100.</span>, <span class="number">121.</span>],</span><br><span class="line">       [<span class="number">144.</span>, <span class="number">169.</span>, <span class="number">196.</span>, <span class="number">225.</span>],</span><br><span class="line">       [<span class="number">256.</span>, <span class="number">289.</span>, <span class="number">324.</span>, <span class="number">361.</span>]], dtype=float32)&gt;</span><br></pre>
+
+<p>将张量乘以或加上一个标量不会改变张量的形状，其中张量的每个元素都将与标量相加或相乘。</p>
+<h4 id="2-3-6-降维"><a href="#2-3-6-降维" class="headerlink" title="2.3.6 降维"></a>2.3.6 降维</h4><p>我们可以对任意张量进行的一个有用的操作是计算其元素的和。 数学表示法使用 $\sum$ 符号表示求和。为了表示长度为d的向量中元素的总和，可以记为 $\sum^d_{i&#x3D;1}x_i$ 代码里的求和函数</p>
+<pre class="highlight"><span class="line">x = tf.<span class="built_in">range</span>(<span class="number">4</span>, dtype=tf.float32)</span><br><span class="line">x, tf.reduce_sum(x)</span><br><span class="line"></span><br><span class="line">(&lt;tf.Tensor: shape=(<span class="number">4</span>,), dtype=float32, numpy=array([<span class="number">0.</span>, <span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>], dtype=float32)&gt;,</span><br><span class="line"> &lt;tf.Tensor: shape=(), dtype=float32, numpy=<span class="number">6.0</span>&gt;)</span><br></pre>
+
+<p>我们可以表示任意形状张量的元素和。例如矩阵A中元素的和可以记为 $\sum^m_{i&#x3D;1}\sum^n_{j&#x3D;1}a_{ij}$</p>
+<p>默认情况下，调用求和函数会沿所有的轴降低张量的维度，使它变为一个标量。我们还可以指定张量沿哪一个轴来通过求和降低维度。以矩阵为例，为了通过求和所有行的元素来降维（轴0 纵轴），可以在调用函数时指定<code>axis=0</code>。 由于输入矩阵沿0轴降维以生成输出向量，因此输入轴0的维数在输出形状中消失。</p>
+<pre class="highlight"><span class="line">A_sum_axis0 = A.<span class="built_in">sum</span>(axis=<span class="number">0</span>)</span><br><span class="line">A_sum_axis0, A_sum_axis0.shape</span><br><span class="line"></span><br><span class="line">(array([<span class="number">40.</span>, <span class="number">45.</span>, <span class="number">50.</span>, <span class="number">55.</span>]), (<span class="number">4</span>,))</span><br></pre>
+
+<p>与求和相关的量是<em>平均值</em>（mean或average）</p>
+<p>有时在调用函数来计算总和或均值时保持轴数不变会很有用</p>
+<pre class="highlight"><span class="line">sum_A = A.<span class="built_in">sum</span>(axis=<span class="number">1</span>, keepdims=<span class="literal">True</span>)</span><br><span class="line">sum_A</span><br><span class="line"></span><br><span class="line">array([[ <span class="number">6.</span>],</span><br><span class="line">       [<span class="number">22.</span>],</span><br><span class="line">       [<span class="number">38.</span>],</span><br><span class="line">       [<span class="number">54.</span>],</span><br><span class="line">       [<span class="number">70.</span>]])</span><br></pre>
+
+<h4 id="2-3-7-点积"><a href="#2-3-7-点积" class="headerlink" title="2.3.7 点积"></a>2.3.7 点积</h4><p>给定两个向量x,y，他们的点积是相同位置的按元素乘积的和 $x^{\Tau}y&#x3D;\sum^d_{i&#x3D;1}x_iy_i$</p>
+<pre class="highlight"><span class="line">y = np.ones(<span class="number">4</span>)</span><br><span class="line">x, y, np.dot(x, y)</span><br><span class="line"></span><br><span class="line">(array([<span class="number">0.</span>, <span class="number">1.</span>, <span class="number">2.</span>, <span class="number">3.</span>]), array([<span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>, <span class="number">1.</span>]), array(<span class="number">6.</span>))</span><br></pre>
+
+<h4 id="2-3-8-矩阵-向量积"><a href="#2-3-8-矩阵-向量积" class="headerlink" title="2.3.8 矩阵-向量积"></a>2.3.8 矩阵-向量积</h4><p>定义矩阵 $A \in \mathbb{R}^{m \times n}$ 和向量 $x \in \mathbb{R}^n$ 我们让矩阵A用它的行向量表示：<br>$$<br>A &#x3D; \left[<br>\matrix{<br>  a^{\Tau}_1\<br>  a^{\Tau}_2\<br>  \vdots\<br>  a^{\Tau}_m<br>}<br>\right]<br>$$<br>其中每个 $a^{\Tau}_i \in \mathbb{R}^n$ 都是行向量，表示矩阵的第i行。矩阵向量积Ax是一个长度为m的列向量，其第i个元素是点积 $a^{\Tau}_ix$<br>$$<br>Ax &#x3D; \left[<br>\matrix{<br>  a^{\Tau}_1\<br>  a^{\Tau}_2\<br>  \vdots\<br>  a^{\Tau}_m<br>}<br>\right]x&#x3D;\left[<br>\matrix{<br>  a^{\Tau}_1x\<br>  a^{\Tau}_2x\<br>  \vdots\<br>  a^{\Tau}_mx<br>}<br>\right]<br>$$<br>我们也可以使用矩阵-向量积来描述在给定前一层的值时， 求解神经网络每一层所需的复杂计算</p>
+<pre class="highlight"><span class="line">A.shape, x.shape, tf.linalg.matvec(A, x)</span><br><span class="line"></span><br><span class="line">(TensorShape([<span class="number">5</span>, <span class="number">4</span>]),</span><br><span class="line"> TensorShape([<span class="number">4</span>]),</span><br><span class="line"> &lt;tf.Tensor: shape=(<span class="number">5</span>,), dtype=float32, numpy=array([ <span class="number">14.</span>,  <span class="number">38.</span>,  <span class="number">62.</span>,  <span class="number">86.</span>, <span class="number">110.</span>], dtype=float32)&gt;)</span><br></pre>
+
+<h4 id="2-3-9-矩阵-矩阵乘法"><a href="#2-3-9-矩阵-矩阵乘法" class="headerlink" title="2.3.9 矩阵-矩阵乘法"></a>2.3.9 矩阵-矩阵乘法</h4><p>假设有两个矩阵 $A \in \mathbb{R}^{n \times k}$ 和 $B \in \mathbb{R}^{k \times m}$ 用行向量 $a^{\Tau}_i \in \mathbb{R}^k$ 表示矩阵A的第i行，并让列向量 $b_j \in \mathbb{R}^k$ 作为矩阵B的第j列。要生成矩阵积 $C &#x3D; B \times A$ ，最简单的方法是考虑A的行向量和B的列向量:<br>$$<br>C&#x3D;A \times B&#x3D;\begin{bmatrix}<br>  a^{\Tau}_1\<br>  a^{\Tau}_2\<br>  \vdots\<br>  a^{\Tau}_m<br>\end{bmatrix}\begin{bmatrix}b_1&amp;b_2&amp;\cdots&amp; b_m\end{bmatrix}&#x3D;\begin{bmatrix}<br>  a^{\Tau}_1b_1&amp;a^{\Tau}_1b_2&amp;\cdots&amp;a^{\Tau}_1b_m\<br>  a^{\Tau}_2b_1&amp;a^{\Tau}_2b_2&amp;\cdots&amp;a^{\Tau}_2b_m\<br>  {\vdots}&amp;{\vdots}&amp;{\ddots}&amp;{\vdots}\<br>  a^{\Tau}_nb_1&amp;a^{\Tau}_nb_2&amp;\cdots&amp;a^{\Tau}_nb_m<br>\end{bmatrix}<br>$$</p>
+<h4 id="2-3-10-范数"><a href="#2-3-10-范数" class="headerlink" title="2.3.10 范数"></a>2.3.10 范数</h4><p>向量的<em>范数</em>是表示一个向量有多大。</p>
+<p>在线性代数中，向量范数是将向量映射到标量的函数 $f$ 。 给定任意向量x，向量范数要满足一些属性。 第一个性质是：如果我们按常数因子 $\alpha$ 缩放向量的所有元素， 其范数也会按相同常数因子的<em>绝对值</em>缩放：<br>$$<br>f(\alpha x)&#x3D;|\alpha|f(x)<br>$$<br>第二个性质是熟悉的三角不等式:<br>$$<br>f(x+y) \leq f(x) + f(y)<br>$$<br>第三个性质简单地说范数必须是非负的:<br>$$<br>f(x) \geq 0<br>$$<br>这是有道理的。因为在大多数情况下，任何东西的最小的<em>大小</em>是0。 最后一个性质要求范数最小为0，当且仅当向量全由0组成。 $\forall$ 表示任何一个<br>$$<br>\forall i,\begin{bmatrix}<br>  x<br>\end{bmatrix}_i&#x3D;0 \Leftrightarrow f(x)&#x3D;0<br>$$<br>欧几里得距离是一个 $L_2$ 范数： 假设n维向量x中的元素是 $x_1,\cdots x_n$ ，其 $L_2$ <em>范数</em>是向量元素平方和的平方根：<br>$$<br>||x||<em>2&#x3D;\sqrt{\sum^n</em>{i&#x3D;1}x^2_i}<br>$$<br>计算方式为：</p>
+<pre class="highlight"><span class="line">u = tf.constant([<span class="number">3.0</span>, -<span class="number">4.0</span>])</span><br><span class="line">tf.norm(u)</span><br><span class="line"></span><br><span class="line">&lt;tf.Tensor: shape=(), dtype=float32, numpy=<span class="number">5.0</span>&gt;</span><br></pre>
+
+<p>矩阵 $X \in \mathbb{R}^{m \times n}$ 的 Frobenius范数是矩阵元素平方和和平方根：<br>$$<br>||x||<em>F&#x3D;\sqrt{\sum^m</em>{i&#x3D;1}\sum^n_{j&#x3D;1}x^2_{ij}}<br>$$</p>
+
   </div>
   <div>
     
@@ -432,7 +494,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8"><span class="toc-text">人工智能入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-text">机器学习基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">日常生活机器学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">1. 监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9B%9E%E5%BD%92"><span class="toc-text">1.1 回归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98"><span class="toc-text">1.3 标记问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E6%90%9C%E7%B4%A2"><span class="toc-text">1.4 搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.5 推荐系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0"><span class="toc-text">1.6 序列学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">2. 无监督学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8E%E7%8E%AF%E5%A2%83%E4%BA%92%E5%8A%A8"><span class="toc-text">3. 与环境互动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">4. 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">二. 预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">2.1 数据操作</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8"><span class="toc-text">人工智能入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-text">机器学习基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">日常生活机器学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">1. 监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9B%9E%E5%BD%92"><span class="toc-text">1.1 回归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98"><span class="toc-text">1.3 标记问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E6%90%9C%E7%B4%A2"><span class="toc-text">1.4 搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.5 推荐系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0"><span class="toc-text">1.6 序列学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">2. 无监督学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8E%E7%8E%AF%E5%A2%83%E4%BA%92%E5%8A%A8"><span class="toc-text">3. 与环境互动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">4. 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">二. 预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">2.1 数据操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-text">广播机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%92%8C%E5%88%87%E7%89%87"><span class="toc-text">索引和切片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">2.2 数据预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-text">2.3 线性代数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%A0%87%E9%87%8F"><span class="toc-text">2.3.1 标量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%90%91%E9%87%8F"><span class="toc-text">2.3.2 向量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E7%9F%A9%E9%98%B5"><span class="toc-text">2.3.3 矩阵</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E5%BC%A0%E9%87%8F"><span class="toc-text">2.3.4 张量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-%E5%BC%A0%E9%87%8F%E7%AE%97%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"><span class="toc-text">2.3.5 张量算法的基本性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-%E9%99%8D%E7%BB%B4"><span class="toc-text">2.3.6 降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-7-%E7%82%B9%E7%A7%AF"><span class="toc-text">2.3.7 点积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-8-%E7%9F%A9%E9%98%B5-%E5%90%91%E9%87%8F%E7%A7%AF"><span class="toc-text">2.3.8 矩阵-向量积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-9-%E7%9F%A9%E9%98%B5-%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95"><span class="toc-text">2.3.9 矩阵-矩阵乘法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-10-%E8%8C%83%E6%95%B0"><span class="toc-text">2.3.10 范数</span></a></li></ol></li></ol></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -480,7 +542,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8"><span class="toc-text">人工智能入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-text">机器学习基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">日常生活机器学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">1. 监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9B%9E%E5%BD%92"><span class="toc-text">1.1 回归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98"><span class="toc-text">1.3 标记问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E6%90%9C%E7%B4%A2"><span class="toc-text">1.4 搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.5 推荐系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0"><span class="toc-text">1.6 序列学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">2. 无监督学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8E%E7%8E%AF%E5%A2%83%E4%BA%92%E5%8A%A8"><span class="toc-text">3. 与环境互动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">4. 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">二. 预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">2.1 数据操作</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8"><span class="toc-text">人工智能入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-text">机器学习基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">日常生活机器学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">1. 监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9B%9E%E5%BD%92"><span class="toc-text">1.1 回归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98"><span class="toc-text">1.3 标记问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E6%90%9C%E7%B4%A2"><span class="toc-text">1.4 搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.5 推荐系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0"><span class="toc-text">1.6 序列学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">2. 无监督学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8E%E7%8E%AF%E5%A2%83%E4%BA%92%E5%8A%A8"><span class="toc-text">3. 与环境互动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">4. 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">二. 预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">2.1 数据操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-text">广播机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%92%8C%E5%88%87%E7%89%87"><span class="toc-text">索引和切片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">2.2 数据预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-text">2.3 线性代数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%A0%87%E9%87%8F"><span class="toc-text">2.3.1 标量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%90%91%E9%87%8F"><span class="toc-text">2.3.2 向量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E7%9F%A9%E9%98%B5"><span class="toc-text">2.3.3 矩阵</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E5%BC%A0%E9%87%8F"><span class="toc-text">2.3.4 张量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-%E5%BC%A0%E9%87%8F%E7%AE%97%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"><span class="toc-text">2.3.5 张量算法的基本性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-%E9%99%8D%E7%BB%B4"><span class="toc-text">2.3.6 降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-7-%E7%82%B9%E7%A7%AF"><span class="toc-text">2.3.7 点积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-8-%E7%9F%A9%E9%98%B5-%E5%90%91%E9%87%8F%E7%A7%AF"><span class="toc-text">2.3.8 矩阵-向量积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-9-%E7%9F%A9%E9%98%B5-%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95"><span class="toc-text">2.3.9 矩阵-矩阵乘法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-10-%E8%8C%83%E6%95%B0"><span class="toc-text">2.3.10 范数</span></a></li></ol></li></ol></li></ol></li></ol>
       </div>
     </article>
   
@@ -495,38 +557,10 @@
   </div>
   <div class="categories-list">
     
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">5</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
-        <div class="categories-list-item">
-          编程语言
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/linux/">
-        <div class="categories-list-item">
-          linux
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
           数据结构与算法
           <span class="categories-list-item-badge">55</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/AI/">
-        <div class="categories-list-item">
-          AI
-          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -544,13 +578,6 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
         <div class="categories-list-item">
           线程池
@@ -558,86 +585,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/SQL/">
+      <a href="/java4u/categories/webservice/">
         <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
-        <div class="categories-list-item">
-          文档总结
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
-        <div class="categories-list-item">
-          容器
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
-        <div class="categories-list-item">
-          规范
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
-        <div class="categories-list-item">
-          语言
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
-        <div class="categories-list-item">
-          事务
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-        <div class="categories-list-item">
-          数据库
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
-        <div class="categories-list-item">
-          缓存
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
-        <div class="categories-list-item">
-          微服务保护
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
-        <div class="categories-list-item">
-          进程
+          webservice
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -663,9 +613,30 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
         <div class="categories-list-item">
           方案
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
           <span class="categories-list-item-badge">2</span>
         </div>
       </a>
@@ -677,9 +648,93 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/JVM/">
+      <a href="/java4u/categories/linux/">
         <div class="categories-list-item">
-          JVM
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        <div class="categories-list-item">
+          数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -687,6 +742,13 @@
       <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
         <div class="categories-list-item">
           分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -704,12 +766,6 @@
     </i>热门标签
   </div>
   <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
     
       <a 
         href="/java4u/tags/leetcode/" 
@@ -736,15 +792,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
         title="链表">
         <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -760,45 +816,51 @@
       </a>
     
       <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
         href="/java4u/tags/WSDL/" 
         title="WSDL">
         <div class="tags-list-item">WSDL</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E6%95%B0%E5%AD%A6/" 
-        title="数学">
-        <div class="tags-list-item">数学</div>
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
       </a>
     
       <a 
-        href="/java4u/tags/django/" 
-        title="django">
-        <div class="tags-list-item">django</div>
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
       </a>
     
       <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
+        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
+        title="回溯">
+        <div class="tags-list-item">回溯</div>
       </a>
     
       <a 
-        href="/java4u/tags/Reactor/" 
-        title="Reactor">
-        <div class="tags-list-item">Reactor</div>
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" 
-        title="参考资料">
-        <div class="tags-list-item">参考资料</div>
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
       </a>
     
       <a 
-        href="/java4u/tags/docker/" 
-        title="docker">
-        <div class="tags-list-item">docker</div>
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
       </a>
     
   </div>
@@ -819,7 +881,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8"><span class="toc-text">人工智能入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-text">机器学习基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">日常生活机器学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">1. 监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9B%9E%E5%BD%92"><span class="toc-text">1.1 回归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98"><span class="toc-text">1.3 标记问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E6%90%9C%E7%B4%A2"><span class="toc-text">1.4 搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.5 推荐系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0"><span class="toc-text">1.6 序列学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">2. 无监督学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8E%E7%8E%AF%E5%A2%83%E4%BA%92%E5%8A%A8"><span class="toc-text">3. 与环境互动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">4. 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">二. 预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">2.1 数据操作</span></a></li></ol></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%85%A5%E9%97%A8"><span class="toc-text">人工智能入门</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80"><span class="toc-text">机器学习基础</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80-%E5%BC%95%E8%A8%80"><span class="toc-text">一. 引言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%A5%E5%B8%B8%E7%94%9F%E6%B4%BB%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="toc-text">日常生活机器学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">1. 监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%9B%9E%E5%BD%92"><span class="toc-text">1.1 回归</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%88%86%E7%B1%BB"><span class="toc-text">1.2 分类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E6%A0%87%E8%AE%B0%E9%97%AE%E9%A2%98"><span class="toc-text">1.3 标记问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-%E6%90%9C%E7%B4%A2"><span class="toc-text">1.4 搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F"><span class="toc-text">1.5 推荐系统</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-%E5%BA%8F%E5%88%97%E5%AD%A6%E4%B9%A0"><span class="toc-text">1.6 序列学习</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-text">2. 无监督学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E4%B8%8E%E7%8E%AF%E5%A2%83%E4%BA%92%E5%8A%A8"><span class="toc-text">3. 与环境互动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="toc-text">4. 强化学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C-%E9%A2%84%E5%A4%87%E7%9F%A5%E8%AF%86"><span class="toc-text">二. 预备知识</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="toc-text">2.1 数据操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-text">运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B9%BF%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="toc-text">广播机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B4%A2%E5%BC%95%E5%92%8C%E5%88%87%E7%89%87"><span class="toc-text">索引和切片</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-text">2.2 数据预处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0"><span class="toc-text">2.3 线性代数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-1-%E6%A0%87%E9%87%8F"><span class="toc-text">2.3.1 标量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-2-%E5%90%91%E9%87%8F"><span class="toc-text">2.3.2 向量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-3-%E7%9F%A9%E9%98%B5"><span class="toc-text">2.3.3 矩阵</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-4-%E5%BC%A0%E9%87%8F"><span class="toc-text">2.3.4 张量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-5-%E5%BC%A0%E9%87%8F%E7%AE%97%E6%B3%95%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%80%A7%E8%B4%A8"><span class="toc-text">2.3.5 张量算法的基本性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-6-%E9%99%8D%E7%BB%B4"><span class="toc-text">2.3.6 降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-7-%E7%82%B9%E7%A7%AF"><span class="toc-text">2.3.7 点积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-8-%E7%9F%A9%E9%98%B5-%E5%90%91%E9%87%8F%E7%A7%AF"><span class="toc-text">2.3.8 矩阵-向量积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-9-%E7%9F%A9%E9%98%B5-%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95"><span class="toc-text">2.3.9 矩阵-矩阵乘法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-10-%E8%8C%83%E6%95%B0"><span class="toc-text">2.3.10 范数</span></a></li></ol></li></ol></li></ol></li></ol>
     </article>
   
   

@@ -45,7 +45,7 @@
         content="2023-06-04">
       <meta 
         property="og:article:modified_time" 
-        content="2023-06-07">
+        content="2023-06-12">
       <meta 
         property="og:article:author" 
         content="Zhao Xin">
@@ -287,7 +287,7 @@
     
     
       <span class="dot"></span>
-      <span>399 字</span>
+      <span>1.1k 字</span>
     
   </div>
   
@@ -335,6 +335,43 @@
 <li>可变借用 FnMut</li>
 <li>不可变借用 Fn</li>
 </ul>
+<h2 id="2-迭代器"><a href="#2-迭代器" class="headerlink" title="2. 迭代器"></a>2. 迭代器</h2><p>几个迭代方法</p>
+<ul>
+<li>iter 在不可变引用上创建迭代器</li>
+<li>into_iter 创建的迭代器会获得所有权</li>
+<li>iter_mut 迭代可变的引用</li>
+</ul>
+<p>迭代器适配器：把迭代器转换为不同种类的迭代器</p>
+<pre class="highlight"><span class="line"><span class="keyword">let</span> <span class="variable">v1</span> = <span class="built_in">vec!</span>[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>];</span><br><span class="line"><span class="keyword">let</span> <span class="variable">v2</span>: <span class="type">Vec</span>&lt;_&gt; =v1.<span class="title function_ invoke__">iter</span>().<span class="title function_ invoke__">map</span>(|x| x+<span class="number">1</span>).<span class="title function_ invoke__">collect</span>();</span><br><span class="line"><span class="built_in">assert_eq!</span>(<span class="built_in">vec!</span>[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>], v2);</span><br></pre>
+
+<p>使用闭包捕获环境</p>
+<pre class="highlight"><span class="line"><span class="keyword">fn</span> <span class="title function_">shoes_in_my_size</span>(shoes: <span class="type">Vec</span>&lt;Shoe&gt;, shoe_size: <span class="type">u32</span>) <span class="punctuation">-&gt;</span> <span class="type">Vec</span>&lt;Shoe&gt; &#123;</span><br><span class="line">    shoes.<span class="title function_ invoke__">into_iter</span>().<span class="title function_ invoke__">filter</span>(|x| x.size == shoe_size).<span class="title function_ invoke__">collect</span>()</span><br><span class="line">&#125;</span><br></pre>
+
+<h2 id="3-智能指针"><a href="#3-智能指针" class="headerlink" title="3. 智能指针"></a>3. 智能指针</h2><p><strong>利用类来管理资源，将资源与类对象的生命周期绑定</strong>，<strong>即在对象创建时获取对应的资源，在对象生命周期内控制对资源的访问，使之始终保持有效，最后在对象析构时，释放所获取的资源</strong></p>
+<h3 id="引用计数智能指针"><a href="#引用计数智能指针" class="headerlink" title="引用计数智能指针"></a>引用计数智能指针</h3><p>通过记录所有者的数量，使一份数据被多个所有者同时持有，并在没有任何所有者时自动清理数据</p>
+<h3 id="3-1-使用Box来指向Heap上的数据"><a href="#3-1-使用Box来指向Heap上的数据" class="headerlink" title="3.1 使用Box来指向Heap上的数据"></a>3.1 使用Box<T>来指向Heap上的数据</h3><ul>
+<li>只提供了间接存储和heap内存分配的功能</li>
+<li>没有其他额外功能</li>
+<li>没有性能开销</li>
+<li>适用于需要“间接”存储的场景（例如链表）</li>
+<li>实现了Deref Trait和Drop Trait</li>
+</ul>
+<h3 id="3-2-Deref-Trait"><a href="#3-2-Deref-Trait" class="headerlink" title="3.2 Deref Trait"></a>3.2 Deref Trait</h3><p>实现Deref Trait 使我们可以自定义解引用运算符*的行为，通过实现Deref智能指针像常规引用一样来处理</p>
+<pre class="highlight"><span class="line"><span class="keyword">struct</span> <span class="title class_">MyBox</span>&lt;T&gt;(T);</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; MyBox&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(x: T) <span class="punctuation">-&gt;</span> MyBox&lt;T&gt; &#123;</span><br><span class="line">        <span class="title function_ invoke__">MyBox</span>(x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span>&lt;T&gt; Deref <span class="keyword">for</span> <span class="title class_">MyBox</span>&lt;T&gt; &#123;</span><br><span class="line">    <span class="keyword">type</span> <span class="title class_">Target</span> = T;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">deref</span>(&amp;<span class="keyword">self</span>) <span class="punctuation">-&gt;</span> &amp;T &#123;</span><br><span class="line">        &amp;<span class="keyword">self</span>.<span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="3-3-Drop-Trait"><a href="#3-3-Drop-Trait" class="headerlink" title="3.3 Drop Trait"></a>3.3 Drop Trait</h3><p>实现Drop Trait，可以让我们自定义当值将要离开作用域时发生的动作</p>
+<ul>
+<li>例如：文件&#x2F;网络资源释放</li>
+<li>任何类型都可以实现Drop Trait</li>
+</ul>
+<h3 id="3-4-Rc"><a href="#3-4-Rc" class="headerlink" title="3.4 Rc"></a>3.4 Rc</h3><p>reference couting(引用计数)</p>
+<p>Rc通过不可变引用，可以在程序不同部分之间共享只读数据</p>
+<pre class="highlight"><span class="line"><span class="keyword">enum</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Cons</span>(<span class="type">i32</span>, Rc&lt;List&gt;),</span><br><span class="line">    Nil,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> crate::List::&#123;Cons, Nil&#125;;</span><br><span class="line"><span class="keyword">use</span> std::rc::Rc;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = Rc::<span class="title function_ invoke__">new</span>(<span class="title function_ invoke__">Cons</span>(<span class="number">5</span>, Rc::<span class="title function_ invoke__">new</span>(<span class="title function_ invoke__">Cons</span>(<span class="number">10</span>, Rc::<span class="title function_ invoke__">new</span>(Nil)))));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="title function_ invoke__">Cons</span>(<span class="number">3</span>, Rc::<span class="title function_ invoke__">clone</span>(&amp;a));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = <span class="title function_ invoke__">Cons</span>(<span class="number">4</span>, Rc::<span class="title function_ invoke__">clone</span>(&amp;a));</span><br><span class="line">&#125;</span><br></pre>
+
+<h3 id="3-5-RefCell"><a href="#3-5-RefCell" class="headerlink" title="3.5 RefCell"></a>3.5 RefCell</h3><p>内部可变性</p>
+<p>结合 Rc<T> 和 RefCell<T> 来拥有多个可变数据所有者</p>
+<pre class="highlight"><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">enum</span> <span class="title class_">List</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Cons</span>(Rc&lt;RefCell&lt;<span class="type">i32</span>&gt;&gt;, Rc&lt;List&gt;),</span><br><span class="line">    Nil,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> crate::List::&#123;Cons, Nil&#125;;</span><br><span class="line"><span class="keyword">use</span> std::rc::Rc;</span><br><span class="line"><span class="keyword">use</span> std::cell::RefCell;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">value</span> = Rc::<span class="title function_ invoke__">new</span>(RefCell::<span class="title function_ invoke__">new</span>(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = Rc::<span class="title function_ invoke__">new</span>(<span class="title function_ invoke__">Cons</span>(Rc::<span class="title function_ invoke__">clone</span>(&amp;value), Rc::<span class="title function_ invoke__">new</span>(Nil)));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="title function_ invoke__">Cons</span>(Rc::<span class="title function_ invoke__">new</span>(RefCell::<span class="title function_ invoke__">new</span>(<span class="number">6</span>)), Rc::<span class="title function_ invoke__">clone</span>(&amp;a));</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = <span class="title function_ invoke__">Cons</span>(Rc::<span class="title function_ invoke__">new</span>(RefCell::<span class="title function_ invoke__">new</span>(<span class="number">10</span>)), Rc::<span class="title function_ invoke__">clone</span>(&amp;a));</span><br><span class="line"></span><br><span class="line">    *value.<span class="title function_ invoke__">borrow_mut</span>() += <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a after = &#123;:?&#125;&quot;</span>, a);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b after = &#123;:?&#125;&quot;</span>, b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;c after = &#123;:?&#125;&quot;</span>, c);</span><br><span class="line">&#125;</span><br></pre>
+
 
   </div>
   <div>
@@ -391,7 +428,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">RUST入门（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AD%E5%8C%85"><span class="toc-text">1. 闭包</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">RUST入门（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AD%E5%8C%85"><span class="toc-text">1. 闭包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">2. 迭代器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">3. 智能指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">引用计数智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BD%BF%E7%94%A8Box%E6%9D%A5%E6%8C%87%E5%90%91Heap%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-text">3.1 使用Box来指向Heap上的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Deref-Trait"><span class="toc-text">3.2 Deref Trait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Drop-Trait"><span class="toc-text">3.3 Drop Trait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-Rc"><span class="toc-text">3.4 Rc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-RefCell"><span class="toc-text">3.5 RefCell</span></a></li></ol></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -439,7 +476,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">RUST入门（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AD%E5%8C%85"><span class="toc-text">1. 闭包</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">RUST入门（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AD%E5%8C%85"><span class="toc-text">1. 闭包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">2. 迭代器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">3. 智能指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">引用计数智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BD%BF%E7%94%A8Box%E6%9D%A5%E6%8C%87%E5%90%91Heap%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-text">3.1 使用Box来指向Heap上的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Deref-Trait"><span class="toc-text">3.2 Deref Trait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Drop-Trait"><span class="toc-text">3.3 Drop Trait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-Rc"><span class="toc-text">3.4 Rc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-RefCell"><span class="toc-text">3.5 RefCell</span></a></li></ol></li></ol></li></ol>
       </div>
     </article>
   
@@ -454,38 +491,10 @@
   </div>
   <div class="categories-list">
     
-      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
-        <div class="categories-list-item">
-          框架
-          <span class="categories-list-item-badge">5</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
-        <div class="categories-list-item">
-          编程语言
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/linux/">
-        <div class="categories-list-item">
-          linux
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
         <div class="categories-list-item">
           数据结构与算法
           <span class="categories-list-item-badge">55</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/AI/">
-        <div class="categories-list-item">
-          AI
-          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -503,13 +512,6 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/webservice/">
-        <div class="categories-list-item">
-          webservice
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
       <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
         <div class="categories-list-item">
           线程池
@@ -517,86 +519,9 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/SQL/">
+      <a href="/java4u/categories/webservice/">
         <div class="categories-list-item">
-          SQL
-          <span class="categories-list-item-badge">20</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
-        <div class="categories-list-item">
-          中间件
-          <span class="categories-list-item-badge">3</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
-        <div class="categories-list-item">
-          文档总结
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
-        <div class="categories-list-item">
-          容器
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
-        <div class="categories-list-item">
-          规范
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
-        <div class="categories-list-item">
-          语言
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
-        <div class="categories-list-item">
-          事务
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
-        <div class="categories-list-item">
-          数据库
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
-        <div class="categories-list-item">
-          缓存
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
-        <div class="categories-list-item">
-          项目流程
-          <span class="categories-list-item-badge">2</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
-        <div class="categories-list-item">
-          微服务保护
-          <span class="categories-list-item-badge">1</span>
-        </div>
-      </a>
-    
-      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
-        <div class="categories-list-item">
-          进程
+          webservice
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -622,9 +547,30 @@
         </div>
       </a>
     
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
       <a href="/java4u/categories/%E6%96%B9%E6%A1%88/">
         <div class="categories-list-item">
           方案
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
           <span class="categories-list-item-badge">2</span>
         </div>
       </a>
@@ -636,9 +582,93 @@
         </div>
       </a>
     
-      <a href="/java4u/categories/JVM/">
+      <a href="/java4u/categories/linux/">
         <div class="categories-list-item">
-          JVM
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%A1%B9%E7%9B%AE%E6%B5%81%E7%A8%8B/">
+        <div class="categories-list-item">
+          项目流程
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        <div class="categories-list-item">
+          数据库
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -646,6 +676,13 @@
       <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
         <div class="categories-list-item">
           分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -663,12 +700,6 @@
     </i>热门标签
   </div>
   <div class="tags-list">
-    
-      <a 
-        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
-        title="学习">
-        <div class="tags-list-item">学习</div>
-      </a>
     
       <a 
         href="/java4u/tags/leetcode/" 
@@ -695,15 +726,15 @@
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
-        title="动态规划">
-        <div class="tags-list-item">动态规划</div>
-      </a>
-    
-      <a 
         href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
         title="链表">
         <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
       </a>
     
       <a 
@@ -719,45 +750,51 @@
       </a>
     
       <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
         href="/java4u/tags/WSDL/" 
         title="WSDL">
         <div class="tags-list-item">WSDL</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E6%95%B0%E5%AD%A6/" 
-        title="数学">
-        <div class="tags-list-item">数学</div>
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
       </a>
     
       <a 
-        href="/java4u/tags/django/" 
-        title="django">
-        <div class="tags-list-item">django</div>
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
       </a>
     
       <a 
-        href="/java4u/tags/MQ/" 
-        title="MQ">
-        <div class="tags-list-item">MQ</div>
+        href="/java4u/tags/%E5%9B%9E%E6%BA%AF/" 
+        title="回溯">
+        <div class="tags-list-item">回溯</div>
       </a>
     
       <a 
-        href="/java4u/tags/Reactor/" 
-        title="Reactor">
-        <div class="tags-list-item">Reactor</div>
+        href="/java4u/tags/OAuth/" 
+        title="OAuth">
+        <div class="tags-list-item">OAuth</div>
       </a>
     
       <a 
-        href="/java4u/tags/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" 
-        title="参考资料">
-        <div class="tags-list-item">参考资料</div>
+        href="/java4u/tags/RPC/" 
+        title="RPC">
+        <div class="tags-list-item">RPC</div>
       </a>
     
       <a 
-        href="/java4u/tags/docker/" 
-        title="docker">
-        <div class="tags-list-item">docker</div>
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
       </a>
     
   </div>
@@ -778,7 +815,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">RUST入门（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AD%E5%8C%85"><span class="toc-text">1. 闭包</span></a></li></ol></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#RUST%E5%85%A5%E9%97%A8%EF%BC%88%E4%BA%8C%EF%BC%89"><span class="toc-text">RUST入门（二）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%97%AD%E5%8C%85"><span class="toc-text">1. 闭包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-text">2. 迭代器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">3. 智能指针</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="toc-text">引用计数智能指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%BD%BF%E7%94%A8Box%E6%9D%A5%E6%8C%87%E5%90%91Heap%E4%B8%8A%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-text">3.1 使用Box来指向Heap上的数据</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-Deref-Trait"><span class="toc-text">3.2 Deref Trait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Drop-Trait"><span class="toc-text">3.3 Drop Trait</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-Rc"><span class="toc-text">3.4 Rc</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-RefCell"><span class="toc-text">3.5 RefCell</span></a></li></ol></li></ol></li></ol>
     </article>
   
   
