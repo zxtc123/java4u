@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>其他框架</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="其他框架">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2021/07/17/interview_other/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2021-07-17">
+      <meta 
+        property="og:article:modified_time" 
+        content="2024-03-11">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="学习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js" as="script">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      其他框架
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-07-16T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2021-07-17</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+          class="post-meta-link">
+          面试
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>2.4k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            学习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="其他框架"><a href="#其他框架" class="headerlink" title="其他框架"></a>其他框架</h1><h2 id="1-描述⼀下Hibernate的三个状态？"><a href="#1-描述⼀下Hibernate的三个状态？" class="headerlink" title="1. 描述⼀下Hibernate的三个状态？"></a><strong>1.</strong> 描述⼀下Hibernate的三个状态？</h2><p>a. transient(瞬时状态)：new出来⼀个对象，还没被保存到数据库中</p>
+<p>b. persistent(持久化状态)：对象已经保存到数据库中并且在hibernate session也存在该对象</p>
+<p>c. detached(离线状态)：对象在数据库中存在，hibernate session不存在</p>
+<h2 id="2-Hibernate对⼀⼆级缓存的使⽤，-Lazy-Load的理解"><a href="#2-Hibernate对⼀⼆级缓存的使⽤，-Lazy-Load的理解" class="headerlink" title="2. Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;"></a><strong>2.</strong> Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;</h2><p>a. ⼀级缓存：hibernate的⼀级缓存是由session提供的，因此它只存在session的⽣命周期中。也就是说session关闭的时候该session所管理的⼀级缓存也随之被清除。hibernate的⼀级缓存是session所内置的，默认开启，不能被卸载，也不能进⾏任何配置。在缓存中的对象,具有持久性,session对象负责管理.⼀级缓存的优点是使⽤同⼀个session对象多次查询同⼀个数据对象,仅对数据库查询⼀次。⼀级缓存采⽤的是Key-Value的MAP⽅式来实现的。在缓存实体对象时，对象的主关键字ID是MAP的Key，实体对象就是对象的值。所以说⼀级缓存是以实体对象为单位进⾏存储的。访问的时候使⽤的是主键关键字ID。⼀级缓存使⽤的是⾃动维护的功能。但可以通过session提供的⼿动⽅法对⼀级缓存的管理进⾏⼿动⼲预。evict()⽅法⽤于将某个对象从session的⼀级缓存中清除。clear()⽅法⽤于将session缓存中的⽅法全部清除。</p>
+<p>b. ⼆级缓存：⼆级缓存的实现原理与⼀级缓存是⼀样的。也是通过Key-Value的Map来实现对对象的缓存。⼆级缓存是作⽤在SessionFactory范围内的。因此它可被所有的Session对象所共享。需要注意的是放⼊缓存中的数据不能有第三⽅的应⽤对数据进⾏修改。⼆级缓存默认关闭，需要程序员⼿动开启，默认为ehcache实现.</p>
+<p>c. 懒加载：当⽤到数据的时候才向数据库查询，这就是hibernate的懒加载特性。延迟加载策略能避免加载应⽤程序不需要访问的关联对象，以提⾼应⽤程序的性能。</p>
+<h2 id="3-zookeeper有什么功能，选举算法如何进⾏："><a href="#3-zookeeper有什么功能，选举算法如何进⾏：" class="headerlink" title="3. zookeeper有什么功能，选举算法如何进⾏："></a><strong>3.</strong> zookeeper有什么功能，选举算法如何进⾏：</h2><h3 id="1、选举算法："><a href="#1、选举算法：" class="headerlink" title="1、选举算法："></a>1、选举算法：</h3><h4 id="1、Fast-Leader-领导者选举-选举算法："><a href="#1、Fast-Leader-领导者选举-选举算法：" class="headerlink" title="1、Fast Leader(领导者选举)选举算法："></a>1、Fast Leader(领导者选举)选举算法：</h4><p> 1.server启动时默认选举⾃⼰，并向整个集群⼴播</p>
+<p> 2.收到消息时，通过3层判断：选举轮数，zxid，server id⼤⼩判断是否同意对⽅，如果同意，则修改⾃⼰的选</p>
+<p>票，并向集群⼴播</p>
+<p> 3.QuorumCnxManager负责IO处理，每2个server建⽴⼀个连接，只允许id⼤的server连id⼩的server，每个</p>
+<p>server启动单独的读写线程处理，使⽤阻塞IO</p>
+<p> 4.默认超过半数机器同意时，则选举成功，修改⾃身状态为LEADING或FOLLOWING</p>
+<p> 5.Obserer机器不参与选举</p>
+<h4 id="2、原理：选举结果的影响权重关系是-⾸先看数据id-数据id⼤者胜出-其次再判断leader-id-leader-id⼤者胜出。"><a href="#2、原理：选举结果的影响权重关系是-⾸先看数据id-数据id⼤者胜出-其次再判断leader-id-leader-id⼤者胜出。" class="headerlink" title="2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。"></a>2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。</h4><h4 id="3、举例："><a href="#3、举例：" class="headerlink" title="3、举例："></a>3、举例：</h4><p> 假设有五台服务器组成的zookeeper集群,它们的id从1-5,同时它们都是最新启动的,也就是没有历史数据,在存放数</p>
+<p>据量这⼀点上,都是⼀样的.假设这些服务器依序启动,来看看会发⽣什么.</p>
+<p> \1) 服务器1启动,此时只有它⼀台服务器启动了,它发出去的报没有任何响应,所以它的选举状态⼀直是LOOKING</p>
+<p>状态；</p>
+<p> \2) 服务器2启动,它与最开始启动的服务器1进⾏通信,互相交换⾃⼰的选举结果,由于两者都没有历史数据,所以id</p>
+<p>值较⼤的服务器2胜出,但是由于没有达到超过半数以上的服务器都同意选举它(这个例⼦中的半数以上是3),所以服务器1,2还是继续保持LOOKING状态.</p>
+<p> \3) 服务器3启动,根据前⾯的理论分析,服务器3成为服务器1,2,3中的⽼⼤,⽽与上⾯不同的是,此时有三台服务器</p>
+<p>选举了它,所以它成为了这次选举的leader.</p>
+<p> \4) 服务器4启动,根据前⾯的分析,理论上服务器4应该是服务器1,2,3,4中最⼤的,但是由于前⾯已经有半数以上的</p>
+<p>服务器选举了服务器3,所以它只能接收当⼩弟的命了.</p>
+<p> \5) 服务器5启动,同4⼀样,当⼩弟. </p>
+<h4 id="4、zookeeper管理员指南："><a href="#4、zookeeper管理员指南：" class="headerlink" title="4、zookeeper管理员指南："></a>4、zookeeper管理员指南：</h4><p> 1、集群中过半存活即可⽤，故集群选择奇数台机器；</p>
+<h2 id="4-Netty⾼性能："><a href="#4-Netty⾼性能：" class="headerlink" title="4. Netty⾼性能："></a><em>4. Netty</em>⾼性能：</h2><p> 1、NIO异步⾮阻塞通信</p>
+<p> 2、“零拷⻉”</p>
+<p> 3、内存池ByteBuf</p>
+<p> 4、Netty提供了多种内存管理策略，通过在启动辅助类中配置相关参数，可以实现差异化的定制。</p>
+<p> 5、⾼效的Reactor线程模型：Reactor单线程(多线程、主从)模型，指的是所有的IO操作都在同⼀个NIO线程上⾯完成</p>
+<p> 6、为了尽可能提升性能，Netty采⽤了串⾏⽆锁化设计，在IO线程内部进⾏串⾏操作，避免多线程竞争导致的性能下降。表⾯上看，串⾏化设计似乎CPU利⽤率不⾼，并发程度不够。但是，通过调整NIO线程池的线程参数，可以同时启动多个串⾏化的线程并⾏运⾏，这种局部⽆锁化的串⾏线程设计相⽐⼀个队列-多个⼯作线程模型性能更优。</p>
+<p> 7、⾼效的并发编程：Netty的⾼效并发编程主要体现在如下⼏点：</p>
+<p> \1) volatile的⼤量、正确使⽤;</p>
+<p> \2) CAS和原⼦类的⼴泛使⽤；</p>
+<p> \3) 线程安全容器的使⽤； 4) 通过读写锁提升并发性能。</p>
+<p> 8、⾼效的序列化框架：</p>
+<p> 9、灵活的TCP参数配置能⼒：合理设置TCP参数在某些场景下对于性能的提升可以起到显著的效果，例如SO_RCVBUF和SO_SNDBUF。如果设置不当，对性能的影响是⾮常⼤的。</p>
+<h2 id="5-如何保证服务的幂等性？"><a href="#5-如何保证服务的幂等性？" class="headerlink" title="5. 如何保证服务的幂等性？"></a><strong>5.</strong> <strong>如何保证服务的幂等性？</strong></h2><h3 id="1、概念："><a href="#1、概念：" class="headerlink" title="1、概念："></a>1、概念：</h3><p>接⼝的幂等性实际上就是接⼝可重复调⽤，在调⽤⽅多次调⽤的情况下，接⼝最终得到的结果是⼀致的。有些</p>
+<p>接⼝可以天然的实现幂等性，⽐如查询接⼝，对于查询来说，你查询⼀次和两次，对于系统来说，没有任何影响，查出的结果也是⼀样。</p>
+<h3 id="2、GET幂等："><a href="#2、GET幂等：" class="headerlink" title="2、GET幂等："></a>2、GET幂等：</h3><p>值得注意，幂等性指的是作⽤于结果⽽⾮资源本身。怎么理解呢？例如，这个HTTP GET⽅法可能会每次</p>
+<p>得到不同的返回内容，但并不影响资源。</p>
+<h3 id="3、POST⾮幂等："><a href="#3、POST⾮幂等：" class="headerlink" title="3、POST⾮幂等："></a>3、POST⾮幂等：</h3><p>因为它会对资源本身产⽣影响，每次调⽤都会有新的资源产⽣，因此不满⾜幂等性。</p>
+<h3 id="4、如何保证幂等性："><a href="#4、如何保证幂等性：" class="headerlink" title="4、如何保证幂等性："></a>4、如何保证幂等性：</h3><p> 1、全局唯⼀id：如果使⽤全局唯⼀ID，就是根据业务的操作和内容⽣成⼀个全局ID，在执⾏操作前先根据这个全局唯⼀ID是否存在，来判断这个操作是否已经执⾏。如果不存在则把全局ID，存储到存储系统中，⽐如数据库、redis等。如果存在则表示该⽅法已经执⾏。从⼯程的⻆度来说，使⽤全局ID做幂等可以作为⼀个业务的基础的微服务存在，在很多的微服务中都会⽤到这样的服务，在每个微服务中都完成这样的功能，会存在⼯作量重复。另外打造⼀个⾼可靠的幂等服务还需要考虑很多问题，⽐如⼀台机器虽然把全局ID先写⼊了存储，但是在写⼊之后挂了，这就需要引⼊全局ID的超时机制。 使⽤全局唯⼀ID是⼀个通⽤⽅案，可以⽀持插⼊、更新、删除业务操作。但是这个⽅案看起来很美但是实现起来⽐较麻烦，下⾯的⽅案适⽤于特定的场景，但是实现起来⽐较简单。</p>
+<p> 2、去重表：这种⽅法适⽤于在业务中有唯⼀标的插⼊场景中，⽐如在以上的⽀付场景中，如果⼀个订单只会⽀付⼀次，所以订单ID可以作为唯⼀标识。这时，我们就可以建⼀张去重表，并且把唯⼀标识作为唯⼀索引，在我们实现时，把创建⽀付单据和写⼊去去重表，放在⼀个事务中，如果重复创建，数据库会抛出唯⼀约束异常，操作就会回滚。</p>
+<p> 3、插⼊或更新：这种⽅法插⼊并且有唯⼀索引的情况，⽐如我们要关联商品品类，其中商品的ID和品类的ID可以构成唯⼀索引，并且在数据表中也增加了唯⼀索引。这时就可以使⽤InsertOrUpdate操作。在mysql数据库中如下：</p>
+<pre class="highlight"><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> goods_category (goods_id,category_id,create_time,update_time) </span><br><span class="line"><span class="keyword">values</span>(#&#123;goodsId&#125;,#&#123;categoryId&#125;,now(),now())</span><br><span class="line"><span class="keyword">on</span> DUPLICATE KEY <span class="keyword">UPDATE</span></span><br><span class="line">update_time<span class="operator">=</span>now()</span><br></pre>
+
+<p> 4、多版本控制：这种⽅法适合在更新的场景中，⽐如我们要更新商品的名字，这时我们就可以在更新的接⼝中增加⼀个版本号，来做幂等</p>
+<pre class="highlight"><span class="line"><span class="keyword">update</span> goods <span class="keyword">set</span> name<span class="operator">=</span>#&#123;newName&#125;,version<span class="operator">=</span>#&#123;version&#125; <span class="keyword">where</span> id<span class="operator">=</span>#&#123;id&#125; <span class="keyword">and</span> version<span class="operator">&lt;</span>$&#123;version&#125;</span><br></pre>
+
+<p>5、状态机控制：这种⽅法适合在有状态机流转的情况下，⽐如就会订单的创建和付款，订单的付款肯定是在之前，这时我们可以通过在设计状态字段时，使⽤int类型，并且通过值类型的⼤⼩来做幂等，⽐如订单的创建为0，付款成功为100。付款失败为99,在做状态机更新时，我们就这可以这样控制</p>
+<pre class="highlight"><span class="line"><span class="keyword">update</span> `<span class="keyword">order</span>` <span class="keyword">set</span> status<span class="operator">=</span>#&#123;status&#125; <span class="keyword">where</span> id<span class="operator">=</span>#&#123;id&#125; <span class="keyword">and</span> status<span class="operator">&lt;</span>#&#123;status&#125;</span><br></pre>
+
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2021/07/17/interview_other/">
+            https://zxtc123.github.io/java4u/2021/07/17/interview_other/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2021/07/21/printNumbers/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">剑指 Offer 17. 打印从1到最大的n位数 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2021/06/29/strStr/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">28. 实现 strStr() </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6"><span class="toc-text">其他框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8F%8F%E8%BF%B0%E2%BC%80%E4%B8%8BHibernate%E7%9A%84%E4%B8%89%E4%B8%AA%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="toc-text">1. 描述⼀下Hibernate的三个状态？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Hibernate%E5%AF%B9%E2%BC%80%E2%BC%86%E7%BA%A7%E7%BC%93%E5%AD%98%E7%9A%84%E4%BD%BF%E2%BD%A4%EF%BC%8C-Lazy-Load%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">2. Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-zookeeper%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8C%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%E5%A6%82%E4%BD%95%E8%BF%9B%E2%BE%8F%EF%BC%9A"><span class="toc-text">3. zookeeper有什么功能，选举算法如何进⾏：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-text">1、选举算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81Fast-Leader-%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BE-%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-text">1、Fast Leader(领导者选举)选举算法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8E%9F%E7%90%86%EF%BC%9A%E9%80%89%E4%B8%BE%E7%BB%93%E6%9E%9C%E7%9A%84%E5%BD%B1%E5%93%8D%E6%9D%83%E9%87%8D%E5%85%B3%E7%B3%BB%E6%98%AF-%E2%BE%B8%E5%85%88%E7%9C%8B%E6%95%B0%E6%8D%AEid-%E6%95%B0%E6%8D%AEid%E2%BC%A4%E8%80%85%E8%83%9C%E5%87%BA-%E5%85%B6%E6%AC%A1%E5%86%8D%E5%88%A4%E6%96%ADleader-id-leader-id%E2%BC%A4%E8%80%85%E8%83%9C%E5%87%BA%E3%80%82"><span class="toc-text">2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E4%B8%BE%E4%BE%8B%EF%BC%9A"><span class="toc-text">3、举例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81zookeeper%E7%AE%A1%E7%90%86%E5%91%98%E6%8C%87%E5%8D%97%EF%BC%9A"><span class="toc-text">4、zookeeper管理员指南：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Netty%E2%BE%BC%E6%80%A7%E8%83%BD%EF%BC%9A"><span class="toc-text">4. Netty⾼性能：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9F"><span class="toc-text">5. 如何保证服务的幂等性？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1、概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81GET%E5%B9%82%E7%AD%89%EF%BC%9A"><span class="toc-text">2、GET幂等：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81POST%E2%BE%AE%E5%B9%82%E7%AD%89%EF%BC%9A"><span class="toc-text">3、POST⾮幂等：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9A"><span class="toc-text">4、如何保证幂等性：</span></a></li></ol></li></ol></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>112</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>24</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>31</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6"><span class="toc-text">其他框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8F%8F%E8%BF%B0%E2%BC%80%E4%B8%8BHibernate%E7%9A%84%E4%B8%89%E4%B8%AA%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="toc-text">1. 描述⼀下Hibernate的三个状态？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Hibernate%E5%AF%B9%E2%BC%80%E2%BC%86%E7%BA%A7%E7%BC%93%E5%AD%98%E7%9A%84%E4%BD%BF%E2%BD%A4%EF%BC%8C-Lazy-Load%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">2. Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-zookeeper%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8C%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%E5%A6%82%E4%BD%95%E8%BF%9B%E2%BE%8F%EF%BC%9A"><span class="toc-text">3. zookeeper有什么功能，选举算法如何进⾏：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-text">1、选举算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81Fast-Leader-%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BE-%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-text">1、Fast Leader(领导者选举)选举算法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8E%9F%E7%90%86%EF%BC%9A%E9%80%89%E4%B8%BE%E7%BB%93%E6%9E%9C%E7%9A%84%E5%BD%B1%E5%93%8D%E6%9D%83%E9%87%8D%E5%85%B3%E7%B3%BB%E6%98%AF-%E2%BE%B8%E5%85%88%E7%9C%8B%E6%95%B0%E6%8D%AEid-%E6%95%B0%E6%8D%AEid%E2%BC%A4%E8%80%85%E8%83%9C%E5%87%BA-%E5%85%B6%E6%AC%A1%E5%86%8D%E5%88%A4%E6%96%ADleader-id-leader-id%E2%BC%A4%E8%80%85%E8%83%9C%E5%87%BA%E3%80%82"><span class="toc-text">2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E4%B8%BE%E4%BE%8B%EF%BC%9A"><span class="toc-text">3、举例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81zookeeper%E7%AE%A1%E7%90%86%E5%91%98%E6%8C%87%E5%8D%97%EF%BC%9A"><span class="toc-text">4、zookeeper管理员指南：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Netty%E2%BE%BC%E6%80%A7%E8%83%BD%EF%BC%9A"><span class="toc-text">4. Netty⾼性能：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9F"><span class="toc-text">5. 如何保证服务的幂等性？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1、概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81GET%E5%B9%82%E7%AD%89%EF%BC%9A"><span class="toc-text">2、GET幂等：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81POST%E2%BE%AE%E5%B9%82%E7%AD%89%EF%BC%9A"><span class="toc-text">3、POST⾮幂等：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9A"><span class="toc-text">4、如何保证幂等性：</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">7</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
+        <div class="categories-list-item">
+          分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" 
+        title="参考资料">
+        <div class="tags-list-item">参考资料</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/django/" 
+        title="django">
+        <div class="tags-list-item">django</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/kubernetes/" 
+        title="kubernetes">
+        <div class="tags-list-item">kubernetes</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/spring/" 
+        title="spring">
+        <div class="tags-list-item">spring</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/python/" 
+        title="python">
+        <div class="tags-list-item">python</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%A1%86%E6%9E%B6"><span class="toc-text">其他框架</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%8F%8F%E8%BF%B0%E2%BC%80%E4%B8%8BHibernate%E7%9A%84%E4%B8%89%E4%B8%AA%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="toc-text">1. 描述⼀下Hibernate的三个状态？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Hibernate%E5%AF%B9%E2%BC%80%E2%BC%86%E7%BA%A7%E7%BC%93%E5%AD%98%E7%9A%84%E4%BD%BF%E2%BD%A4%EF%BC%8C-Lazy-Load%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">2. Hibernate对⼀⼆级缓存的使⽤， Lazy-Load的理解;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-zookeeper%E6%9C%89%E4%BB%80%E4%B9%88%E5%8A%9F%E8%83%BD%EF%BC%8C%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%E5%A6%82%E4%BD%95%E8%BF%9B%E2%BE%8F%EF%BC%9A"><span class="toc-text">3. zookeeper有什么功能，选举算法如何进⾏：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-text">1、选举算法：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81Fast-Leader-%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BE-%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95%EF%BC%9A"><span class="toc-text">1、Fast Leader(领导者选举)选举算法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8E%9F%E7%90%86%EF%BC%9A%E9%80%89%E4%B8%BE%E7%BB%93%E6%9E%9C%E7%9A%84%E5%BD%B1%E5%93%8D%E6%9D%83%E9%87%8D%E5%85%B3%E7%B3%BB%E6%98%AF-%E2%BE%B8%E5%85%88%E7%9C%8B%E6%95%B0%E6%8D%AEid-%E6%95%B0%E6%8D%AEid%E2%BC%A4%E8%80%85%E8%83%9C%E5%87%BA-%E5%85%B6%E6%AC%A1%E5%86%8D%E5%88%A4%E6%96%ADleader-id-leader-id%E2%BC%A4%E8%80%85%E8%83%9C%E5%87%BA%E3%80%82"><span class="toc-text">2、原理：选举结果的影响权重关系是:⾸先看数据id,数据id⼤者胜出;其次再判断leader id,leader id⼤者胜出。</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E4%B8%BE%E4%BE%8B%EF%BC%9A"><span class="toc-text">3、举例：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4%E3%80%81zookeeper%E7%AE%A1%E7%90%86%E5%91%98%E6%8C%87%E5%8D%97%EF%BC%9A"><span class="toc-text">4、zookeeper管理员指南：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Netty%E2%BE%BC%E6%80%A7%E8%83%BD%EF%BC%9A"><span class="toc-text">4. Netty⾼性能：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9F"><span class="toc-text">5. 如何保证服务的幂等性？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1、概念：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81GET%E5%B9%82%E7%AD%89%EF%BC%9A"><span class="toc-text">2、GET幂等：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81POST%E2%BE%AE%E5%B9%82%E7%AD%89%EF%BC%9A"><span class="toc-text">3、POST⾮幂等：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%B9%82%E7%AD%89%E6%80%A7%EF%BC%9A"><span class="toc-text">4、如何保证幂等性：</span></a></li></ol></li></ol></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2024-03-10</div>
+        <a href="/java4u/2024/03/10/MQ/"><div class="recent-posts-item-content">MQ</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2024-03-10</div>
+        <a href="/java4u/2024/03/10/2.jvm/"><div class="recent-posts-item-content">JVM</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-06-04</div>
+        <a href="/java4u/2023/06/04/RUST_tutorial2/"><div class="recent-posts-item-content">RUST入门（二）</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-05-16</div>
+        <a href="/java4u/2023/05/16/RUST_tutorial1/"><div class="recent-posts-item-content">RUST入门</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2024
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

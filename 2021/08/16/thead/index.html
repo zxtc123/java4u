@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>多线程</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="多线程">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2021/08/16/thead/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2021-08-16">
+      <meta 
+        property="og:article:modified_time" 
+        content="2024-03-11">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="学习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js" as="script">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      多线程
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2021-08-15T16:00:00.000Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2021-08-16</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+          class="post-meta-link">
+          面试
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>5k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            学习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="1-什么是线程？"><a href="#1-什么是线程？" class="headerlink" title="1. 什么是线程？"></a><strong>1.</strong> 什么是线程？</h1><p>1、线程是操作系统能够进⾏运算调度的最⼩单位，它被包含在进程之中，是进程中的实际运作单位，可以使⽤多线程对进⾏运算提速。</p>
+<h1 id="2-什么是⾃旋锁？"><a href="#2-什么是⾃旋锁？" class="headerlink" title="2.什么是⾃旋锁？"></a>2.什么是⾃旋锁？</h1><p>⾃旋锁是SMP架构中的⼀种low-level的同步机制。</p>
+<p>1、当线程A想要获取⼀把⾃旋锁⽽该锁⼜被其它线程锁持有时，线程A会在⼀个循环中⾃旋以检测锁是不是已经可⽤了。 </p>
+<p>2、⾃选锁需要注意：</p>
+<p>由于⾃旋时不释放CPU，因⽽持有⾃旋锁的线程应该尽快释放⾃旋锁，否则等待该⾃旋锁的线程会⼀直在那⾥⾃旋，这就会浪费CPU时间。持有⾃旋锁的线程在sleep之前应该释放⾃旋锁以便其它线程可以获得⾃旋锁。</p>
+<p>3、⽬前的JVM实现⾃旋会消耗CPU，如果⻓时间不调⽤doNotify⽅法，doWait⽅法会⼀直⾃旋，CPU会消耗太⼤</p>
+<p>4、⾃旋锁⽐较适⽤于锁使⽤者保持锁时间⽐较短的情况，这种情况⾃旋锁的效率⽐较⾼。</p>
+<p>5、⾃旋锁是⼀种对多处理器相当有效的机制，⽽在单处理器⾮抢占式的系统中基本上没有作⽤。</p>
+<h1 id="3-什么是CAS？"><a href="#3-什么是CAS？" class="headerlink" title="3. 什么是CAS？"></a><strong>3.</strong> 什么是CAS？</h1><p>1、CAS（compare and swap）的缩写，中⽂翻译成⽐较并交换。</p>
+<p>2、CAS 不通过JVM,直接利⽤java本地⽅ JNI（Java Native Interface为JAVA本地调⽤）,直接调⽤CPU 的cmpxchg（是汇编指令）指令。</p>
+<p>3、利⽤CPU的CAS指令，同时借助JNI来完成Java的⾮阻塞算法,实现原⼦操作。其它原⼦操作都是利⽤类似的特性完成的。</p>
+<p>4、整个java.util.concurrent都是建⽴在CAS之上的，因此对于synchronized阻塞算法，J.U.C在性能上有了很⼤的提升。</p>
+<p>5、CAS是项乐观锁技术，当多个线程尝试使⽤CAS同时更新同⼀个变量时，只有其中⼀个线程能更新变量的值，⽽其它线程都失败，失败的线程并不会被挂起，⽽是被告知这次竞争中失败，并可以再次尝试。</p>
+<blockquote>
+<p>1、使⽤CAS在线程冲突严重时，会⼤幅降低程序性能；CAS只适合于线程冲突较少的情况使⽤。</p>
+<p>2、synchronized在jdk1.6之后，已经改进优化。synchronized的底层实现主要依靠Lock-Free的队列，基本思路是⾃旋后阻塞，竞<strong>争切换后继续竞争锁，稍微牺牲了公平性，但获得了⾼吞吐量。在线程冲突较少的情况下，可以获得和CAS类似的性能；⽽线</strong>程冲突严重的情况下，性能远⾼于CAS。</p>
+</blockquote>
+<h1 id="4-什么是AQS？"><a href="#4-什么是AQS？" class="headerlink" title="4. 什么是AQS？"></a><strong>4.</strong> 什么是AQS？</h1><p>1、AbstractQueuedSynchronizer简称AQS，是⼀个⽤于构建锁和同步容器的框架。事实上concurrent包内许多类都是基于AQS构建，例如ReentrantLock，Semaphore，CountDownLatch，ReentrantReadWriteLock，FutureTask等。AQS解决了在实现同步容器时设计的⼤量细节问题。2、AQS使⽤⼀个FIFO的队列表示排队等待锁的线程，队列头节点称作“哨兵节点”或者“哑节点”，它不与任何线程关联。其他的节点与等待线程关联，每个节点维护⼀个等待状态waitStatus。</p>
+<h1 id="5-什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？"><a href="#5-什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？" class="headerlink" title="5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？"></a><strong>5.</strong> 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</h1><p>1、JDK7提供了7个阻塞队列。（也属于并发容器）</p>
+<p>i. ArrayBlockingQueue ：⼀个由数组结构组成的有界阻塞队列。</p>
+<p>ii. LinkedBlockingQueue ：⼀个由链表结构组成的有界阻塞队列。</p>
+<p>iii. PriorityBlockingQueue ：⼀个⽀持优先级排序的⽆界阻塞队列。</p>
+<p>iv. DelayQueue：⼀个使⽤优先级队列实现的⽆界阻塞队列。</p>
+<p>v. SynchronousQueue：⼀个不存储元素的阻塞队列。</p>
+<p>vi. LinkedTransferQueue：⼀个由链表结构组成的⽆界阻塞队列。</p>
+<p>vii. LinkedBlockingDeque：⼀个由链表结构组成的双向阻塞队列。</p>
+<p>2、概念：阻塞队列是⼀个在队列基础上⼜⽀持了两个附加操作的队列。 </p>
+<p>3、2个附加操作：</p>
+<p>⽀持阻塞的插⼊⽅法：队列满时，队列会阻塞插⼊元素的线程，直到队列不满。</p>
+<p>⽀持阻塞的移除⽅法：队列空时，获取元素的线程会等待队列变为⾮空。</p>
+<h1 id="6-什么是Callable和Future"><a href="#6-什么是Callable和Future" class="headerlink" title="6. 什么是Callable和Future?"></a><strong>6.</strong> 什么是Callable和Future?</h1><p>1、Callable 和 Future 是⽐较有趣的⼀对组合。当我们需要获取线程的执⾏结果时，就需要⽤到它们。Callable⽤于产⽣结果，Future⽤于获取结果。</p>
+<p>2、Callable接⼝使⽤泛型去定义它的返回类型。Executors类提供了⼀些有⽤的⽅法去在线程池中执⾏Callable内的任务。由于Callable任务是并⾏的，必须等待它返回的结果。java.util.concurrent.Future对象解决了这个问题。</p>
+<p>3、在线程池提交Callable任务后返回了⼀个Future对象，使⽤它可以知道Callable任务的状态和得到Callable返回的执⾏结果。Future提供了get()⽅法，等待Callable结束并获取它的执⾏结果。</p>
+<h1 id="7-什么是FutureTask"><a href="#7-什么是FutureTask" class="headerlink" title="7. 什么是FutureTask?"></a><strong>7.</strong> 什么是FutureTask?</h1><p>1、FutureTask可⽤于异步获取执⾏结果或取消执⾏任务的场景。通过传⼊Runnable或者Callable的任务给FutureTask，直接调⽤其run⽅法或者放⼊线程池执⾏，之后可以在外部通过FutureTask的get⽅法异步获取执⾏结果，因此，FutureTask⾮常适合⽤于耗时的计算，主线程可以在完成⾃⼰的任务后，再去获取结果。另外，FutureTask还可以确保即使调⽤了多次run⽅法，它都只会执⾏⼀次Runnable或者Callable任务，或者通过cancel取消FutureTask的执⾏等。</p>
+<p>2、futuretask可⽤于执⾏多任务、以及避免⾼并发情况下多次创建数据机锁的出现。</p>
+<h1 id="8-ThreadLocal的设计理念与作⽤？"><a href="#8-ThreadLocal的设计理念与作⽤？" class="headerlink" title="8. ThreadLocal的设计理念与作⽤？"></a><strong>8.</strong> ThreadLocal的设计理念与作⽤？</h1><p>Java中的ThreadLocal类允许我们创建只能被同⼀个线程读写的变量。因此，如果⼀段代码含有⼀个ThreadLocal变量的引⽤，即使两个线程同时执⾏这段代码，它们也⽆法访问到对⽅的ThreadLocal变量。</p>
+<p> 1、概念：线程局部变量。在并发编程的时候，成员变量如果不做任何处理其实是线程不安全的，各个线程都在操作同⼀个变量，显然是不⾏的，并且我们也知道volatile这个关键字也是不能保证线程安全的。那么在有⼀种情况之下，我们需要满⾜这样⼀个条件：变量是同⼀个，但是每个线程都使⽤同⼀个初始值，也就是使⽤同⼀个变量的⼀个新的副本。这种情况之下ThreadLocal就⾮常适⽤，⽐如说DAO的数据库连接，我们知道DAO是单例的，那么他的属性Connection就不是⼀个线程安全的变量。⽽我们每个线程都需要使⽤他，并且各⾃使⽤各⾃的。这种情况，ThreadLocal就⽐较好的解决了这个问题。</p>
+<p> 2、原理：从本质来讲，就是每个线程都维护了⼀个map，⽽这个map的key就是threadLocal，⽽值就是我们set的那个值，每次线程在get的时候，都从⾃⼰的变量中取值，既然从⾃⼰的变量中取值，那肯定就不存在线程安全问题，总体来讲，ThreadLocal这个变量的状态根本没有发⽣变化，他仅仅是充当⼀个key的⻆⾊，另外提供给每⼀个线程⼀个初始值。</p>
+<p> 3、实现机制：每个Thread对象内部都维护了⼀个ThreadLocalMap这样⼀个ThreadLocal的Map，可以存放若⼲个ThreadLocal。 </p>
+<p> 4、应⽤场景：当很多线程需要多次使⽤同⼀个对象，并且需要该对象具有相同初始化值的时候最适合使⽤ThreadLocal。</p>
+<h1 id="9-synchronized和ReentrantLock的区别？"><a href="#9-synchronized和ReentrantLock的区别？" class="headerlink" title="9. synchronized和ReentrantLock的区别？"></a><strong>9.</strong> synchronized和ReentrantLock的区别？</h1><p>1、基础知识</p>
+<p>可重⼊锁。可重⼊锁是指同⼀个线程可以多次获取同⼀把锁。ReentrantLock和synchronized都是可重⼊锁。</p>
+<p>可中断锁。可中断锁是指线程尝试获取锁的过程中，是否可以响应中断。synchronized是不可中断锁，⽽ReentrantLock则提供了中断功能。</p>
+<p>公平锁与⾮公平锁。公平锁是指多个线程同时尝试获取同⼀把锁时，获取锁的顺序按照线程达到的顺序，⽽⾮公平锁则允许线程“插队”。synchronized是⾮公平锁，⽽ReentrantLock的默认实现是⾮公平锁，但是也可以设置为公平锁。</p>
+<p>CAS操作(CompareAndSwap)。CAS操作简单的说就是⽐较并交换。CAS 操作包含三个操作数 —— 内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会⾃动将该位置值更新为新值。否则，处理器不做任何操作。⽆论哪种情况，它都会在 CAS 指令之前返回该位置的值。CAS 有效地说明了“我认为位置 V 应该包含值 A；如果包含该值，则将 B 放到这个位置；否则，不要更改该位置，只告诉我这个位置现在的值即可。” </p>
+<p>2、Synchronized</p>
+<p>i. synchronized是java内置的关键字，它提供了⼀种独占的加锁⽅式。synchronized的获取和释放锁由JVM实现，⽤户不需要显示的释放锁，⾮常⽅便。然⽽synchronized也有⼀定的局限性：</p>
+<p>\1. 当线程尝试获取锁的时候，如果获取不到锁会⼀直阻塞。</p>
+<p>\2. 如果获取锁的线程进⼊休眠或者阻塞，除⾮当前线程异常，否则其他线程尝试获取锁必须⼀直等待。</p>
+<p>3、ReentrantLock</p>
+<p>i. ReentrantLock它是JDK 1.5之后提供的API层⾯的互斥锁，需要lock()和unlock()⽅法配合try&#x2F;finally语句块来完成。</p>
+<p>ii. 等待可中断避免，出现死锁的情况（如果别的线程正持有锁，会等待参数给定的时间，在等待的过程中，如果获取了锁定，就返回true，如果等待超时，返回false）</p>
+<p>iii. 公平锁与⾮公平锁多个线程等待同⼀个锁时，必须按照申请锁的时间顺序获得锁，Synchronized锁⾮公平锁，ReentrantLock默认的构造函数是创建的⾮公平锁，可以通过参数true设为公平锁，但公平锁表现的性能不是很好。</p>
+<h1 id="10-⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？"><a href="#10-⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？" class="headerlink" title="10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？"></a><strong>10.</strong> ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</h1><p>\1. ⾼并发、任务执⾏时间短的业务：线程池线程数可以设置为CPU核数+1，减少线程上下⽂的切换。</p>
+<p>\2. 并发不⾼、任务执⾏时间⻓的业务要区分开看：</p>
+<p>a. 假如是业务时间⻓集中在IO操作上，也就是IO密集型的任务，因为IO操作并不占⽤CPU，所以不要让所有的CPU</p>
+<p>闲下来，可以加⼤线程池中的线程数⽬，让CPU处理更多的业务</p>
+<p>b. 假如是业务时间⻓集中在计算操作上，也就是计算密集型任务，这个就没办法了，和（1）⼀样吧，线程池中的线程数设置得少⼀些，减少线程上下⽂的切换</p>
+<p>\3. 并发⾼、业务执⾏时间⻓，解决这种类型任务的关键不在于线程池⽽在于整体架构的设计，看看这些业务⾥⾯某些数据是否能做缓存是第⼀步，增加服务器是第⼆步，⾄于线程池的设置，设置参考（2）。最后，业务执⾏时间⻓的问题，也可能需要分析⼀下，看看能不能使⽤中间件对任务进⾏拆分和解耦。</p>
+<h1 id="11-如何检测死锁？怎么预防死锁？"><a href="#11-如何检测死锁？怎么预防死锁？" class="headerlink" title="11. 如何检测死锁？怎么预防死锁？"></a><strong>11.</strong> 如何检测死锁？怎么预防死锁？</h1><h2 id="1-概念："><a href="#1-概念：" class="headerlink" title="1. 概念："></a>1. 概念：</h2><p>是指两个或两个以上的进程在执⾏过程中，因争夺资源⽽造成的⼀种互相等待的现象，若⽆外⼒作⽤，它们都将⽆法推进下去。此时称系统处于死锁；</p>
+<h2 id="2-死锁的四个必要条件："><a href="#2-死锁的四个必要条件：" class="headerlink" title="2. 死锁的四个必要条件："></a>2. 死锁的四个必要条件：</h2><p>i. 互斥条件：进程对所分配到的资源不允许其他进程进⾏访问，若其他进程访问该资源，只能等待，直⾄占有该资源的进程使⽤完成后释放该资源</p>
+<p>ii. 请求和保持条件：进程获得⼀定的资源之后，⼜对其他资源发出请求，但是该资源可能被其他进程占有，此时请求阻塞，但⼜对⾃⼰获得的资源保持不放</p>
+<p>iii. 不可剥夺条件：是指进程已获得的资源，在未完成使⽤之前，不可被剥夺，只能在使⽤完后⾃⼰释放</p>
+<p>iv. 环路等待条件：是指进程发⽣死锁后，若⼲进程之间形成⼀种头尾相接的循环等待资源关系</p>
+<h2 id="3-死锁产⽣的原因："><a href="#3-死锁产⽣的原因：" class="headerlink" title="3. 死锁产⽣的原因："></a>3. 死锁产⽣的原因：</h2><p>1.因竞争资源发⽣死锁 现象：系统中供多个进程共享的资源的数⽬不⾜以满⾜全部进程的需要时，就会引起对诸资源的竞争⽽发⽣死锁现象</p>
+<p>2.进程推进顺序不当发⽣死锁</p>
+<h2 id="4-检查死锁"><a href="#4-检查死锁" class="headerlink" title="4. 检查死锁"></a>4. 检查死锁</h2><p>i. 有两个容器，⼀个⽤于保存线程正在请求的锁，⼀个⽤于保存线程已经持有的锁。每次加锁之前都会做如下检测:</p>
+<p>ii. 检测当前正在请求的锁是否已经被其它线程持有,如果有，则把那些线程找出来</p>
+<p>iii. 遍历第⼀步中返回的线程，检查⾃⼰持有的锁是否正被其中任何⼀个线程请求，如果第⼆步返回真,表示出现了死锁</p>
+<h2 id="5-死锁的解除与预防：控制不要让四个必要条件成⽴。"><a href="#5-死锁的解除与预防：控制不要让四个必要条件成⽴。" class="headerlink" title="5. 死锁的解除与预防：控制不要让四个必要条件成⽴。"></a>5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</h2><h1 id="12-线程池原理："><a href="#12-线程池原理：" class="headerlink" title="12. 线程池原理："></a><strong>12.</strong> 线程池原理：</h1><p> 1、使⽤场景：假设⼀个服务器完成⼀项任务所需时间为：T1-创建线程时间，T2-在线程中执⾏任务的时间，T3-销毁线程时间。如果T1+T3远⼤于T2，则可以使⽤线程池，以提⾼服务器性能；</p>
+<p> 2、组成：</p>
+<p> 1、线程池管理器（ThreadPool）：⽤于创建并管理线程池，包括 创建线程池，销毁线程池，添加新任务；</p>
+<p> 2、⼯作线程（PoolWorker）：线程池中线程，在没有任务时处于等待状态，可以循环的执⾏任务；</p>
+<p> 3、任务接⼝（Task）：每个任务必须实现的接⼝，以供⼯作线程调度任务的执⾏，它主要规定了任务的⼊⼝，任务执⾏完后的收尾⼯作，任务的执⾏状态等；</p>
+<p> 4、任务队列（taskQueue）：⽤于存放没有处理的任务。提供⼀种缓冲机制。</p>
+<p> 2、原理：线程池技术正是关注如何缩短或调整T1,T3时间的技术，从⽽提⾼服务器程序性能的。它把T1，T3分别安排在服务器程序的启动和结束的时间段或者⼀些空闲的时间段，这样在服务器程序处理客户请求时，不会有T1，T3的开销了。 </p>
+<p> 3、⼯作流程：</p>
+<p> 1、线程池刚创建时，⾥⾯没有⼀个线程(也可以设置参数prestartAllCoreThreads启动预期数量主线程)。任务队列是作</p>
+<p>为参数传进来的。不过，就算队列⾥⾯有任务，线程池也不会⻢上执⾏它们。</p>
+<p> 2、当调⽤ execute() ⽅法添加⼀个任务时，线程池会做如下判断：</p>
+<p>\1. 如果正在运⾏的线程数量⼩于 corePoolSize，那么⻢上创建线程运⾏这个任务；</p>
+<p>\2. 如果正在运⾏的线程数量⼤于或等于 corePoolSize，那么将这个任务放⼊队列；</p>
+<p>\3. 如果这时候队列满了，⽽且正在运⾏的线程数量⼩于 maximumPoolSize，那么还是要创建⾮核⼼线程⽴刻运⾏这个任务；</p>
+<p>\4. 如果队列满了，⽽且正在运⾏的线程数量⼤于或等于 maximumPoolSize，那么线程池会抛出异常RejectExecutionException。</p>
+<p> 3、当⼀个线程完成任务时，它会从队列中取下⼀个任务来执⾏。</p>
+<p> 4、当⼀个线程⽆事可做，超过⼀定的时间（keepAliveTime）时，线程池会判断，如果当前运⾏的线程数⼤于corePoolSize，那么这个线程就被停掉。所以线程池的所有任务完成后，它最终会收缩到 corePoolSize 的⼤⼩。</p>
+<h1 id="13、ThreadLocal为什么会发⽣内存泄漏？"><a href="#13、ThreadLocal为什么会发⽣内存泄漏？" class="headerlink" title="13、ThreadLocal为什么会发⽣内存泄漏？"></a>13、ThreadLocal为什么会发⽣内存泄漏？</h1><p>1、threadlocal原理图：</p>
+<p><img src="C:\Users\dave_cc\Downloads\4、多线程(68题)\5.png" alt="5" srcset="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20300%20300'%3E%3C/svg%3E" data-src="C:\Users\dave_cc\Downloads\4、多线程(68题)\5.png" class="lozad post-image"></p>
+<p>2、OOM实现：</p>
+<p>1、ThreadLocal的实现是这样的：每个Thread 维护⼀个 ThreadLocalMap 映射表，这个映射表的 key 是 ThreadLocal实例本身，value 是真正需要存储的 Object。 </p>
+<p>2、也就是说 ThreadLocal 本身并不存储值，它只是作为⼀个 key 来让线程从 ThreadLocalMap 获取 value。值得注意的是图中的虚线，表示 ThreadLocalMap 是使⽤ ThreadLocal 的弱引⽤作为 Key 的，弱引⽤的对象在 GC 时会被回收。</p>
+<p>3、ThreadLocalMap使⽤ThreadLocal的弱引⽤作为key，如果⼀个ThreadLocal没有外部强引⽤来引⽤它，那么系统 GC的时候，这个ThreadLocal势必会被回收，这样⼀来，ThreadLocalMap中就会出现key为null的Entry，就没有办法访问这些key为null的Entry的value，如果当前线程再迟迟不结束的话，这些key为null的Entry的value就会⼀直存在⼀条强引⽤链：Thread Ref -&gt; Thread -&gt; ThreaLocalMap -&gt; Entry -&gt; value永远⽆法回收，造成内存泄漏。</p>
+<p>3、预防办法：在ThreadLocal的get(),set(),remove()的时候都会清除线程ThreadLocalMap⾥所有key为null的value。但是这些被动的预防措施并不能保证不会内存泄漏：</p>
+<p>（1）使⽤static的ThreadLocal，延⻓了ThreadLocal的⽣命周期，可能导致内存泄漏。</p>
+<p>（2）分配使⽤了ThreadLocal⼜不再调⽤get(),set(),remove()⽅法，那么就会导致内存泄漏，因为这块内存⼀直存在。</p>
+<h1 id="14、⾼并发系统如何做性能优化？如何防⽌库存超卖？"><a href="#14、⾼并发系统如何做性能优化？如何防⽌库存超卖？" class="headerlink" title="14、⾼并发系统如何做性能优化？如何防⽌库存超卖？"></a>14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</h1><h2 id="1、⾼并发系统性能优化："><a href="#1、⾼并发系统性能优化：" class="headerlink" title="1、⾼并发系统性能优化："></a>1、⾼并发系统性能优化：</h2><p> 优化程序，优化服务配置，优化系统配置</p>
+<p> 1.尽量使⽤缓存，包括⽤户缓存，信息缓存等，多花点内存来做缓存，可以⼤量减少与数据库的交互，提⾼性能。</p>
+<p> 2.⽤jprofiler等⼯具找出性能瓶颈，减少额外的开销。</p>
+<p> 3.优化数据库查询语句，减少直接使⽤hibernate等⼯具的直接⽣成语句（仅耗时较⻓的查询做优化）。</p>
+<p> 4.优化数据库结构，多做索引，提⾼查询效率。</p>
+<p> 5.统计的功能尽量做缓存，或按每天⼀统计或定时统计相关报表，避免需要时进⾏统计的功能。</p>
+<p> 6.能使⽤静态⻚⾯的地⽅尽量使⽤，减少容器的解析（尽量将动态内容⽣成静态html来显示）。</p>
+<p> 7.解决以上问题后，使⽤服务器集群来解决单台的瓶颈问题。</p>
+<h2 id="2、防⽌库存超卖："><a href="#2、防⽌库存超卖：" class="headerlink" title="2、防⽌库存超卖："></a>2、防⽌库存超卖：</h2><h3 id="1、悲观锁：在更新库存期间加锁，不允许其它线程修改；"><a href="#1、悲观锁：在更新库存期间加锁，不允许其它线程修改；" class="headerlink" title="1、悲观锁：在更新库存期间加锁，不允许其它线程修改；"></a>1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</h3><p> 1、数据库锁：select xxx for update；</p>
+<p> 2、分布式锁；</p>
+<h3 id="2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。"><a href="#2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。" class="headerlink" title="2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。"></a>2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</h3><p> 1、redis watch：监视键值对，作⽤时如果事务提交exec时发现监视的监视对发⽣变化，事务将被取消。</p>
+<h3 id="3、消息队列：通过-FIFO-队列，使修改库存的操作串⾏化。"><a href="#3、消息队列：通过-FIFO-队列，使修改库存的操作串⾏化。" class="headerlink" title="3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。"></a>3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</h3><p> 4、总结：总的来说，不能把压⼒放在数据库上，所以使⽤ “select xxx for update” 的⽅式在⾼并发的场景下是不可⾏的。FIFO 同步队列的⽅式，可以结合库存限制队列⻓，但是在库存较多的场景下，⼜不太适⽤。所以相对来说，我会倾向于选择：乐观锁 &#x2F; 缓存锁 &#x2F; 分布式锁的⽅式。</p>
+<h1 id="15、说说java同步机制，java有哪些锁，每个锁的特性？"><a href="#15、说说java同步机制，java有哪些锁，每个锁的特性？" class="headerlink" title="15、说说java同步机制，java有哪些锁，每个锁的特性？"></a>15、说说java同步机制，java有哪些锁，每个锁的特性？</h1><p>synchronized  lock</p>
+<h1 id="16、说说volatile如何保证可⻅性，从cpu层⾯分析？"><a href="#16、说说volatile如何保证可⻅性，从cpu层⾯分析？" class="headerlink" title="16、说说volatile如何保证可⻅性，从cpu层⾯分析？"></a>16、说说volatile如何保证可⻅性，从cpu层⾯分析？</h1><p>加入volatile关键字时，会多出一个lock前缀指令，lock前缀指令实际上相当于一个内存屏障，它有三个功能：</p>
+<p>1.确保指令重排序时不会把其后面的指令重排到内存屏障之前的位置，也不会把前面的指令排到内存屏障后面，即在执行到内存屏障这句指令时，前面的操作已经全部完成；<br>2.将当前处理器缓存行的数据立即写回系统内存（由volatile先行发生原则保证）；<br>3.这个写回内存的操作会引起在其他CPU里缓存了该内存地址的数据无效。写回操作时要经过总线传播数据，而每个处理器通过嗅探在总线上传播的数据来检查自己缓存的值是不是过期了，当处理器发现自己缓存行对应的内存地址被修改，就会将当前处理器的缓存行设置为无效状态，当处理器要对这个值进行修改的时候，会强制重新从系统内存里把数据读到处理器缓存(也是由volatile先行发生原则保证)；</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2021/08/16/thead/">
+            https://zxtc123.github.io/java4u/2021/08/16/thead/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2021/08/16/sumNums/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">连续n个数的和 </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2021/08/12/findContinuousSequence/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">剑指 Offer 57 - II. 和为s的连续正数序列 </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">1. 什么是线程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E2%BE%83%E6%97%8B%E9%94%81%EF%BC%9F"><span class="toc-text">2.什么是⾃旋锁？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F"><span class="toc-text">3. 什么是CAS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F"><span class="toc-text">4. 什么是AQS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E2%BD%A4%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%9D%A5%E5%AE%9E%E7%8E%B0%E2%BD%A3%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFCallable%E5%92%8CFuture"><span class="toc-text">6. 什么是Callable和Future?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFFutureTask"><span class="toc-text">7. 什么是FutureTask?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-ThreadLocal%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E4%BD%9C%E2%BD%A4%EF%BC%9F"><span class="toc-text">8. ThreadLocal的设计理念与作⽤？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E2%BE%BC%E5%B9%B6%E5%8F%91%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E7%9F%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E4%B8%8D%E2%BE%BC%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E2%BE%BC%E3%80%81%E4%B8%9A%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81%EF%BC%9F%E6%80%8E%E4%B9%88%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="toc-text">11. 如何检测死锁？怎么预防死锁？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1. 概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">2. 死锁的四个必要条件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%BB%E9%94%81%E4%BA%A7%E2%BD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">3. 死锁产⽣的原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5%E6%AD%BB%E9%94%81"><span class="toc-text">4. 检查死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4%E4%B8%8E%E9%A2%84%E9%98%B2%EF%BC%9A%E6%8E%A7%E5%88%B6%E4%B8%8D%E8%A6%81%E8%AE%A9%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%88%90%E2%BD%B4%E3%80%82"><span class="toc-text">5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">12. 线程池原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13%E3%80%81ThreadLocal%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E2%BD%A3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="toc-text">13、ThreadLocal为什么会发⽣内存泄漏？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9F"><span class="toc-text">14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-text">1、⾼并发系统性能优化：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9A"><span class="toc-text">2、防⽌库存超卖：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9A%E5%9C%A8%E6%9B%B4%E6%96%B0%E5%BA%93%E5%AD%98%E6%9C%9F%E9%97%B4%E5%8A%A0%E9%94%81%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%85%B6%E5%AE%83%E7%BA%BF%E7%A8%8B%E4%BF%AE%E6%94%B9%EF%BC%9B"><span class="toc-text">1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%9A%E4%BD%BF%E2%BD%A4%E5%B8%A6%E7%89%88%E6%9C%AC%E5%8F%B7%E7%9A%84%E6%9B%B4%E6%96%B0%E3%80%82%E6%AF%8F%E4%B8%AA%E7%BA%BF%E7%A8%8B%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%9C%89%E2%BC%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E4%BF%AE%E6%94%B9%E6%88%90%E5%8A%9F%EF%BC%8C%E5%85%B6%E5%AE%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E5%A4%B1%E8%B4%A5%E3%80%82"><span class="toc-text">2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E9%80%9A%E8%BF%87-FIFO-%E9%98%9F%E5%88%97%EF%BC%8C%E4%BD%BF%E4%BF%AE%E6%94%B9%E5%BA%93%E5%AD%98%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%B2%E2%BE%8F%E5%8C%96%E3%80%82"><span class="toc-text">3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15%E3%80%81%E8%AF%B4%E8%AF%B4java%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%EF%BC%8Cjava%E6%9C%89%E5%93%AA%E4%BA%9B%E9%94%81%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%94%81%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">15、说说java同步机制，java有哪些锁，每个锁的特性？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16%E3%80%81%E8%AF%B4%E8%AF%B4volatile%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E2%BB%85%E6%80%A7%EF%BC%8C%E4%BB%8Ecpu%E5%B1%82%E2%BE%AF%E5%88%86%E6%9E%90%EF%BC%9F"><span class="toc-text">16、说说volatile如何保证可⻅性，从cpu层⾯分析？</span></a></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>112</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>24</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>31</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">1. 什么是线程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E2%BE%83%E6%97%8B%E9%94%81%EF%BC%9F"><span class="toc-text">2.什么是⾃旋锁？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F"><span class="toc-text">3. 什么是CAS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F"><span class="toc-text">4. 什么是AQS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E2%BD%A4%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%9D%A5%E5%AE%9E%E7%8E%B0%E2%BD%A3%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFCallable%E5%92%8CFuture"><span class="toc-text">6. 什么是Callable和Future?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFFutureTask"><span class="toc-text">7. 什么是FutureTask?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-ThreadLocal%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E4%BD%9C%E2%BD%A4%EF%BC%9F"><span class="toc-text">8. ThreadLocal的设计理念与作⽤？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E2%BE%BC%E5%B9%B6%E5%8F%91%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E7%9F%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E4%B8%8D%E2%BE%BC%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E2%BE%BC%E3%80%81%E4%B8%9A%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81%EF%BC%9F%E6%80%8E%E4%B9%88%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="toc-text">11. 如何检测死锁？怎么预防死锁？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1. 概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">2. 死锁的四个必要条件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%BB%E9%94%81%E4%BA%A7%E2%BD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">3. 死锁产⽣的原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5%E6%AD%BB%E9%94%81"><span class="toc-text">4. 检查死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4%E4%B8%8E%E9%A2%84%E9%98%B2%EF%BC%9A%E6%8E%A7%E5%88%B6%E4%B8%8D%E8%A6%81%E8%AE%A9%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%88%90%E2%BD%B4%E3%80%82"><span class="toc-text">5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">12. 线程池原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13%E3%80%81ThreadLocal%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E2%BD%A3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="toc-text">13、ThreadLocal为什么会发⽣内存泄漏？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9F"><span class="toc-text">14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-text">1、⾼并发系统性能优化：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9A"><span class="toc-text">2、防⽌库存超卖：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9A%E5%9C%A8%E6%9B%B4%E6%96%B0%E5%BA%93%E5%AD%98%E6%9C%9F%E9%97%B4%E5%8A%A0%E9%94%81%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%85%B6%E5%AE%83%E7%BA%BF%E7%A8%8B%E4%BF%AE%E6%94%B9%EF%BC%9B"><span class="toc-text">1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%9A%E4%BD%BF%E2%BD%A4%E5%B8%A6%E7%89%88%E6%9C%AC%E5%8F%B7%E7%9A%84%E6%9B%B4%E6%96%B0%E3%80%82%E6%AF%8F%E4%B8%AA%E7%BA%BF%E7%A8%8B%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%9C%89%E2%BC%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E4%BF%AE%E6%94%B9%E6%88%90%E5%8A%9F%EF%BC%8C%E5%85%B6%E5%AE%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E5%A4%B1%E8%B4%A5%E3%80%82"><span class="toc-text">2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E9%80%9A%E8%BF%87-FIFO-%E9%98%9F%E5%88%97%EF%BC%8C%E4%BD%BF%E4%BF%AE%E6%94%B9%E5%BA%93%E5%AD%98%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%B2%E2%BE%8F%E5%8C%96%E3%80%82"><span class="toc-text">3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15%E3%80%81%E8%AF%B4%E8%AF%B4java%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%EF%BC%8Cjava%E6%9C%89%E5%93%AA%E4%BA%9B%E9%94%81%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%94%81%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">15、说说java同步机制，java有哪些锁，每个锁的特性？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16%E3%80%81%E8%AF%B4%E8%AF%B4volatile%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E2%BB%85%E6%80%A7%EF%BC%8C%E4%BB%8Ecpu%E5%B1%82%E2%BE%AF%E5%88%86%E6%9E%90%EF%BC%9F"><span class="toc-text">16、说说volatile如何保证可⻅性，从cpu层⾯分析？</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">7</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
+        <div class="categories-list-item">
+          分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" 
+        title="参考资料">
+        <div class="tags-list-item">参考资料</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/django/" 
+        title="django">
+        <div class="tags-list-item">django</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/kubernetes/" 
+        title="kubernetes">
+        <div class="tags-list-item">kubernetes</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/spring/" 
+        title="spring">
+        <div class="tags-list-item">spring</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/python/" 
+        title="python">
+        <div class="tags-list-item">python</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E7%BA%BF%E7%A8%8B%EF%BC%9F"><span class="toc-text">1. 什么是线程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF%E2%BE%83%E6%97%8B%E9%94%81%EF%BC%9F"><span class="toc-text">2.什么是⾃旋锁？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E4%BB%80%E4%B9%88%E6%98%AFCAS%EF%BC%9F"><span class="toc-text">3. 什么是CAS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E4%BB%80%E4%B9%88%E6%98%AFAQS%EF%BC%9F"><span class="toc-text">4. 什么是AQS？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%EF%BC%9F%E5%A6%82%E4%BD%95%E4%BD%BF%E2%BD%A4%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97%E6%9D%A5%E5%AE%9E%E7%8E%B0%E2%BD%A3%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%EF%BC%9F"><span class="toc-text">5. 什么是阻塞队列？如何使⽤阻塞队列来实现⽣产者-消费者模型？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AFCallable%E5%92%8CFuture"><span class="toc-text">6. 什么是Callable和Future?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AFFutureTask"><span class="toc-text">7. 什么是FutureTask?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#8-ThreadLocal%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5%E4%B8%8E%E4%BD%9C%E2%BD%A4%EF%BC%9F"><span class="toc-text">8. ThreadLocal的设计理念与作⽤？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#9-synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">9. synchronized和ReentrantLock的区别？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#10-%E2%BE%BC%E5%B9%B6%E5%8F%91%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E7%9F%AD%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E4%B8%8D%E2%BE%BC%E3%80%81%E4%BB%BB%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F%E5%B9%B6%E5%8F%91%E2%BE%BC%E3%80%81%E4%B8%9A%E5%8A%A1%E6%89%A7%E2%BE%8F%E6%97%B6%E9%97%B4%E2%BB%93%E7%9A%84%E4%B8%9A%E5%8A%A1%E6%80%8E%E6%A0%B7%E4%BD%BF%E2%BD%A4%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="toc-text">10. ⾼并发、任务执⾏时间短的业务怎样使⽤线程池？并发不⾼、任务执⾏时间⻓的业务怎样使⽤线程池？并发⾼、业务执⾏时间⻓的业务怎样使⽤线程池？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#11-%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%AD%BB%E9%94%81%EF%BC%9F%E6%80%8E%E4%B9%88%E9%A2%84%E9%98%B2%E6%AD%BB%E9%94%81%EF%BC%9F"><span class="toc-text">11. 如何检测死锁？怎么预防死锁？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5%EF%BC%9A"><span class="toc-text">1. 概念：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%AD%BB%E9%94%81%E7%9A%84%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-text">2. 死锁的四个必要条件：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%AD%BB%E9%94%81%E4%BA%A7%E2%BD%A3%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="toc-text">3. 死锁产⽣的原因：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%A3%80%E6%9F%A5%E6%AD%BB%E9%94%81"><span class="toc-text">4. 检查死锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E9%99%A4%E4%B8%8E%E9%A2%84%E9%98%B2%EF%BC%9A%E6%8E%A7%E5%88%B6%E4%B8%8D%E8%A6%81%E8%AE%A9%E5%9B%9B%E4%B8%AA%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6%E6%88%90%E2%BD%B4%E3%80%82"><span class="toc-text">5. 死锁的解除与预防：控制不要让四个必要条件成⽴。</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#12-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8E%9F%E7%90%86%EF%BC%9A"><span class="toc-text">12. 线程池原理：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#13%E3%80%81ThreadLocal%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E5%8F%91%E2%BD%A3%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="toc-text">13、ThreadLocal为什么会发⽣内存泄漏？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E5%A6%82%E4%BD%95%E5%81%9A%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F%E5%A6%82%E4%BD%95%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9F"><span class="toc-text">14、⾼并发系统如何做性能优化？如何防⽌库存超卖？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E2%BE%BC%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A"><span class="toc-text">1、⾼并发系统性能优化：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E9%98%B2%E2%BD%8C%E5%BA%93%E5%AD%98%E8%B6%85%E5%8D%96%EF%BC%9A"><span class="toc-text">2、防⽌库存超卖：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%E3%80%81%E6%82%B2%E8%A7%82%E9%94%81%EF%BC%9A%E5%9C%A8%E6%9B%B4%E6%96%B0%E5%BA%93%E5%AD%98%E6%9C%9F%E9%97%B4%E5%8A%A0%E9%94%81%EF%BC%8C%E4%B8%8D%E5%85%81%E8%AE%B8%E5%85%B6%E5%AE%83%E7%BA%BF%E7%A8%8B%E4%BF%AE%E6%94%B9%EF%BC%9B"><span class="toc-text">1、悲观锁：在更新库存期间加锁，不允许其它线程修改；</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%E3%80%81%E4%B9%90%E8%A7%82%E9%94%81%EF%BC%9A%E4%BD%BF%E2%BD%A4%E5%B8%A6%E7%89%88%E6%9C%AC%E5%8F%B7%E7%9A%84%E6%9B%B4%E6%96%B0%E3%80%82%E6%AF%8F%E4%B8%AA%E7%BA%BF%E7%A8%8B%E9%83%BD%E5%8F%AF%E4%BB%A5%E5%B9%B6%E5%8F%91%E4%BF%AE%E6%94%B9%EF%BC%8C%E4%BD%86%E5%9C%A8%E5%B9%B6%E5%8F%91%E6%97%B6%EF%BC%8C%E5%8F%AA%E6%9C%89%E2%BC%80%E4%B8%AA%E7%BA%BF%E7%A8%8B%E4%BC%9A%E4%BF%AE%E6%94%B9%E6%88%90%E5%8A%9F%EF%BC%8C%E5%85%B6%E5%AE%83%E4%BC%9A%E8%BF%94%E5%9B%9E%E5%A4%B1%E8%B4%A5%E3%80%82"><span class="toc-text">2、乐观锁：使⽤带版本号的更新。每个线程都可以并发修改，但在并发时，只有⼀个线程会修改成功，其它会返回失败。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%E3%80%81%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%EF%BC%9A%E9%80%9A%E8%BF%87-FIFO-%E9%98%9F%E5%88%97%EF%BC%8C%E4%BD%BF%E4%BF%AE%E6%94%B9%E5%BA%93%E5%AD%98%E7%9A%84%E6%93%8D%E4%BD%9C%E4%B8%B2%E2%BE%8F%E5%8C%96%E3%80%82"><span class="toc-text">3、消息队列：通过 FIFO 队列，使修改库存的操作串⾏化。</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15%E3%80%81%E8%AF%B4%E8%AF%B4java%E5%90%8C%E6%AD%A5%E6%9C%BA%E5%88%B6%EF%BC%8Cjava%E6%9C%89%E5%93%AA%E4%BA%9B%E9%94%81%EF%BC%8C%E6%AF%8F%E4%B8%AA%E9%94%81%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%9F"><span class="toc-text">15、说说java同步机制，java有哪些锁，每个锁的特性？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#16%E3%80%81%E8%AF%B4%E8%AF%B4volatile%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E5%8F%AF%E2%BB%85%E6%80%A7%EF%BC%8C%E4%BB%8Ecpu%E5%B1%82%E2%BE%AF%E5%88%86%E6%9E%90%EF%BC%9F"><span class="toc-text">16、说说volatile如何保证可⻅性，从cpu层⾯分析？</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2024-03-10</div>
+        <a href="/java4u/2024/03/10/MQ/"><div class="recent-posts-item-content">MQ</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2024-03-10</div>
+        <a href="/java4u/2024/03/10/2.jvm/"><div class="recent-posts-item-content">JVM</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-06-04</div>
+        <a href="/java4u/2023/06/04/RUST_tutorial2/"><div class="recent-posts-item-content">RUST入门（二）</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-05-16</div>
+        <a href="/java4u/2023/05/16/RUST_tutorial1/"><div class="recent-posts-item-content">RUST入门</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2024
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="UTF-8">
+  <meta 
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <meta 
+    http-equiv="X-UA-Compatible" 
+    content="ie=edge">
+  <meta 
+    name="theme-color" 
+    content="#fff" 
+    id="theme-color">
+  <meta 
+    name="description" 
+    content="Snail">
+  <link 
+    rel="icon" 
+    href="/java4u/img/snail.png">
+  <title>JVM</title>
+  
+    
+      <meta 
+        property="og:title" 
+        content="JVM">
+    
+    
+      <meta 
+        property="og:url" 
+        content="https://zxtc123.github.io/java4u/2024/03/10/2.jvm/index.html">
+    
+    
+      <meta 
+        property="og:img" 
+        content="/java4u/img/1.e3a1f41f.gif">
+    
+    
+    
+      <meta 
+        property="og:type" 
+        content="article">
+      <meta 
+        property="og:article:published_time" 
+        content="2024-03-10">
+      <meta 
+        property="og:article:modified_time" 
+        content="2022-04-24">
+      <meta 
+        property="og:article:author" 
+        content="Zhao Xin">
+      
+        
+          <meta 
+            property="og:article:tag" 
+            content="学习">
+        
+      
+    
+  
+  <script>
+    function loadScript(url, cb) {
+      var script = document.createElement('script');
+      script.src = url;
+      if (cb) script.onload = cb;
+      script.async = true;
+      document.body.appendChild(script);
+    }
+    function loadCSS(href, data, attr) {
+      var sheet = document.createElement('link');
+      sheet.ref = 'stylesheet';
+      sheet.href = href;
+      sheet.dataset[data] = attr;
+      document.head.appendChild(sheet);
+    }
+    function changeCSS(cssFile, data, attr) {
+      var oldlink = document.querySelector(data);
+      var newlink = document.createElement("link");
+      newlink.setAttribute("rel", "stylesheet");
+      newlink.setAttribute("href", cssFile);
+      newlink.dataset.prism = attr;
+      document.head.replaceChild(newlink, oldlink);
+    }
+  </script>
+  
+    
+  
+  <script>
+    // control reverse button
+    var reverseDarkList = {
+      dark: 'light',
+      light: 'dark'
+    };
+    var themeColor = {
+      dark: '#1c1c1e',
+      light: '#fff'
+    }
+    // get the data of css prefers-color-scheme
+    var getCssMediaQuery = function() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    };
+    // reverse current darkmode setting function
+    var reverseDarkModeSetting = function() {
+      var setting = localStorage.getItem('user-color-scheme');
+      if(reverseDarkList[setting]) {
+        setting = reverseDarkList[setting];
+      } else if(setting === null) {
+        setting = reverseDarkList[getCssMediaQuery()];
+      } else {
+        return;
+      }
+      localStorage.setItem('user-color-scheme', setting);
+      return setting;
+    };
+    // apply current darkmode setting
+  </script>
+  
+    <script>
+      var setDarkmode = function(mode) {
+      var setting = mode || localStorage.getItem('user-color-scheme');
+      if(setting === getCssMediaQuery()) {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else if(reverseDarkList[setting]) {
+        document.documentElement.setAttribute('data-user-color-scheme', setting);
+        document.getElementById('theme-color').content = themeColor[setting];
+        document.getElementById('theme-color').dataset.mode = setting;
+      } else {
+        document.documentElement.removeAttribute('data-user-color-scheme');
+        localStorage.removeItem('user-color-scheme');
+        document.getElementById('theme-color').content = themeColor[getCssMediaQuery()];
+        document.getElementById('theme-color').dataset.mode = getCssMediaQuery();
+      }
+    };
+    setDarkmode();
+    </script>
+  
+  
+  <link rel="preload" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css" as="style" >
+  <link rel="preload" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.js" as="script">
+    <link rel="preload" href="/java4u/js/lib/lightbox/baguetteBox.min.css" as="style" >
+  
+  
+    <link rel="preload" href="/java4u/js/lib/lozad.min.js" as="script">
+  
+  
+  
+  
+    
+    <link rel="prefetch" href="//cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-svg.js" as="script">
+  
+  
+  
+  
+  <link rel="stylesheet" href="/java4u/css/main.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1946621_i1kgafibvw.css">
+  
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1952792_89b4ac4k4up.css">
+  
+    <link rel="stylesheet" href="/java4u/js/lib/lightbox/baguetteBox.min.css">
+  
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+  <body>
+    <div class="wrapper">
+       
+      <nav class="navbar">
+  <div class="navbar-logo">
+    <span class="navbar-logo-main">
+      
+        <img 
+          class="navbar-logo-img"
+          width="32"
+          height="32"
+          src="/java4u/img/snail.png" 
+          alt="blog logo">
+      
+      <span class="navbar-logo-dsc">Snail</span>
+    </span>
+  </div>
+  <div class="navbar-menu">
+    
+      <a 
+        href="/java4u/" 
+        class="navbar-menu-item">
+        
+          首页
+        
+      </a>
+    
+      <a 
+        href="/java4u/archives" 
+        class="navbar-menu-item">
+        
+          归档
+        
+      </a>
+    
+      <a 
+        href="/java4u/tags" 
+        class="navbar-menu-item">
+        
+          标签
+        
+      </a>
+    
+      <a 
+        href="/java4u/categories" 
+        class="navbar-menu-item">
+        
+          分类
+        
+      </a>
+    
+      <a 
+        href="/java4u/about" 
+        class="navbar-menu-item">
+        
+          关于
+        
+      </a>
+    
+      <a 
+        href="/java4u/links" 
+        class="navbar-menu-item">
+        
+          友链
+        
+      </a>
+    
+    <a 
+      class="navbar-menu-item darknavbar" 
+      id="dark">
+      <i class="iconfont icon-weather"></i>
+    </a>
+    <a 
+      class="navbar-menu-item searchnavbar" 
+      id="search">
+      <i 
+        class="iconfont icon-search" 
+        style="font-size: 1.2rem; font-weight: 400;">
+      </i>
+    </a>
+  </div>
+</nav> 
+      
+      <div 
+        id="local-search" 
+        style="display: none">
+        <input
+          class="navbar-menu-item"
+          id="search-input"
+          placeholder="请输入搜索内容..." />
+        <div id="search-content"></div>
+      </div>
+      
+      <div class="section-wrap">
+        <div class="container">
+          <div class="columns">
+            <main class="main-column">
+<article class="card card-content">
+  <header>
+    <h1 class="post-title">
+      JVM
+    </h1>
+  </header>
+  <div class="post-meta post-show-meta">
+    <time datetime="2024-03-10T12:18:04.151Z">
+      <i 
+        class="iconfont icon-calendar" 
+        style="margin-right: 2px;">
+      </i>
+      <span>2024-03-10</span>
+    </time>
+    
+      <span class="dot"></span>
+      
+        <a 
+          href="/java4u/categories/%E9%9D%A2%E8%AF%95/" 
+          class="post-meta-link">
+          面试
+        </a>
+      
+    
+    
+      <span class="dot"></span>
+      <span>2.3k 字</span>
+    
+  </div>
+  
+    <div 
+      class="post-meta post-show-meta" 
+      style="margin-top: -10px;">
+      <div style="display: flex; align-items: center;">
+        <i 
+          class="iconfont icon-biaoqian" 
+          style="margin-right: 2px; font-size: 1.15rem;">
+        </i>
+        
+          
+          <a 
+            href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+            class="post-meta-link">
+            学习
+          </a>
+        
+      </div>
+    </div>
+  
+  </header>
+  <div 
+    id="section" 
+    class="post-content">
+    <h1 id="1、jvm调优："><a href="#1、jvm调优：" class="headerlink" title="1、jvm调优："></a>1、jvm调优：</h1><p>\1. 调优时机：</p>
+<p>a. heap 内存（⽼年代）持续上涨达到设置的最⼤内存值；</p>
+<p>b. Full GC 次数频繁；</p>
+<p>c. GC 停顿时间过⻓（超过1秒）；</p>
+<p>d. 应⽤出现OutOfMemory 等内存异常；</p>
+<p>e. 应⽤中有使⽤本地缓存且占⽤⼤量内存空间；</p>
+<p>f. 系统吞吐量与响应性能不⾼或下降。</p>
+<p>\2. 调优原则：</p>
+<p>a. 多数的Java应⽤不需要在服务器上进⾏JVM优化；</p>
+<p>b. 多数导致GC问题的Java应⽤，都不是因为我们参数设置错误，⽽是代码问题；</p>
+<p>c. 在应⽤上线之前，先考虑将机器的JVM参数设置到最优（最适合）；</p>
+<p>d. 减少创建对象的数量；</p>
+<p>e. 减少使⽤全局变量和⼤对象；</p>
+<p>f. JVM优化是到最后不得已才采⽤的⼿段；</p>
+<p>g. 在实际使⽤中，分析GC情况优化代码⽐优化JVM参数更好；</p>
+<p>\3. 调优⽬标：</p>
+<p>a. GC低停顿；</p>
+<p>b. GC低频率；</p>
+<p>c. 低内存占⽤；</p>
+<p>d. ⾼吞吐量；</p>
+<p>\4. 调优步骤：</p>
+<p>a. 分析GC⽇志及dump⽂件，判断是否需要优化，确定瓶颈问题点；</p>
+<p>b. 确定jvm调优量化⽬标；</p>
+<p>c. 确定jvm调优参数（根据历史jvm参数来调整）；</p>
+<p>d. 调优⼀台服务器，对⽐观察调优前后的差异；</p>
+<p>e. 不断的分析和调整，知道找到合适的jvm参数配置；</p>
+<p>f. 找到最合适的参数，将这些参数应⽤到所有服务器，并进⾏后续跟踪。</p>
+<h1 id="2、jvm调优参数："><a href="#2、jvm调优参数：" class="headerlink" title="2、jvm调优参数："></a>2、jvm调优参数：</h1><p>\1. 设定堆内存⼤⼩，这是最基本的。</p>
+<p>\2. -Xms：启动JVM时的堆内存空间。</p>
+<p>\3. -Xmx：堆内存最⼤限制。</p>
+<p>\4. 设定新⽣代⼤⼩。</p>
+<p>\5. 新⽣代不宜太⼩，否则会有⼤量对象涌⼊⽼年代。</p>
+<p>\6. -XX:NewRatio：新⽣代和⽼年代的占⽐。</p>
+<p>\7. -XX:NewSize：新⽣代空间。</p>
+<p>\8. -XX:SurvivorRatio：伊甸园空间和幸存者空间的占⽐。</p>
+<p>\9. -XX:MaxTenuringThreshold：对象进⼊⽼年代的年龄阈值。</p>
+<p>\10. 设定垃圾回收器</p>
+<p>年轻代：-XX:+UseParNewGC。</p>
+<p>⽼年代：-XX:+UseConcMarkSweepGC。</p>
+<p>CMS可以将STW时间降到最低，但是不对内存进⾏压缩，有可能出现“并⾏模式失败”。⽐如⽼年代空间还有300MB空间，但是⼀些10MB的对象⽆法被顺序的存储。这时候会触发压缩处理，但是CMS GC模式下的压缩处理时间要⽐Parallel GC⻓很多。G1采⽤”标记-整理“算法，解决了内存碎⽚问题，建⽴了可预测的停顿时间类型，能让使⽤者指定在⼀个⻓度为M毫秒的时间段内，消耗在垃圾收集上的时间不得超过N毫秒。</p>
+<h1 id="3、触发full-gc的场景及应对策略："><a href="#3、触发full-gc的场景及应对策略：" class="headerlink" title="3、触发full gc的场景及应对策略："></a>3、触发full gc的场景及应对策略：</h1><p>\1. System.gc()⽅法的调⽤，应对策略：通过-XX:+DisableExplicitGC来禁⽌调⽤System.gc ;</p>
+<p>\2. ⽼年代代空间不⾜，应对策略：让对象在Minor GC阶段被回收，让对象在新⽣代多存活⼀段时间，不要创建过⼤的对象及数组;</p>
+<p>\3. 永⽣区空间不⾜，应对策略：增⼤PermGen空间；</p>
+<p>\4. GC时出现promotionfailed和concurrent mode failure，应对策略：增⼤survivor space；</p>
+<p>\5. Minor GC后晋升到旧⽣代的对象⼤⼩⼤于⽼年代的剩余空间，应对策略：增⼤Tenured space 或下调CMSInitiatingOccupancyFraction&#x3D;60；</p>
+<p>\6. 内存持续增涨达到上限导致Full GC，应对策略：通过dumpheap 分析是否存在内存泄漏。</p>
+<h1 id="4、如何查看jvm内存使⽤情况："><a href="#4、如何查看jvm内存使⽤情况：" class="headerlink" title="4、如何查看jvm内存使⽤情况："></a>4、如何查看jvm内存使⽤情况：</h1><p>可以使⽤JDK⾃带的JConsole、JVisualVM、JMap、JHat等⼯具，或者使⽤第三⽅⼯具，⽐如 Eclipse Memory Analyzer</p>
+<h1 id="5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？"><a href="#5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？" class="headerlink" title="5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？"></a>5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？</h1><h2 id="1-java堆溢出（heap）："><a href="#1-java堆溢出（heap）：" class="headerlink" title="1. java堆溢出（heap）："></a><strong>1.</strong> java堆溢出（heap）：</h2><p>a. Java堆内存主要⽤来存放运⾏过程中所以的对象，该区域OOM异常⼀般会有如下错误信息：</p>
+<p>java.lang.OutofMemoryError:Java heap space</p>
+<p>b. 此类错误⼀般通过Eclipse Memory Analyzer分析OOM时dump的内存快照就能分析出来，到底是由于程序原因导致的内存泄露，还是由于没有估计好JVM内存的⼤⼩⽽导致的内存溢出。</p>
+<p>c. 另外，Java堆常⽤的JVM参数：</p>
+<p>1 -Xms：初始堆⼤⼩，默认值为物理内存的1&#x2F;64(&lt;1GB)，默认(MinHeapFreeRatio参数可以调整)空余堆内存⼩于40%时，JVM就会增⼤堆直到</p>
+<p>2 -Xmx：最⼤堆⼤⼩，默认值为物理内存的1&#x2F;4(&lt;1GB)，默认(MaxHeapFreeRatio参数可以调整)空余堆内存⼤于70%时，JVM会减少堆直到</p>
+<p>3 -Xmn：年轻代⼤⼩(1.4or lator)，此处的⼤⼩是（eden + 2 survivor space)，与jmap -heap中显示的New gen是不同的。</p>
+<h2 id="2-栈溢出（stack）："><a href="#2-栈溢出（stack）：" class="headerlink" title="2. 栈溢出（stack）："></a><strong>2.</strong> 栈溢出（stack）：</h2><p>a. 栈⽤来存储线程的局部变量表、操作数栈、动态链接、⽅法出⼝等信息。如果请求栈的深度不⾜时抛出的错误会包含类似下⾯的信息：</p>
+<p>1 java.lang.StackOverflowError。</p>
+<p>b. 另外，由于每个线程占的内存⼤概为1M，因此线程的创建也需要内存空间。操作系统可⽤内存-Xmx-MaxPermSize即是栈可⽤的内存，如果申请创建的线程⽐较多超过剩余内存的时候，也会抛出如下类似错误：java.lang.OutofMemoryError: unable to create new native thread</p>
+<p>c. 相关的JVM参数有：</p>
+<p>1 -Xss: 每个线程的堆栈⼤⼩,JDK5.0以后每个线程堆栈⼤⼩为1M,以前每个线程堆栈⼤⼩为256K. </p>
+<p>2 在相同物理内存下,减⼩这个值能⽣成更多的线程.但是操作系统对⼀个进程内的线程数还是有限制的,不能⽆限⽣成,经验值在3000~5000</p>
+<p>d. 可能原因：</p>
+<p>i. 递归：递归⾥⽤到的局部变量存储在堆栈中，堆栈的访问效率⾼，速度快，但空间有限，递归太多变量需要⼀直⼊栈⽽不出栈，导致需要的内存空间⼤于堆栈的空间，栈空间是2M，堆空间内存空间。</p>
+<h2 id="3-运⾏时常量溢出（constant）："><a href="#3-运⾏时常量溢出（constant）：" class="headerlink" title="3. 运⾏时常量溢出（constant）："></a><strong>3.</strong> 运⾏时常量溢出（constant）：</h2><p>a. 运⾏时常量保存在⽅法区，存放的主要是编译器⽣成的各种字⾯量和符号引⽤，但是运⾏期间也可能将新的常量放⼊池中，⽐如String类的intern⽅法。如果该区域OOM，错误结果会包含类似下⾯的信息：</p>
+<p>1 java.lang.OutofMemoryError: PermGen space</p>
+<p>b. 相关的JVM参数有：</p>
+<p>1 -XX:PermSize：设置持久代(perm gen)初始值，默认值为物理内存的1&#x2F;64</p>
+<p>2 -XX:MaxPermSize：设置持久代最⼤值，默认为物理内存的1&#x2F;4</p>
+<h2 id="4-⽅法区溢出："><a href="#4-⽅法区溢出：" class="headerlink" title="4. ⽅法区溢出："></a><strong>4.</strong> ⽅法区溢出：</h2><p>a. ⽅法区主要存储被虚拟机加载的类信息，如类名、访问修饰符、常量池、字段描述、⽅法描述等。理论上在JVM启动后该区域⼤⼩应该⽐较稳定，但是⽬前很多框架，⽐如Spring和Hibernate等在运⾏过程中都会动态⽣成类，因此也存在OOM的⻛险。如果该区域OOM，错误结果会包含类似下⾯的信息：1 java.lang.OutofMemoryError: PermGen space</p>
+<p>b. 相关的JVM参数有：</p>
+<p>1 -XX:PermSize：设置持久代(perm gen)初始值，默认值为物理内存的1&#x2F;64</p>
+<p>2 -XX:MaxPermSize：设置持久代最⼤值，默认为物理内存的1&#x2F;4</p>
+<h1 id="6、synchronized和ReentrantLock的实现机制？"><a href="#6、synchronized和ReentrantLock的实现机制？" class="headerlink" title="6、synchronized和ReentrantLock的实现机制？"></a>6、synchronized和ReentrantLock的实现机制？</h1><p>synchronized⽤的锁是存在Java对象头⾥的</p>
+<p>一。synchronized属于独占式悲观锁通过JVM隐式实现，只允许同一时刻只有一个线程操作资源。</p>
+<p>Java中每个对象都隐式包含一个monitor（监视器）对象<br>加锁的过程其实就是竞争monitor的过程，当线程进入字节码monitiorenter指令后<br>线程将持有monitor对象，执行monitorexit时释放monitor对象<br>当其他线程没有拿到monitor对象时，则需要阻塞等待获取该对象。</p>
+<p>二。ReentrantLock是Lock的默认实现方式之一</p>
+<p>是基于AQS(Abstrack Queued Synchronizer,队列同步器) 实现的默认是通过非公平锁实现的，它的内部有一个state的状态字段用于表示锁是否被占用，如果0则表示锁未被占用，此时线程就可以吧state改为1，并成功获得锁而其他未获得锁的线程只能去排队等待获取资源</p>
+<p>锁升级：锁升级就是从偏向锁到轻量级锁再到重量级锁升级的过程 ，这是JDK1.6提供的优化功能，也称之为锁膨胀。<br>偏向锁：指在无竞争的情况下设置的一种锁状态，意思是他会偏向于第一个获取它的线程，当锁对象第一次被获取到之后，会在此对象头中设置标示为“01”,标示偏向锁模式，并且在对象头中记录此线程的ID<br>偏向锁可以提高带有同步，但无竞争的程序性能，但如果在多数锁总会被不同的线程访问时，偏向锁模式就比较多余了</p>
+<p>在jdk1.6之前，synchronized是通过操作系统的互斥量（mutex lock）来实现的，这种实现方式需要再用户态和核心态之间做转换，有很大的性能消耗，这种传统实现锁的方式被称之为重量锁。<br>轻量锁是通过比较并交换（CAS，Compare and Swap） 来实现的 它对比的是线程和对象的MarkWord(对象头中的一个区域)，如果更新成功则表示当前线程成功拥有此锁，如果失败，虚拟机会先检查对象的MarkWord是否指向当前线程栈帧。如果是，则说明当前线程已经拥有此锁，否则，则说明此锁已经被其他线程占用。</p>
+
+  </div>
+  <div>
+    
+      <div 
+        class="post-note note-warning copyright" 
+        style="margin-top: 42px">
+        <p>
+          <span style="font-weight: bold;">作者：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="/java4u/about">
+            Zhao Xin
+          </a>
+        </p>
+        <p>
+          <span style="font-weight: bold;">文章链接：</span><a 
+            target="_blank" 
+            rel="nofollow noopener noreferrer" 
+            href="https://zxtc123.github.io/java4u/2024/03/10/2.jvm/">
+            https://zxtc123.github.io/java4u/2024/03/10/2.jvm/
+          </a>
+        </p>
+        <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
+      </div>
+    
+  </div>
+</article>
+<div class="nav">
+  
+    <div class="nav-item-prev">
+      <a 
+        href="/java4u/2024/03/10/MQ/" 
+        class="nav-link">
+        <i class="iconfont icon-left nav-prev-icon"></i>
+        <div>
+          <div class="nav-label">上一篇</div>
+          
+            <div class="nav-title">MQ </div>
+          
+        </div>
+      </a>
+    </div>
+  
+  
+    <div class="nav-item-next">
+      <a 
+        href="/java4u/2023/06/04/RUST_tutorial2/" 
+        class="nav-link">
+        <div>
+          <div class="nav-label">下一篇</div>
+          
+            <div class="nav-title">RUST入门（二） </div>
+          
+        </div>
+        <i class="iconfont icon-right nav-next-icon"></i>
+      </a>
+    </div>
+  
+</div>
+
+<div 
+  class="card card-content toc-card" 
+  id="mobiletoc">
+  <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81jvm%E8%B0%83%E4%BC%98%EF%BC%9A"><span class="toc-text">1、jvm调优：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81jvm%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="toc-text">2、jvm调优参数：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81%E8%A7%A6%E5%8F%91full-gc%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8F%8A%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5%EF%BC%9A"><span class="toc-text">3、触发full gc的场景及应对策略：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Bjvm%E5%86%85%E5%AD%98%E4%BD%BF%E2%BD%A4%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-text">4、如何查看jvm内存使⽤情况：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E3%80%81jvm%E4%B8%AD%E5%93%AA%E4%BA%9B%E5%9C%B0%E2%BD%85%E4%BC%9A%E5%87%BA%E7%8E%B0oom%EF%BC%9F%E5%88%86%E5%88%AB%E8%AF%B4%E8%AF%B4oom%E7%9A%84%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0%EF%BC%9F"><span class="toc-text">5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-java%E5%A0%86%E6%BA%A2%E5%87%BA%EF%BC%88heap%EF%BC%89%EF%BC%9A"><span class="toc-text">1. java堆溢出（heap）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%88%E6%BA%A2%E5%87%BA%EF%BC%88stack%EF%BC%89%EF%BC%9A"><span class="toc-text">2. 栈溢出（stack）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BF%90%E2%BE%8F%E6%97%B6%E5%B8%B8%E9%87%8F%E6%BA%A2%E5%87%BA%EF%BC%88constant%EF%BC%89%EF%BC%9A"><span class="toc-text">3. 运⾏时常量溢出（constant）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E2%BD%85%E6%B3%95%E5%8C%BA%E6%BA%A2%E5%87%BA%EF%BC%9A"><span class="toc-text">4. ⽅法区溢出：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6%E3%80%81synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">6、synchronized和ReentrantLock的实现机制？</span></a></li></ol>
+</div></main>
+            <aside class="left-column">
+              
+              <div class="card card-author">
+                
+  <img 
+    src="/java4u/img/1.e3a1f41f.gif" 
+    class="author-img"
+    width="88"
+    height="88"
+    alt="author avatar">
+
+<p class="author-name">Zhao Xin</p>
+<p class="author-description">5年工作经验，不秃头的java萌新。</p>
+<div class="author-message">
+  <a 
+    class="author-posts-count" 
+    href="/java4u/archives">
+    <span>112</span>
+    <span>文章</span>
+  </a>
+  <a 
+    class="author-categories-count" 
+    href="/java4u/categories">
+    <span>24</span>
+    <span>分类</span>
+  </a>
+  <a 
+    class="author-tags-count" 
+    href="/java4u/tags">
+    <span>31</span>
+    <span>标签</span>
+  </a>
+</div>
+
+              </div>
+               <div class="sticky-tablet">
+  
+  
+    <article class="display-when-two-columns spacer">
+      <div class="card card-content toc-card">
+        <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81jvm%E8%B0%83%E4%BC%98%EF%BC%9A"><span class="toc-text">1、jvm调优：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81jvm%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="toc-text">2、jvm调优参数：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81%E8%A7%A6%E5%8F%91full-gc%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8F%8A%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5%EF%BC%9A"><span class="toc-text">3、触发full gc的场景及应对策略：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Bjvm%E5%86%85%E5%AD%98%E4%BD%BF%E2%BD%A4%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-text">4、如何查看jvm内存使⽤情况：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E3%80%81jvm%E4%B8%AD%E5%93%AA%E4%BA%9B%E5%9C%B0%E2%BD%85%E4%BC%9A%E5%87%BA%E7%8E%B0oom%EF%BC%9F%E5%88%86%E5%88%AB%E8%AF%B4%E8%AF%B4oom%E7%9A%84%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0%EF%BC%9F"><span class="toc-text">5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-java%E5%A0%86%E6%BA%A2%E5%87%BA%EF%BC%88heap%EF%BC%89%EF%BC%9A"><span class="toc-text">1. java堆溢出（heap）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%88%E6%BA%A2%E5%87%BA%EF%BC%88stack%EF%BC%89%EF%BC%9A"><span class="toc-text">2. 栈溢出（stack）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BF%90%E2%BE%8F%E6%97%B6%E5%B8%B8%E9%87%8F%E6%BA%A2%E5%87%BA%EF%BC%88constant%EF%BC%89%EF%BC%9A"><span class="toc-text">3. 运⾏时常量溢出（constant）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E2%BD%85%E6%B3%95%E5%8C%BA%E6%BA%A2%E5%87%BA%EF%BC%9A"><span class="toc-text">4. ⽅法区溢出：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6%E3%80%81synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">6、synchronized和ReentrantLock的实现机制？</span></a></li></ol>
+      </div>
+    </article>
+  
+  
+  <article class="card card-content categories-widget">
+    <div class="categories-card">
+  <div class="categories-header">
+    <i 
+      class="iconfont icon-fenlei" 
+      style="padding-right: 2px;">
+    </i>分类
+  </div>
+  <div class="categories-list">
+    
+      <a href="/java4u/categories/%E7%BD%91%E7%BB%9C/">
+        <div class="categories-list-item">
+          网络
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/webservice/">
+        <div class="categories-list-item">
+          webservice
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
+        <div class="categories-list-item">
+          数据结构与算法
+          <span class="categories-list-item-badge">55</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%8A%A0%E5%AF%86%E8%A7%A3%E7%A0%81/">
+        <div class="categories-list-item">
+          加密解码
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">
+        <div class="categories-list-item">
+          线程池
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E9%9D%A2%E8%AF%95/">
+        <div class="categories-list-item">
+          面试
+          <span class="categories-list-item-badge">7</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/security/">
+        <div class="categories-list-item">
+          security
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <div class="categories-list-item">
+          分布式
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/JVM/">
+        <div class="categories-list-item">
+          JVM
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%A1%86%E6%9E%B6/">
+        <div class="categories-list-item">
+          框架
+          <span class="categories-list-item-badge">5</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/SQL/">
+        <div class="categories-list-item">
+          SQL
+          <span class="categories-list-item-badge">20</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%BF%9B%E7%A8%8B/">
+        <div class="categories-list-item">
+          进程
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%B8%AD%E9%97%B4%E4%BB%B6/">
+        <div class="categories-list-item">
+          中间件
+          <span class="categories-list-item-badge">3</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E6%96%87%E6%A1%A3%E6%80%BB%E7%BB%93/">
+        <div class="categories-list-item">
+          文档总结
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%BF%9D%E6%8A%A4/">
+        <div class="categories-list-item">
+          微服务保护
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%93%E5%AD%98/">
+        <div class="categories-list-item">
+          缓存
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E4%BA%8B%E5%8A%A1/">
+        <div class="categories-list-item">
+          事务
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%AE%B9%E5%99%A8/">
+        <div class="categories-list-item">
+          容器
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%A7%84%E8%8C%83/">
+        <div class="categories-list-item">
+          规范
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          语言
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/">
+        <div class="categories-list-item">
+          编程语言
+          <span class="categories-list-item-badge">2</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/linux/">
+        <div class="categories-list-item">
+          linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/%E5%88%86%E5%B8%83%E5%BC%8F%E6%90%9C%E7%B4%A2/">
+        <div class="categories-list-item">
+          分布式搜索
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/AI/">
+        <div class="categories-list-item">
+          AI
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  <article class="card card-content tags-widget">
+    <div class="tags-card">
+  <div class="tags-header">
+    <i 
+      class="iconfont icon-biaoqian" 
+      style="padding-right: 2px;">
+    </i>热门标签
+  </div>
+  <div class="tags-list">
+    
+      <a 
+        href="/java4u/tags/leetcode/" 
+        title="leetcode">
+        <div class="tags-list-item">leetcode</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%A6%E4%B9%A0/" 
+        title="学习">
+        <div class="tags-list-item">学习</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%95%B0%E7%BB%84/" 
+        title="数组">
+        <div class="tags-list-item">数组</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" 
+        title="动态规划">
+        <div class="tags-list-item">动态规划</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" 
+        title="二叉树">
+        <div class="tags-list-item">二叉树</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2/" 
+        title="字符串">
+        <div class="tags-list-item">字符串</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BD%8D%E8%BF%90%E7%AE%97/" 
+        title="位运算">
+        <div class="tags-list-item">位运算</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E4%BA%8C%E5%88%86%E6%B3%95/" 
+        title="二分法">
+        <div class="tags-list-item">二分法</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3/" 
+        title="滑动窗口">
+        <div class="tags-list-item">滑动窗口</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E9%93%BE%E8%A1%A8/" 
+        title="链表">
+        <div class="tags-list-item">链表</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99/" 
+        title="参考资料">
+        <div class="tags-list-item">参考资料</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/django/" 
+        title="django">
+        <div class="tags-list-item">django</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/%E6%BA%90%E7%A0%81/" 
+        title="源码">
+        <div class="tags-list-item">源码</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/kubernetes/" 
+        title="kubernetes">
+        <div class="tags-list-item">kubernetes</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/spring/" 
+        title="spring">
+        <div class="tags-list-item">spring</div>
+      </a>
+    
+      <a 
+        href="/java4u/tags/python/" 
+        title="python">
+        <div class="tags-list-item">python</div>
+      </a>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+            <aside class="right-column">
+              <div class="sticky-widescreen">
+  
+  
+    <article class="card card-content toc-card">
+      <div class="toc-header">
+  <i 
+    class="iconfont icon-menu" 
+    style="padding-right: 2px;">
+  </i>目录
+</div>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81jvm%E8%B0%83%E4%BC%98%EF%BC%9A"><span class="toc-text">1、jvm调优：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81jvm%E8%B0%83%E4%BC%98%E5%8F%82%E6%95%B0%EF%BC%9A"><span class="toc-text">2、jvm调优参数：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81%E8%A7%A6%E5%8F%91full-gc%E7%9A%84%E5%9C%BA%E6%99%AF%E5%8F%8A%E5%BA%94%E5%AF%B9%E7%AD%96%E7%95%A5%EF%BC%9A"><span class="toc-text">3、触发full gc的场景及应对策略：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81%E5%A6%82%E4%BD%95%E6%9F%A5%E7%9C%8Bjvm%E5%86%85%E5%AD%98%E4%BD%BF%E2%BD%A4%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-text">4、如何查看jvm内存使⽤情况：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5%E3%80%81jvm%E4%B8%AD%E5%93%AA%E4%BA%9B%E5%9C%B0%E2%BD%85%E4%BC%9A%E5%87%BA%E7%8E%B0oom%EF%BC%9F%E5%88%86%E5%88%AB%E8%AF%B4%E8%AF%B4oom%E7%9A%84%E5%8F%AF%E8%83%BD%E5%8E%9F%E5%9B%A0%EF%BC%9F"><span class="toc-text">5、jvm中哪些地⽅会出现oom？分别说说oom的可能原因？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-java%E5%A0%86%E6%BA%A2%E5%87%BA%EF%BC%88heap%EF%BC%89%EF%BC%9A"><span class="toc-text">1. java堆溢出（heap）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A0%88%E6%BA%A2%E5%87%BA%EF%BC%88stack%EF%BC%89%EF%BC%9A"><span class="toc-text">2. 栈溢出（stack）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%BF%90%E2%BE%8F%E6%97%B6%E5%B8%B8%E9%87%8F%E6%BA%A2%E5%87%BA%EF%BC%88constant%EF%BC%89%EF%BC%9A"><span class="toc-text">3. 运⾏时常量溢出（constant）：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E2%BD%85%E6%B3%95%E5%8C%BA%E6%BA%A2%E5%87%BA%EF%BC%9A"><span class="toc-text">4. ⽅法区溢出：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6%E3%80%81synchronized%E5%92%8CReentrantLock%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-text">6、synchronized和ReentrantLock的实现机制？</span></a></li></ol>
+    </article>
+  
+  
+  <article class="card card-content">
+    <div class="recent-posts-card">
+  <div class="recent-posts-header">
+    <i 
+      class="iconfont icon-wenzhang_huaban" 
+      style="padding-right: 2px;">
+    </i>最近文章
+  </div>
+  <div class="recent-posts-list">
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2024-03-10</div>
+        <a href="/java4u/2024/03/10/MQ/"><div class="recent-posts-item-content">MQ</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2024-03-10</div>
+        <a href="/java4u/2024/03/10/2.jvm/"><div class="recent-posts-item-content">JVM</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-06-04</div>
+        <a href="/java4u/2023/06/04/RUST_tutorial2/"><div class="recent-posts-item-content">RUST入门（二）</div></a>
+      </div>
+    
+      <div class="recent-posts-item">
+        <div class="recent-posts-item-title">2023-05-16</div>
+        <a href="/java4u/2023/05/16/RUST_tutorial1/"><div class="recent-posts-item-content">RUST入门</div></a>
+      </div>
+    
+  </div>
+</div>
+  </article>
+  
+  
+</div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <footer class="footer">
+  <div class="footer-container">
+    <div>
+      <div class="footer-dsc">
+        <span>
+          Copyright ©
+          
+            2020
+          
+          
+                - 
+                2024
+          
+        </span>
+        &nbsp;
+        <a 
+          href="/java4u/" 
+          class="footer-link">
+          Snail
+        </a>
+      </div>
+    </div>
+
+    
+      <div class="footer-dsc">
+        
+          Powered by
+          <a 
+            href="https://hexo.io/" 
+            class="footer-link" 
+            target="_blank" 
+            rel="nofollow noopener noreferrer">
+            &nbsp;Hexo
+          </a>
+        
+        
+          <span>&nbsp;|&nbsp;</span>
+        
+        
+          Theme -
+          <a 
+            href="https://github.com/theme-kaze" 
+            class="footer-link" 
+            target="_blank"
+            rel="nofollow noopener noreferrer">
+            &nbsp;Kaze
+          </a>
+        
+      </div>
+    
+    
+    
+    
+</footer>
+ 
+    
+  <a 
+    role="button" 
+    id="scrollbutton" 
+    class="basebutton" 
+    aria-label="回到顶部">
+    <i class="iconfont icon-arrowleft button-icon"></i>
+  </a>
+
+<a 
+  role="button" 
+  id="menubutton"
+  aria-label="menu button"
+  class="basebutton">
+  <i class="iconfont icon-menu button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="popbutton" 
+  class="basebutton" 
+  aria-label="控制中心">
+  <i class="iconfont icon-expand button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="darkbutton" 
+  class="basebutton darkwidget" 
+  aria-label="夜色模式">
+  <i class="iconfont icon-weather button-icon"></i>
+</a>
+<a 
+  role="button" 
+  id="searchbutton" 
+  class="basebutton searchwidget" 
+  aria-label="搜索">
+  <i class="iconfont icon-search button-icon"></i>
+</a> 
+     
+     
+      
+ 
+     
+     
+      <script>
+  var addImgLayout = function () {
+    var img = document.querySelectorAll('.post-content img')
+    var i
+    for (i = 0; i < img.length; i++) {
+      var wrapper = document.createElement('a')
+      wrapper.setAttribute('href', img[i].getAttribute('data-src'))
+      wrapper.setAttribute('aria-label', 'illustration')
+      wrapper.style.cssText =
+        'width: 100%; display: flex; justify-content: center;'
+      if (img[i].alt) wrapper.dataset.caption = img[i].alt
+      wrapper.dataset.nolink = true
+      img[i].before(wrapper)
+      wrapper.append(img[i])
+      var divWrap = document.createElement('div')
+      divWrap.classList.add('gallery')
+      wrapper.before(divWrap)
+      divWrap.append(wrapper)
+    }
+    baguetteBox.run('.gallery')
+  }
+</script>
+<script>
+  loadScript(
+    "/java4u/js/lib/lightbox/baguetteBox.min.js",
+    addImgLayout
+  )
+</script>
+ 
+     
+     
+    <script src="/java4u/js/main.js"></script> 
+     
+    
+      <script>
+        var addLazyload = function () {
+          var observer = lozad('.lozad', {
+            load: function (el) {
+              el.srcset = el.getAttribute('data-src')
+            },
+            loaded: function (el) {
+              el.classList.add('loaded')
+            },
+          })
+          observer.observe()
+        }
+      </script>
+      <script>
+        loadScript('/java4u/js/lib/lozad.min.js', addLazyload)
+      </script>
+     
+    
+    
+      <script>
+        setTimeout(() => {localSearch("search.json")}, 0)
+      </script>
+    
+  </body>
+</html>
