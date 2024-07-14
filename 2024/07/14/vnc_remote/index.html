@@ -18,17 +18,17 @@
   <link 
     rel="icon" 
     href="/java4u/img/snail.png">
-  <title>vnc远程连接的安全设计</title>
+  <title>vnc远程连接设计</title>
   
     
       <meta 
         property="og:title" 
-        content="vnc远程连接的安全设计">
+        content="vnc远程连接设计">
     
     
       <meta 
         property="og:url" 
-        content="https://zxtc123.github.io/java4u/2024/07/14/vnc_security_design/index.html">
+        content="https://zxtc123.github.io/java4u/2024/07/14/vnc_remote/index.html">
     
     
       <meta 
@@ -267,7 +267,7 @@
 <article class="card card-content">
   <header>
     <h1 class="post-title">
-      vnc远程连接的安全设计
+      vnc远程连接设计
     </h1>
   </header>
   <div class="post-meta post-show-meta">
@@ -282,15 +282,15 @@
       <span class="dot"></span>
       
         <a 
-          href="/java4u/categories/security/" 
+          href="/java4u/categories/design/" 
           class="post-meta-link">
-          security
+          design
         </a>
       
     
     
       <span class="dot"></span>
-      <span>10 字</span>
+      <span>921 字</span>
     
   </div>
   
@@ -317,7 +317,28 @@
   <div 
     id="section" 
     class="post-content">
-    <h1 id="vnc远程连接的安全设计"><a href="#vnc远程连接的安全设计" class="headerlink" title="vnc远程连接的安全设计"></a>vnc远程连接的安全设计</h1>
+    <h1 id="vnc远程连接设计"><a href="#vnc远程连接设计" class="headerlink" title="vnc远程连接设计"></a>vnc远程连接设计</h1><h2 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h2><p>需要在云端（浏览器）来远程使用远端的虚拟机，通过帐号的切换达到多个用户共享一台或多台虚拟机，从而实现对稀缺资源（如带GPU虚拟机）的复用。</p>
+<pre class="highlight"><span class="line">flowchart LR</span><br><span class="line">    A[vnc viewer]-- access via novnc on browser ---B[vnc service]</span><br></pre>
+
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><p>vnc viewer: <a target="_blank" rel="noopener" href="https://novnc.com/info.html">novnc</a> the open source VNC client<br>vnc service: <a target="_blank" rel="noopener" href="https://github.com/LibVNC/x11vnc">x11vnc</a> a VNC server for real X displays<br>agent: 任意web框架即可</p>
+<h2 id="相关资料"><a href="#相关资料" class="headerlink" title="相关资料"></a>相关资料</h2><ol>
+<li>x11vnc启动后提供的服务类型是WebSocket,不是普通的HTTP服务。x11vnc使用RFB(Remote Framebuffer)协议进行VNC控制,而RFB协议本身就是建立在WebSocket协议之上的。这需要流量转发的过程中有中间件支持websocket的转发或者http对websocket的转换。</li>
+</ol>
+<h2 id="方案设计"><a href="#方案设计" class="headerlink" title="方案设计"></a>方案设计</h2><ol>
+<li>每台机器同一时间只允许一个用户使用，也就只允许一个用户获取到机器的远程连接（可以考虑加锁的方法防止并发调用导致的异常）</li>
+<li>一台机器需要提供给多个用户使用而不会相互影响，考虑使用用户系统（当前方案目前只考虑linux系统），通过linux上用户的隔离达到多个用户使用隔离不相互影响的效果。</li>
+<li>在每个用户自己的空间下启动vnc service，这样浏览器远程连接后，显示的就是当前用户的桌面和系统。</li>
+<li>VNC支持口令登录，每次创建连接时动态生成密码，在使用密码启动vnc service，将口令返回给console，console使用密码进行登录</li>
+<li>当前方案考虑到降低对远程机器的侵入，使用ssh远程连接机器进行相关操作</li>
+</ol>
+<p>流程图：</p>
+<pre class="highlight"><span class="line">sequenceDiagram</span><br><span class="line">  participant console</span><br><span class="line">  participant agent</span><br><span class="line">  participant remote mechine</span><br><span class="line">  console-&gt;&gt;agent: apply a remote connection</span><br><span class="line">  activate agent</span><br><span class="line">  agent--&gt;agent: generate vnc passwd</span><br><span class="line">  agent-&gt;&gt;remote mechine: start vnc service</span><br><span class="line">  remote mechine--&gt;&gt;agent: start complete</span><br><span class="line">  agent--&gt;&gt; console: return vnc passwd</span><br><span class="line">  deactivate agent</span><br><span class="line">  console-xagent: too many request</span><br></pre>
+
+<h2 id="安全加固"><a href="#安全加固" class="headerlink" title="安全加固"></a>安全加固</h2><h3 id="系统加固"><a href="#系统加固" class="headerlink" title="系统加固"></a>系统加固</h3><ol>
+<li>linux的文件系统可以保证多个用户的文件相互隔离，可以防止其他用户的隐私文件泄漏或被修改。但无法保证系统进程中相关信息不会被其他用户获取（禁止进程信息被非当前用户获取？使用同一台机器的用户需要满足在同一个信任域内？）</li>
+</ol>
+<h3 id="证书"><a href="#证书" class="headerlink" title="证书"></a>证书</h3><p>为满足安全，考虑vnc启动wss服务。查询x11vnc官网，x11vnc支持-ssl参数启动wss。<br><a target="_blank" rel="noopener" href="https://github.com/LibVNC/x11vnc/blob/master/doc/SSL.md">https://github.com/LibVNC/x11vnc/blob/master/doc/SSL.md</a><br>当前支持自签证书和使用已经存在的证书启动并且也支持生成CA来自签证书。可以考虑自身业务场景和安全要求进行选择。如果对安全没有太多要求也可以使用vnc自带的功能-ssl TMP和-ssl ATON,不生成证书或生成临时证书启动。<br>当然也可以随时生成自签证书给vnc使用，查看x11vnc源码：<a target="_blank" rel="noopener" href="https://github.com/LibVNC/x11vnc/blob/master/src/ssltools.h">https://github.com/LibVNC/x11vnc/blob/master/src/ssltools.h</a> 可以发现x11vnc底层就是直接调用openssl来生成证书的，在特定环境下可以直接调用openssl来生成xnc需要的证书。</p>
+<pre class="highlight"><span class="line"><span class="meta prompt_"># </span><span class="language-bash">当前方案可以使用openssl给指定用户目录生成证书</span></span><br><span class="line">openssl req -newkey rsa:2048 -keyout /home/user/.vnc/certs/key.pem -nodes -x509 -days 365 -out /home/user/.vnc/certs/cert.pem -batch</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">vnc指定的证书需要同时包含证书和私钥</span></span><br><span class="line">cat /home/user/.vnc/certs/key.pem /home/user/.vnc/certs/cert.pem &gt; /home/user/.vnc/certs/service.pem</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">vnc启动时指定该证书，安全考虑也可以对证书进行加密，vnc自身也支持对证书加密</span></span><br><span class="line">x11vnc -ssl /home/user/.vnc/certs/service.pem</span><br></pre>
   </div>
   <div>
     
@@ -336,8 +357,8 @@
           <span style="font-weight: bold;">文章链接：</span><a 
             target="_blank" 
             rel="nofollow noopener noreferrer" 
-            href="https://zxtc123.github.io/java4u/2024/07/14/vnc_security_design/">
-            https://zxtc123.github.io/java4u/2024/07/14/vnc_security_design/
+            href="https://zxtc123.github.io/java4u/2024/07/14/vnc_remote/">
+            https://zxtc123.github.io/java4u/2024/07/14/vnc_remote/
           </a>
         </p>
         <p><span style="font-weight: bold;">版权声明：</span>本博客所有文章除特别声明外，均采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0 协议</a>。转载请注明出处！</p>
@@ -373,7 +394,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vnc%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%AE%89%E5%85%A8%E8%AE%BE%E8%AE%A1"><span class="toc-text">vnc远程连接的安全设计</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vnc%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%AE%BE%E8%AE%A1"><span class="toc-text">vnc远程连接设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="toc-text">需求背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="toc-text">技术选型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-text">相关资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="toc-text">方案设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA"><span class="toc-text">安全加固</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8A%A0%E5%9B%BA"><span class="toc-text">系统加固</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6"><span class="toc-text">证书</span></a></li></ol></li></ol></li></ol>
 </div></main>
             <aside class="left-column">
               
@@ -398,7 +419,7 @@
   <a 
     class="author-categories-count" 
     href="/java4u/categories">
-    <span>24</span>
+    <span>25</span>
     <span>分类</span>
   </a>
   <a 
@@ -421,7 +442,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vnc%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%AE%89%E5%85%A8%E8%AE%BE%E8%AE%A1"><span class="toc-text">vnc远程连接的安全设计</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vnc%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%AE%BE%E8%AE%A1"><span class="toc-text">vnc远程连接设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="toc-text">需求背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="toc-text">技术选型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-text">相关资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="toc-text">方案设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA"><span class="toc-text">安全加固</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8A%A0%E5%9B%BA"><span class="toc-text">系统加固</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6"><span class="toc-text">证书</span></a></li></ol></li></ol></li></ol>
       </div>
     </article>
   
@@ -481,7 +502,7 @@
       <a href="/java4u/categories/security/">
         <div class="categories-list-item">
           security
-          <span class="categories-list-item-badge">2</span>
+          <span class="categories-list-item-badge">1</span>
         </div>
       </a>
     
@@ -586,6 +607,13 @@
       <a href="/java4u/categories/linux/">
         <div class="categories-list-item">
           linux
+          <span class="categories-list-item-badge">1</span>
+        </div>
+      </a>
+    
+      <a href="/java4u/categories/design/">
+        <div class="categories-list-item">
+          design
           <span class="categories-list-item-badge">1</span>
         </div>
       </a>
@@ -732,7 +760,7 @@
     style="padding-right: 2px;">
   </i>目录
 </div>
-<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vnc%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E5%AE%89%E5%85%A8%E8%AE%BE%E8%AE%A1"><span class="toc-text">vnc远程连接的安全设计</span></a></li></ol>
+<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vnc%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%AE%BE%E8%AE%A1"><span class="toc-text">vnc远程连接设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="toc-text">需求背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B"><span class="toc-text">技术选型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99"><span class="toc-text">相关资料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1"><span class="toc-text">方案设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA"><span class="toc-text">安全加固</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%8A%A0%E5%9B%BA"><span class="toc-text">系统加固</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%81%E4%B9%A6"><span class="toc-text">证书</span></a></li></ol></li></ol></li></ol>
     </article>
   
   
@@ -748,7 +776,7 @@
     
       <div class="recent-posts-item">
         <div class="recent-posts-item-title">2024-07-14</div>
-        <a href="/java4u/2024/07/14/vnc_security_design/"><div class="recent-posts-item-content">vnc远程连接的安全设计</div></a>
+        <a href="/java4u/2024/07/14/vnc_remote/"><div class="recent-posts-item-content">vnc远程连接设计</div></a>
       </div>
     
       <div class="recent-posts-item">
